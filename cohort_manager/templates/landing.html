@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+{% block title %}Landing Page{% endblock %}
+
+{% block content %}
+
+<!-- vue page components will be injected here -->
+<div id="landing"></div>
+{% render_bundle 'landing' %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %} - Cohort Manager</title>
+
+
+    <!-- load bundled vendor files using webpack loader -->
+    {% render_bundle 'base' %}
+    {% render_bundle 'vendor' %}
+
+</head>
+
+<body class="cohortman" {% if google_analytics %}data-google-analytics="{{ google_analytics }}"{% endif %} data-django-debug="{{ django_debug|lower}}">
+    <main class="cohortman-content">
+        {% block content %}{% endblock %}
+    </main>
+
+
+</body>
+
+</html>

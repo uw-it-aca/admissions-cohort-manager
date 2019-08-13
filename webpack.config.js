@@ -13,6 +13,7 @@ module.exports = {
 
     entry: {
         base: './cohort_manager/static/cohort_manager/js/base.js',
+        landing: './cohort_manager/static/cohort_manager/js/pages/landing/index.js'
     },
 
     optimization: {

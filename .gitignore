@@ -1,3 +1,5 @@
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -54,6 +56,8 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+local.py
+production.py
 db.sqlite3
 
 # Flask stuff:
@@ -102,3 +106,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# private connection settings
+constring.txt
+
+# node
+node_modules/
+
+# react + webpack
+bundles/
+webpack-stats.json
