@@ -18,8 +18,8 @@ before_script:
 script:
   - pycodestyle cohort_manager/ --exclude=migrations,cohort_manager/static
   - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
-  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/components/
-  - ./node_modules/.bin/eslint --ext .js,.vue prereq_map/static/prereq_map/js/pages/
+  - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/components/
+  - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/pages/
   - coverage run --source=cohort_manager/ --omit=cohort_manager/migrations/* manage.py test cohort_manager
 after_success:
   - coveralls
