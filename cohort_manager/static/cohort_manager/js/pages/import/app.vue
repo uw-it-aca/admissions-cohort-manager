@@ -1,6 +1,6 @@
 <template>
   <div>
-  <p>this is the import page stub</p>
+    <p>this is the import page stub</p>
   </div>
 </template>
 

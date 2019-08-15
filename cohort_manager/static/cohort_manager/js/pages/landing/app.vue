@@ -1,6 +1,6 @@
 <template>
   <div>
-  <p>this is the landing page stub</p>
+    <p>this is the landing page stub</p>
   </div>
 </template>
 
@@ -8,11 +8,11 @@
   export default {
     name: "Landing",
     components: {},
-    mounted() {
-        console.log('MOUNTED');
-    },
     data() {
-        return {}
+      return {}
+    },
+    mounted() {
+      console.log('MOUNTED');
     }
   };
 </script>
