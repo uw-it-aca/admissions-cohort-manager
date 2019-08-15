@@ -8,12 +8,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
+    mode: 'development',
 
     context: __dirname,
 
     entry: {
         base: './cohort_manager/static/cohort_manager/js/base.js',
-        landing: './cohort_manager/static/cohort_manager/js/pages/landing/index.js'
+        landing: './cohort_manager/static/cohort_manager/js/pages/landing/index.js',
+        import: './cohort_manager/static/cohort_manager/js/pages/import/index.js',
+        cohort: './cohort_manager/static/cohort_manager/js/pages/cohort/index.js',
+        log: './cohort_manager/static/cohort_manager/js/pages/log/index.js'
+
     },
 
     optimization: {
