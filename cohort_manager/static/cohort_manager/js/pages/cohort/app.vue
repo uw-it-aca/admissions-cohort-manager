@@ -1,8 +1,8 @@
 <template>
-  <div>
-  <p>this is the cohort page stub</p>
-  <p>Showing data for {{cohort_code}} cohort</p>
-  </div>
+    <div>
+    <p>this is the cohort page stub</p>
+    <p>Showing data for {{ cohort_code }} cohort</p>
+    </div>
 </template>
 
 <script>
@@ -10,14 +10,14 @@
     name: "Cohort",
     components: {},
     mounted() {},
-    beforeMount(){
-        this.cohort_code = $("#cohort").attr('data');
-    },
     data(){
-        return {
-            cohort_code: ""
-        }
-    }
+      return {
+        cohort_code: ""
+      }
+    },
+    beforeMount(){
+      this.cohort_code = $("#cohort").attr('data');
+    },
   };
 </script>
 
