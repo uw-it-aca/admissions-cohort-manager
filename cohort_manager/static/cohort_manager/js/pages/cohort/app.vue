@@ -1,6 +1,7 @@
 <template>
   <div>
   <p>this is the cohort page stub</p>
+  <p>Showing data for {{cohort_code}} cohort</p>
   </div>
 </template>
 
@@ -8,7 +9,15 @@
   export default {
     name: "Cohort",
     components: {},
-    mounted() {}
+    mounted() {},
+    beforeMount(){
+        this.cohort_code = $("#cohort").attr('data');
+    },
+    data(){
+        return {
+            cohort_code: ""
+        }
+    }
   };
 </script>
 
