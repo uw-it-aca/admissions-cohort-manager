@@ -8,7 +8,12 @@
   export default {
     name: "Landing",
     components: {},
-    mounted() {}
+    mounted() {
+        console.log('MOUNTED');
+    },
+    data() {
+        return {}
+    }
   };
 </script>
 

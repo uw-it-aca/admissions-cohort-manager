@@ -4,7 +4,7 @@ import VueAnalytics from "vue-analytics";
 import App from "./app.vue";
 
 //TODO: Replace with real key, vue analytics requires *a* key!
-//const gaCode = $("body").data("google-analytics");
+// const gaCode = $("body").data("google-analytics");
 const gaCode = "UA-12345-6";
 const debugMode = $("body").data("django-debug");
 
@@ -33,4 +33,4 @@ Vue.use(VueAnalytics, {
 new Vue({
   render: h => h(App),
   router
-}).$mount("#landing");
+}).$mount("#import");
