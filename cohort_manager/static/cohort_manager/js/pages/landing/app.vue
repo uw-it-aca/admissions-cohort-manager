@@ -9,10 +9,10 @@
     name: "Landing",
     components: {},
     data() {
-      return {}
+      return {};
     },
     mounted() {
-      console.log('MOUNTED');
+
     }
   };
 </script>
