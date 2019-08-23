@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from io import StringIO
 import csv
 
@@ -12,12 +13,17 @@ class AssignmentImport(models.Model):
     document = models.TextField()
     imported_date = models.DateTimeField(auto_now_add=True)
     imported_by = models.CharField(max_length=30)
+    assignment_errors = []
 
     objects = AssignmentImportManager()
 
     def validate(self):
-        for assignment in self._parse():
-            assignment.validate()
+        self.assignment_errors = []
+        for idx, assignment in enumerate(self._parse(), start=1):
+            try:
+                assignment.validate()
+            except ValidationError as ex:
+                self.assignment_errors.append({idx: ex})
 
     def save(self, *args, **kwargs):
         self.full_clean()
