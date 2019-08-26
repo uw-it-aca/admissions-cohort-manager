@@ -4,51 +4,6 @@ from io import StringIO
 import csv
 
 
-class AssignmentImportManager(models.Manager):
-    pass
-
-
-class AssignmentImport(models.Model):
-    status_code = models.CharField(max_length=3, null=True)
-    document = models.TextField()
-    imported_date = models.DateTimeField(auto_now_add=True)
-    imported_by = models.CharField(max_length=30)
-    assignment_errors = []
-
-    objects = AssignmentImportManager()
-
-    def validate(self):
-        self.assignment_errors = []
-        for idx, assignment in enumerate(self._parse(), start=1):
-            try:
-                assignment.validate()
-            except ValidationError as ex:
-                self.assignment_errors.append({idx: ex})
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        ret = super(AssignmentImport, self).save(*args, **kwargs)
-        for assignment in self._parse():
-            assignment.save()
-
-    def _parse(self):
-        assignments = []
-        for row in csv.DictReader(StringIO(self.document)):
-            assignments.append(Assignment(
-                system_key=row.get('system_key'),
-                campus=row.get('campus'),
-                year=row.get('app_year'),
-                quarter=row.get('app_quarter'),
-                application_number=row.get('app_number'),
-                admission_selection_id=row.get('AdmissionSelectionID'),
-                assignment_import=self))
-        return assignments
-
-
-class AssignmentManager(models.Manager):
-    pass
-
-
 def validate_system_key(val):
     pass
 
@@ -69,6 +24,54 @@ def validate_major(val):
     pass
 
 
+class AssignmentImportManager(models.Manager):
+    pass
+
+
+class AssignmentImport(models.Model):
+    status_code = models.CharField(max_length=3, null=True)
+    document = models.TextField()
+    imported_date = models.DateTimeField(auto_now_add=True)
+    imported_by = models.CharField(max_length=30)
+    cohort = models.CharField(
+        max_length=30, blank=True, validators=[validate_cohort])
+    major = models.CharField(
+        max_length=30, blank=True, validators=[validate_major])
+
+    objects = AssignmentImportManager()
+
+    def json_data(self):
+        return {
+            'id': self.pk,
+            'status_code': self.status_code,
+            'imported_date': self.imported_date.isoformat(),
+            'imported_by': self.imported_by,
+            'assignment_errors': self.assignment_errors,
+            'assignments': [a.json_data() for a in self.assignments]
+        }
+
+    @property
+    def assignments(self):
+        assignments, errors = [], []
+        for idx, row in enumerate(csv.DictReader(StringIO(self.document))):
+            assignment = Assignment(
+                system_key=row.get('system_key'),
+                campus=row.get('campus'),
+                year=row.get('app_year'),
+                quarter=row.get('app_quarter'),
+                application_number=row.get('app_number'),
+                admission_selection_id=row.get('AdmissionSelectionID'),
+                cohort=self.cohort,
+                major=self.major,
+            )
+            try:
+                assignment.validate()
+                assignments.append(assignment)
+            except ValidationError as ex:
+                errors.append({idx: ex})
+        return assignments, errors
+
+
 class Assignment(models.Model):
     CAMPUS_CHOICES = ((0, 'Seattle'), (1, 'Tacoma'), (2, 'Bothell'))
     QTR_CHOICES = ((1, 'Winter'), (2, 'Spring'), (3, 'Summer'), (4, 'Autumn'))
@@ -86,14 +89,21 @@ class Assignment(models.Model):
         max_length=30, blank=True, validators=[validate_cohort])
     major = models.CharField(
         max_length=30, blank=True, validators=[validate_major])
-    assignment_import = models.ForeignKey(
-        AssignmentImport, on_delete=models.CASCADE, blank=True)
 
-    objects = AssignmentManager()
+    class Meta:
+        managed = False
 
     def validate(self):
         self.full_clean()
 
-    def save(self, *args, **kwargs):
-        self.validate()
-        return super(Assignment, self).save(*args, **kwargs)
+    def json_data(self):
+        return {
+            'system_key': self.system_key,
+            'campus': self.campus,
+            'year': self.year,
+            'quarter': self.quarter,
+            'application_number': self.application_number,
+            'admission_selection_id': self.admission_selection_id,
+            'cohort': self.cohort,
+            'major': self.major,
+        }

@@ -23,25 +23,37 @@ class AssignmentImportTest(TestCase):
         s.close()
         return csv_data
 
-    def test_validate(self):
+    def test_assignment_errors(self):
+        a, errors = AssignmentImport().assignments
+        self.assertEqual(len(a), 0)
+        self.assertEqual(len(errors), 0)
+
+        a, errors = AssignmentImport(document=None).assignments
+        self.assertEqual(len(a), 0)
+        self.assertEqual(len(errors), 0)
+
+        a, errors = AssignmentImport(document='<html>').assignments
+        self.assertEqual(len(a), 0)
+        self.assertEqual(len(errors), 0)
+
+        a, errors = AssignmentImport(document=self._csv()).assignments
+        self.assertEqual(len(a), 0)
+        self.assertEqual(len(errors), 0)
+
         data = [[1234567, 0, 2019, 4, 1, 123],
                 [1234568, 0, 2019, 4, 1, 124]]
-        imp = AssignmentImport(
-            status_code='200', document=self._csv(data), imported_by='j')
-        imp.validate()
-        self.assertEqual(len(imp.assignment_errors), 0)
+        a, errors = AssignmentImport(document=self._csv(data)).assignments
+        self.assertEqual(len(a), 2)
+        self.assertEqual(len(errors), 0)
 
         data = [[1234567, 0, 2019, 4, 1, None],
                 [1234568, 0, 2019, 4, 1, 124]]
-        imp = AssignmentImport(
-            status_code='200', document=self._csv(data), imported_by='j')
-        imp.validate()
-        self.assertEqual(len(imp.assignment_errors), 1)
+        a, errors = AssignmentImport(document=self._csv(data)).assignments
+        self.assertEqual(len(a), 1)
+        self.assertEqual(len(errors), 1)
 
         data = [[1234567, 0, None, 4, 1, 123],
                 [1234568, 0, 2019, None, 1, 124]]
-        imp = AssignmentImport(
-            status_code='200', document=self._csv(data), imported_by='j')
-        imp.validate()
-        self.assertEqual(len(imp.assignment_errors), 2)
-        print(imp.assignment_errors)
+        a, errors = AssignmentImport(document=self._csv(data)).assignments
+        self.assertEqual(len(a), 0)
+        self.assertEqual(len(errors), 2)
