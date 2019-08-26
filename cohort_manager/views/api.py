@@ -16,14 +16,18 @@ class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         upload_file = request.FILES['file']
 
-        # TODO: validation
-        status = 200
-
         assignment_import = AssignmentImport(
-            status_code=status,
             document=upload_file.read().decode('utf-8'),
             imported_by='TODO')
-        assignment_import.save()
 
-        return self.json_response(
-            status=status, content=assignment_import.json_data())
+        status = 200
+        try:
+            content = assignment_import.json_data()
+            assignment_import.status_code = status
+            assignment_import.save()
+
+        except TypeError as ex:
+            content = ex
+            status = 400
+
+        return self.json_response(status=status, content=content)

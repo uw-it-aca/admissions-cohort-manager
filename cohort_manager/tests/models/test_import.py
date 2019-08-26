@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.core.exceptions import ValidationError
 from cohort_manager.models import AssignmentImport
 from io import StringIO
 import csv
@@ -24,36 +23,38 @@ class AssignmentImportTest(TestCase):
         return csv_data
 
     def test_assignment_errors(self):
-        a, errors = AssignmentImport().assignments
+        imp = AssignmentImport()
+        a, errors = imp.assignments()
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        a, errors = AssignmentImport(document=None).assignments
+        imp.document = None
+        a, errors = imp.assignments()
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        a, errors = AssignmentImport(document='<html>').assignments
+        imp.document = self._csv()
+        a, errors = imp.assignments()
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        a, errors = AssignmentImport(document=self._csv()).assignments
-        self.assertEqual(len(a), 0)
-        self.assertEqual(len(errors), 0)
-
-        data = [[1234567, 0, 2019, 4, 1, 123],
-                [1234568, 0, 2019, 4, 1, 124]]
-        a, errors = AssignmentImport(document=self._csv(data)).assignments
+        imp.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                                  [1234568, 0, 2019, 4, 1, 124]])
+        a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 0)
 
-        data = [[1234567, 0, 2019, 4, 1, None],
-                [1234568, 0, 2019, 4, 1, 124]]
-        a, errors = AssignmentImport(document=self._csv(data)).assignments
-        self.assertEqual(len(a), 1)
+        imp.document = self._csv([[1234567, 0, 2019, 4, 1, None],
+                                  [1234568, 0, 2019, 4, 1, 124]])
+        a, errors = imp.assignments()
+        self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 1)
 
-        data = [[1234567, 0, None, 4, 1, 123],
-                [1234568, 0, 2019, None, 1, 124]]
-        a, errors = AssignmentImport(document=self._csv(data)).assignments
-        self.assertEqual(len(a), 0)
+        imp.document = self._csv([[1234567, 0, None, 4, 1, 123],
+                                  [1234568, 0, 2019, None, 1, 124]])
+        a, errors = imp.assignments()
+        self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 2)
+
+        imp.document = b'<html>'
+        self.assertRaises(TypeError, imp.assignments)
