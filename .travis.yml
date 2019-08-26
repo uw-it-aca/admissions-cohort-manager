@@ -16,7 +16,7 @@ before_script:
   - pip install .
   - cp travis/manage.py manage.py
 script:
-  - pycodestyle cohort_manager/ --exclude=migrations,cohort_manager/static
+  - pycodestyle cohort_manager/ --exclude=migrations
   - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
   - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/components/
   - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/pages/
