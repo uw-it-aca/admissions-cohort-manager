@@ -41,16 +41,16 @@ class AssignmentImport(models.Model):
     objects = AssignmentImportManager()
 
     def json_data(self):
+        assignments, errors = self.assignments()
         return {
             'id': self.pk,
             'status_code': self.status_code,
             'imported_date': self.imported_date.isoformat(),
             'imported_by': self.imported_by,
-            'assignment_errors': self.assignment_errors,
-            'assignments': [a.json_data() for a in self.assignments]
+            'assignments': [a.json_data() for a in assignments],
+            'errors': errors,
         }
 
-    @property
     def assignments(self):
         assignments, errors = [], []
         for idx, row in enumerate(csv.DictReader(StringIO(self.document))):
@@ -66,9 +66,9 @@ class AssignmentImport(models.Model):
             )
             try:
                 assignment.validate()
-                assignments.append(assignment)
             except ValidationError as ex:
                 errors.append({idx: ex})
+            assignments.append(assignment)
         return assignments, errors
 
 
