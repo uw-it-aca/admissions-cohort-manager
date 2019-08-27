@@ -11,6 +11,13 @@ class RESTDispatch(View):
                             status=status,
                             content_type='application/json')
 
+    @staticmethod
+    def error_response(status, message='', content={}):
+        content['error'] = str(message)
+        return HttpResponse(json.dumps(content),
+                            status=status,
+                            content_type='application/json')
+
 
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
@@ -20,14 +27,11 @@ class UploadView(RESTDispatch):
             document=upload_file.read().decode('utf-8'),
             imported_by='TODO')
 
-        status = 200
         try:
             content = assignment_import.json_data()
-            assignment_import.status_code = status
+            assignment_import.status_code = 200
             assignment_import.save()
+            return self.json_response(status=200, content=content)
 
         except TypeError as ex:
-            content = ex
-            status = 400
-
-        return self.json_response(status=status, content=content)
+            return self.error_response(status=400, content=ex)

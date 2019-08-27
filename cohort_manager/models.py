@@ -24,10 +24,6 @@ def validate_major(val):
     pass
 
 
-class AssignmentImportManager(models.Manager):
-    pass
-
-
 class AssignmentImport(models.Model):
     status_code = models.CharField(max_length=3, null=True)
     document = models.TextField()
@@ -37,8 +33,6 @@ class AssignmentImport(models.Model):
         max_length=30, blank=True, validators=[validate_cohort])
     major = models.CharField(
         max_length=30, blank=True, validators=[validate_major])
-
-    objects = AssignmentImportManager()
 
     def json_data(self):
         assignments, errors = self.assignments()
