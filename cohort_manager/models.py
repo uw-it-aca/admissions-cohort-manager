@@ -25,10 +25,14 @@ def validate_major(val):
 
 
 class AssignmentImport(models.Model):
-    status_code = models.CharField(max_length=3, null=True)
     document = models.TextField()
-    imported_date = models.DateTimeField(auto_now_add=True)
-    imported_by = models.CharField(max_length=30)
+    comment = models.TextField()
+    is_file_upload = models.NullBooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=30)
+    imported_date = models.DateTimeField(null=True)
+    imported_status = models.SmallIntegerField(null=True)
+    imported_message = models.TextField(null=True)
     cohort = models.CharField(
         max_length=30, blank=True, validators=[validate_cohort])
     major = models.CharField(
@@ -38,9 +42,14 @@ class AssignmentImport(models.Model):
         assignments, errors = self.assignments()
         return {
             'id': self.pk,
-            'status_code': self.status_code,
-            'imported_date': self.imported_date.isoformat(),
-            'imported_by': self.imported_by,
+            'comment': self.comment,
+            'is_file_upload': True if self.is_file_upload else False,
+            'created_date': self.created_date.isoformat(),
+            'created_by': self.created_by,
+            'imported_date': self.imported_date.isoformat() if (
+                self.imported_date is not None) else None,
+            'imported_status': self.imported_status,
+            'imported_message': self.imported_message,
             'assignments': [a.json_data() for a in assignments],
             'errors': errors,
         }
