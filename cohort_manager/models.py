@@ -25,6 +25,15 @@ def validate_major(val):
 
 
 class AssignmentImport(models.Model):
+    FIELD_SYSTEM_KEY = 'system_key'
+    FIELD_CAMPUS = 'campus'
+    FIELD_YEAR = 'app_year'
+    FIELD_QUARTER = 'app_quarter'
+    FIELD_APPLICATION_NUMBER = 'app_number'
+    FIELD_SELECTION_ID = 'AdmissionSelectionID'
+    FIELD_NAMES = [FIELD_SYSTEM_KEY, FIELD_CAMPUS, FIELD_YEAR, FIELD_QUARTER,
+                   FIELD_APPLICATION_NUMBER, FIELD_SELECTION_ID]
+
     document = models.TextField()
     comment = models.TextField()
     is_file_upload = models.NullBooleanField(default=True)
@@ -58,12 +67,12 @@ class AssignmentImport(models.Model):
         assignments, errors = [], []
         for idx, row in enumerate(csv.DictReader(StringIO(self.document))):
             assignment = Assignment(
-                system_key=row.get('system_key'),
-                campus=row.get('campus'),
-                year=row.get('app_year'),
-                quarter=row.get('app_quarter'),
-                application_number=row.get('app_number'),
-                admission_selection_id=row.get('AdmissionSelectionID'),
+                system_key=row.get(self.FIELD_SYSTEM_KEY),
+                campus=row.get(self.FIELD_CAMPUS),
+                year=row.get(self.FIELD_YEAR),
+                quarter=row.get(self.FIELD_QUARTER),
+                application_number=row.get(self.FIELD_APPLICATION_NUMBER),
+                admission_selection_id=row.get(self.FIELD_SELECTION_ID),
                 cohort=self.cohort,
                 major=self.major,
             )

@@ -6,16 +6,13 @@ import csv
 
 
 class AssignmentImportTest(TestCase):
-    header = ['system_key', 'campus', 'app_year', 'app_quarter', 'app_number',
-              'AdmissionSelectionID']
-
-    def _csv(self, rows=[]):
+    def to_csv(self, rows=[]):
         s = StringIO()
 
         csv.register_dialect('unix_newline', lineterminator='\n')
         writer = csv.writer(s, dialect='unix_newline')
 
-        writer.writerow(self.header)
+        writer.writerow(AssignmentImport.FIELD_NAMES)
         for row in rows:
             writer.writerow(row)
 
@@ -41,8 +38,8 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(data['errors'], [])
 
         # With assignments
-        import1.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
-                                      [1234568, 0, 2019, 4, 1, None]])
+        import1.document = self.to_csv([[1234567, 0, 2019, 4, 1, 123],
+                                        [1234568, 0, 2019, 4, 1, None]])
         data = import1.json_data()
         self.assertEqual(len(data['assignments']), 2)
         self.assertEqual(len(data['errors']), 1)
@@ -68,25 +65,25 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self._csv()
+        imp.document = self.to_csv()
         a, errors = imp.assignments()
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
-                                  [1234568, 0, 2019, 4, 1, 124]])
+        imp.document = self.to_csv([[1234567, 0, 2019, 4, 1, 123],
+                                    [1234568, 0, 2019, 4, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self._csv([[1234567, 0, 2019, 4, 1, None],
-                                  [1234568, 0, 2019, 4, 1, 124]])
+        imp.document = self.to_csv([[1234567, 0, 2019, 4, 1, None],
+                                    [1234568, 0, 2019, 4, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 1)
 
-        imp.document = self._csv([[1234567, 0, None, 4, 1, 123],
-                                  [1234568, 0, 2019, None, 1, 124]])
+        imp.document = self.to_csv([[1234567, 0, None, 4, 1, 123],
+                                    [1234568, 0, 2019, None, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 2)
