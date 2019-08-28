@@ -25,12 +25,12 @@ class UploadView(RESTDispatch):
 
         assignment_import = AssignmentImport(
             document=upload_file.read().decode('utf-8'),
-            imported_by='TODO')
+            created_by='TODO')
 
         try:
-            content = assignment_import.json_data()
             assignment_import.status_code = 200
             assignment_import.save()
+            content = assignment_import.json_data()
             return self.json_response(status=200, content=content)
 
         except TypeError as ex:

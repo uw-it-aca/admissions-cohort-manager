@@ -9,13 +9,13 @@ const gaCode = "UA-12345-6";
 const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
-
+// import ImportPage from "/app.vue";
 var router = new VueRouter({
   mode: "history",
   routes: [
-    {
-      path: "/"
-    }
+    // {path: "/import", component: ImportPage},
+    // // {path: "/review", component: }
+
   ]
 });
 
