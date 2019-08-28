@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from cohort_manager.utils import to_csv
 from io import StringIO
 import csv
 
@@ -107,6 +108,11 @@ class Assignment(models.Model):
 
     def validate(self):
         self.full_clean()
+
+    def csv_data(self):
+        return to_csv([
+            self.system_key, self.campus, self.year, self.quarter,
+            self.application_number, self.admission_selection_id])
 
     def json_data(self):
         return {
