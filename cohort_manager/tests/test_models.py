@@ -1,23 +1,40 @@
 from django.test import TestCase
-from cohort_manager.models import AssignmentImport
-from io import StringIO
+from cohort_manager.models import AssignmentImport, Assignment
+from cohort_manager.utils import to_csv
 from datetime import datetime
-import csv
+
+
+class AssignmentTest(TestCase):
+    def setUp(self):
+        self.assignment = Assignment(
+                system_key='1',
+                campus='0',
+                year=2020,
+                quarter=3,
+                application_number='8',
+                admission_selection_id='000',
+                cohort='65')
+
+    def test_json_data(self):
+        self.assertEqual(self.assignment.json_data(), {
+            'admission_selection_id': '000',
+            'application_number': '8',
+            'campus': '0',
+            'cohort': '65',
+            'major': '',
+            'quarter': 3,
+            'system_key': '1',
+            'year': 2020})
+
+    def test_csv_data(self):
+        self.assertEqual(self.assignment.csv_data(), '1,0,2020,3,8,000\n')
 
 
 class AssignmentImportTest(TestCase):
-    def to_csv(self, rows=[]):
-        s = StringIO()
-
-        csv.register_dialect('unix_newline', lineterminator='\n')
-        writer = csv.writer(s, dialect='unix_newline')
-
-        writer.writerow(AssignmentImport.FIELD_NAMES)
+    def _csv(self, rows=[]):
+        csv_data = to_csv(AssignmentImport.FIELD_NAMES)
         for row in rows:
-            writer.writerow(row)
-
-        csv_data = s.getvalue()
-        s.close()
+            csv_data += to_csv(row)
         return csv_data
 
     def test_json_data(self):
@@ -38,8 +55,8 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(data['errors'], [])
 
         # With assignments
-        import1.document = self.to_csv([[1234567, 0, 2019, 4, 1, 123],
-                                        [1234568, 0, 2019, 4, 1, None]])
+        import1.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                                      [1234568, 0, 2019, 4, 1, None]])
         data = import1.json_data()
         self.assertEqual(len(data['assignments']), 2)
         self.assertEqual(len(data['errors']), 1)
@@ -65,25 +82,25 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self.to_csv()
+        imp.document = self._csv()
         a, errors = imp.assignments()
         self.assertEqual(len(a), 0)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self.to_csv([[1234567, 0, 2019, 4, 1, 123],
-                                    [1234568, 0, 2019, 4, 1, 124]])
+        imp.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                                  [1234568, 0, 2019, 4, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 0)
 
-        imp.document = self.to_csv([[1234567, 0, 2019, 4, 1, None],
-                                    [1234568, 0, 2019, 4, 1, 124]])
+        imp.document = self._csv([[1234567, 0, 2019, 4, 1, None],
+                                  [1234568, 0, 2019, 4, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 1)
 
-        imp.document = self.to_csv([[1234567, 0, None, 4, 1, 123],
-                                    [1234568, 0, 2019, None, 1, 124]])
+        imp.document = self._csv([[1234567, 0, None, 4, 1, 123],
+                                  [1234568, 0, 2019, None, 1, 124]])
         a, errors = imp.assignments()
         self.assertEqual(len(a), 2)
         self.assertEqual(len(errors), 2)
