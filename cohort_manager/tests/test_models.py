@@ -37,15 +37,24 @@ class AssignmentImportTest(TestCase):
             csv_data += to_csv(row)
         return csv_data
 
+    def test_constructors(self):
+        import1 = AssignmentImport.objects.create_from_upload(
+            comment='comment', created_by='javerage')
+        self.assertEqual(import1.is_file_upload, True)
+
+        import2 = AssignmentImport.objects.create_from_syskeys(
+            comment='comment', created_by='javerage')
+        self.assertEqual(import2.is_file_upload, False)
+
     def test_json_data(self):
-        import1 = AssignmentImport(
-            comment='comment', is_file_upload=False, created_by='javerage')
+        import1 = AssignmentImport.objects.create_from_upload(
+            comment='comment', created_by='javerage')
         import1.save()
 
         data = import1.json_data()
         self.assertIsNotNone(data['id'])
         self.assertEqual(data['comment'], 'comment')
-        self.assertEqual(data['is_file_upload'], False)
+        self.assertEqual(data['is_file_upload'], True)
         self.assertIsNotNone(data['created_date'])
         self.assertEqual(data['created_by'], 'javerage')
         self.assertEqual(data['imported_date'], None)
