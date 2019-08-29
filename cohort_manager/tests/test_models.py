@@ -3,7 +3,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.utils import to_csv
 from datetime import datetime
-from io import StringIO
 
 
 class AssignmentTest(TestCase):
