@@ -25,6 +25,21 @@ def validate_major(val):
     pass
 
 
+class AssignmentImportManager(models.Manager):
+    def create_from_upload(self, *args, **kwargs):
+        kwargs['is_file_upload'] = True
+        return AssignmentImport(*args, **kwargs)
+
+    def create_from_syskeys(self, *args, **kwargs):
+        document = to_csv(AssignmentImport.FIELD_NAMES)
+        for syskey in kwargs.get('syskeys', []):
+            document += to_csv(syskey)
+
+        kwargs['is_file_upload'] = False
+        kwargs['document'] = document
+        return AssignmentImport(*args, **kwargs)
+
+
 class AssignmentImport(models.Model):
     FIELD_SYSTEM_KEY = 'system_key'
     FIELD_CAMPUS = 'campus'
@@ -48,13 +63,16 @@ class AssignmentImport(models.Model):
     major = models.CharField(
         max_length=30, blank=True, validators=[validate_major])
 
+    objects = AssignmentImportManager()
+
     def json_data(self):
         assignments, errors = self.assignments()
         return {
             'id': self.pk,
             'comment': self.comment,
             'is_file_upload': True if self.is_file_upload else False,
-            'created_date': self.created_date.isoformat(),
+            'created_date': self.created_date.isoformat() if (
+                self.created_date is not None) else None,
             'created_by': self.created_by,
             'imported_date': self.imported_date.isoformat() if (
                 self.imported_date is not None) else None,
