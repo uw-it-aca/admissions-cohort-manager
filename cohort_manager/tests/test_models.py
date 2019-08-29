@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.utils import to_csv
 from datetime import datetime
@@ -37,18 +38,30 @@ class AssignmentImportTest(TestCase):
             csv_data += to_csv(row)
         return csv_data
 
-    def test_constructors(self):
-        import1 = AssignmentImport.objects.create_from_upload(
-            comment='comment', created_by='javerage')
-        self.assertEqual(import1.is_file_upload, True)
+    def test_create_from_file(self):
+        file_data = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                               [1234568, 0, 2019, 4, 1, 124]])
 
-        import2 = AssignmentImport.objects.create_from_syskeys(
-            comment='comment', created_by='javerage')
-        self.assertEqual(import2.is_file_upload, False)
+        uploaded_file = SimpleUploadedFile(
+            'test.csv', file_data.encode(), content_type='text/csv')
+
+        imp = AssignmentImport.objects.create_from_file(
+            uploaded_file=uploaded_file, created_by='javerage')
+        self.assertEqual(imp.is_file_upload, True)
+        self.assertEqual(imp.upload_filename, 'test.csv')
+        self.assertEqual(imp.created_by, 'javerage')
+
+        data = imp.json_data()
+        self.assertEqual(len(data['assignments']), 2)
+        self.assertEqual(len(data['errors']), 0)
+
+    def test_create_from_list(self):
+        imp = AssignmentImport.objects.create_from_list(
+            sys_keys=[], created_by='javerage')
+        self.assertEqual(imp.is_file_upload, False)
 
     def test_json_data(self):
-        import1 = AssignmentImport.objects.create_from_upload(
-            comment='comment', created_by='javerage')
+        import1 = AssignmentImport(comment='comment', created_by='javerage')
         import1.save()
 
         data = import1.json_data()

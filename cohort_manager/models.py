@@ -26,18 +26,20 @@ def validate_major(val):
 
 
 class AssignmentImportManager(models.Manager):
-    def create_from_upload(self, *args, **kwargs):
+    def create_from_file(self, uploaded_file, **kwargs):
         kwargs['is_file_upload'] = True
-        return AssignmentImport(*args, **kwargs)
+        kwargs['document'] = uploaded_file.read().decode('utf-8')
+        kwargs['upload_filename'] = uploaded_file.name
+        return AssignmentImport(**kwargs)
 
-    def create_from_syskeys(self, *args, **kwargs):
+    def create_from_list(self, sys_keys, **kwargs):
         document = to_csv(AssignmentImport.FIELD_NAMES)
-        for syskey in kwargs.get('syskeys', []):
-            document += to_csv(syskey)
+        for sys_key in sys_keys:
+            document += to_csv(sys_key)
 
         kwargs['is_file_upload'] = False
         kwargs['document'] = document
-        return AssignmentImport(*args, **kwargs)
+        return AssignmentImport(**kwargs)
 
 
 class AssignmentImport(models.Model):
@@ -53,6 +55,7 @@ class AssignmentImport(models.Model):
     document = models.TextField()
     comment = models.TextField()
     is_file_upload = models.NullBooleanField(default=True)
+    upload_filename = models.CharField(max_length=100, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=30)
     imported_date = models.DateTimeField(null=True)
@@ -71,6 +74,7 @@ class AssignmentImport(models.Model):
             'id': self.pk,
             'comment': self.comment,
             'is_file_upload': True if self.is_file_upload else False,
+            'upload_filename': self.upload_filename,
             'created_date': self.created_date.isoformat() if (
                 self.created_date is not None) else None,
             'created_by': self.created_by,
