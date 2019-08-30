@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>this is the import uploader component</p>
+    <p>goddamn vue!</p>
     <form @submit.prevent="handleUpload">
       <input id="file" ref="file" type="file">
       <input type="submit" value="Upload">
