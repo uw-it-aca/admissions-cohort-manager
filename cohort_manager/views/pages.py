@@ -10,15 +10,3 @@ class PageView(TemplateView):
 
 class LandingView(PageView):
     template_name = "landing.html"
-
-
-class LogView(PageView):
-    template_name = "log.html"
-
-
-class CohortView(PageView):
-    template_name = "cohort.html"
-
-
-class ImportView(PageView):
-    template_name = "import.html"
