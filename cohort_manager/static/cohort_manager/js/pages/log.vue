@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>this is the log page stub</p>
+    <p>this is the Log View</p>
   </div>
 </template>
 
@@ -8,7 +8,11 @@
   export default {
     name: "Log",
     components: {},
-    mounted() {}
+    data(){
+      return {};
+    },
+    mounted() {},
+    beforeMount(){},
   };
 </script>
 
