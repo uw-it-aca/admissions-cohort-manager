@@ -10,4 +10,3 @@ class PageView(TemplateView):
 
 class LandingView(PageView):
     template_name = "landing.html"
-
