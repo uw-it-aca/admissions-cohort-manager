@@ -18,7 +18,7 @@ Docker
 1. Clone the repository
 
         $ git clone https://github.com/uw-it-aca/admissions-cohort-manager.git
-        $ cd cohort-manager
+        $ cd admissions-cohort-manager
 
 2. Docker/Docker Compose is used to containerize your local build environment
     and deploy it to a local container so you can view your application. Docker
