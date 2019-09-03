@@ -31,7 +31,7 @@
 </script>
 
 <style lang="scss">
-@import '../css/custom.scss'
+@import '../css/custom.scss';
 
 
 </style>
