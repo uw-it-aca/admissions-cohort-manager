@@ -22,11 +22,16 @@ class RESTDispatch(View):
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES['file']
+        cohort_id = request.POST.get('cohort_id')
+        comment = request.POST.get('comment', "")
 
         # TODO: validate uploaded_file.content_type?
 
         assignment_import = AssignmentImport.objects.create_from_file(
             uploaded_file, created_by='TODO')
+        if cohort_id:
+            assignment_import.cohort = cohort_id
+        assignment_import.comment = comment
 
         try:
             assignment_import.status_code = 200
