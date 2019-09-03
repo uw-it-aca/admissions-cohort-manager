@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 
@@ -16,7 +16,7 @@ const gaCode = "UA-12345-6";
 const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 
 var router = new VueRouter({
   mode: "history",
