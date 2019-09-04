@@ -33,6 +33,11 @@ Docker
 
         $ docker-compose up --build
 
-4. View your application
+4. You will need to install the node packages. Open a new terminal tab w/in the
+    container and run:
+
+        $ npm install
+
+5. View your application
 
         Demo: http://localhost:8000/
