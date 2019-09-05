@@ -1,23 +1,33 @@
 <template>
   <div>
-    <p>this is the cohort page stub</p>
-    <p>Showing data for {{ cohort_code }} cohort</p>
+    <p>this is the chort page stub</p>
+    <upload @uploaded="onFileUpload" />
+    <div>
+      {{ upload_response }}
+    </div>
   </div>
 </template>
 
 <script>
+  import Upload from "../components/upload.vue";
+
   export default {
     name: "Cohort",
-    components: {},
+    components: {
+      upload: Upload
+    },
     data(){
       return {
-        cohort_code: ""
+        upload_response: undefined,
       };
     },
-    mounted() {},
-    beforeMount(){
-      this.cohort_code = $("#cohort").attr('data');
+    mounted() {
     },
+    methods: {
+      onFileUpload(response){
+        this.upload_response = response;
+      }
+    }
   };
 </script>
 

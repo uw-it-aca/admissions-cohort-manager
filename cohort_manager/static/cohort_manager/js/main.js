@@ -5,8 +5,8 @@ import VueAnalytics from "vue-analytics";
 
 import App from "./App.vue";
 import Landing from './pages/landing.vue';
-import Upload from './pages/upload.vue';
 import Cohort from './pages/cohort.vue';
+import Major from './pages/major.vue';
 import Log from './pages/log.vue';
 
 
@@ -22,8 +22,8 @@ var router = new VueRouter({
   mode: "history",
   routes: [
     { path: '/', component: Landing },
-    { path: '/upload/', component: Upload },
     { path: '/cohort/', component: Cohort },
+    { path: '/major/', component: Major },
     { path: '/log/', component: Log },
   ]
 });
