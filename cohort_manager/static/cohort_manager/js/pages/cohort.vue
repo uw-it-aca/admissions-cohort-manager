@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import Upload from "../components/upload.vue";
+  import Upload from "../components/cohort_upload.vue";
 
   export default {
     name: "Cohort",
