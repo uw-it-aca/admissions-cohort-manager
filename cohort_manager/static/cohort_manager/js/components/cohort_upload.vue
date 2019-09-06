@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>this is the import uploader component</p>
     <form @submit.prevent="handleUpload">
-      Cohort:
+      <h2>Select Cohort</h2> 
+      <label>Cohort:
       <select v-model="cohort_id" name="cohort">
         <option value="1">
           1
@@ -13,11 +13,12 @@
         <option value="3">
           3
         </option>
-      </select>
-      <br>
+      </select></label>
+      <h2>Enter Applications</h2> 
       <input id="file" ref="file" type="file">
-      <br>
-      Comment: <textarea v-model="comment" />
+      <h2>Add Comment</h2> 
+      <label>Enter comment for this assignment
+      <textarea v-model="comment" /></label> 
       <input type="submit" value="Upload">
     </form>
   </div>

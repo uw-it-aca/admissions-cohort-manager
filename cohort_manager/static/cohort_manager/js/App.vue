@@ -44,6 +44,17 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
+  h1 {
+    font-size: 2rem;
+    padding: 24px 0;
+  }
+
+  h2 {
+    color: $sub-header;
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+
   .aat-app-name {
     color: inherit;
     font-size: 1.5rem;
