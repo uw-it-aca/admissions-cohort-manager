@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Assign Cohort</h1>
+    <h1 class="aat-page-header">Assign Cohort</h1>
     <upload @uploaded="onFileUpload" />
     <div>
       {{ upload_response }}

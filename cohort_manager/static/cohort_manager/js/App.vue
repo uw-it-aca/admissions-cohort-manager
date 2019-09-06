@@ -27,7 +27,7 @@
           </b-nav>
         </header>
       </b-col>
-      <b-col>
+      <b-col class="aat-content-area">
         <main>
           <router-view />
         </main>
@@ -44,15 +44,17 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
-  h1 {
-    font-size: 2rem;
+  .aat-page-header {
+    font-size: 1.5rem;
+    font-weight: bold;
     padding: 24px 0;
   }
 
-  h2 {
+  .aat-sub-header {
     color: $sub-header;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: normal;
+    text-transform: uppercase;    
   }
 
   .aat-app-name {
@@ -90,4 +92,13 @@
     height: 100vh;
   }
 
+  div.aat-content-area {
+    padding: 0 48px;
+  }
+
+  .aat-form-section {
+    margin: 0 0 32px;
+    min-height: 96px;
+  }
+  
 </style>

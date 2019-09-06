@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Assignment History</h1>
+    <h1 class="aat-page-header">Assignment History</h1>
     <p>this is the Log View</p>
   </div>
 </template>

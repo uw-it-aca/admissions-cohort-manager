@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Assign Major</h1>
+    <h1 class="aat-page-header">Assign Major</h1>
     <p>this is the major page stub</p>
     <p>Showing data for {{ cohort_code }} cohort</p>
   </div>

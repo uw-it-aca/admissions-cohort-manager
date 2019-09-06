@@ -1,24 +1,22 @@
 <template>
   <div>
-    <form @submit.prevent="handleUpload">
-      <h2>Select Cohort</h2> 
-      <label>Cohort:
-      <select v-model="cohort_id" name="cohort">
-        <option value="1">
-          1
-        </option>
-        <option value="2">
-          2
-        </option>
-        <option value="3">
-          3
-        </option>
-      </select></label>
-      <h2>Enter Applications</h2> 
-      <input id="file" ref="file" type="file">
-      <h2>Add Comment</h2> 
-      <label>Enter comment for this assignment
-      <textarea v-model="comment" /></label> 
+    <form @submit.prevent="handleUpload" >
+      <fieldset class="aat-form-section">
+        <legend class="aat-sub-header">Select Cohort</legend> 
+        <label for="cohort_chooser">Assign applications to Cohort </label>
+        <b-form-select id="cohort_chooser" v-model="cohort_id" name="cohort" :options="cohort_options" class="aat-select-inline">
+        </b-form-select>
+      </fieldset>
+      <fieldset class="aat-form-section">
+        <legend class="aat-sub-header">Enter Applications</legend> 
+        Enter applications <input id="file" ref="file" type="file"> or <a href="#">manually by system keys</a>
+        <div id="file_name"></div>
+      </fieldset>
+      <fieldset class="aat-form-section">
+        <legend class="aat-sub-header">Add Comment</legend> 
+        <label for="assginment_comment">Enter comment for this assignment</label> 
+        <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
+      </fieldset>
       <input type="submit" value="Upload">
     </form>
   </div>
@@ -35,7 +33,12 @@
     data(){
       return {
         file: '',
-        cohort_id: '',
+        cohort_id: null,
+        cohort_options: [
+          {value: '1', text: '1'},
+          {value: '2', text: '2'},
+          {value: '99', text: '99'},
+        ],
         comment: '',
         csrfToken: '',
       };
@@ -75,4 +78,25 @@
 </script>
 
 <style lang="scss">
+  @import '../../css/_variables.scss';
+  @import '../../css/custom.scss';
+
+  .aat-select-inline {
+    background: none;
+    border-color: $text-color;
+    border-radius: 0;
+    border-style: none none solid;
+    margin: 0 8px;
+    width: 48px;
+  }
+
+  .aat-comment-field {
+    display: block;
+    height: 144px;
+    max-width: 900px;
+    min-width: 300px;
+    padding: 8px;
+    width: 55%;
+  }
+
 </style>
