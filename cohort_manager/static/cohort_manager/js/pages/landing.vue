@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Admissions Assignment Tool</h1>
     <p>this is the landing page stub</p>
   </div>
 </template>

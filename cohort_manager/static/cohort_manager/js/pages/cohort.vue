@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Assign Cohort</h1>
     <p>this is the chort page stub</p>
     <upload @uploaded="onFileUpload" />
     <div>

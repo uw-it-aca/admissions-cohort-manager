@@ -4,37 +4,31 @@
       <b-col cols="5" sm="4" md="3" class="aat-main-navbar">
         <header>
           <div class="aat-app-info">
-            <div class="aat-app-name">Admissions Assignment Tool</div>
+            <a href="/" class="aat-app-name">Admissions Assignment Tool</a>
             <div class="aat-user-netid">Welcome user.netid</div>
           </div>
-          <b-nav vertical>
-            <div class="aat-nav-group">
-              <b-link to="/" class="nav-link">
-                Home
-              </b-link>
-              <b-link to="/log/" class="nav-link">
-                Activity Log
-              </b-link>
-            </div>
-            <div class="aat-nav-group">
-              <b-link to="/cohort/" class="nav-link">
-                Assign Cohort
-              </b-link>
-              <b-link to="/major/" class="nav-link">
-                Assign Major
-              </b-link>
-            </div>
-            <div class="aat-link-group">
-              <b-link href="https://www.tableau.com" class="nav-link" target="_blank">
-                Tableau Selection Tool
-              </b-link>
-            </div>
+          <b-nav vertical class="aat-nav-group">
+            <b-link to="/cohort/" class="nav-link">
+              Assign Cohort
+            </b-link>
+            <b-link to="/major/" class="nav-link">
+              Assign Major
+            </b-link>
+          </b-nav>
+          <b-nav vertical class="aat-nav-group">
+            <b-link to="/log/" class="nav-link">
+              Activity Log
+            </b-link>
+          </b-nav>
+          <b-nav vertical class="aat-link-group">
+            <b-link href="https://www.tableau.com" class="nav-link" target="_blank">
+              Tableau Selection Tool
+            </b-link>
           </b-nav>
         </header>
       </b-col>
       <b-col>
         <main>
-          <h1>this is the wrapper app</h1>
           <router-view />
         </main>
       </b-col>
@@ -51,7 +45,14 @@
   @import '../css/custom.scss';
 
   .aat-app-name {
+    color: inherit;
     font-size: 1.5rem;
+    line-height: 1.2;
+
+    &:hover {
+      text-decoration: none;
+    }
+
   }
 
   .aat-main-navbar {
@@ -60,13 +61,18 @@
     padding: 16pt;
   }
 
+  .aat-app-info {
+    margin-bottom: 16px;
+  }
+
   .aat-nav-group {
-    margin: 24px 0;
+    margin: 24px 0 0;
   }
 
   .aat-link-group {
     border-top: solid 1px #666;
-    padding-top: 16px;
+    margin-top: 16px;
+    padding-top: 8px;
   }
 
   .aat-cohort-manager {
