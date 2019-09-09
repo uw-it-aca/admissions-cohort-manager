@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-row class="aat-cohort-manager">
-      <b-col cols="5" sm="4" md="3" class="aat-main-navbar">
+      <b-col cols="4" lg="2" class="aat-main-navbar">
         <header>
           <div class="aat-app-info">
             <a href="/" class="aat-app-name">Admissions Assignment Tool</a>
