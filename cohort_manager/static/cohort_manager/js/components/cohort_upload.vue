@@ -97,10 +97,10 @@
   .aat-comment-field {
     display: block;
     height: 144px;
-    max-width: 900px;
-    min-width: 300px;
+    max-width: 650px;
+    min-width: 250px;
     padding: 8px;
-    width: 55%;
+    width: 100%;
   }
 
 </style>

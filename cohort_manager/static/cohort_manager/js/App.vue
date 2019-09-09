@@ -27,7 +27,7 @@
           </b-nav>
         </header>
       </b-col>
-      <b-col class="aat-content-area">
+      <b-col cols="6" sm="8" lg="10" class="aat-content-area">
         <main>
           <router-view />
         </main>
