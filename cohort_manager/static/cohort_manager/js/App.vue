@@ -97,8 +97,7 @@
   }
 
   .aat-form-section {
-    margin: 0 0 32px;
-    min-height: 96px;
+    margin: 0 0 3rem;
   }
-  
+
 </style>

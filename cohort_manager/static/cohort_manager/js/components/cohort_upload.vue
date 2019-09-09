@@ -9,7 +9,7 @@
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">Enter Applications</legend> 
-        Enter applications <input id="file" ref="file" type="file"> or <a href="#">manually by system keys</a>
+        <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a href="#">manually by system keys</a></div>
         <div id="file_name"></div>
       </fieldset>
       <fieldset class="aat-form-section">
@@ -86,8 +86,12 @@
     border-color: $text-color;
     border-radius: 0;
     border-style: none none solid;
-    margin: 0 8px;
-    width: 48px;
+    margin: -0.25rem 0.5rem 0;
+    width: 3rem;
+  }
+
+  .aat-file-input {
+    padding: 1rem 0;
   }
 
   .aat-comment-field {
