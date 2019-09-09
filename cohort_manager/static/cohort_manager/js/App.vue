@@ -27,7 +27,7 @@
           </b-nav>
         </header>
       </b-col>
-      <b-col cols="6" sm="8" lg="10" class="aat-content-area">
+      <b-col cols="8" lg="10" class="aat-content-area">
         <main>
           <router-view />
         </main>
@@ -69,7 +69,6 @@
   }
 
   .aat-main-navbar {
-    background-color: $nav-bkgnd;
     height: 100%;
     padding: 1rem;
   }
@@ -92,6 +91,7 @@
     height: 100vh;
     
     .aat-content-area {
+      background-color: #fff;
       padding: 0 3rem;
     }
 
