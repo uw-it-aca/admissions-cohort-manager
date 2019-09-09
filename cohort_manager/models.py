@@ -35,11 +35,15 @@ class AssignmentImportManager(models.Manager):
     def create_from_list(self, sys_keys, **kwargs):
         document = to_csv(AssignmentImport.FIELD_NAMES)
         for sys_key in sys_keys:
-            document += to_csv(sys_key)
+            document += to_csv([sys_key])
 
         kwargs['is_file_upload'] = False
         kwargs['document'] = document
         return AssignmentImport(**kwargs)
+
+    def create_from_override(self, sys_key, **kwargs):
+        kwargs['is_override'] = True
+        return AssignmentImport.objects.create_from_list([sys_key], **kwargs)
 
 
 class AssignmentImport(models.Model):
@@ -54,6 +58,7 @@ class AssignmentImport(models.Model):
 
     document = models.TextField()
     comment = models.TextField()
+    is_override = models.NullBooleanField(default=False)
     is_file_upload = models.NullBooleanField(default=True)
     upload_filename = models.CharField(max_length=100, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -73,6 +78,7 @@ class AssignmentImport(models.Model):
         return {
             'id': self.pk,
             'comment': self.comment,
+            'is_override': True if self.is_override else False,
             'is_file_upload': True if self.is_file_upload else False,
             'upload_filename': self.upload_filename,
             'created_date': self.created_date.isoformat() if (
