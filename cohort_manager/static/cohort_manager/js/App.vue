@@ -8,20 +8,20 @@
             <div class="aat-user-netid">Welcome user.netid</div>
           </div>
           <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort/" class="nav-link">
+            <b-link to="/cohort/" class="nav-link aat-link">
               Assign Cohort
             </b-link>
-            <b-link to="/major/" class="nav-link">
+            <b-link to="/major/" class="nav-link aat-link">
               Assign Major
             </b-link>
           </b-nav>
           <b-nav vertical class="aat-nav-group">
-            <b-link to="/log/" class="nav-link">
+            <b-link to="/log/" class="nav-link aat-link">
               Activity Log
             </b-link>
           </b-nav>
           <b-nav vertical class="aat-link-group">
-            <b-link href="https://www.tableau.com" class="nav-link" target="_blank">
+            <b-link href="https://www.tableau.com" class="nav-link aat-link" target="_blank">
               Tableau Selection Tool
             </b-link>
           </b-nav>
@@ -79,12 +79,18 @@
 
   .aat-nav-group {
     margin: 24px 0 0;
+
+    .aat-link {
+      padding: 0.5rem 0 0.5rem 1rem;
+    }
+
   }
 
   .aat-link-group {
     border-top: solid 1px #666;
     margin-top: 1rem;
     padding-top: 0.5rem;
+
   }
 
   .aat-cohort-manager {
