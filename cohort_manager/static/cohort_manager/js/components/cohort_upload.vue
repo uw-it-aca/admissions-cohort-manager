@@ -99,7 +99,7 @@
     height: 144px;
     max-width: 650px;
     min-width: 250px;
-    padding: 8px;
+    padding: 0.5rem;
     width: 100%;
   }
 

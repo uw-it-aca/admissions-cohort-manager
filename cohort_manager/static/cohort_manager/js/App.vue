@@ -47,7 +47,7 @@
   .aat-page-header {
     font-size: 1.5rem;
     font-weight: bold;
-    padding: 24px 0;
+    padding: 1.5rem 0;
   }
 
   .aat-sub-header {
@@ -71,11 +71,11 @@
   .aat-main-navbar {
     background-color: $nav-bkgnd;
     height: 100%;
-    padding: 16pt;
+    padding: 1rem;
   }
 
   .aat-app-info {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 
   .aat-nav-group {
@@ -84,16 +84,17 @@
 
   .aat-link-group {
     border-top: solid 1px #666;
-    margin-top: 16px;
-    padding-top: 8px;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
   }
 
   .aat-cohort-manager {
     height: 100vh;
-  }
+    
+    .aat-content-area {
+      padding: 0 3rem;
+    }
 
-  div.aat-content-area {
-    padding: 0 48px;
   }
 
   .aat-form-section {
