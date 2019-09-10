@@ -1,24 +1,33 @@
 <template>
   <div>
-    <h1 class="aat-page-header">Assign Major</h1>
-    <p>this is the major page stub</p>
-    <p>Showing data for {{ cohort_code }} cohort</p>
+    <h1 class="aat-page-header">
+      Assign Major
+    </h1>
+    <upload collection-type="Major" @uploaded="onFileUpload" />
+    <div>
+      {{ upload_response }}
+    </div>
   </div>
 </template>
 
 <script>
+  import Upload from "../components/collection_upload.vue";
   export default {
     name: "Major",
-    components: {},
+    components: {
+      upload: Upload
+    },
     data(){
       return {
-        cohort_code: ""
+        upload_response: undefined,
       };
     },
     mounted() {},
-    beforeMount(){
-      this.cohort_code = $("#cohort").attr('data');
-    },
+    methods: {
+      onFileUpload(response){
+        this.upload_response = response;
+      }
+    }
   };
 </script>
 

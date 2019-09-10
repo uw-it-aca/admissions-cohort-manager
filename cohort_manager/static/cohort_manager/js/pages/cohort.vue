@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1 class="aat-page-header">Assign Cohort</h1>
-    <upload @uploaded="onFileUpload" />
+    <h1 class="aat-page-header">
+      Assign Cohort
+    </h1>
+    <upload collection-type="Cohort" @uploaded="onFileUpload" />
     <div>
       {{ upload_response }}
     </div>
@@ -9,7 +11,7 @@
 </template>
 
 <script>
-  import Upload from "../components/cohort_upload.vue";
+  import Upload from "../components/collection_upload.vue";
 
   export default {
     name: "Cohort",
