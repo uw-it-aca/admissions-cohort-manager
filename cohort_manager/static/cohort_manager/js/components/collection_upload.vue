@@ -15,19 +15,21 @@
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
-        <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a href="#">manually by system keys</a></div>
+        <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a id="manual_toggle" href="#">manually by system keys</a></div>
         <div id="file_name" />
-        <p class="aat-status-feedback">50 system keys found.</p>
-        <b-form-checkbox 
-          id="app_reassign_checkbox"
-          name="app_reassign_checkbox"
-          value=""
-          class="aat-checkbox">
-          Reassign applications that already have a cohort.
-        </b-form-checkbox>
-        <b-form-text>
-          Note: Applications with a protected cohort will not be reassigned.
-        </b-form-text>
+        <p id="upload_app_count" class="aat-status-feedback">50 system keys found.</p>
+        <div id="reassign_app_option">
+          <b-form-checkbox 
+            id="app_reassign_checkbox"
+            name="app_reassign_checkbox"
+            value=""
+            class="aat-checkbox">
+            Reassign applications that already have a cohort.
+          </b-form-checkbox>
+          <b-form-text>
+            Note: Applications with a protected cohort will not be reassigned.
+          </b-form-text>
+        </div>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">

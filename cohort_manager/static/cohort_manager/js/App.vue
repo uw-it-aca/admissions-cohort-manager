@@ -6,7 +6,7 @@
           <div class="aat-app-info">
             <a href="/" class="aat-app-name">Admissions Assignment Tool</a>
             <div class="aat-user-netid">
-              Welcome user.netid
+              Welcome <span id="netid">user.netid</span>
             </div>
           </div>
           <b-nav vertical class="aat-nav-group">
