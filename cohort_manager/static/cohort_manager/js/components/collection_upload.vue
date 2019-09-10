@@ -17,6 +17,7 @@
         </legend>
         <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a href="#">manually by system keys</a></div>
         <div id="file_name" />
+        <p class="aat-status-feedback">50 system keys found.</p>
         <b-form-checkbox 
           id="app_reassign_checkbox"
           name="app_reassign_checkbox"
@@ -140,6 +141,11 @@
 
   .aat-checkbox {
     margin-top: 2rem;
+  }
+
+  .aat-status-feedback {
+    font-style: italic;
+    margin-top: 1.5rem;
   }
 
 </style>
