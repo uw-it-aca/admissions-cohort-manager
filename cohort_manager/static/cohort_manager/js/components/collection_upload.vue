@@ -17,6 +17,16 @@
         </legend>
         <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a href="#">manually by system keys</a></div>
         <div id="file_name" />
+        <b-form-checkbox 
+          id="app_reassign_checkbox"
+          name="app_reassign_checkbox"
+          value=""
+          class="aat-checkbox">
+          Reassign applications that already have a cohort.
+        </b-form-checkbox>
+        <b-form-text>
+          Note: Applications with a protected cohort will not be reassigned.
+        </b-form-text>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -126,6 +136,10 @@
     min-width: 250px;
     padding: 0.5rem;
     width: 100%;
+  }
+
+  .aat-checkbox {
+    margin-top: 2rem;
   }
 
 </style>
