@@ -7,6 +7,7 @@
         <b-form-select id="cohort_chooser" v-model="cohort_id" name="cohort" :options="cohort_options" class="aat-select-inline">
         </b-form-select>
       </fieldset>
+      <groupdetails />
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">Enter Applications</legend> 
         <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a href="#">manually by system keys</a></div>
@@ -24,12 +25,15 @@
 
 <script>
   const axios = require("axios");
+  import GroupDetails from "../components/group_details.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
   export default {
     name: "Upload",
-    components: {},
+    components: {
+      groupdetails: GroupDetails
+    },
     data(){
       return {
         file: '',
