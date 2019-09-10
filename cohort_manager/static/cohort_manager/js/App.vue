@@ -100,7 +100,7 @@
     
     .aat-content-area {
       background-color: #fff;
-      padding: 0 3rem;
+      padding: 0 3rem 3rem;
     }
 
   }
