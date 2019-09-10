@@ -6,7 +6,7 @@
           <div class="aat-app-info">
             <a href="/" class="aat-app-name">Admissions Assignment Tool</a>
             <div class="aat-user-netid">
-              Welcome <span id="netid">user.netid</span>
+              Welcome <span id="netid">{{ netid }}</span>
             </div>
           </div>
           <b-nav vertical class="aat-nav-group">
@@ -45,7 +45,20 @@
 </template>
 
 <script>
-  export default {};
+  export default {
+    name: "LandingPage",
+    components: {},
+    data(){
+      return {
+        netid: '',
+      };
+    },
+    mounted() {
+        this.netid = user_netid;
+    },
+    methods: {
+    }
+  };;
 </script>
 
 <style lang="scss">
@@ -62,7 +75,7 @@
     color: $sub-header;
     font-size: 1rem;
     font-weight: normal;
-    text-transform: uppercase;    
+    text-transform: uppercase;
   }
 
   .aat-app-name {
@@ -103,7 +116,7 @@
 
   .aat-cohort-manager {
     height: 100vh;
-    
+
     .aat-content-area {
       background-color: #fff;
       padding: 0 3rem 3rem;
