@@ -9,7 +9,7 @@
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
           <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collection_options" class="aat-select-inline" />
         </fieldset>
-        <groupdetails />
+        <collectiondetails />
       </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -32,14 +32,14 @@
 
 <script>
   const axios = require("axios");
-  import GroupDetails from "../components/group_details.vue";
+  import CollectionDetails from "../components/collection_details.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
   export default {
     name: "Upload",
     components: {
-      groupdetails: GroupDetails
+      collectiondetails: CollectionDetails
     },
     props: {
       collectionType: {
