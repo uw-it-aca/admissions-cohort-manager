@@ -7,6 +7,8 @@ import App from "./App.vue";
 import Landing from './pages/landing.vue';
 import Cohort from './pages/cohort.vue';
 import Major from './pages/major.vue';
+import CohortList from './pages/cohort_list.vue';
+import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
 
 
@@ -24,6 +26,8 @@ var router = new VueRouter({
     { path: '/', component: Landing },
     { path: '/cohort/', component: Cohort },
     { path: '/major/', component: Major },
+    { path: '/cohort_list/', component: CohortList },
+    { path: '/major_list/', component: MajorList },
     { path: '/log/', component: Log },
   ]
 });

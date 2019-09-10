@@ -18,6 +18,12 @@
             </b-link>
           </b-nav>
           <b-nav vertical class="aat-nav-group">
+            <b-link to="/cohort_list/" class="nav-link aat-link">
+              All Cohorts
+            </b-link>
+            <b-link to="/major_list/" class="nav-link aat-link">
+              All Majors
+            </b-link>
             <b-link to="/log/" class="nav-link aat-link">
               Activity Log
             </b-link>
