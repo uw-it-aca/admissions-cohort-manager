@@ -5,7 +5,9 @@
         <header>
           <div class="aat-app-info">
             <a href="/" class="aat-app-name">Admissions Assignment Tool</a>
-            <div class="aat-user-netid">Welcome user.netid</div>
+            <div class="aat-user-netid">
+              Welcome user.netid
+            </div>
           </div>
           <b-nav vertical class="aat-nav-group">
             <b-link to="/cohort/" class="nav-link aat-link">
