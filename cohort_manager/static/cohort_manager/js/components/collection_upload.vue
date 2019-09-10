@@ -1,14 +1,16 @@
 <template>
   <div>
     <form @submit.prevent="handleUpload">
-      <fieldset class="aat-form-section">
-        <legend class="aat-sub-header">
-          Select {{ collectionType }}
-        </legend>
-        <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-        <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collection_options" class="aat-select-inline" />
-      </fieldset>
-      <groupdetails />
+      <div class="aat-form-section">
+        <fieldset>
+          <legend class="aat-sub-header">
+            Select {{ collectionType }}
+          </legend>
+          <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
+          <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collection_options" class="aat-select-inline" />
+        </fieldset>
+        <groupdetails />
+      </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
           Enter Applications
