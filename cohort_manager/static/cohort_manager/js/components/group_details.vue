@@ -45,8 +45,8 @@
       color: #777;
       font-size: 1rem;
       line-height: 1;
-      max-width: 800px;
       margin-left: 0;
+      max-width: 800px;
       padding: 2rem;
     }
 
