@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>Collection List {{ collectionType }}</h2>
+    <p v-if="collectionType === 'Cohort'">You, Cohort, you!</p>
+    <p v-else-if="collectionType === 'Major'">You, Major, you!</p>
   </div>
 </template>
 
