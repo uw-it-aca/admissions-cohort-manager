@@ -1,8 +1,9 @@
 <template>
   <div>
     <h2>Collection List {{ collectionType }}</h2>
-    <p v-if="collectionType === 'Cohort'">You, Cohort, you!</p>
-    <p v-else-if="collectionType === 'Major'">You, Major, you!</p>
+    <div v-if="collectionType === 'Cohort'">You, Cohort, you!</div>
+    <div v-else-if="collectionType === 'Major'">You, Major, you!</div>
+    <div v-else>Error: There was an issue with your request. Please select a link from the left column to try again.</div>
   </div>
 </template>
 
