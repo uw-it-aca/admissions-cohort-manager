@@ -7,6 +7,7 @@
             <template v-slot:cell(actions)="row">
                 <a href="http://www.google.com">search</a>
             </template>
+        </b-table>
     </div>
 
     <div v-else-if="collectionType === 'Major'">
