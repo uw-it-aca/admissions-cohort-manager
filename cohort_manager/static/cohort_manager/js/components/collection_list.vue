@@ -5,25 +5,8 @@
         You, Cohort, you!
         <b-table hover :items="cohorts" :fields="cohortFields">
             <template v-slot:cell(actions)="row">
-                <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-                Info modal
-                </b-button>
-                
+                <a href="http://www.google.com">search</a>
             </template>
-
-            <template v-slot:row-details="row">
-                <b-card>
-                <ul>
-                    <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-                </ul>
-                </b-card>
-            </template>
-        </b-table>
-
-    <!-- Info modal -->
-        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
-        <pre>{{ infoModal.content }}</pre>
-        </b-modal>
     </div>
 
     <div v-else-if="collectionType === 'Major'">
