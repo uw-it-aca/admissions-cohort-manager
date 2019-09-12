@@ -2,12 +2,28 @@
   <b-container class="aat-details-container aat-form-section" fluid>
     <b-row>
       <b-col cols="12" md="3" class="aat-group-info-primary">
-        <b-row class="aat-info-spacing"><div class="aat-data-primary">Cohort</div> <div class="aat-group-data aat-data-primary">25</div></b-row>
-        <b-row><div class="aat-data-primary">Applications Assigned</div> <div class="aat-group-data aat-data-primary">412</div></b-row>
+        <b-row class="aat-info-spacing">
+          <div class="aat-data-primary">
+            Cohort
+          </div> <div class="aat-group-data aat-data-primary">
+            25
+          </div>
+        </b-row>
+        <b-row>
+          <div class="aat-data-primary">
+            Applications Assigned
+          </div> <div class="aat-group-data aat-data-primary">
+            412
+          </div>
+        </b-row>
       </b-col>
       <b-col cols="12" md="4" class="aat-group-info-secondary">
-        <b-row class="aat-info-spacing">Residency <span class="aat-group-data">wa-res</span></b-row>
-        <b-row class="aat-info-spacing">Admit Decision<span class="aat-group-data">Admit</span></b-row>
+        <b-row class="aat-info-spacing">
+          Residency <span class="aat-group-data">wa-res</span>
+        </b-row>
+        <b-row class="aat-info-spacing">
+          Admit Decision<span class="aat-group-data">Admit</span>
+        </b-row>
         <b-row>Protected Group <span class="aat-group-data">No</span></b-row>
       </b-col>
       <b-col cols="12" md="5" class="aat-group-info-secondary">

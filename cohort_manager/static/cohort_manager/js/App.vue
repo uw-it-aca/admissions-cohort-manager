@@ -54,11 +54,11 @@
       };
     },
     mounted() {
-        this.netid = user_netid;
+      this.netid = window.user_netid;
     },
     methods: {
     }
-  };;
+  };
 </script>
 
 <style lang="scss">
