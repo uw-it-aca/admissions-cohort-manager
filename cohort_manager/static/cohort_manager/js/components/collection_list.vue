@@ -3,16 +3,22 @@
     <h2>Collection List {{ collectionType }}</h2>
     <div v-if="collectionType === 'Cohort'">
         You, Cohort, you!
-        <b-table hover :items="cohorts" :fields="cohortFields">
+        <b-table striped :items="cohorts" :fields="cohortFields">
             <template v-slot:cell(actions)="row">
-                <a href="http://www.google.com">search</a>
+                <a href="#" :title="'Assign applications to cohort ' + row.item.cohortNum">Assign</a>
+                <a href="#" :title="'Activity for cohort ' + row.item.cohortNum">Activity</a>
+                 <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to cohort ' + row.item.cohortNum">Reset</b-button>
             </template>
         </b-table>
+        <!-- Reset Cohort modal -->
+        <b-modal :id="resetModal.id" :title="resetModal.title" ok-only @hide="resetresetModal">
+          <div>This is cohort </div>
+        </b-modal>
     </div>
 
     <div v-else-if="collectionType === 'Major'">
         You, Major, you!
-        <b-table hover :items="majors" :fields="majorFields"></b-table>
+        <b-table striped :items="majors" :fields="majorFields"></b-table>
         </div>
 
     <div v-else>
@@ -37,7 +43,8 @@
       return {
         cohortFields: [
           {
-            key: 'cohort_#',
+            key: 'cohortNum',
+            label: "Cohort #",
             sortable: true
           },
           {
@@ -63,10 +70,10 @@
           { key: 'actions', label: 'Actions' }
         ],
         cohorts: [
-          { 'cohort_#': '1', Description: 'TEST: Residents, admit', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Admit', Assigned: '120'  },
-          { 'cohort_#': '2', Description: 'TEST: Non-Residents, admit', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Admit', Assigned: '32'  },
-          { 'cohort_#': '3', Description: 'TEST: Protected, Soccer', Residency: 'WA-residents', Protected: 'Yes', Admit_Status: 'Admit', Assigned: '0'  },
-          { 'cohort_#': '99', Description: 'TEST: Lost Souls, deny', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Deny', Assigned: '1'  }
+          { 'cohortNum': '1', Description: 'TEST: Residents, admit', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Admit', Assigned: '120'  },
+          { 'cohortNum': '2', Description: 'TEST: Non-Residents, admit', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Admit', Assigned: '32'  },
+          { 'cohortNum': '3', Description: 'TEST: Protected, Soccer', Residency: 'WA-residents', Protected: 'Yes', Admit_Status: 'Admit', Assigned: '0'  },
+          { 'cohortNum': '99', Description: 'TEST: Lost Souls, deny', Residency: 'WA-residents', Protected: 'No', Admit_Status: 'Deny', Assigned: '1'  }
         ],
         majorFields: [
           {
@@ -101,10 +108,9 @@
           { Major: 'Aquatic & fishery sciences', Division: 'Natural Sciences', College: 'Arts and Sciences', DTX: 'No', Assigned: '12' },
           { Major: 'Engineering undeclared', Division: 'Humanities', College: 'College of Engineering', DTX: 'Yes', Assigned: '322' }
         ],
-        infoModal: {
-          id: 'info-modal',
-          title: '',
-          content: ''
+        resetModal: {
+          id: 'reset-modal',
+          title: ''
         }
       };
     },
@@ -112,13 +118,12 @@
     },
     methods: {
         info(item, index, button) {
-        this.infoModal.title = `Row index: ${index}`
-        this.infoModal.content = JSON.stringify(item, null, 2)
-        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        this.resetModal.title = `Row index: ${index}`
+        this.$root.$emit('bv::show::modal', this.resetModal.id, button)
       },
-      resetInfoModal() {
-        this.infoModal.title = ''
-        this.infoModal.content = ''
+      resetresetModal() {
+        this.resetModal.title = ''
+        this.resetModal.content = ''
       },
     }
   };
