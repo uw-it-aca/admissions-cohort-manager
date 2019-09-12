@@ -115,4 +115,8 @@
     margin: 0 0 3rem;
   }
 
+  .aat-modal-container {
+    margin: 2rem 1rem 0;
+  }
+
 </style>
