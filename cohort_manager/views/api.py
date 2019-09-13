@@ -23,15 +23,20 @@ class RESTDispatch(View):
 
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
-        uploaded_file = request.FILES['file']
+        uploaded_file = request.FILES.get('file')
+        syskey_list = request.POST.get('syskey_list')
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
 
         # TODO: validate uploaded_file.content_type?
-
-        assignment_import = AssignmentImport.objects.create_from_file(
-            uploaded_file, created_by='TODO')
+        if uploaded_file:
+            assignment_import = AssignmentImport.objects.create_from_file(
+                uploaded_file, created_by='TODO')
+        if syskey_list:
+            assignment_import = AssignmentImport.objects.create_from_list(
+                syskey_list, created_by='TODO'
+            )
         if cohort_id:
             assignment_import.cohort = cohort_id
         if major_id:
