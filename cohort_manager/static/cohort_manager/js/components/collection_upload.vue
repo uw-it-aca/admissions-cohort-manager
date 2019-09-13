@@ -118,18 +118,6 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
-  .aat-form-section {
-    .aat-select-inline {
-      background: none;
-      border-color: $text-color;
-      border-radius: 0;
-      border-style: none none solid;
-      margin: -0.25rem 0.5rem 0;
-      padding: 0;
-      width: fit-content;
-    }
-  }
-
   .aat-file-input {
     padding: 1rem 0;
   }
