@@ -126,6 +126,17 @@
 
   .aat-form-section {
     margin: 0 0 3rem;
+
+    .aat-select-inline {
+      background: none;
+      border-color: $text-color;
+      border-radius: 0;
+      border-style: none none solid;
+      margin: -0.25rem 0.5rem 0;
+      padding: 0;
+      width: fit-content;
+    }
+    
   }
 
   .aat-modal-container {

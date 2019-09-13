@@ -1,16 +1,19 @@
 <template>
   <div>
     <h1 class="aat-page-header">
-      Assignment History
+      Activity Log
     </h1>
-    <p>this is the Log View</p>
+    <activitylist />
   </div>
 </template>
 
 <script>
+  import ActivityList from "../components/activity_list.vue";
   export default {
     name: "Log",
-    components: {},
+    components: {
+      activitylist : ActivityList
+    },
     data(){
       return {};
     },
