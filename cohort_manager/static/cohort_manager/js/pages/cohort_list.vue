@@ -3,9 +3,8 @@
     <h1 class="aat-page-header">
       All Cohorts
     </h1>
-    <collectionlist collection-type="Cohort"/>
-    <div>
-    </div>
+    <collectionlist collection-type="Cohort" />
+    <div />
   </div>
 </template>
 
