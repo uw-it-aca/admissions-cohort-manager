@@ -20,9 +20,9 @@
           striped 
           show-empty
           small
-          stacked="md"
           id="assignment_history_table"
           class="assignment-history-table"
+          stacked="md"
           :items="activities" 
           :fields="activityFields"
           :current-page="currentPage"
@@ -35,7 +35,12 @@
             <div>{{ row.value.day }}</div><div>{{ row.value.time }}</div>
           </template>
           <template v-slot:cell(Summary)="row">
-            <div class="aat-data-split">{{ row.value.submitted }}</div><div>{{ row.value.assigned }}</div>
+            <div class="aat-data-split">
+              {{ row.value.submitted }}
+            </div>
+            <div>
+              {{ row.value.assigned }}
+            </div>
           </template>
         </b-table>
       </b-col>
@@ -49,9 +54,9 @@
           >
             <b-input-group size="sm">
               <b-form-select
-                v-model="astypeFilter"
                 id="as_type_filter"
                 class="aat-filter-select"
+                v-model="astypeFilter"
                 :options="astypeOptions"
               >
                 <template v-slot:first>
@@ -75,9 +80,9 @@
           >
             <b-input-group size="sm">
               <b-form-select
-                v-model="cohortFilter"
                 id="cohort_filter"
                 class="aat-filter-select"
+                v-model="cohortFilter"
                 :options="cohortOptions"
               >
                 <template v-slot:first>
@@ -101,9 +106,9 @@
           >
             <b-input-group size="sm">
               <b-form-select
-                v-model="majorFilter"
                 id="major_filter"
                 class="aat-filter-select"
+                v-model="majorFilter"
                 :options="majorOptions"
               >
                 <template v-slot:first>
@@ -127,11 +132,11 @@
           >
             <b-input-group size="sm">
               <b-form-input
-                v-model="filter"
                 id="SysKeyInput"
+                v-model="filter"
                 type="search"
                 placeholder="Type to Search"
-              ></b-form-input>
+              />
               <b-input-group-append>
                 <b-button :disabled="!filter" @click="filter = ''">
                   Clear
@@ -180,10 +185,8 @@
           },
         ],
         activities: [
-          { Date: { day: 'Jan. 20, 2019', time: '3:30 PM' }, Summary: { submitted: 'Submitted: Assign 3 (manual) to Cohort 41.',
-assigned: 'Assigned: 3 applications to Cohort 41.' }, Comment: '“Add 3 new applications”', User: 'netid' },
-          { Date: { day: 'Jan. 20, 2019', time: '12:22 PM' }, Summary: { submitted: 'Submitted: Assign 32 (manual) to Cohort 41.',
-assigned: 'Assigned: 1 assigned to Cohort 2, 1 not assigned.' }, Comment: '“All res w/ overall scores of 15s added”', User: 'netid' },
+          { Date: { day: 'Jan. 20, 2019', time: '3:30 PM' }, Summary: { submitted: 'Submitted: Assign 3 (manual) to Cohort 41.', assigned: 'Assigned: 3 applications to Cohort 41.' }, Comment: '“Add 3 new applications”', User: 'netid' },
+          { Date: { day: 'Jan. 20, 2019', time: '12:22 PM' }, Summary: { submitted: 'Submitted: Assign 32 (manual) to Cohort 41.', assigned: 'Assigned: 1 assigned to Cohort 2, 1 not assigned.' }, Comment: '“All res w/ overall scores of 15s added”', User: 'netid' },
         ],
         astypeFilter: null,
         astypeOptions: [

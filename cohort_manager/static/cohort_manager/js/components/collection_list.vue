@@ -4,8 +4,10 @@
       <b-table striped :items="cohorts" :fields="cohortFields">
         <template v-slot:cell(actions)="row">
           <a href="#" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
-          <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
-          <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to cohort ' + row.item.name">Reset</b-button>
+          <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
+          <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.name" @click="info(row.item, row.index, $event.target)" >
+            Reset
+          </b-button>
         </template>
       </b-table>
     </div>
@@ -14,8 +16,10 @@
       <b-table striped :items="majors" :fields="majorFields">
         <template v-slot:cell(actions)="row">
           <a href="#" :title="'Assign applications to major ' + row.item.name">Assign</a>
-          <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
-          <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to major' + row.item.name">Reset</b-button>
+          <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
+          <b-button size="sm" :title="'Remove all assignments to major' + row.item.name" @click="info(row.item, row.index, $event.target)" >
+            Reset
+          </b-button>
         </template>
       </b-table>
     </div>
