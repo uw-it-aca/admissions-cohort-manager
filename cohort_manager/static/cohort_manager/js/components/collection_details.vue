@@ -4,49 +4,78 @@
       <b-col cols="12" md="3" class="aat-group-info-primary">
         <b-row class="aat-info-spacing">
           <div class="aat-data-primary">
-            Cohort
+            {{ collectionType }}
           </div> <div class="aat-group-data aat-data-primary">
-            25
+            {{ collectionId }}
           </div>
         </b-row>
         <b-row>
           <div class="aat-data-primary">
             Applications Assigned
           </div> <div class="aat-group-data aat-data-primary">
-            412
+            {{ applications_assigned }}
           </div>
         </b-row>
       </b-col>
       <b-col cols="12" md="4" class="aat-group-info-secondary">
         <b-row class="aat-info-spacing">
-          Residency <span class="aat-group-data">wa-res</span>
+          Residency <span class="aat-group-data">{{ residency }}</span>
         </b-row>
         <b-row class="aat-info-spacing">
-          Admit Decision<span class="aat-group-data">Admit</span>
+          Admit Decision<span class="aat-group-data">{{ admit_decision }}</span>
         </b-row>
-        <b-row>Protected Group <span class="aat-group-data">No</span></b-row>
+        <b-row>Protected Group <span class="aat-group-data">{{ protected_group }}</span></b-row>
       </b-col>
       <b-col cols="12" md="5" class="aat-group-info-secondary">
-        <b-row>Decision<span class="aat-group-data">WA Resident general admits</span></b-row>
+        <b-row>Decision<span class="aat-group-data">{{ description }}</span></b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+  const axios = require("axios");
   export default {
     name: "CollectionDetails",
     components: {},
+    props: {
+      collectionType: {
+        type: String,
+        default: ""
+      },
+      collectionId: {
+        type: String,
+        default: ""
+      }
+    },
     data(){
       return {
-        
+        admit_decision: "",
+        applications_assigned: 0,
+        description: "",
+        protected_group: false,
+        residency: ""
       };
     },
+    watch: {
+      collectionId: function() {
+        this.get_collection();
+      }
+    },
     mounted() {
-
     },
     methods: {
-
+      get_collection(){
+        axios.get(
+          '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.collectionId,
+        ).then(response => {
+          this.admit_decision = response.data.admit_decision;
+          this.applications_assigned = response.data.applications_assigned;
+          this.description = response.data.description;
+          this.protected_group = response.data.protected_group;
+          this.residency = response.data.residency;
+        });
+      }
     },
   };
 </script>
@@ -78,7 +107,7 @@
 
     .aat-group-data {
       font-size: 2rem;
-      
+
     }
   }
 
