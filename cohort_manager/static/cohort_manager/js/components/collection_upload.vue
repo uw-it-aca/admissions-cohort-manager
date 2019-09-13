@@ -9,7 +9,7 @@
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
           <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
         </fieldset>
-        <collectiondetails
+        <collectionDetails
           :collection-id="collection_id"
           :collection-type="collectionType"
         />
@@ -18,7 +18,8 @@
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
-        <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a id="manual_toggle" href="#">manually by system keys</a></div>
+        <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
+        <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
         <div id="reassign_app_option">
           <b-form-checkbox
             id="app_reassign_checkbox"
@@ -48,13 +49,17 @@
 <script>
   const axios = require("axios");
   import CollectionDetails from "../components/collection_details.vue";
+  import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
+  import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
   export default {
     name: "Upload",
     components: {
-      collectiondetails: CollectionDetails
+      collectionDetails: CollectionDetails,
+      CollectionUploadListInput: CollectionUploadListInput,
+      CollectionUploadFileInput: CollectionUploadFileInput
     },
     props: {
       collectionType: {
@@ -68,24 +73,47 @@
     },
     data(){
       return {
-        file: '',
+        file: null,
+        syskey_list: null,
         collection_id: null,
         comment: '',
         csrfToken: '',
+        manual_upload: false,
+        upload_toggle_label_file: "by file",
+        upload_toggle_label_manual: "manually by system keys",
       };
     },
     mounted() {
       this.setCSRF();
     },
+    computed: {
+      uploadComponent: function () {
+        if (this.manual_upload) {
+          return "CollectionUploadListInput";
+        } else {
+          return "CollectionUploadFileInput";
+        }
+      },
+      uploadToggleLabel: function() {
+        if (!this.manual_upload) {
+          return this.upload_toggle_label_manual;
+        } else {
+          return this.upload_toggle_label_file;
+        }
+      }
+    },
     methods: {
-      setCSRF(){
+      setCSRF() {
         this.csrfToken = $cookies.get("csrftoken");
       },
 
       handleUpload() {
-        this.file = this.$refs.file.files[0];
         let formData = new FormData();
-        formData.append('file', this.file);
+        if (this.file !== null){
+          formData.append('file', this.file);
+        } else  if (this.syskey_list !== null){
+          formData.append('syskey_list', this.syskey_list);
+        }
         formData.append('comment', this.comment);
         if (this.collectionType == "Cohort") {
           formData.append('cohort_id', this.collection_id);
@@ -106,9 +134,20 @@
           }
         ).then(response => {
           this.$emit('uploaded', response);
-        }).catch(function(){
+        }).catch(function () {
           this.uploadResponse = "THERE WAS AN ERROR";
         });
+      },
+
+      toggleUpload() {
+        this.manual_upload = !this.manual_upload;
+        return false;
+      },
+      selectedFile(file) {
+        this.file = file;
+      },
+      selectedList(list) {
+        this.syskey_list = list;
       }
     }
   };
