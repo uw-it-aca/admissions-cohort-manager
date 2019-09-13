@@ -21,7 +21,7 @@
           show-empty
           small
           id="assignment_history_table"
-          class="assignment-history-table"
+          class="aat-data-table"
           stacked="md"
           :items="activities" 
           :fields="activityFields"
@@ -165,7 +165,7 @@
           {
             key: 'Date',
             label: "Date/Time",
-            class: "aat-data-cell aat-date-cell",
+            class: "aat-data-cell aat-data-nowrap",
             sortable: true
           },
           {
@@ -234,24 +234,6 @@
 
   .aat-filter-select {
     background: none;
-  }
-
-  .assignment-history-table {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-    font-size: 0.85rem;
-    line-height: 1.3;
-  }
-
-  table .aat-data-cell {
-    padding: 1rem;
-
-    &.aat-date-cell:first-child {
-      white-space: nowrap;
-    }
-  }
-
-  .aat-data-split {
-    padding-bottom: 0.5rem;
   }
 
 </style>

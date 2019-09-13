@@ -1,7 +1,14 @@
 <template>
   <div>
     <div v-if="collectionType === 'Cohort'">
-      <b-table striped :items="cohorts" :fields="cohortFields">
+      <b-table 
+        striped 
+        show-empty
+        small
+        class="aat-data-table"
+        :items="cohorts" 
+        :fields="cohortFields"
+      >
         <template v-slot:cell(actions)="row">
           <a href="#" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
           <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
@@ -13,7 +20,14 @@
     </div>
 
     <div v-else-if="collectionType === 'Major'">
-      <b-table striped :items="majors" :fields="majorFields">
+      <b-table 
+        striped 
+        show-empty
+        small
+        class="aat-data-table"
+        :items="majors" 
+        :fields="majorFields"
+      >
         <template v-slot:cell(actions)="row">
           <a href="#" :title="'Assign applications to major ' + row.item.name">Assign</a>
           <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
@@ -83,30 +97,36 @@
           {
             key: 'name',
             label: "Cohort #",
+            class: "aat-data-cell aat-data-nowrap",
             sortable: true
           },
           {
             key: 'Description',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'Residency',
+            class: "aat-data-cell",
             sortable: true,
           },
           {
             key: 'protect',
             label: 'Protected',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'Admit_Status',
+            class: "aat-data-cell aat-data-nowrap",
             sortable: true
           },
           {
             key: 'Assigned',
+            class: "aat-data-cell",
             sortable: true,
           },
-          { key: 'actions', label: 'Actions' }
+          { key: 'actions', label: '', class: "aat-data-cell aat-data-nowrap", }
         ],
         cohorts: [
           { 'name': '1', Description: 'TEST: Residents, admit', Residency: 'WA-residents', protect: 'No', Admit_Status: 'Admit', Assigned: '120'  },
@@ -118,27 +138,33 @@
           {
             key: 'name',
             label: 'Major',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'Division',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'College',
+            class: "aat-data-cell",
             sortable: true,
           },
           {
             key: 'DTX',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'Assigned',
+            class: "aat-data-cell",
             sortable: true
           },
           {
             key: 'Actions',
             label: '',
+            class: "aat-data-cell aat-data-nowrap",
             sortable: false,
           }
         ],
