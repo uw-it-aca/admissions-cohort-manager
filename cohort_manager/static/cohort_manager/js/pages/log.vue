@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="aat-page-header">
-      Assignment History
+      Activity Log
     </h1>
     <activitylist />
   </div>

@@ -17,6 +17,19 @@ body {
   font-weight: bold;
 }
 
+//pagination
+.pagination {
+  .page-link {
+    border: 0;
+  }
+}
+
+.page-item.active .page-link {
+  background: none;
+  color: inherit;
+  font-weight: bold;
+}
+
 //forms
 
 
