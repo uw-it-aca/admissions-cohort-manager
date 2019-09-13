@@ -4,7 +4,6 @@ import VueRouter from 'vue-router';
 import VueAnalytics from "vue-analytics";
 
 import App from "./App.vue";
-import Landing from './pages/landing.vue';
 import Cohort from './pages/cohort.vue';
 import Major from './pages/major.vue';
 import CohortList from './pages/cohort_list.vue';
@@ -23,7 +22,7 @@ Vue.use(BootstrapVue);
 var router = new VueRouter({
   mode: "history",
   routes: [
-    { path: '/', component: Landing },
+    { path: '/', redirect: '/cohort_list/' },
     { path: '/cohort/', component: Cohort },
     { path: '/major/', component: Major },
     { path: '/cohort_list/', component: CohortList },
