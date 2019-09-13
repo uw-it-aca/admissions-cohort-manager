@@ -3,9 +3,8 @@
     <h1 class="aat-page-header">
       All Majors
     </h1>
-    <collectionlist collection-type="Major"/>
-    <div>
-    </div>
+    <collectionlist collection-type="Major" />
+    <div />
   </div>
 </template>
 

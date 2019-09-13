@@ -7,23 +7,25 @@
             Select {{ collectionType }}
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collection_options" class="aat-select-inline" />
+          <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
         </fieldset>
-        <collectiondetails />
+        <collectiondetails
+          :collection-id="collection_id"
+          :collection-type="collectionType"
+        />
       </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
         <input id="file" ref="file" type="file" class="aat-file-input"> <div>or <a id="manual_toggle" href="#">manually by system keys</a></div>
-        <div id="file_name" />
-        <p id="upload_app_count" class="aat-status-feedback">50 system keys found.</p>
         <div id="reassign_app_option">
-          <b-form-checkbox 
+          <b-form-checkbox
             id="app_reassign_checkbox"
             name="app_reassign_checkbox"
             value=""
-            class="aat-checkbox">
+            class="aat-checkbox"
+          >
             Reassign applications that already have a cohort.
           </b-form-checkbox>
           <b-form-text>
@@ -59,16 +61,15 @@
         type: String,
         default: ""
       },
+      collectionOptions: {
+        type: Array,
+        default: function () {return[];}
+      }
     },
     data(){
       return {
         file: '',
         collection_id: null,
-        collection_options: [
-          {value: '1', text: '1'},
-          {value: '2', text: '2'},
-          {value: '99', text: '99'},
-        ],
         comment: '',
         csrfToken: '',
       };
@@ -94,7 +95,6 @@
           this.uploadResponse = "THERE WAS AN ERROR";
           return;
         }
-
         axios.post(
           '/api/upload',
           formData,
@@ -106,7 +106,7 @@
           }
         ).then(response => {
           this.$emit('uploaded', response);
-        }). catch(function(){
+        }).catch(function(){
           this.uploadResponse = "THERE WAS AN ERROR";
         });
       }
