@@ -1,14 +1,11 @@
 from django.urls import path, re_path
 
-from cohort_manager.views.api import UploadView
-from cohort_manager.views.pages import LandingView, CohortView, LogView, \
-    ImportView
+from cohort_manager.views.api import UploadView, CollectionDetails
+from cohort_manager.views.pages import LandingView
 
 urlpatterns = [
-    path('', LandingView.as_view()),
-    path('log/', LogView.as_view()),
-    path('import/', ImportView.as_view()),
-    re_path(r'cohort/(?P<cohort_code>\d+)', CohortView.as_view()),
     path('api/upload', UploadView.as_view()),
-
+    re_path(r'^api/collection/(?P<collection_type>.*)/(?P<collection_id>.*)',
+            CollectionDetails.as_view()),
+    re_path(r'^.*$', LandingView.as_view()),
 ]

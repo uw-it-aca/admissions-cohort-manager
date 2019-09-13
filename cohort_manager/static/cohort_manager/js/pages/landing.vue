@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h1 class="aat-page-header">
+      Admissions Assignment Tool
+    </h1>
     <p>this is the landing page stub</p>
   </div>
 </template>
@@ -8,12 +11,11 @@
   export default {
     name: "Landing",
     components: {},
-    data() {
+    data(){
       return {};
     },
-    mounted() {
-
-    }
+    mounted() {},
+    beforeMount(){},
   };
 </script>
 

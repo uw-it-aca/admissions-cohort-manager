@@ -116,3 +116,10 @@ node_modules/
 # react + webpack
 bundles/
 webpack-stats.json
+
+
+bin/
+pyvenv.cfg
+manage.py
+project/
+include/

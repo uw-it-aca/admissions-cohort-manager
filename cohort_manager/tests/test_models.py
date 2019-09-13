@@ -57,8 +57,15 @@ class AssignmentImportTest(TestCase):
 
     def test_create_from_list(self):
         imp = AssignmentImport.objects.create_from_list(
-            sys_keys=[], created_by='javerage')
+            sys_keys=[1234567, 1234568], created_by='javerage')
         self.assertEqual(imp.is_file_upload, False)
+        self.assertEqual(imp.is_override, False)
+
+    def test_create_from_override(self):
+        imp = AssignmentImport.objects.create_from_override(
+            1234568, created_by='javerage')
+        self.assertEqual(imp.is_file_upload, False)
+        self.assertEqual(imp.is_override, True)
 
     def test_json_data(self):
         import1 = AssignmentImport(comment='comment', created_by='javerage')
@@ -67,6 +74,7 @@ class AssignmentImportTest(TestCase):
         data = import1.json_data()
         self.assertIsNotNone(data['id'])
         self.assertEqual(data['comment'], 'comment')
+        self.assertEqual(data['is_override'], False)
         self.assertEqual(data['is_file_upload'], True)
         self.assertIsNotNone(data['created_date'])
         self.assertEqual(data['created_by'], 'javerage')

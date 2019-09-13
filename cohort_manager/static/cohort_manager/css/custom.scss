@@ -1,0 +1,24 @@
+// Your variable overrides
+
+//color
+$blue: #0069d9;
+
+body {
+  background-color: $nav-bkgnd !important;
+}
+
+//typography
+
+//navigation
+.router-link-exact-active,
+.router-link-exact-active:hover {
+  color: #444;
+  cursor: default;
+  font-weight: bold;
+}
+
+//forms
+
+
+// Bootstrap and its default variables
+@import 'node_modules/bootstrap/scss/bootstrap';

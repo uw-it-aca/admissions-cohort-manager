@@ -13,11 +13,7 @@ module.exports = {
     context: __dirname,
 
     entry: {
-        base: './cohort_manager/static/cohort_manager/js/base.js',
-        landing: './cohort_manager/static/cohort_manager/js/pages/landing/index.js',
-        import: './cohort_manager/static/cohort_manager/js/pages/import/index.js',
-        cohort: './cohort_manager/static/cohort_manager/js/pages/cohort/index.js',
-        log: './cohort_manager/static/cohort_manager/js/pages/log/index.js'
+        main: './cohort_manager/static/cohort_manager/js/main.js',
 
     },
 
@@ -73,3 +69,6 @@ module.exports = {
     }
 
 }
+
+
+
