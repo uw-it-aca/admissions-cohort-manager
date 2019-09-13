@@ -9,7 +9,10 @@
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
           <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
         </fieldset>
-        <collectiondetails />
+        <collectiondetails
+          :collection-id="collection_id"
+          :collection-type="collectionType"
+        />
       </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -103,7 +106,7 @@
           }
         ).then(response => {
           this.$emit('uploaded', response);
-        }). catch(function(){
+        }).catch(function(){
           this.uploadResponse = "THERE WAS AN ERROR";
         });
       }
