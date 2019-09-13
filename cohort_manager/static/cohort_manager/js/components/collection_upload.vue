@@ -35,7 +35,7 @@
         <legend class="aat-sub-header">
           Add Comment
         </legend>
-        <label for="assginment_comment">Enter comment for this assignment</label>
+        <label for="assignment_comment">Enter comment for this assignment</label>
         <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
       </fieldset>
       <input type="submit" value="Upload">

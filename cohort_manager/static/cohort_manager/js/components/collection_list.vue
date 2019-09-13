@@ -4,7 +4,7 @@
         <b-table striped :items="cohorts" :fields="cohortFields">
             <template v-slot:cell(actions)="row">
                 <a href="#" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
-                <a href="#" :title="'Activity for cohort ' + row.item.name">Activity</a>
+                <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
                  <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to cohort ' + row.item.name">Reset</b-button>
             </template>
         </b-table>
@@ -14,7 +14,7 @@
         <b-table striped :items="majors" :fields="majorFields">
           <template v-slot:cell(actions)="row">
                 <a href="#" :title="'Assign applications to major ' + row.item.name">Assign</a>
-                <a href="#" :title="'Activity for major ' + row.item.name">Activity</a>
+                <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
                  <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to major' + row.item.name">Reset</b-button>
             </template>
         </b-table>
@@ -47,8 +47,8 @@
                 <legend class="aat-sub-header">
                   Add Comment
                 </legend>
-                <label for="assginment_comment">Enter comment for this assignment.</label>
-                <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
+                <label for="reassignment_comment">Enter comment for this assignment.</label>
+                <textarea id="reassignment_comment" v-model="comment" class="aat-comment-field" />
               </fieldset>
               <p v-if="resetModal.protect === 'Yes'"><b>Note:</b> This is a protected cohort.</p>
             </div>
@@ -144,7 +144,8 @@
         resetModal: {
           id: 'reset-modal',
           title: ''
-        }
+        },
+        comment: '',
       };
     },
     mounted() {
