@@ -1,30 +1,30 @@
 <template>
   <div>
     <div v-if="collectionType === 'Cohort'">
-        <b-table striped :items="cohorts" :fields="cohortFields">
-            <template v-slot:cell(actions)="row">
-                <a href="#" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
-                <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
-                 <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to cohort ' + row.item.name">Reset</b-button>
-            </template>
-        </b-table>
+      <b-table striped :items="cohorts" :fields="cohortFields">
+        <template v-slot:cell(actions)="row">
+          <a href="#" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
+          <a href="#" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
+          <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to cohort ' + row.item.name">Reset</b-button>
+        </template>
+      </b-table>
     </div>
 
     <div v-else-if="collectionType === 'Major'">
-        <b-table striped :items="majors" :fields="majorFields">
-          <template v-slot:cell(actions)="row">
-                <a href="#" :title="'Assign applications to major ' + row.item.name">Assign</a>
-                <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
-                 <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to major' + row.item.name">Reset</b-button>
-            </template>
-        </b-table>
-        </div>
+      <b-table striped :items="majors" :fields="majorFields">
+        <template v-slot:cell(actions)="row">
+          <a href="#" :title="'Assign applications to major ' + row.item.name">Assign</a>
+          <a href="#" :title="'Activity for major ' + row.item.name"><i class="far fa-clock"></i><span class="sr-only">Activity</span></a>
+          <b-button size="sm" @click="info(row.item, row.index, $event.target)" :title="'Remove all assignments to major' + row.item.name">Reset</b-button>
+        </template>
+      </b-table>
+    </div>
 
     <div v-else>
-        Error: There was an issue with your request. Please select a link from the left column to try again.
-        </div>
+      Error: There was an issue with your request. Please select a link from the left column to try again.
+    </div>
 
-  <!-- Reset Collection modal -->
+    <!-- Reset Collection modal -->
     <template>
       <div>
         <b-modal :id="resetModal.id" :title="resetModal.title" ok-only @hide="resetresetModal">
@@ -38,7 +38,8 @@
                   <b-form-checkbox 
                     id="col_reset_checkbox"
                     name="col_reset_checkbox"
-                    value="">
+                    value=""
+                  >
                     Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemName }}" to <em>unassigned</em>.
                   </b-form-checkbox>
                 </div>
@@ -50,7 +51,9 @@
                 <label for="reassignment_comment">Enter comment for this assignment.</label>
                 <textarea id="reassignment_comment" v-model="comment" class="aat-comment-field" />
               </fieldset>
-              <p v-if="resetModal.protect === 'Yes'"><b>Note:</b> This is a protected cohort.</p>
+              <p v-if="resetModal.protect === 'Yes'">
+                <b>Note:</b> This is a protected cohort.
+              </p>
             </div>
           </form>
         </b-modal>
@@ -151,15 +154,15 @@
     mounted() {
     },
     methods: {
-     info(item, index, button) {
-        this.resetModal.title = `Reset ${this.collectionType}`
-        this.resetModal.itemName = `${item.name}`
-        this.resetModal.protect = `${item.protect}`
-        this.$root.$emit('bv::show::modal', this.resetModal.id, button)
+      info(item, index, button) {
+        this.resetModal.title = `Reset ${this.collectionType}`;
+        this.resetModal.itemName = `${item.name}`;
+        this.resetModal.protect = `${item.protect}`;
+        this.$root.$emit('bv::show::modal', this.resetModal.id, button);
       },
       resetresetModal() {
-        this.resetModal.title = ''
-        this.resetModal.content = ''
+        this.resetModal.title = '';
+        this.resetModal.content = '';
       },
     }
   };
