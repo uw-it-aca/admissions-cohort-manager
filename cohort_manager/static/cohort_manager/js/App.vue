@@ -136,7 +136,7 @@
       border-style: none none solid;
       margin: -0.25rem 0.5rem 0;
       padding: 0;
-      width: fit-content;
+      width: max-content;
     }
     
   }
