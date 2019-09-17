@@ -76,3 +76,34 @@ def _get_major_by_id(major_id):
             "applications_assigned": 756
         }
     return response
+
+
+def get_activity_log(assignment_type=None,
+                     cohort_id=None,
+                     major_id=None,
+                     system_key=None):
+    # Assumes that ONLY one is not none
+    if assignment_type is not None:
+        return _get_activity_log_by_type(assignment_type)
+    if cohort_id is not None:
+        return _get_activity_log_by_cohort_id(cohort_id)
+    if major_id is not None:
+        return _get_major_by_id(major_id)
+    if system_key is not None:
+        return
+
+
+def _get_activity_log_by_type(assignment_type):
+    return []
+
+
+def _get_activity_log_by_major_id(major_id):
+    return []
+
+
+def _get_activity_log_by_cohort_id(cohort_id):
+    return []
+
+
+def _get_activity_log_by_system_key(system_key):
+    return []

@@ -153,3 +153,21 @@ class Assignment(models.Model):
             'cohort': self.cohort,
             'major': self.major,
         }
+
+
+class Activity(models.Model):
+    #TODO: this is just a swag at model until we have a full API spec
+    activity_date = models.DateTimeField(null=True)
+    user = models.CharField(max_length=30)
+    submitted_msg = models.TextField(null=True)
+    assigned_msg = models.TextField(null=True)
+    comment = models.TextField(null=True)
+
+    def json_data(self):
+        return {
+            'activity_date': self.activity_date,
+            'user': self.user,
+            'submitted_msg': self.submitted_msg,
+            'assigned_msg': self.assigned_msg,
+            'comment': self.comment,
+        }
