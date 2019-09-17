@@ -36,18 +36,26 @@
         </header>
       </b-col>
       <b-col cols="8" lg="10" class="aat-content-area">
-        <main>
-          <router-view />
-        </main>
+        <b-row>
+            <messagearea />
+        </b-row>
+        <b-row>
+          <main>
+            <router-view />
+          </main>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+  import MessageArea from "./components/message_area.vue";
   export default {
     name: "LandingPage",
-    components: {},
+    components: {
+      messagearea: MessageArea,
+    },
     data(){
       return {
         netid: '',
