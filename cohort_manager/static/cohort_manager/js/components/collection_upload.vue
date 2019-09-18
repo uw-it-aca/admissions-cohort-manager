@@ -14,15 +14,15 @@
           :collection-type="collectionType"
         />
       </div>
-      <div id="add_applications_widget">
         <fieldset class="aat-form-section">
           <legend class="aat-sub-header">
             Enter Applications
           </legend>
-          <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-          <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
+          <div id="add_applications_widget">
+            <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
+            <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
+          </div>
         </fieldset>
-      </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
           Add Comment
