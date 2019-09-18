@@ -1,4 +1,8 @@
 from cohort_manager.dao import InvalidCollectionException
+from cohort_manager.models import Activity
+from datetime import datetime
+
+
 MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
 
@@ -82,28 +86,154 @@ def get_activity_log(assignment_type=None,
                      cohort_id=None,
                      major_id=None,
                      system_key=None):
-    # Assumes that ONLY one is not none
+    # Assumes that ONLY one filter is set
     if assignment_type is not None:
         return _get_activity_log_by_type(assignment_type)
     if cohort_id is not None:
         return _get_activity_log_by_cohort_id(cohort_id)
     if major_id is not None:
-        return _get_major_by_id(major_id)
+        return _get_activity_log_by_major_id(major_id)
     if system_key is not None:
-        return
+        return _get_activity_log_by_system_key(system_key)
+    else:
+        return _get_activity_log_all()
 
 
 def _get_activity_log_by_type(assignment_type):
-    return []
+    # TODO: Implement real ADSEL API query
+    activity1 = Activity(activity_date=datetime(year=2019,
+                                                month=8,
+                                                day=14,
+                                                hour=6,
+                                                minute=4,
+                                                second=12,),
+                         user="javerage",
+                         submitted_msg="Submitted: Assign 3 (manual) to"
+                                       " Cohort 1",
+                         assigned_msg="Assigned: 3 applications to Cohort 1",
+                         comment="I'm adding 3 more applicants")
+    activity2 = Activity(activity_date=datetime(year=2019,
+                                                month=1,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="billsea",
+                         submitted_msg="Submitted: Assign 325 (file) to "
+                                       "Cohort 2",
+                         assigned_msg="Assigned: 325 applications to Cohort 1",
+                         comment="I'm adding 325 more applicants")
+    activity3 = Activity(activity_date=datetime(year=2019,
+                                                month=3,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="javerage",
+                         submitted_msg="Submitted: Assign 1 (file) to "
+                                       "Cohort 41",
+                         assigned_msg="Assigned: 1 applications to Cohort 41",
+                         comment="I'm adding 1 more applicants")
+    activity4 = Activity(activity_date=datetime(year=2019,
+                                                month=2,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="javerage",
+                         submitted_msg="Submitted: Assign 325 (file) to "
+                                       "Cohort 41",
+                         assigned_msg="Assigned: 325 applications to "
+                                      "Cohort 41",
+                         comment="I'm adding 325 more applicants")
+    return [activity1, activity2, activity3, activity4]
 
 
 def _get_activity_log_by_major_id(major_id):
-    return []
+    # TODO: Implement real ADSEL API query
+    activity1 = Activity(activity_date=datetime(year=2019,
+                                                month=3,
+                                                day=16,
+                                                hour=6,
+                                                minute=4,
+                                                second=12,),
+                         user="japplicant",
+                         submitted_msg="Submitted: Assign 12 (manual) to "
+                                       "Chemistry",
+                         assigned_msg="Assigned: 12 applications to Chemistry",
+                         comment="I'm adding 12 more applicants to chem")
+    activity2 = Activity(activity_date=datetime(year=2019,
+                                                month=11,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="jinter",
+                         submitted_msg="Submitted: Assign 325 (file) to "
+                                       "CSE",
+                         assigned_msg="Assigned: 325 applications to CSE",
+                         comment="I'm adding 325 more applicants to CSE")
+    return [activity1, activity2]
 
 
 def _get_activity_log_by_cohort_id(cohort_id):
-    return []
+    # TODO: Implement real ADSEL API query
+    activity1 = Activity(activity_date=datetime(year=2019,
+                                                month=8,
+                                                day=14,
+                                                hour=6,
+                                                minute=4,
+                                                second=12,),
+                         user="billseata",
+                         submitted_msg="Submitted: Assign 3 (manual) to "
+                                       "Cohort 1",
+                         assigned_msg="Assigned: 3 applications to Cohort 1",
+                         comment="I'm adding 3 more applicants")
+    activity2 = Activity(activity_date=datetime(year=2019,
+                                                month=1,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="billsea",
+                         submitted_msg="Submitted: Assign 11 (file) to "
+                                       "Cohort 1",
+                         assigned_msg="Assigned: 11 applications to Cohort 1",
+                         comment="I'm adding 11 more applicants")
+    return [activity1, activity2]
 
 
 def _get_activity_log_by_system_key(system_key):
-    return []
+    # TODO: Implement real ADSEL API query
+    activity1 = Activity(activity_date=datetime(year=2019,
+                                                month=8,
+                                                day=14,
+                                                hour=6,
+                                                minute=4,
+                                                second=12,),
+                         user="billbot",
+                         submitted_msg="Submitted: Assign 3 (manual) to"
+                                       " Cohort 1",
+                         assigned_msg="Assigned: 3 applications to Cohort 1",
+                         comment="I'm adding 3 more applicants, including "
+                                 "syskey 123")
+    activity2 = Activity(activity_date=datetime(year=2019,
+                                                month=1,
+                                                day=4,
+                                                hour=16,
+                                                minute=25,
+                                                second=9,),
+                         user="billsea",
+                         submitted_msg="Submitted: Assign 325 (file) to CSE",
+                         assigned_msg="Assigned: 3 applications to CSE",
+                         comment="I'm adding 3 more applicants including "
+                                 "syskey 123")
+    return [activity1, activity2]
+
+
+def _get_activity_log_all():
+    # TODO: Implement real ADSEL API query
+    return _get_activity_log_by_cohort_id('')\
+           + _get_activity_log_by_type('a')\
+           + _get_activity_log_by_major_id('')\
+           + _get_activity_log_by_system_key('')

@@ -81,7 +81,5 @@ class ActivityLog(RESTDispatch):
                                       system_key=system_key)
         activity_json = []
         for activity in activities:
-            activity_json.append(activity.json_data)
+            activity_json.append(activity.json_data())
         return self.json_response(content={"activities": activity_json})
-
-

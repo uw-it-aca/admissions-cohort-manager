@@ -165,7 +165,8 @@ class Activity(models.Model):
 
     def json_data(self):
         return {
-            'activity_date': self.activity_date,
+            'activity_date': self.activity_date.isoformat() if (
+                self.activity_date is not None) else None,
             'user': self.user,
             'submitted_msg': self.submitted_msg,
             'assigned_msg': self.assigned_msg,
