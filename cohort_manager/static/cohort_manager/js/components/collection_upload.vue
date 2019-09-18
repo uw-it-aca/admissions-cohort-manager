@@ -18,8 +18,8 @@
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
-        <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-        <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
+        <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList" />
+        <div>or <a id="manual_toggle" href="#" @click="toggleUpload">{{ uploadToggleLabel }}</a></div>
         <div id="reassign_app_option">
           <b-form-checkbox
             id="app_reassign_checkbox"
@@ -83,9 +83,6 @@
         upload_toggle_label_manual: "manually by system keys",
       };
     },
-    mounted() {
-      this.setCSRF();
-    },
     computed: {
       uploadComponent: function () {
         if (this.manual_upload) {
@@ -101,6 +98,9 @@
           return this.upload_toggle_label_file;
         }
       }
+    },
+    mounted() {
+      this.setCSRF();
     },
     methods: {
       setCSRF() {

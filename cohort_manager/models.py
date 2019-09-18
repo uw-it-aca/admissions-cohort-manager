@@ -168,7 +168,9 @@ class Activity(models.Model):
             'activity_date': self.activity_date.isoformat() if (
                 self.activity_date is not None) else None,
             'user': self.user,
-            'submitted_msg': self.submitted_msg,
-            'assigned_msg': self.assigned_msg,
+            "summary": {
+                'submitted_msg': self.submitted_msg,
+                'assigned_msg': self.assigned_msg,
+            },
             'comment': self.comment,
         }

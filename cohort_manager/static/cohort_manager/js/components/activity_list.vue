@@ -16,14 +16,14 @@
 
     <b-row>
       <b-col cols="9">
-        <b-table 
-          striped 
+        <b-table
+          id="assignment_history_table"
+          striped
           show-empty
           small
-          id="assignment_history_table"
           class="aat-data-table"
           stacked="md"
-          :items="activities" 
+          :items="activities"
           :fields="activityFields"
           :current-page="currentPage"
           :per-page="perPage"
@@ -32,14 +32,14 @@
           @filtered="onFiltered"
         >
           <template v-slot:cell(Date)="row">
-            <div>{{ row.value.day }}</div><div>{{ row.value.time }}</div>
+            <div>{{ row.value }}</div>
           </template>
           <template v-slot:cell(Summary)="row">
             <div class="aat-data-split">
-              {{ row.value.submitted }}
+              {{ row.value.submitted_msg }}
             </div>
             <div>
-              {{ row.value.assigned }}
+              {{ row.value.assigned_msg }}
             </div>
           </template>
         </b-table>
@@ -55,8 +55,8 @@
             <b-input-group size="sm">
               <b-form-select
                 id="as_type_filter"
-                class="aat-filter-select"
                 v-model="astypeFilter"
+                class="aat-filter-select"
                 :options="astypeOptions"
               >
                 <template v-slot:first>
@@ -81,8 +81,8 @@
             <b-input-group size="sm">
               <b-form-select
                 id="cohort_filter"
-                class="aat-filter-select"
                 v-model="cohortFilter"
+                class="aat-filter-select"
                 :options="cohortOptions"
               >
                 <template v-slot:first>
@@ -107,8 +107,8 @@
             <b-input-group size="sm">
               <b-form-select
                 id="major_filter"
-                class="aat-filter-select"
                 v-model="majorFilter"
+                class="aat-filter-select"
                 :options="majorOptions"
               >
                 <template v-slot:first>
@@ -124,7 +124,7 @@
               </b-input-group-append>
             </b-input-group>
           </b-form-group>
-          
+
           <b-form-group
             label="System Key"
             label-size="sm"
@@ -153,6 +153,7 @@
 
 
 <script>
+  const axios = require("axios");
   export default {
     name: "ActivityList",
     components: {
@@ -163,13 +164,13 @@
       return {
         activityFields: [
           {
-            key: 'Date',
+            key: 'activity_date',
             label: "Date/Time",
             class: "aat-data-cell aat-data-nowrap",
             sortable: true
           },
           {
-            key: 'Summary',
+            key: 'summary',
             class: "aat-data-cell",
             sortable: false
           },
@@ -179,7 +180,7 @@
             sortable: false,
           },
           {
-            key: 'User',
+            key: 'user',
             class: "aat-data-cell",
             sortable: false
           },
@@ -217,12 +218,23 @@
     mounted() {
       // Set the initial number of items
       this.totalRows = this.activities.length;
+      this.getAllActivities();
     },
     methods: {
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
+      },
+      getAllActivities() {
+        axios.get(
+          '/api/activity/',
+        ).then(response => {
+          if(response.status === 200){
+            this.activities = response.data.activities;
+          }
+        });
+
       }
     }
   };
