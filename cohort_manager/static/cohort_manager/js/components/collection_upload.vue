@@ -20,8 +20,11 @@
           </legend>
           <div id="add_applications_widget">
             <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-            <div>or <b-button variant="link" id="manual_toggle" :title="'Manually add syskeys'" @click="toggleUpload" >
+            <div>or <b-button variant="link" v-b-modal.add_list_modal id="manual_toggle" >
            {{ uploadToggleLabel }}</b-button>
+           <b-modal id="add_list_modal" title="Manually add syskeys">
+             <CollectionUploadListInput />
+           </b-modal>
             </div>
           </div>
         </fieldset>
