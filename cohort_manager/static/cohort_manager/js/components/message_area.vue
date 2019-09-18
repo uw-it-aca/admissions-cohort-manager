@@ -7,12 +7,6 @@
     name: "MessageArea",
     components: {
     },
-    data(){
-
-    },
-    mounted() {
-
-    },
     methods: {
     }
   };

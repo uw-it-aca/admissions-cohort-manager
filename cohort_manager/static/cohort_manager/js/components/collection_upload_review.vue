@@ -1,12 +1,75 @@
 <template>
-  <div>
+  <div v-if="collectionType === 'Cohort'">
     <div id="file_name">
-      {{ uploaded_filename }}
+      Imported file: {{ uploaded_filename }}
     </div>
     <p id="upload_app_count" class="aat-status-feedback">
-      {{ upload_count }} system keys found.
+      {{ upload_count }} system keys found. <a href="#">Reset</a>
     </p>
+
+    <div role="tablist" class="aat-accordian">
+      <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block href="#" v-b-toggle.accordion-assigned variant="info">Already assigned a cohort (#)</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-card-text>{{ text }}</b-card-text>
+          </b-card-body>
+        </b-collapse>
+      </b-card>
+
+      <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block href="#" v-b-toggle.accordion-protected variant="info">Already assigned a protected cohort (#)</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-card-text>{{ text }}</b-card-text>
+          </b-card-body>
+        </b-collapse>
+      </b-card>
+
+      <b-card no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block href="#" v-b-toggle.accordion-duplicates variant="info">Duplicate SysKeys (#)</b-button>
+        </b-card-header>
+        <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <b-card-text>Select applications to assign:</b-card-text>
+          </b-card-body>
+        </b-collapse>
+      </b-card>
+    </div>
+
+    <div id="reassign_app_option">
+      <b-form-checkbox
+        id="app_reassign_checkbox"
+        name="app_reassign_checkbox"
+        value=""
+        class="aat-checkbox"
+      >
+        Reassign applications that already have a cohort.
+      </b-form-checkbox>
+      <b-form-text>
+        Note: Applications with a protected cohort will not be reassigned.
+      </b-form-text>
+    </div>
+
+
   </div>
+
+  <div v-else-if="collectionType === 'Major'">
+    This is stubbed out for Major upload response.
+  </div>
+
+  <div v-else>
+      Error: There was an issue with your request. Please select a link from the left column to try again.
+    </div>
+
+    
+
+
 </template>
 
 <script>
@@ -30,7 +93,8 @@
       return {
         upload_count: 0,
         collection_id: '',
-        uploaded_filename: ''
+        uploaded_filename: '',
+        text: "This is some text."
       };
     },
     mounted() {
@@ -49,4 +113,14 @@
 </script>
 
 <style lang="scss">
+.aat-accordian {
+  .btn-block {
+    text-align:left;
+  }
+  .btn-info {
+    color: inherit;
+    border: none;
+    background-color: #bdbdbd;
+  }
+}
 </style>

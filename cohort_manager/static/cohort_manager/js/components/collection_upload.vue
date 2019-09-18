@@ -14,26 +14,15 @@
           :collection-type="collectionType"
         />
       </div>
-      <fieldset class="aat-form-section">
-        <legend class="aat-sub-header">
-          Enter Applications
-        </legend>
-        <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-        <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
-        <div id="reassign_app_option">
-          <b-form-checkbox
-            id="app_reassign_checkbox"
-            name="app_reassign_checkbox"
-            value=""
-            class="aat-checkbox"
-          >
-            Reassign applications that already have a cohort.
-          </b-form-checkbox>
-          <b-form-text>
-            Note: Applications with a protected cohort will not be reassigned.
-          </b-form-text>
-        </div>
-      </fieldset>
+      <div id="add_applications_widget">
+        <fieldset class="aat-form-section">
+          <legend class="aat-sub-header">
+            Enter Applications
+          </legend>
+          <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
+          <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
+        </fieldset>
+      </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
           Add Comment
