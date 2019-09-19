@@ -2,7 +2,8 @@ import json
 from django.http import HttpResponse
 from django.views import View
 from cohort_manager.models import AssignmentImport
-from cohort_manager.dao.adsel import get_collection_by_id_type
+from cohort_manager.dao.adsel import get_collection_by_id_type, \
+    get_activity_log
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -65,3 +66,20 @@ class CollectionDetails(RESTDispatch):
                                            message="Collection Not Found")
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
+
+
+class ActivityLog(RESTDispatch):
+    def get(self, request, *args, **kwargs):
+        assignment_type = request.GET.get('assignment_type')
+        cohort_id = request.GET.get('cohort_id')
+        major_id = request.GET.get('major_id')
+        system_key = request.GET.get('system_key')
+
+        activities = get_activity_log(assignment_type=assignment_type,
+                                      cohort_id=cohort_id,
+                                      major_id=major_id,
+                                      system_key=system_key)
+        activity_json = []
+        for activity in activities:
+            activity_json.append(activity.json_data())
+        return self.json_response(content={"activities": activity_json})
