@@ -1,5 +1,5 @@
 <template>
-  <div v-if="collectionType === 'Cohort'">
+  <div class="aat-app-add-review">
     <div id="file_name">
       Imported file: {{ uploaded_filename }}
     </div>
@@ -20,8 +20,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-
-      <b-card no-body class="mb-1">
+      <b-card v-if="collectionType === 'Cohort'" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned to a protected Cohort (#)
@@ -33,7 +32,6 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-duplicates block variant="info" href="#">
@@ -57,16 +55,18 @@
       >
         Reassign applications that already have a cohort.
       </b-form-checkbox>
+      <b-form-checkbox
+        id="app_unprotect_checkbox"
+        name="app_unprotect_checkbox"
+        value=""
+        class="aat-checkbox aat-secondary-checkbox"
+      >
+        Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
+      </b-form-checkbox>
       <b-form-text>
         Note: Applications with a protected cohort will not be reassigned.
       </b-form-text>
     </div>
-  </div>
-  <div v-else-if="collectionType === 'Major'">
-    This is stubbed out for Major upload response.
-  </div>
-  <div v-else>
-    Error: There was an issue with your request. Please select a link from the left column to try again.
   </div>
 </template>
 
@@ -124,5 +124,14 @@
       border-style: none;
       color: inherit;
     }
+  }
+
+  .aat-checkbox {
+    margin: 2rem 0 0;
+
+    &.aat-secondary-checkbox {
+      margin: 1rem 1.5rem 0;
+    }
+
   }
 </style>
