@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Enter System Keys, one per line or separated by commas.</p>
-    <textarea class="syskey-input" v-model="syskey_input"></textarea>
+    <textarea v-model="syskey_input" class="syskey-input" />
   </div>
 </template>
 

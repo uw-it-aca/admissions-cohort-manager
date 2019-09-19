@@ -14,20 +14,27 @@
           :collection-type="collectionType"
         />
       </div>
-        <fieldset class="aat-form-section">
-          <legend class="aat-sub-header">
-            Enter Applications
-          </legend>
-          <div id="add_applications_widget">
-            <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-            <div>or <b-button variant="link" v-b-modal.add_list_modal id="manual_toggle" >
-           {{ uploadToggleLabel }}</b-button>
-           <b-modal id="add_list_modal" title="Add Applicantions" ok-title='Done'>
-             <CollectionUploadListInput />
-           </b-modal>
-            </div>
+      <fieldset class="aat-form-section">
+        <legend class="aat-sub-header">
+          Enter Applications
+        </legend>
+        <div id="add_applications_widget">
+          <component 
+            :is="uploadComponent" 
+            @fileselected="selectedFile" 
+            @listupdated="selectedList"
+          />
+          <div>
+            or 
+            <b-button v-b-modal.add_list_modal id="manual_toggle" variant="link">
+              {{ uploadToggleLabel }}
+            </b-button>
+            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
+              <CollectionUploadListInput />
+            </b-modal>
           </div>
-        </fieldset>
+        </div>
+      </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
           Add Comment

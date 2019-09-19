@@ -10,7 +10,9 @@
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block href="#" v-b-toggle.accordion-assigned variant="info">Already assigned a cohort (#)</b-button>
+          <b-button block v-b-toggle.accordion-assigned variant="info" href="#">
+            Already assigned a cohort (#)
+          </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
           <b-card-body>
@@ -21,7 +23,9 @@
 
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block href="#" v-b-toggle.accordion-protected variant="info">Already assigned a protected cohort (#)</b-button>
+          <b-button block v-b-toggle.accordion-protected variant="info" href="#">
+            Already assigned a protected cohort (#)
+          </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
           <b-card-body>
@@ -32,7 +36,9 @@
 
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block href="#" v-b-toggle.accordion-duplicates variant="info">Duplicate SysKeys (#)</b-button>
+          <b-button block v-b-toggle.accordion-duplicates variant="info" href="#">
+            Duplicate SysKeys (#)
+          </b-button>
         </b-card-header>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
@@ -55,21 +61,13 @@
         Note: Applications with a protected cohort will not be reassigned.
       </b-form-text>
     </div>
-
-
   </div>
-
   <div v-else-if="collectionType === 'Major'">
     This is stubbed out for Major upload response.
   </div>
-
   <div v-else>
-      Error: There was an issue with your request. Please select a link from the left column to try again.
-    </div>
-
-    
-
-
+    Error: There was an issue with your request. Please select a link from the left column to try again.
+  </div>
 </template>
 
 <script>
@@ -116,14 +114,14 @@
 </script>
 
 <style lang="scss">
-.aat-accordian {
-  .btn-block {
-    text-align:left;
+  .aat-accordian {
+    .btn-block {
+      text-align:left;
+    }
+    .btn-info {
+      color: inherit;
+      border: none;
+      background-color: #bdbdbd;
+    }
   }
-  .btn-info {
-    color: inherit;
-    border: none;
-    background-color: #bdbdbd;
-  }
-}
 </style>

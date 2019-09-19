@@ -9,9 +9,9 @@
         :items="applications" 
         :fields="applicationFields"
       >
-         <template v-slot:cell(Class)="row">
-            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
-          </template>
+        <template v-slot:cell(Class)="row">
+          <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+        </template>
       </b-table>
     </div>
 
@@ -31,13 +31,13 @@
             :name="'app_select_' + row.item.Key + '_' + row.item.Number"
             value="selected"
             unchecked-value="not_selected"
-            >
+          >
             <span class="sr-only">Select application {{ row.item.Key }}</span>
           </b-form-checkbox>
         </template>
-         <template v-slot:cell(Class)="row">
-            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
-          </template>
+        <template v-slot:cell(Class)="row">
+          <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+        </template>
       </b-table>
     </div>
 
@@ -58,23 +58,18 @@
             :name="'app_select_' + row.item.Key + '_' + row.item.Number"
             value="selected"
             unchecked-value="not_selected"
-            >
+          >
             <span class="sr-only">Select application {{ row.item.Key }}</span>
           </b-form-checkbox>
         </template>
-         <template v-slot:cell(Class)="row">
-            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
-          </template>
+        <template v-slot:cell(Class)="row">
+          <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+        </template>
       </b-table>
     </div>
-
-
-    <div v-else >
+    <div v-else>
       <p>Error: We are missing something!</p>
     </div>
-
-
-
   </div>
 </template>
 
@@ -139,9 +134,9 @@
 
         appDupeFields: [
           { 
-              key: 'Actions', 
-              label: '', 
-              class: "aat-data-cell aat-app-select", },
+            key: 'Actions', 
+            label: '', 
+            class: "aat-data-cell aat-app-select", },
           {
             key: 'Key',
             label: "System Key",
@@ -201,9 +196,9 @@
 </script>
 
 <style lang="scss">
-    .aat-data-cell {
-        &.aat-app-select {
-            padding: 0.75rem;
-        }
-    }
+  .aat-data-cell {
+      &.aat-app-select {
+          padding: 0.75rem;
+      }
+  }
 </style>
