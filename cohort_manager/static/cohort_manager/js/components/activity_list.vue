@@ -28,10 +28,7 @@
           :current-page="currentPage"
           :per-page="perPage"
           :filter="filter"
-          :filter-included-fields="filterOn"
-          @filtered="onFiltered"
-        >
-        </b-table>
+        />
       </b-col>
 
       <b-col>
@@ -47,6 +44,7 @@
                 v-model="astypeFilter"
                 class="aat-filter-select"
                 :options="astypeOptions"
+                @change="getAssignmentActivities"
               >
                 <template v-slot:first>
                   <option :value="null" disabled>
@@ -55,7 +53,7 @@
                 </template>
               </b-form-select>
               <b-input-group-append>
-                <b-button :disabled="!astypeFilter" @click="astypeFilter = ''">
+                <b-button :disabled="!astypeFilter" @click="getAllActivities">
                   Clear
                 </b-button>
               </b-input-group-append>
@@ -73,6 +71,7 @@
                 v-model="cohortFilter"
                 class="aat-filter-select"
                 :options="cohortOptions"
+                @change="getCohortActivities"
               >
                 <template v-slot:first>
                   <option :value="null" disabled>
@@ -81,7 +80,7 @@
                 </template>
               </b-form-select>
               <b-input-group-append>
-                <b-button :disabled="!cohortFilter" @click="cohortFilter = ''">
+                <b-button :disabled="!cohortFilter" @click="getAllActivities">
                   Clear
                 </b-button>
               </b-input-group-append>
@@ -99,6 +98,7 @@
                 v-model="majorFilter"
                 class="aat-filter-select"
                 :options="majorOptions"
+                @change="getMajorActivities"
               >
                 <template v-slot:first>
                   <option :value="null" disabled>
@@ -107,7 +107,7 @@
                 </template>
               </b-form-select>
               <b-input-group-append>
-                <b-button :disabled="!majorFilter" @click="majorFilter = ''">
+                <b-button :disabled="!majorFilter" @click="getAllActivities">
                   Clear
                 </b-button>
               </b-input-group-append>
@@ -122,12 +122,12 @@
             <b-input-group size="sm">
               <b-form-input
                 id="SysKeyInput"
-                v-model="filter"
-                type="search"
+                v-model="syskeyFilter"
                 placeholder="Type to Search"
+                @change="getSyskeyActivities"
               />
               <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">
+                <b-button :disabled="!syskeyFilter" @click="getAllActivities">
                   Clear
                 </b-button>
               </b-input-group-append>
@@ -217,15 +217,29 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
+      getMajorActivities(major_id){
+        this.getActivities("?major_id=" + major_id);
+      },
+      getCohortActivities(cohort_id){
+        this.getActivities("?cohort_id=" + cohort_id);
+      },
+      getAssignmentActivities(assignment_type){
+        this.getActivities("?assignment_type=" + assignment_type);
+      },
+      getSyskeyActivities(syskey){
+        this.getActivities("?system_key=" + syskey);
+      },
       getAllActivities() {
+        this.getActivities("");
+      },
+      getActivities(filter_string){
         axios.get(
-          '/api/activity/',
+          '/api/activity/' + filter_string,
         ).then(response => {
           if(response.status === 200){
             this.activities = response.data.activities;
           }
         });
-
       }
     }
   };
