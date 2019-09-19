@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Enter by syskey</p>
-    <textarea v-model="syskey_input"></textarea>
+    <textarea v-model="syskey_input" />
   </div>
 </template>
 
