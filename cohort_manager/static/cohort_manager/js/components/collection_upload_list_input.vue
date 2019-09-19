@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>Enter by syskey</p>
-    <textarea v-model="syskey_input"></textarea>
+    <p>Enter System Keys, one per line or separated by commas.</p>
+    <textarea class="syskey-input" v-model="syskey_input"></textarea>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
     data(){
       return {
         syskey_input: '',
-        syskey_list: []
+        syskey_list: [],
       };
     },
     watch: {
@@ -34,4 +34,7 @@
 </script>
 
 <style lang="scss">
+  .syskey-input {
+    width: 100%;
+  }   
 </style>
