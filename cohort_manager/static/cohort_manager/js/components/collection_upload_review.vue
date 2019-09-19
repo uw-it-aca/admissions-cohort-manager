@@ -11,12 +11,12 @@
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block v-b-toggle.accordion-assigned variant="info" href="#">
-            Already assigned a cohort (#)
+            Already assigned to a {{ collectionType }} (#)
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Assigned" /></b-card-text>
+            <b-card-text><applicationlist application-return="Assigned" :collection-type="collectionType" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -24,12 +24,12 @@
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block v-b-toggle.accordion-protected variant="info" href="#">
-            Already assigned a protected cohort (#)
+            Already assigned to a protected Cohort (#)
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Protected" /></b-card-text>
+            <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -37,12 +37,12 @@
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button block v-b-toggle.accordion-duplicates variant="info" href="#">
-            Duplicate SysKeys (#)
+            System Key has duplicate applications assigned (#)
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Duplicate" /></b-card-text>
+            <b-card-text><applicationlist application-return="Duplicate" :collection-type="collectionType" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
