@@ -26,7 +26,7 @@
           />
           <div>
             or 
-            <b-button v-b-modal.add_list_modal id="manual_toggle" variant="link">
+            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
               {{ uploadToggleLabel }}
             </b-button>
             <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">

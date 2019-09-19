@@ -10,7 +10,7 @@
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-assigned variant="info" href="#">
+          <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
             Already assigned to a {{ collectionType }} (#)
           </b-button>
         </b-card-header>
@@ -23,7 +23,7 @@
 
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-protected variant="info" href="#">
+          <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned to a protected Cohort (#)
           </b-button>
         </b-card-header>
@@ -36,7 +36,7 @@
 
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block v-b-toggle.accordion-duplicates variant="info" href="#">
+          <b-button v-b-toggle.accordion-duplicates block variant="info" href="#">
             System Key has duplicate applications assigned (#)
           </b-button>
         </b-card-header>
@@ -116,12 +116,13 @@
 <style lang="scss">
   .aat-accordian {
     .btn-block {
-      text-align:left;
+      text-align: left;
     }
+
     .btn-info {
-      color: inherit;
-      border: none;
       background-color: #bdbdbd;
+      border-style: none;
+      color: inherit;
     }
   }
 </style>

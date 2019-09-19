@@ -197,8 +197,8 @@
 
 <style lang="scss">
   .aat-data-cell {
-      &.aat-app-select {
-          padding: 0.75rem;
-      }
+    &.aat-app-select {
+        padding: 0.75rem;
+    }
   }
 </style>
