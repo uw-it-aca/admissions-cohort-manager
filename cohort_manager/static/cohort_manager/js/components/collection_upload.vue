@@ -77,9 +77,6 @@
         upload_toggle_label_manual: "manually by system keys",
       };
     },
-    mounted() {
-      this.setCSRF();
-    },
     computed: {
       uploadComponent: function () {
         if (this.manual_upload) {
@@ -95,6 +92,9 @@
           return this.upload_toggle_label_file;
         }
       }
+    },
+    mounted() {
+      this.setCSRF();
     },
     methods: {
       setCSRF() {
