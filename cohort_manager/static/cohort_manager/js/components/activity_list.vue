@@ -31,17 +31,6 @@
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
         >
-          <template v-slot:cell(Date)="row">
-            <div>{{ row.value }}</div>
-          </template>
-          <template v-slot:cell(Summary)="row">
-            <div class="aat-data-split">
-              {{ row.value.submitted_msg }}
-            </div>
-            <div>
-              {{ row.value.assigned_msg }}
-            </div>
-          </template>
         </b-table>
       </b-col>
 
@@ -170,7 +159,12 @@
             sortable: true
           },
           {
-            key: 'summary',
+            key: 'assigned_msg',
+            class: "aat-data-cell",
+            sortable: false
+          },
+          {
+            key: 'submitted_msg',
             class: "aat-data-cell",
             sortable: false
           },
@@ -185,10 +179,7 @@
             sortable: false
           },
         ],
-        activities: [
-          { Date: { day: 'Jan. 20, 2019', time: '3:30 PM' }, Summary: { submitted: 'Submitted: Assign 3 (manual) to Cohort 41.', assigned: 'Assigned: 3 applications to Cohort 41.' }, Comment: '“Add 3 new applications”', User: 'netid' },
-          { Date: { day: 'Jan. 20, 2019', time: '12:22 PM' }, Summary: { submitted: 'Submitted: Assign 32 (manual) to Cohort 41.', assigned: 'Assigned: 1 assigned to Cohort 2, 1 not assigned.' }, Comment: '“All res w/ overall scores of 15s added”', User: 'netid' },
-        ],
+        activities: [],
         astypeFilter: null,
         astypeOptions: [
           { value: 'cohort', text: 'Cohort' },
