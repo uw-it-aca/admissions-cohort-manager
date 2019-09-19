@@ -1,11 +1,16 @@
 import json
+from django.conf import settings
 from django.http import HttpResponse
 from django.views import View
+from django.utils.decorators import method_decorator
+from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type
 from cohort_manager.dao import InvalidCollectionException
 
 
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class RESTDispatch(View):
     @staticmethod
     def json_response(content='', status=200):

@@ -4,6 +4,7 @@ services:
   app:
     environment:
       - GOOGLE_ANALYTICS_KEY=${GOOGLE_ANALYTICS_KEY}
+      - AUTH=SAML_MOCK
     restart: always
     container_name: app
     build:
