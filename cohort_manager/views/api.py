@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
-    get_activity_log
+    get_activity_log, get_collection_list_by_type
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -83,3 +83,12 @@ class ActivityLog(RESTDispatch):
         for activity in activities:
             activity_json.append(activity.json_data())
         return self.json_response(content={"activities": activity_json})
+
+
+class CollectionList(RESTDispatch):
+    def get(self, request, collection_type):
+        try:
+            list = get_collection_list_by_type(collection_type)
+            return self.json_response(list)
+        except InvalidCollectionException as ex:
+            return self.error_response(status=400, message=ex)
