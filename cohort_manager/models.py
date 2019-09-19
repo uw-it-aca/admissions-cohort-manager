@@ -156,7 +156,7 @@ class Assignment(models.Model):
 
 
 class Activity(models.Model):
-    #TODO: this is just a swag at model until we have a full API spec
+    # TODO: this is just a swag at model until we have a full API spec
     activity_date = models.DateTimeField(null=True)
     user = models.CharField(max_length=30)
     submitted_msg = models.TextField(null=True)
