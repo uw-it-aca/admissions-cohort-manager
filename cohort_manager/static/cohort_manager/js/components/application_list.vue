@@ -1,0 +1,209 @@
+<template>
+  <div>
+    <div v-if="applicationReturn === 'Assigned'">
+      <b-table 
+        striped 
+        show-empty
+        small
+        class="aat-data-table"
+        :items="applications" 
+        :fields="applicationFields"
+      >
+         <template v-slot:cell(Class)="row">
+            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+          </template>
+      </b-table>
+    </div>
+
+    <div v-else-if="applicationReturn === 'Protected'">
+      <b-table 
+        striped 
+        show-empty
+        small
+        class="aat-data-table"
+        :items="applications" 
+        :fields="applicationFields"
+      >
+        <template v-slot:cell(actions)="row">
+          <b-form-checkbox
+            :id="'app_select_' + row.item.Key + '_' + row.item.Number"
+            v-model="selected"
+            :name="'app_select_' + row.item.Key + '_' + row.item.Number"
+            value="selected"
+            unchecked-value="not_selected"
+            >
+            <span class="sr-only">Select application {{ row.item.Key }}</span>
+          </b-form-checkbox>
+        </template>
+         <template v-slot:cell(Class)="row">
+            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+          </template>
+      </b-table>
+    </div>
+
+
+    <div v-else-if="applicationReturn === 'Duplicate'">
+      <b-table 
+        striped 
+        show-empty
+        small
+        class="aat-data-table"
+        :items="applications" 
+        :fields="appDupeFields"
+      >
+        <template v-slot:cell(actions)="row">
+          <b-form-checkbox
+            :id="'app_select_' + row.item.Key + '_' + row.item.Number"
+            v-model="selected"
+            :name="'app_select_' + row.item.Key + '_' + row.item.Number"
+            value="selected"
+            unchecked-value="not_selected"
+            >
+            <span class="sr-only">Select application {{ row.item.Key }}</span>
+          </b-form-checkbox>
+        </template>
+         <template v-slot:cell(Class)="row">
+            <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+          </template>
+      </b-table>
+    </div>
+
+
+    <div v-else >
+      <p>Error: We are missing something!</p>
+    </div>
+
+
+
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "ApplicationList",
+    components: {
+    },
+    props: {
+      collectionType: {
+        type: String,
+        default: ""
+      },
+      applicationReturn: {
+        type: String,
+        default: ""
+      },
+    },
+    data(){
+      return {
+        selected: 'not_selected',
+
+        applicationFields: [
+          {
+            key: 'Key',
+            label: "System Key",
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Type',
+            label: "Application Type",
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Status',
+            class: "aat-data-cell aat-data-nowrap",
+            sortable: true
+          },
+          {
+            key: 'Class',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Campus',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Cohort',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Major',
+            class: "aat-data-cell aat-data-nowrap",
+            sortable: true
+          },
+        ],
+
+        appDupeFields: [
+          { 
+              key: 'Actions', 
+              label: '', 
+              class: "aat-data-cell aat-app-select", },
+          {
+            key: 'Key',
+            label: "System Key",
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Number',
+            label: "Application #",
+            class: "aat-data-cell",
+            sortable: false,
+          },
+          {
+            key: 'Type',
+            label: "Application Type",
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Status',
+            class: "aat-data-cell aat-data-nowrap",
+            sortable: true
+          },
+          {
+            key: 'Class',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Campus',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Cohort',
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'Major',
+            class: "aat-data-cell aat-data-nowrap",
+            sortable: true
+          },
+        ],
+
+
+        applications: [
+          { Key: '302032914', Number: '1', Type: 'Freshman', Status: 'Active', Class: { quarter: 'Fall', year: '2020' }, Campus: 'Seattle', Cohort: '34', Major: 'CSE'  },
+        ],
+      };
+    },
+    mounted() {
+    },
+    methods: {
+    }
+  };
+</script>
+
+<style lang="scss">
+    .aat-data-cell {
+        &.aat-app-select {
+            padding: 0.75rem;
+        }
+    }
+</style>

@@ -14,7 +14,7 @@
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>{{ text }}</b-card-text>
+            <b-card-text><applicationlist application-return="Assigned" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -25,7 +25,7 @@
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>{{ text }}</b-card-text>
+            <b-card-text><applicationlist application-return="Protected" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -36,7 +36,7 @@
         </b-card-header>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>Select applications to assign:</b-card-text>
+            <b-card-text><applicationlist application-return="Duplicate" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -73,12 +73,15 @@
 </template>
 
 <script>
+  import ApplicationList from "../components/application_list.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
   export default {
     name: "UploadReview",
-    components: {},
+    components: {
+      applicationlist : ApplicationList
+    },
     props: {
       uploadResponse: {
         type: Object,
@@ -87,7 +90,7 @@
       collectionType: {
         type: String,
         default: ""
-      }
+      },
     },
     data(){
       return {

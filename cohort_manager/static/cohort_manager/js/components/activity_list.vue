@@ -158,6 +158,10 @@
     components: {
     },
     props: {
+      collectionType: {
+        type: String,
+        default: ""
+      },
     },
     data(){
       return {
