@@ -10,6 +10,7 @@
           <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
         </fieldset>
         <collectionDetails
+          v-if="collectionType === 'Cohort'"
           :collection-id="collection_id"
           :collection-type="collectionType"
         />
