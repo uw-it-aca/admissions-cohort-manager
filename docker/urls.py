@@ -1,5 +1,7 @@
-from django.urls import path, include
+from .base_urls import *
+from django.urls import re_path, include
 
-urlpatterns = [
-    path('', include('cohort_manager.urls'))
+
+urlpatterns += [
+    re_path('^', include('cohort_manager.urls'))
 ]
