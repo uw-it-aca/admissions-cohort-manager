@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-if="collectionType === 'Cohort'">
-      <b-table 
-        striped 
+      <b-table
+        striped
         show-empty
         small
         class="aat-data-table"
-        :items="cohorts" 
+        :items="cohorts"
         :fields="cohortFields"
       >
         <template v-slot:cell(actions)="row">
@@ -20,12 +20,12 @@
     </div>
 
     <div v-else-if="collectionType === 'Major'">
-      <b-table 
-        striped 
+      <b-table
+        striped
         show-empty
         small
         class="aat-data-table"
-        :items="majors" 
+        :items="majors"
         :fields="majorFields"
       >
         <template v-slot:cell(actions)="row">
@@ -53,7 +53,7 @@
                   Confirm Reset
                 </legend>
                 <div id="reset_col_option">
-                  <b-form-checkbox 
+                  <b-form-checkbox
                     id="col_reset_checkbox"
                     name="col_reset_checkbox"
                     value=""
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+  const axios = require("axios");
   export default {
     name: "CollectionList",
     components: {
@@ -128,12 +129,7 @@
           },
           { key: 'actions', label: '', class: "aat-data-cell aat-data-nowrap", }
         ],
-        cohorts: [
-          { 'name': '1', Description: 'TEST: Residents, admit', Residency: 'WA-residents', protect: 'No', Admit_Status: 'Admit', Assigned: '120'  },
-          { 'name': '2', Description: 'TEST: Non-Residents, admit', Residency: 'WA-residents', protect: 'No', Admit_Status: 'Admit', Assigned: '32'  },
-          { 'name': '3', Description: 'TEST: Protected, Soccer', Residency: 'WA-residents', protect: 'Yes', Admit_Status: 'Admit', Assigned: '0'  },
-          { 'name': '99', Description: 'TEST: Lost Souls, deny', Residency: 'WA-residents', protect: 'No', Admit_Status: 'Deny', Assigned: '1'  }
-        ],
+        cohorts: [],
         majorFields: [
           {
             key: 'name',
@@ -168,12 +164,7 @@
             sortable: false,
           }
         ],
-        majors: [
-          { name: 'TEST: American ethnic studies', Division: 'Humanities', College: 'Arts and Sciences', DTX: 'No', Assigned: '0' },
-          { name: 'Anthropology', Division: 'Humanities', College: 'Arts and Sciences', DTX: 'No', Assigned: '134' },
-          { name: 'Aquatic & fishery sciences', Division: 'Natural Sciences', College: 'Arts and Sciences', DTX: 'No', Assigned: '12' },
-          { name: 'Engineering undeclared', Division: 'Humanities', College: 'College of Engineering', DTX: 'Yes', Assigned: '322' }
-        ],
+        majors: [],
         resetModal: {
           id: 'reset-modal',
           title: ''
