@@ -8,9 +8,11 @@ addons:
     packages:
       - gcc-4.8
       - unixodbc-dev
-install:
-  - pip install pycodestyle
+      - python-dev
+      - libxml2-dev
+      - libxmlsec1-dev
 before_script:
+  - pip install pycodestyle
   - pip install coveralls
   - npm install
   - pip install .
