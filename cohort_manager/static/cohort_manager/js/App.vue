@@ -36,18 +36,26 @@
         </header>
       </b-col>
       <b-col cols="8" lg="10" class="aat-content-area">
-        <main>
-          <router-view />
-        </main>
+        <b-row>
+            <messagearea />
+        </b-row>
+        <b-row>
+          <main>
+            <router-view />
+          </main>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+  import MessageArea from "./components/message_area.vue";
   export default {
     name: "LandingPage",
-    components: {},
+    components: {
+      messagearea: MessageArea,
+    },
     data(){
       return {
         netid: '',
@@ -124,9 +132,43 @@
 
   }
 
+  // Forms
+
   .aat-form-section {
     margin: 0 0 3rem;
+
+    .aat-select-inline {
+      background: none;
+      border-color: $text-color;
+      border-radius: 0;
+      border-style: none none solid;
+      margin: -0.25rem 0.5rem 0;
+      padding: 0;
+      width: max-content;
+    }
+    
   }
+
+  //Tables
+  .aat-data-table {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .aat-data-table .aat-data-cell {
+    padding: 1rem;
+
+    &.aat-data-nowrap {
+      white-space: nowrap;
+    }
+  }
+
+  .aat-data-split {
+    padding-bottom: 0.5rem;
+  }
+
+  // Modals
 
   .aat-modal-container {
     margin: 2rem 1rem 0;

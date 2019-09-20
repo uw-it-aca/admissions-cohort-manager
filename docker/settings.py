@@ -38,5 +38,7 @@ TEMPLATES = [
     }
 ]
 
+ALLOWED_USERS_GROUP = 'u_test_group'
+
 if os.getenv("ENV") == "localdev":
     DEBUG = True

@@ -24,6 +24,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'django>=2.2,<2.3',
+        'UW-Django-SAML2>=1.4,<2.0',
         'django-webpack-loader'
     ],
     license='Apache License, Version 2.0',
