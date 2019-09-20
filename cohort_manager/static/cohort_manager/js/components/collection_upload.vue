@@ -10,6 +10,7 @@
           <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
         </fieldset>
         <collectionDetails
+          v-if="collectionType === 'Cohort'"
           :collection-id="collection_id"
           :collection-type="collectionType"
         />
@@ -18,20 +19,21 @@
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
-        <component :is="uploadComponent" @fileselected="selectedFile" @listupdated="selectedList"/>
-        <div>or <a href="#" id="manual_toggle" v-on:click="toggleUpload">{{ uploadToggleLabel }}</a></div>
-        <div id="reassign_app_option">
-          <b-form-checkbox
-            id="app_reassign_checkbox"
-            name="app_reassign_checkbox"
-            value=""
-            class="aat-checkbox"
-          >
-            Reassign applications that already have a cohort.
-          </b-form-checkbox>
-          <b-form-text>
-            Note: Applications with a protected cohort will not be reassigned.
-          </b-form-text>
+        <div id="add_applications_widget">
+          <component 
+            :is="uploadComponent" 
+            @fileselected="selectedFile" 
+            @listupdated="selectedList"
+          />
+          <div>
+            or 
+            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
+              {{ uploadToggleLabel }}
+            </b-button>
+            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
+              <CollectionUploadListInput />
+            </b-modal>
+          </div>
         </div>
       </fieldset>
       <fieldset class="aat-form-section">
@@ -83,9 +85,6 @@
         upload_toggle_label_manual: "manually by system keys",
       };
     },
-    mounted() {
-      this.setCSRF();
-    },
     computed: {
       uploadComponent: function () {
         if (this.manual_upload) {
@@ -101,6 +100,9 @@
           return this.upload_toggle_label_file;
         }
       }
+    },
+    mounted() {
+      this.setCSRF();
     },
     methods: {
       setCSRF() {
