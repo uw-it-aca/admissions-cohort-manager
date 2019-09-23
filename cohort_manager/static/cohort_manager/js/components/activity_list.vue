@@ -203,6 +203,7 @@
           { value: 'cse', text: 'CSE' },
           { value: 'hcde', text: 'HCDE' }
         ],
+        syskeyFilter: null,
         totalRows: 1,
         currentPage: 1,
         perPage: 20,
