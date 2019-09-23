@@ -33,7 +33,9 @@
 
       <b-col>
         <b-form class="aat-filter-form" @reset="onReset">
-          <h2 class="aat-filter-title">Filter</h2>
+          <h2 class="aat-filter-title">
+            Filter
+          </h2>
           <span class="aat-filter-reset">
             <b-button type="reset" variant="link" @click="getAllActivities">
               Reset
@@ -209,17 +211,17 @@
         this.currentPage = 1;
       },
       onReset(evt) {
-        evt.preventDefault()
+        evt.preventDefault();
         // Reset our form values
-        this.astypeFilter = null
-        this.cohortFilter = null
-        this.majorFilter = null
-        this.syskeyFilter = ''
+        this.astypeFilter = null;
+        this.cohortFilter = null;
+        this.majorFilter = null;
+        this.syskeyFilter = '';
         // Trick to reset/clear native browser form validation state
-        this.show = false
+        this.show = false;
         this.$nextTick(() => {
-          this.show = true
-        })
+          this.show = true;
+        });
       },
       getMajorActivities(major_id){
         this.getActivities("?major_id=" + major_id);
