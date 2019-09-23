@@ -144,18 +144,18 @@
   .aat-button {
     margin: 0.5rem;
     padding: 0.5rem 1rem;
-    
-    &.router-link-exact-active {
+  }
+
+  .aat-button.router-link-exact-active {
+    background-color: #cdcdcd;
+    border-color: #aaa;
+    color: #444;
+    font-weight: bold;
+
+    &:hover {
       background-color: #cdcdcd;
       border-color: #aaa;
-      color: #444;
-      font-weight: bold;
-
-      &:hover {
-        background-color: #cdcdcd;
-        border-color: #aaa;
-        color: inherit;
-      }
+      color: inherit;
     }
   }
 
