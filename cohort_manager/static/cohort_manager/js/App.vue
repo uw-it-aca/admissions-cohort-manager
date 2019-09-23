@@ -12,8 +12,10 @@
       <b-col cols="4" lg="2" class="aat-main-navbar">
         <header>
           <div class="aat-app-info">
-            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT"/>
-            <a href="/" class="aat-app-name">Application Assignment Tool</a>
+            <a href="/" class="aat-brand-link">
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT"/>
+              <span class="aat-app-name">Application Assignment Tool</span>
+            </a>
           </div>
           <b-nav vertical class="aat-nav-group">
             <b-link to="/cohort/" class="aat-button btn btn-secondary">
@@ -107,15 +109,18 @@
     text-transform: uppercase;
   }
   
-  .aat-app-name {
+  .aat-brand-link {
     color: inherit;
-    display: block;
-    font-size: 1rem;
-    line-height: 1.5;
 
     &:hover {
       text-decoration: none;
     }
+  }
+
+  .aat-app-name {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
 
   }
 

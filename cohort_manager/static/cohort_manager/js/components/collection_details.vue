@@ -27,7 +27,7 @@
         <b-row>Protected Group <span class="aat-group-data">{{ protected_group }}</span></b-row>
       </b-col>
       <b-col cols="12" md="5" class="aat-group-info-secondary">
-        <b-row>Decision<span class="aat-group-data">{{ description }}</span></b-row>
+        <b-row>Description<span class="aat-group-data">{{ description }}</span></b-row>
       </b-col>
     </b-row>
   </b-container>

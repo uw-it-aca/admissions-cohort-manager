@@ -164,7 +164,7 @@
           {
             key: 'Actions',
             label: '',
-            class: "aat-data-cell aat-data-nowrap",
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap",
             sortable: false,
           }
         ],

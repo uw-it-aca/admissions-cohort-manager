@@ -11,7 +11,7 @@
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
-            Already assigned to a {{ collectionType }} (#)
+            Already assigned a {{ collectionType }} (#)
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
@@ -23,7 +23,7 @@
       <b-card v-if="collectionType === 'Cohort'" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
-            Already assigned to a protected Cohort (#)
+            Already assigned a protected Cohort (#)
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
@@ -35,9 +35,10 @@
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-duplicates block variant="info" href="#">
-            System Key has duplicate applications assigned (#)
+            Duplicates (#)
           </b-button>
         </b-card-header>
+        <span class="aat-accordion-note">Select applications to assign:</span>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text><applicationlist application-return="Duplicate" :collection-type="collectionType" /></b-card-text>
@@ -117,6 +118,10 @@
   .aat-accordian {
     .btn-block {
       text-align: left;
+    }
+
+    .aat-accordion-note {
+      margin: 1.5rem 1.5rem 0;
     }
 
     .btn-info {
