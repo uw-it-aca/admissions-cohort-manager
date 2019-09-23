@@ -4,7 +4,9 @@
       <b-col cols="4" lg="2" >
       Welcome, <span id="netid">{{ netid }}</span>
       </b-col>
-      <b-col cols="8" lg="10"/>
+      <b-col cols="8" lg="10"> 
+        <a href="#" class="aat-logout-link">Sign out</a>
+      </b-col>
     </b-row>
     <b-row class="aat-cohort-manager">
       <b-col cols="4" lg="2" class="aat-main-navbar">
@@ -164,6 +166,11 @@
     margin-top: 1rem;
     padding-top: 0.5rem;
 
+  }
+
+  .aat-logout-link {
+    float: right;
+    padding: 0.75rem 0;
   }
 
   .aat-cohort-manager {
