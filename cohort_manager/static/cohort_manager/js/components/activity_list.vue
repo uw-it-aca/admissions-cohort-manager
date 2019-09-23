@@ -15,7 +15,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="9">
+      <b-col cols="9" class="aat-col-nopad">
         <b-table
           id="assignment_history_table"
           striped
@@ -32,7 +32,13 @@
       </b-col>
 
       <b-col>
-        <b-col>
+        <b-form class="aat-filter-form" @reset="onReset">
+          <h2 class="aat-filter-title">Filter</h2>
+          <span class="aat-filter-reset">
+            <b-button type="reset" variant="link" @click="getAllActivities">
+              Reset
+            </b-button>
+          </span>
           <b-form-group
             label="Assignment Type"
             label-size="sm"
@@ -52,11 +58,6 @@
                   </option>
                 </template>
               </b-form-select>
-              <b-input-group-append>
-                <b-button :disabled="!astypeFilter" @click="getAllActivities">
-                  Clear
-                </b-button>
-              </b-input-group-append>
             </b-input-group>
           </b-form-group>
 
@@ -79,11 +80,6 @@
                   </option>
                 </template>
               </b-form-select>
-              <b-input-group-append>
-                <b-button :disabled="!cohortFilter" @click="getAllActivities">
-                  Clear
-                </b-button>
-              </b-input-group-append>
             </b-input-group>
           </b-form-group>
 
@@ -106,11 +102,6 @@
                   </option>
                 </template>
               </b-form-select>
-              <b-input-group-append>
-                <b-button :disabled="!majorFilter" @click="getAllActivities">
-                  Clear
-                </b-button>
-              </b-input-group-append>
             </b-input-group>
           </b-form-group>
 
@@ -126,14 +117,9 @@
                 placeholder="Type to Search"
                 @change="getSyskeyActivities"
               />
-              <b-input-group-append>
-                <b-button :disabled="!syskeyFilter" @click="getAllActivities">
-                  Clear
-                </b-button>
-              </b-input-group-append>
             </b-input-group>
           </b-form-group>
-        </b-col>
+        </b-form>
       </b-col>
     </b-row>
   </b-container>
@@ -222,6 +208,19 @@
         this.totalRows = filteredItems.length;
         this.currentPage = 1;
       },
+      onReset(evt) {
+        evt.preventDefault()
+        // Reset our form values
+        this.astypeFilter = null
+        this.cohortFilter = null
+        this.majorFilter = null
+        this.syskeyFilter = ''
+        // Trick to reset/clear native browser form validation state
+        this.show = false
+        this.$nextTick(() => {
+          this.show = true
+        })
+      },
       getMajorActivities(major_id){
         this.getActivities("?major_id=" + major_id);
       },
@@ -254,8 +253,29 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
+  .aat-col-nopad {
+    padding: 0;
+  }
+
+  .aat-filter-form {
+    border-top: 1px solid #dee2e6;
+    padding: 0.75rem 1.5rem;
+  }
+  
   .aat-filter-select {
     background: none;
+  }
+
+  .aat-filter-title {
+    float: left;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: inherit;
+  }
+
+  .aat-filter-reset button {
+    float: right;
+    padding: 0;
   }
 
 </style>
