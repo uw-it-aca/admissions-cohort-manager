@@ -237,3 +237,27 @@ def _get_activity_log_all():
            + _get_activity_log_by_type('a')\
            + _get_activity_log_by_major_id('')\
            + _get_activity_log_by_system_key('')
+
+
+def get_collection_list_by_type(collection_type):
+    # TODO: Implement a real ADSEL API query
+    if collection_type == MAJOR_COLLECTION_TYPE:
+        return [
+            {"id": "CSE",
+             "name": "Computer Science and Engineering"},
+            {"id": "ART H",
+             "name": "Art History"},
+            {"id": "MATH",
+             "name": "MAthematics"},
+        ]
+    elif collection_type == COHORT_COLLECTION_TYPE:
+        return [
+            {"id": "0",
+             "name": "WA Admit"},
+            {"id": "12",
+             "name": "Intl Admit"},
+            {"id": "34",
+             "name": "Athlete, protected"},
+        ]
+    else:
+        raise InvalidCollectionException(collection_type)
