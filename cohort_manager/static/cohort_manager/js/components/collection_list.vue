@@ -127,7 +127,7 @@
             class: "aat-data-cell",
             sortable: true,
           },
-          { key: 'actions', label: '', class: "aat-data-cell aat-data-nowrap", }
+          { key: 'actions', label: '', class: "aat-actions-cell aat-data-cell aat-data-nowrap", }
         ],
         cohorts: [],
         majorFields: [
@@ -160,7 +160,7 @@
           {
             key: 'Actions',
             label: '',
-            class: "aat-data-cell aat-data-nowrap",
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap",
             sortable: false,
           }
         ],
@@ -202,7 +202,9 @@
 </script>
 
 <style lang="scss">
-  @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
+  .aat-actions-cell a,
+  .aat-actions-cell button {
+    margin: 0 0.25rem;
+  }
 </style>
