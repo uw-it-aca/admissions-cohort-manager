@@ -37,7 +37,7 @@
       </b-col>
       <b-col cols="8" lg="10" class="aat-content-area">
         <b-row>
-            <messagearea />
+          <messagearea />
         </b-row>
         <b-row>
           <main>

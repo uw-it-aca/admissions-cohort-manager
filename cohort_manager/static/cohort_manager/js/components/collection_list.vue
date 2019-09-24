@@ -173,8 +173,20 @@
       };
     },
     mounted() {
+      this.load_data();
     },
     methods: {
+      load_data(){
+        axios.get(
+          '/api/collection/' + this.collectionType.toLowerCase() + "/",
+        ).then(response => {
+          if(this.collectionType.toLowerCase() === "cohort"){
+            this.cohorts = response.data;
+          } else if (this.collectionType.toLowerCase() === "major"){
+            this.majors = response.data;
+          }
+        });
+      },
       info(item, index, button) {
         this.resetModal.title = `Reset ${this.collectionType}`;
         this.resetModal.itemName = `${item.name}`;
