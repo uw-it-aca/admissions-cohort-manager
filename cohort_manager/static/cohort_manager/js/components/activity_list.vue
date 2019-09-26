@@ -28,7 +28,11 @@
           :current-page="currentPage"
           :per-page="perPage"
           :filter="filter"
-        />
+        >
+          <template v-slot:cell(selection)="row">
+            <a href="www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
+          </template>
+        </b-table>
       </b-col>
 
       <b-col>
@@ -152,16 +156,23 @@
           },
           {
             key: 'assigned_msg',
+            label: 'Assignment',
             class: "aat-data-cell",
             sortable: false
           },
           {
             key: 'submitted_msg',
+            label: 'Submitted',
             class: "aat-data-cell",
             sortable: false
           },
           {
-            key: 'Comment',
+            key: 'selection',
+            class: "aat-data-cell",
+            sortable: false,
+          },
+          {
+            key: 'comment',
             class: "aat-data-cell",
             sortable: false,
           },
