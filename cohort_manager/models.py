@@ -70,6 +70,7 @@ class AssignmentImport(models.Model):
         max_length=30, blank=True, validators=[validate_cohort])
     major = models.CharField(
         max_length=30, blank=True, validators=[validate_major])
+    is_submitted = models.BooleanField(default=False)
 
     objects = AssignmentImportManager()
 
@@ -89,6 +90,7 @@ class AssignmentImport(models.Model):
             'imported_status': self.imported_status,
             'imported_message': self.imported_message,
             'assignments': [a.json_data() for a in assignments],
+            'is_submitted': True if self.is_submitted else False,
             'errors': errors,
         }
 

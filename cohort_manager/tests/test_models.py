@@ -83,6 +83,7 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(data['imported_message'], None)
         self.assertEqual(data['assignments'], [])
         self.assertEqual(data['errors'], [])
+        self.assertFalse(data['is_submitted'])
 
         # With assignments
         import1.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
