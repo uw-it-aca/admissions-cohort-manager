@@ -54,6 +54,11 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row class="aat-footer">
+      <footer>
+        
+      </footer>
+    </b-row>
   </b-container>
 </template>
 
@@ -186,6 +191,12 @@
       padding: 0 3rem 3rem;
     }
 
+  }
+
+  .aat-footer {
+    background-color: #4b2e83;
+    min-height: 100px;
+    min-width: 100%;
   }
 
   // Forms
