@@ -56,7 +56,9 @@
     </b-row>
     <b-row class="aat-footer">
       <footer>
-        
+        <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
+        <div><a href="">Privacy</a> / <a href="">Terms</a></div>
+        <p>© 2019 University of Washington  |  Seattle, WA</p>
       </footer>
     </b-row>
   </b-container>
@@ -195,8 +197,27 @@
 
   .aat-footer {
     background-color: #4b2e83;
+    color: #fff;
     min-height: 100px;
     min-width: 100%;
+    text-align: center;
+
+    .aat-footer-wordmark {
+      background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
+      display: inline-block;
+      margin-top: 3rem;
+      overflow: hidden;
+      text-indent: -9999px;
+      width: 335px;
+    }
+  }
+
+  .aat-footer a {
+    color: #fff;
+    
+    &:hover {
+      color: #e8e3d3;
+    }
   }
 
   // Forms
