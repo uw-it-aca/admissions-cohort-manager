@@ -95,7 +95,7 @@
   }
 
   .aat-app-banner {
-    background-color: #aaa;
+    background-color: #c4c4c4;
     border-bottom: 1px solid #999;
     font-size: 0.875rem;
     height: 3rem;
@@ -132,7 +132,7 @@
   }
 
   .aat-main-navbar {
-    border-right: 1px solid #999;
+    border-right: 1px solid #d1d1d1;
     height: 100%;
     padding: 1rem;
   }
@@ -175,7 +175,7 @@
   }
 
   .aat-link-group {
-    border-top: solid 1px #666;
+    border-top: solid 1px #bbb;
     margin-top: 1rem;
     padding-top: 0.5rem;
 
@@ -198,7 +198,7 @@
 
   .aat-footer {
     background-color: #4b2e83;
-    border-top: 7px solid #999;
+    border-top: 7px solid #d1d1d1;
     color: #fff;
     font-size: 0.75rem;
     min-height: 100px;
