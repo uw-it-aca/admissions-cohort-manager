@@ -1,12 +1,11 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="5" lg="12">
+      <b-col align-self="start">
         <b-pagination
           v-model="currentPage"
           :total-rows="totalRows"
           :per-page="perPage"
-          align="right"
           size="sm"
           aria-controls="assignment_history_table"
         />
