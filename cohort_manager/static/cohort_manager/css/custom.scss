@@ -3,13 +3,13 @@
 //color
 $blue: #0069d9;
 
-body {
-  background-color: $nav-bkgnd !important;
-}
-
 //typography
 
 //navigation
+.aat-main-navbar {
+  background-color: $nav-bkgnd;
+}
+
 .router-link-exact-active,
 .router-link-exact-active:hover {
   color: #444;

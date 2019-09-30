@@ -54,6 +54,13 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row >
+      <footer class="aat-footer">
+        <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
+        <div class="aat-footer-links"><a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a></div>
+        <div>© 2019 University of Washington  |  Seattle, WA</div>
+      </footer>
+    </b-row>
   </b-container>
 </template>
 
@@ -88,7 +95,7 @@
   }
 
   .aat-app-banner {
-    background-color: #aaa;
+    background-color: #c4c4c4;
     border-bottom: 1px solid #999;
     font-size: 0.875rem;
     height: 3rem;
@@ -125,6 +132,7 @@
   }
 
   .aat-main-navbar {
+    border-right: 1px solid #d1d1d1;
     height: 100%;
     padding: 1rem;
   }
@@ -167,7 +175,7 @@
   }
 
   .aat-link-group {
-    border-top: solid 1px #666;
+    border-top: solid 1px #bbb;
     margin-top: 1rem;
     padding-top: 0.5rem;
 
@@ -186,6 +194,37 @@
       padding: 0 3rem 3rem;
     }
 
+  }
+
+  .aat-footer {
+    background-color: #4b2e83;
+    border-top: 7px solid #d1d1d1;
+    color: #fff;
+    font-size: 0.75rem;
+    min-height: 100px;
+    min-width: 100%;
+    padding: 3rem 3rem 2rem;
+    text-align: center;
+
+    .aat-footer-wordmark {
+      background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
+      display: inline-block;
+      overflow: hidden;
+      text-indent: -9999px;
+      width: 335px;
+    }
+
+    .aat-footer-links {
+      padding: 0.5rem 0;
+    }
+  }
+
+  .aat-footer a {
+    color: #fff;
+    
+    &:hover {
+      color: #e8e3d3;
+    }
   }
 
   // Forms
