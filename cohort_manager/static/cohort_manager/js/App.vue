@@ -133,7 +133,6 @@
 
   .aat-main-navbar {
     border-right: 1px solid #d1d1d1;
-    height: 100%;
     padding: 1rem;
   }
 
@@ -187,10 +186,11 @@
   }
 
   .aat-cohort-manager {
-    height: 100vh;
+    min-height: 85vh;
 
     .aat-content-area {
       background-color: #fff;
+      overflow-x: auto;
       padding: 0 3rem 3rem;
     }
 

@@ -2,6 +2,7 @@
   <div>
     <div v-if="collectionType === 'Cohort'">
       <b-table
+        responsive
         striped
         show-empty
         small
@@ -22,6 +23,7 @@
 
     <div v-else-if="collectionType === 'Major'">
       <b-table
+        responsive
         striped
         show-empty
         small

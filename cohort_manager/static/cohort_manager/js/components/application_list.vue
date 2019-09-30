@@ -2,6 +2,7 @@
   <div>
     <div v-if="applicationReturn === 'Assigned'">
       <b-table 
+        responsive
         striped 
         show-empty
         small
@@ -17,6 +18,7 @@
 
     <div v-else-if="applicationReturn === 'Protected'">
       <b-table 
+        responsive
         striped 
         show-empty
         small
@@ -44,6 +46,7 @@
 
     <div v-else-if="applicationReturn === 'Duplicate'">
       <b-table 
+        responsive
         striped 
         show-empty
         small
