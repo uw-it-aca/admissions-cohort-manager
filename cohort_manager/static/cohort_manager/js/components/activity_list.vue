@@ -1,8 +1,7 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col />
-      <b-col>
+      <b-col cols="5" lg="12">
         <b-pagination
           v-model="currentPage"
           :total-rows="totalRows"
@@ -15,9 +14,10 @@
     </b-row>
 
     <b-row>
-      <b-col cols="9" class="aat-col-nopad">
+      <b-col cols="12" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
         <b-table
           id="assignment_history_table"
+          responsive
           striped
           show-empty
           small
@@ -35,7 +35,7 @@
         </b-table>
       </b-col>
 
-      <b-col>
+      <b-col cols="5" lg="3" order-lg="2" order="1">
         <b-form class="aat-filter-form" @reset="onReset">
           <h2 class="aat-filter-title">
             Filter
@@ -268,6 +268,10 @@
 
   .aat-col-nopad {
     padding: 0;
+  }
+
+  .aat-activity-table {
+    overflow-x: auto;
   }
 
   .aat-filter-form {

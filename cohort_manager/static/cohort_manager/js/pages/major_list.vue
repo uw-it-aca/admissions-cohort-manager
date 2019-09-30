@@ -4,7 +4,6 @@
       All Majors
     </h1>
     <collectionlist collection-type="Major" />
-    <div />
   </div>
 </template>
 
