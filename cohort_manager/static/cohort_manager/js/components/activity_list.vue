@@ -1,8 +1,9 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col align-self="start">
+      <b-col>
         <b-pagination
+          class="aat-activity-pagination"
           v-model="currentPage"
           :total-rows="totalRows"
           :per-page="perPage"
@@ -33,7 +34,7 @@
         </b-table>
       </b-col>
 
-      <b-col cols="5" lg="3" order-lg="2" order="1">
+      <b-col order-lg="2" order="1">
         <b-form class="aat-filter-form" @reset="onReset">
           <h2 class="aat-filter-title">
             Filter
@@ -266,6 +267,10 @@
 
   .aat-col-nopad {
     padding: 0;
+  }
+
+  .aat-activity-pagination {
+    float: right;
   }
 
   .aat-filter-form {
