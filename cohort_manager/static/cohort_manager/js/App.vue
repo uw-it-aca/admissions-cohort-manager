@@ -48,7 +48,7 @@
           <messagearea />
         </b-row>
         <b-row>
-          <main>
+          <main class="col">
             <router-view />
           </main>
         </b-row>
@@ -190,8 +190,7 @@
 
     .aat-content-area {
       background-color: #fff;
-      overflow-x: auto;
-      padding: 0 3rem 3rem;
+      padding: 0 2rem 2rem;
     }
 
   }

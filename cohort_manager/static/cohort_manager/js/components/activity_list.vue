@@ -14,14 +14,13 @@
 
     <b-row>
       <b-col cols="12" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
-        <b-table
+        <b-table 
           id="assignment_history_table"
           responsive
           striped
           show-empty
           small
           class="aat-data-table"
-          stacked="md"
           :items="activities"
           :fields="activityFields"
           :current-page="currentPage"
@@ -267,10 +266,6 @@
 
   .aat-col-nopad {
     padding: 0;
-  }
-
-  .aat-activity-table {
-    overflow-x: auto;
   }
 
   .aat-filter-form {
