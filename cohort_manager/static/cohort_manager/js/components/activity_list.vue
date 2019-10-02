@@ -265,10 +265,12 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
+  // general layout
   .aat-col-nopad {
     padding: 0;
   }
 
+  // filters and pagination
   .aat-activity-pagination {
     float: right;
   }

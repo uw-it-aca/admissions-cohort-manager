@@ -118,6 +118,7 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
+  // upload issues lists
   .aat-accordian {
     .btn-block {
       text-align: left;
@@ -135,8 +136,6 @@
   }
 
   .aat-checkbox {
-    margin: 2rem 0 0;
-
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }

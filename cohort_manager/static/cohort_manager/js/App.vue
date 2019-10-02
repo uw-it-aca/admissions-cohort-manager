@@ -26,13 +26,13 @@
             </b-link>
           </b-nav>
           <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort_list/" class="nav-link aat-link">
+            <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
               Cohorts
             </b-link>
-            <b-link to="/major_list/" class="nav-link aat-link">
+            <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
               Majors
             </b-link>
-            <b-link to="/log/" class="nav-link aat-link">
+            <b-link to="/log/" class="nav-link aat-link" title="View all activity">
               Activity Log
             </b-link>
           </b-nav>
@@ -55,7 +55,7 @@
       </b-col>
     </b-row>
     <b-row >
-      <footer class="aat-footer">
+      <footer class="aat-footer" role="contentinfo">
         <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
         <div class="aat-footer-links"><a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a></div>
         <div>© 2019 University of Washington  |  Seattle, WA</div>
@@ -247,6 +247,10 @@
       width: max-content;
     }
     
+  }
+
+  .aat-checkbox {
+    margin-top: 2rem;
   }
 
   //Tables
