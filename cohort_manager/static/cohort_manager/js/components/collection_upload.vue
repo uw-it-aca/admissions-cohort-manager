@@ -161,6 +161,7 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
+  // form fields
   .aat-file-input {
     padding: 1rem 0;
   }
@@ -174,10 +175,7 @@
     width: 100%;
   }
 
-  .aat-checkbox {
-    margin-top: 2rem;
-  }
-
+  // form messaging
   .aat-status-feedback {
     font-style: italic;
     margin-top: 1.5rem;

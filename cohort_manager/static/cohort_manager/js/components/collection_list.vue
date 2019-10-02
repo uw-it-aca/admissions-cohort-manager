@@ -206,8 +206,10 @@
 
 <style lang="scss">
 
+  // Table action buttons
   .aat-actions-cell a,
   .aat-actions-cell button {
     margin: 0 0.25rem;
   }
+
 </style>

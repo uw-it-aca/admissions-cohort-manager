@@ -34,6 +34,8 @@
 </script>
 
 <style lang="scss">
+
+  // form fields
   .syskey-input {
     width: 100%;
   }   

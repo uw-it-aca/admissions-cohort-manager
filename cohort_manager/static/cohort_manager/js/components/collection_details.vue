@@ -84,6 +84,7 @@
   @import '../../css/_variables.scss';
   @import '../../css/custom.scss';
 
+  // general layout
   .aat-form-section {
     &.aat-details-container {
       border: solid $banner-border 1px;
@@ -94,11 +95,9 @@
       max-width: 800px;
       padding: 2rem;
     }
-
-    .row {
-      margin: 0;
-    }
   }
+
+  // labels and data
 
   .aat-group-info-primary {
     .row {
@@ -109,6 +108,20 @@
       font-size: 2rem;
 
     }
+  }
+
+  .aat-group-data {
+    color: $text-color;
+    font-weight: bold;
+  }
+
+  .aat-info-spacing {
+    padding-bottom: 1.5rem;
+  }
+
+  .aat-data-primary {
+    margin: auto;
+    text-align: center;
   }
 
   .aat-group-info-secondary {
@@ -130,20 +143,7 @@
     }
   }
 
-  .aat-group-data {
-    color: $text-color;
-    font-weight: bold;
-  }
-
-  .aat-data-primary {
-    margin: auto;
-    text-align: center;
-  }
-
-  .aat-info-spacing {
-    padding-bottom: 1.5rem;
-  }
-
+  // small screen overrides
   @media screen and (max-width: 767px) {
     .aat-group-info-primary {
       margin-bottom: 2rem;

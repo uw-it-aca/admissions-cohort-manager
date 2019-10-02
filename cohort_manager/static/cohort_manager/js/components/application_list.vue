@@ -199,6 +199,8 @@
 </script>
 
 <style lang="scss">
+
+  // Table application selection
   .aat-data-cell {
     &.aat-app-select {
       padding: 0.75rem;
