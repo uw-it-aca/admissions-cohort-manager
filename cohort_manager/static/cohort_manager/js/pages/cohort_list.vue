@@ -4,7 +4,6 @@
       All Cohorts
     </h1>
     <collectionlist collection-type="Cohort" />
-    <div />
   </div>
 </template>
 

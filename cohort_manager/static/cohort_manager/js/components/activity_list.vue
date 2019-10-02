@@ -1,13 +1,12 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col />
       <b-col>
         <b-pagination
+          class="aat-activity-pagination"
           v-model="currentPage"
           :total-rows="totalRows"
           :per-page="perPage"
-          align="right"
           size="sm"
           aria-controls="assignment_history_table"
         />
@@ -15,23 +14,27 @@
     </b-row>
 
     <b-row>
-      <b-col cols="9" class="aat-col-nopad">
-        <b-table
+      <b-col cols="12" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+        <b-table 
           id="assignment_history_table"
+          responsive
           striped
           show-empty
           small
           class="aat-data-table"
-          stacked="md"
           :items="activities"
           :fields="activityFields"
           :current-page="currentPage"
           :per-page="perPage"
           :filter="filter"
-        />
+        >
+          <template v-slot:cell(selection)="row">
+            <a href="www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
+          </template>
+        </b-table>
       </b-col>
 
-      <b-col>
+      <b-col order-lg="2" order="1">
         <b-form class="aat-filter-form" @reset="onReset">
           <h2 class="aat-filter-title">
             Filter
@@ -152,16 +155,23 @@
           },
           {
             key: 'assigned_msg',
+            label: 'Assignment',
             class: "aat-data-cell",
             sortable: false
           },
           {
             key: 'submitted_msg',
+            label: 'Submitted',
             class: "aat-data-cell",
             sortable: false
           },
           {
-            key: 'Comment',
+            key: 'selection',
+            class: "aat-data-cell",
+            sortable: false,
+          },
+          {
+            key: 'comment',
             class: "aat-data-cell",
             sortable: false,
           },
@@ -259,8 +269,12 @@
     padding: 0;
   }
 
+  .aat-activity-pagination {
+    float: right;
+  }
+
   .aat-filter-form {
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid $table-border;
     padding: 0.75rem 1.5rem;
   }
   

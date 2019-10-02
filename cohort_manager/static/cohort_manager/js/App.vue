@@ -48,11 +48,18 @@
           <messagearea />
         </b-row>
         <b-row>
-          <main>
+          <main class="col">
             <router-view />
           </main>
         </b-row>
       </b-col>
+    </b-row>
+    <b-row >
+      <footer class="aat-footer">
+        <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
+        <div class="aat-footer-links"><a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a></div>
+        <div>© 2019 University of Washington  |  Seattle, WA</div>
+      </footer>
     </b-row>
   </b-container>
 </template>
@@ -81,25 +88,31 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
-  .aat-page-header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 1.5rem 0;
-  }
-
+  // top banner styles
   .aat-app-banner {
-    background-color: #aaa;
-    border-bottom: 1px solid #999;
+    background-color: $banner-bkgnd;
+    border-bottom: 1px solid $banner-border;
     font-size: 0.875rem;
     height: 3rem;
     
     div:first-child {
-      border-right: 1px solid #999;
+      border-right: 1px solid $banner-border;
       height: 100%;
       padding: 0.75rem 1rem;
-
     }
+  }
 
+  .aat-logout-link {
+    float: right;
+    padding: 0.75rem 0;
+  }
+  
+
+  // branding styles
+  .aat-page-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1.5rem 0;
   }
 
   .aat-sub-header {
@@ -117,18 +130,6 @@
     }
   }
 
-  .aat-app-name {
-    display: block;
-    font-size: 1rem;
-    line-height: 1.5;
-
-  }
-
-  .aat-main-navbar {
-    height: 100%;
-    padding: 1rem;
-  }
-
   .aat-app-info {
     margin-bottom: 1rem;
     text-align: center;
@@ -138,6 +139,19 @@
       margin: 1rem 0;
       width: 35%;
     }
+  }
+
+  .aat-app-name {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
+
+  }
+
+  // side-nav styles
+  .aat-main-navbar {
+    border-right: 1px solid $uw-light-grey;
+    padding: 1rem;
   }
 
   .aat-nav-group {
@@ -154,38 +168,68 @@
   }
 
   .aat-button.router-link-exact-active {
-    background-color: #cdcdcd;
-    border-color: #aaa;
-    color: #444;
+    background-color: $banner-bkgnd;
+    border-color: $banner-border;
+    color: $text-color;
     font-weight: bold;
 
     &:hover {
-      background-color: #cdcdcd;
-      border-color: #aaa;
+      background-color: $banner-bkgnd;
+      border-color: $banner-border;
       color: inherit;
     }
   }
 
   .aat-link-group {
-    border-top: solid 1px #666;
+    border-top: solid 1px $uw-light-grey;
     margin-top: 1rem;
     padding-top: 0.5rem;
 
   }
 
-  .aat-logout-link {
-    float: right;
-    padding: 0.75rem 0;
-  }
+  // main content container styles
 
   .aat-cohort-manager {
-    height: 100vh;
+    min-height: 85vh;
 
     .aat-content-area {
-      background-color: #fff;
-      padding: 0 3rem 3rem;
+      background-color: $app-bkgnd;
+      padding: 0 2rem 2rem;
     }
 
+  }
+
+  // footer styles
+
+  .aat-footer {
+    background-color: $uw-purple;
+    border-top: 7px solid $uw-light-grey;
+    color: $light-text;
+    font-size: 0.75rem;
+    min-height: 100px;
+    min-width: 100%;
+    padding: 3rem 3rem 2rem;
+    text-align: center;
+
+    .aat-footer-wordmark {
+      background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
+      display: inline-block;
+      overflow: hidden;
+      text-indent: -9999px;
+      width: 335px;
+    }
+
+    .aat-footer-links {
+      padding: 0.5rem 0;
+    }
+  }
+
+  .aat-footer a {
+    color: $light-text;
+    
+    &:hover {
+      color: $uw-metallic;
+    }
   }
 
   // Forms
@@ -207,7 +251,7 @@
 
   //Tables
   .aat-data-table {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid $table-border;
     font-size: 0.85rem;
     line-height: 1.3;
   }
