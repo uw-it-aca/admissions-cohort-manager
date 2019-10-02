@@ -16,7 +16,7 @@
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Assigned" :collection-type="collectionType" /></b-card-text>
+            <b-card-text><applicationlist application-return="Assigned" :collection-type="collectionType" :applications="already_assigned" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -88,7 +88,7 @@
       },
       collectionType: {
         type: String,
-        default: ""
+        default: function() {return [];}
       },
     },
     data(){
@@ -96,10 +96,31 @@
         upload_count: 0,
         collection_id: '',
         uploaded_filename: '',
-        text: "This is some text."
+        text: "This is some text.",
+        upload_response: {},
+        already_assigned: [],
+        already_assigned_protected: [],
+        duplicates: [],
+        collection_type: ""
       };
     },
+    watch: {
+      upload_response: function(){
+        $.each(this.upload_response.assignments, function(idx, assignment){
+          if(this.collection_type === "Major"){
+            if(assignment.major !== "null"){
+              this.already_assigned.push(assignment);
+            }
+          } else if(this.collection_type === "Cohort") {
+            if(assignment.cohort !== "null"){
+              this.already_assigned.push(assignment);
+            }
+          }
+        });
+      }
+    },
     mounted() {
+      this.collection_type = this.$props.collectionType;
       this.upload_count = this.$props.uploadResponse.assignments.length;
       if(this.$props.collectionType === "Cohort"){
         this.collection_id = this.$props.uploadResponse.assignments[0].cohort;
@@ -108,6 +129,7 @@
         this.collection_id = this.$props.uploadResponse.assignments[0].major;
       }
       this.uploaded_filename = this.$props.uploadResponse.upload_filename;
+      this.upload_response = this.$props.uploadResponse;
     },
     methods: {
     }

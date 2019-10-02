@@ -43,6 +43,7 @@
           properties['uploadResponse'] = this.upload_response;
         }
         properties['collectionOptions'] = this.cohort_options;
+        properties['uploadResponse'] = this.upload_response;
         return properties;
       }
     },
