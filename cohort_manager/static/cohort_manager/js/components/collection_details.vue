@@ -86,8 +86,8 @@
 
   .aat-form-section {
     &.aat-details-container {
-      border: solid #777 1px;
-      color: #777;
+      border: solid $banner-border 1px;
+      color: $sub-header;
       font-size: 0.85rem;
       line-height: 1.5;
       margin: 1.5rem 0 0;

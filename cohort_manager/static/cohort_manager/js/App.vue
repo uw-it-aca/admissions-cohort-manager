@@ -88,25 +88,31 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
-  .aat-page-header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 1.5rem 0;
-  }
-
+  // top banner styles
   .aat-app-banner {
-    background-color: #c4c4c4;
-    border-bottom: 1px solid #999;
+    background-color: $banner-bkgnd;
+    border-bottom: 1px solid $banner-border;
     font-size: 0.875rem;
     height: 3rem;
     
     div:first-child {
-      border-right: 1px solid #999;
+      border-right: 1px solid $banner-border;
       height: 100%;
       padding: 0.75rem 1rem;
-
     }
+  }
 
+  .aat-logout-link {
+    float: right;
+    padding: 0.75rem 0;
+  }
+  
+
+  // branding styles
+  .aat-page-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1.5rem 0;
   }
 
   .aat-sub-header {
@@ -124,18 +130,6 @@
     }
   }
 
-  .aat-app-name {
-    display: block;
-    font-size: 1rem;
-    line-height: 1.5;
-
-  }
-
-  .aat-main-navbar {
-    border-right: 1px solid #d1d1d1;
-    padding: 1rem;
-  }
-
   .aat-app-info {
     margin-bottom: 1rem;
     text-align: center;
@@ -145,6 +139,19 @@
       margin: 1rem 0;
       width: 35%;
     }
+  }
+
+  .aat-app-name {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
+
+  }
+
+  // side-nav styles
+  .aat-main-navbar {
+    border-right: 1px solid $uw-light-grey;
+    padding: 1rem;
   }
 
   .aat-nav-group {
@@ -161,44 +168,43 @@
   }
 
   .aat-button.router-link-exact-active {
-    background-color: #cdcdcd;
-    border-color: #aaa;
-    color: #444;
+    background-color: $banner-bkgnd;
+    border-color: $banner-border;
+    color: $text-color;
     font-weight: bold;
 
     &:hover {
-      background-color: #cdcdcd;
-      border-color: #aaa;
+      background-color: $banner-bkgnd;
+      border-color: $banner-border;
       color: inherit;
     }
   }
 
   .aat-link-group {
-    border-top: solid 1px #bbb;
+    border-top: solid 1px $uw-light-grey;
     margin-top: 1rem;
     padding-top: 0.5rem;
 
   }
 
-  .aat-logout-link {
-    float: right;
-    padding: 0.75rem 0;
-  }
+  // main content container styles
 
   .aat-cohort-manager {
     min-height: 85vh;
 
     .aat-content-area {
-      background-color: #fff;
+      background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
     }
 
   }
 
+  // footer styles
+
   .aat-footer {
-    background-color: #4b2e83;
-    border-top: 7px solid #d1d1d1;
-    color: #fff;
+    background-color: $uw-purple;
+    border-top: 7px solid $uw-light-grey;
+    color: $light-text;
     font-size: 0.75rem;
     min-height: 100px;
     min-width: 100%;
@@ -219,10 +225,10 @@
   }
 
   .aat-footer a {
-    color: #fff;
+    color: $light-text;
     
     &:hover {
-      color: #e8e3d3;
+      color: $uw-metallic;
     }
   }
 
@@ -245,7 +251,7 @@
 
   //Tables
   .aat-data-table {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid $table-border;
     font-size: 0.85rem;
     line-height: 1.3;
   }

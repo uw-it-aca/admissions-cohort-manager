@@ -115,6 +115,9 @@
 </script>
 
 <style lang="scss">
+  @import '../../css/_variables.scss';
+  @import '../../css/custom.scss';
+
   .aat-accordian {
     .btn-block {
       text-align: left;
@@ -125,7 +128,7 @@
     }
 
     .btn-info {
-      background-color: #bdbdbd;
+      background-color: $banner-bkgnd;
       border-style: none;
       color: inherit;
     }
