@@ -12,7 +12,7 @@ $blue: #0069d9;
 
 .router-link-exact-active,
 .router-link-exact-active:hover {
-  color: #444;
+  color: $text-color;
   cursor: default;
   font-weight: bold;
 }

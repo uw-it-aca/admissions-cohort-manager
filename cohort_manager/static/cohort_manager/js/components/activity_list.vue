@@ -274,7 +274,7 @@
   }
 
   .aat-filter-form {
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid $table-border;
     padding: 0.75rem 1.5rem;
   }
   
