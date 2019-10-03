@@ -1,10 +1,10 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <b-col cols="4" lg="2" >
-      Welcome, <span id="netid">{{ netid }}</span>
+      <b-col cols="4" lg="2">
+        Welcome, <span id="netid">{{ netid }}</span>
       </b-col>
-      <b-col cols="8" lg="10"> 
+      <b-col cols="8" lg="10">
         <a href="#" class="aat-logout-link">Sign out</a>
       </b-col>
     </b-row>
@@ -13,7 +13,7 @@
         <header>
           <div class="aat-app-info">
             <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT"/>
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
               <span class="aat-app-name">Application Assignment Tool</span>
             </a>
           </div>
@@ -54,10 +54,12 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-row >
+    <b-row>
       <footer class="aat-footer" role="contentinfo">
         <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
-        <div class="aat-footer-links"><a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a></div>
+        <div class="aat-footer-links">
+          <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
+        </div>
         <div>© 2019 University of Washington  |  Seattle, WA</div>
       </footer>
     </b-row>
@@ -94,7 +96,7 @@
     border-bottom: 1px solid $banner-border;
     font-size: 0.875rem;
     height: 3rem;
-    
+
     div:first-child {
       border-right: 1px solid $banner-border;
       height: 100%;
@@ -106,7 +108,7 @@
     float: right;
     padding: 0.75rem 0;
   }
-  
+
 
   // branding styles
   .aat-page-header {
@@ -121,7 +123,7 @@
     font-weight: normal;
     text-transform: uppercase;
   }
-  
+
   .aat-brand-link {
     color: inherit;
 
@@ -226,7 +228,7 @@
 
   .aat-footer a {
     color: $light-text;
-    
+
     &:hover {
       color: $uw-metallic;
     }
@@ -246,7 +248,7 @@
       padding: 0;
       width: max-content;
     }
-    
+
   }
 
   .aat-checkbox {

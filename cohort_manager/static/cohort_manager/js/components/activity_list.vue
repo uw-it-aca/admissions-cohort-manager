@@ -3,8 +3,8 @@
     <b-row>
       <b-col>
         <b-pagination
-          class="aat-activity-pagination"
           v-model="currentPage"
+          class="aat-activity-pagination"
           :total-rows="totalRows"
           :per-page="perPage"
           size="sm"

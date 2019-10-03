@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="applicationReturn === 'Assigned'">
-      <b-table 
+      <b-table
         responsive
-        striped 
+        striped
         show-empty
         small
         class="aat-data-table"
-        :items="applications" 
+        :items="applications"
         :fields="applicationFields"
       >
         <template v-slot:cell(Class)="row">
@@ -17,13 +17,13 @@
     </div>
 
     <div v-else-if="applicationReturn === 'Protected'">
-      <b-table 
+      <b-table
         responsive
-        striped 
+        striped
         show-empty
         small
         class="aat-data-table"
-        :items="applications" 
+        :items="applications"
         :fields="applicationFields"
       >
         <template v-slot:cell(actions)="row">
@@ -45,13 +45,13 @@
 
 
     <div v-else-if="applicationReturn === 'Duplicate'">
-      <b-table 
+      <b-table
         responsive
-        striped 
+        striped
         show-empty
         small
         class="aat-data-table"
-        :items="applications" 
+        :items="applications"
         :fields="appDupeFields"
       >
         <template v-slot:cell(actions)="row">
@@ -89,6 +89,10 @@
       applicationReturn: {
         type: String,
         default: ""
+      },
+      applications: {
+        type: Array,
+        default: function() {return [];}
       },
     },
     data(){
@@ -136,9 +140,9 @@
         ],
 
         appDupeFields: [
-          { 
-            key: 'Actions', 
-            label: '', 
+          {
+            key: 'Actions',
+            label: '',
             class: "aat-data-cell aat-app-select", },
           {
             key: 'Key',
@@ -186,9 +190,6 @@
         ],
 
 
-        applications: [
-          { Key: '302032914', Number: '1', Type: 'Freshman', Status: 'Active', Class: { quarter: 'Fall', year: '2020' }, Campus: 'Seattle', Cohort: '34', Major: 'CSE'  },
-        ],
       };
     },
     mounted() {

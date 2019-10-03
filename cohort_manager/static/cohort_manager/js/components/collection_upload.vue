@@ -20,13 +20,13 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <component 
-            :is="uploadComponent" 
-            @fileselected="selectedFile" 
+          <component
+            :is="uploadComponent"
+            @fileselected="selectedFile"
             @listupdated="selectedList"
           />
           <div>
-            or 
+            or
             <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
               {{ uploadToggleLabel }}
             </b-button>
@@ -149,9 +149,11 @@
       },
       selectedFile(file) {
         this.file = file;
+        this.handleUpload();
       },
       selectedList(list) {
         this.syskey_list = list;
+        this.handleUpload();
       }
     }
   };
