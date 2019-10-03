@@ -4,7 +4,7 @@
       <b-col cols="4" lg="2">
         Welcome, <span id="netid">{{ netid }}</span>
       </b-col>
-      <b-col cols="8" lg="10"> 
+      <b-col cols="8" lg="10">
         <a href="#" class="aat-logout-link">Sign out</a>
       </b-col>
     </b-row>
@@ -26,13 +26,13 @@
             </b-link>
           </b-nav>
           <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort_list/" class="nav-link aat-link">
+            <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
               Cohorts
             </b-link>
-            <b-link to="/major_list/" class="nav-link aat-link">
+            <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
               Majors
             </b-link>
-            <b-link to="/log/" class="nav-link aat-link">
+            <b-link to="/log/" class="nav-link aat-link" title="View all activity">
               Activity Log
             </b-link>
           </b-nav>
@@ -55,7 +55,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <footer class="aat-footer">
+      <footer class="aat-footer" role="contentinfo">
         <a href="http://www.uw.edu" class="aat-footer-wordmark">University of Washington</a>
         <div class="aat-footer-links">
           <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
@@ -96,7 +96,7 @@
     border-bottom: 1px solid $banner-border;
     font-size: 0.875rem;
     height: 3rem;
-    
+
     div:first-child {
       border-right: 1px solid $banner-border;
       height: 100%;
@@ -108,7 +108,7 @@
     float: right;
     padding: 0.75rem 0;
   }
-  
+
 
   // branding styles
   .aat-page-header {
@@ -123,7 +123,7 @@
     font-weight: normal;
     text-transform: uppercase;
   }
-  
+
   .aat-brand-link {
     color: inherit;
 
@@ -228,7 +228,7 @@
 
   .aat-footer a {
     color: $light-text;
-    
+
     &:hover {
       color: $uw-metallic;
     }
@@ -248,7 +248,11 @@
       padding: 0;
       width: max-content;
     }
-    
+
+  }
+
+  .aat-checkbox {
+    margin-top: 2rem;
   }
 
   //Tables
