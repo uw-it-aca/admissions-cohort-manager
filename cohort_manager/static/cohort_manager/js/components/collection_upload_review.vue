@@ -68,6 +68,9 @@
         Note: Applications with a protected cohort will not be reassigned.
       </b-form-text>
     </div>
+    <button type="submit" @click="mark_for_submission">
+      Submit for processing
+    </button>
   </div>
 </template>
 
@@ -76,6 +79,7 @@
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
+  const axios = require("axios");
   export default {
     name: "UploadReview",
     components: {
@@ -101,7 +105,8 @@
         already_assigned: [],
         already_assigned_protected: [],
         duplicates: [],
-        collection_type: ""
+        collection_type: "",
+        csrfToken: ""
       };
     },
     watch: {
@@ -120,6 +125,7 @@
       }
     },
     mounted() {
+      this.csrfToken = $cookies.get("csrftoken");
       this.collection_type = this.$props.collectionType;
       this.upload_count = this.$props.uploadResponse.assignments.length;
       if(this.$props.collectionType === "Cohort"){
@@ -132,7 +138,22 @@
       this.upload_response = this.$props.uploadResponse;
     },
     methods: {
-    }
+      mark_for_submission: function(){
+        axios.put(
+          '/api/upload/' + this.upload_response.id + "/",
+          {'submit': true},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function() {
+          this.$router.push({path: '/'});
+
+        });
+      },
+    },
   };
 </script>
 
