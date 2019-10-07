@@ -48,7 +48,7 @@
     <!-- Reset Collection modal -->
     <template>
       <div>
-        <b-modal :id="resetModal.id" :title="resetModal.title" ok-only @hide="resetresetModal">
+        <b-modal :id="resetModal.id" :title="resetModal.title" ok-only :ok-title="'Reset ' + collectionType" @hide="resetresetModal">
           <form @submit.prevent="handleUpload">
             <div class="aat-modal-container">
               <fieldset class="aat-form-section">
