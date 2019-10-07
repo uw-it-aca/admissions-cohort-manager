@@ -5,7 +5,7 @@
         Welcome, <span id="netid">{{ netid }}</span>
       </b-col>
       <b-col cols="8" lg="10">
-        <a href="#" class="aat-logout-link">Sign out</a>
+        <a href="/saml/logout" class="aat-logout-link">Sign out</a>
       </b-col>
     </b-row>
     <b-row class="aat-cohort-manager">
