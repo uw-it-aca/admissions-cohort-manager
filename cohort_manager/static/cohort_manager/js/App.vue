@@ -1,47 +1,50 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <b-col cols="4" lg="2">
-        Welcome, <span id="netid">{{ netid }}</span>
-      </b-col>
-      <b-col cols="8" lg="10">
-        <a href="#" class="aat-logout-link">Sign out</a>
-      </b-col>
+       <b-navbar toggleable="lg">
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-nav class="aat-banner-content">
+          Welcome, <span id="netid">{{ netid }}</span>
+          <a href="#" class="aat-logout-link">Sign out</a>
+        </b-navbar-nav>
+      </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
       <b-col cols="4" lg="2" class="aat-main-navbar">
-        <header>
-          <div class="aat-app-info">
+        <b-navbar toggleable="lg" class="aat-nav-container">
+          <b-navbar-brand class="aat-app-info">
             <a href="/" class="aat-brand-link">
               <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
-              <span class="aat-app-name">Application Assignment Tool</span>
+              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
             </a>
-          </div>
-          <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort/" class="aat-button btn btn-secondary">
-              Assign Cohort
-            </b-link>
-            <b-link to="/major/" class="aat-button btn btn-secondary">
-              Assign Major
-            </b-link>
-          </b-nav>
-          <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
-              Cohorts
-            </b-link>
-            <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
-              Majors
-            </b-link>
-            <b-link to="/log/" class="nav-link aat-link" title="View all activity">
-              Activity Log
-            </b-link>
-          </b-nav>
-          <b-nav vertical class="aat-link-group">
-            <b-link href="https://www.tableau.com" class="nav-link aat-link" target="_blank">
-              Tableau Selection Tool
-            </b-link>
-          </b-nav>
-        </header>
+          </b-navbar-brand>
+          <b-collapse id="nav-collapse" class="aat-nav-container" is-nav>
+            <b-navbar-nav class="aat-nav-group">
+              <b-link to="/cohort/" class="aat-button btn btn-secondary">
+                Assign Cohort
+              </b-link>
+              <b-link to="/major/" class="aat-button btn btn-secondary">
+                Assign Major
+              </b-link>
+            </b-navbar-nav>
+            <b-navbar-nav class="aat-nav-group">
+              <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
+                Cohorts
+              </b-link>
+              <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
+                Majors
+              </b-link>
+              <b-link to="/log/" class="nav-link aat-link" title="View all activity">
+                Activity Log
+              </b-link>
+            </b-navbar-nav>
+            <b-navbar-nav vertical class="aat-link-group">
+              <b-link href="https://www.tableau.com" class="nav-link aat-link" target="_blank">
+                Tableau Selection Tool
+              </b-link>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
       </b-col>
       <b-col cols="8" lg="10" class="aat-content-area">
         <b-row>
@@ -102,13 +105,11 @@
       height: 100%;
       padding: 0.75rem 1rem;
     }
-  }
 
-  .aat-logout-link {
-    float: right;
-    padding: 0.75rem 0;
+    .aat-banner-content {
+      flex-direction: row;
+    }
   }
-
 
   // branding styles
   .aat-page-header {
@@ -125,7 +126,7 @@
   }
 
   .aat-brand-link {
-    color: inherit;
+    line-height: 1.25;
 
     &:hover {
       text-decoration: none;
@@ -138,25 +139,41 @@
     text-transform: uppercase;
 
     .aat-app-logo {
-      margin: 1rem 0;
-      width: 35%;
+      float: left;
+      margin: 0.3rem 0;
+      width: 20%;
     }
   }
 
   .aat-app-name {
+    color: $uw-purple;
     display: block;
-    font-size: 1rem;
-    line-height: 1.5;
+    float: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding-left: 0.25rem;
 
+    .aat-app-name-first {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+  }
+
+  .aat-nav-container {
+    align-items: start !important;
+    flex-direction: column !important;
   }
 
   // side-nav styles
   .aat-main-navbar {
     border-right: 1px solid $uw-light-grey;
+    max-width: 250px;
     padding: 1rem;
   }
 
   .aat-nav-group {
+    flex-direction: column !important;
     margin: 24px 0 0;
 
     .aat-link {
@@ -188,6 +205,7 @@
     padding-top: 0.5rem;
 
   }
+
 
   // main content container styles
 
