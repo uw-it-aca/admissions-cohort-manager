@@ -104,6 +104,9 @@
       }
     },
     mounted() {
+      if (this.$route.params.id !== undefined) {
+        this.selectCollection(this.$route.params.id);
+      }
       this.setCSRF();
     },
     methods: {
@@ -154,6 +157,19 @@
       selectedList(list) {
         this.syskey_list = list;
         this.handleUpload();
+      },
+      selectCollection(id){
+        // Only allow options that are in list
+        var id_to_set;
+        $(this.collectionOptions).each(function(idx, option){
+          if (id === option.value){
+            id_to_set = id;
+          }
+        });
+        if (id_to_set !== undefined){
+          this.collection_id = id_to_set;
+        }
+
       }
     }
   };

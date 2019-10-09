@@ -24,7 +24,9 @@ var router = new VueRouter({
   routes: [
     { path: '/', redirect: '/cohort_list/' },
     { path: '/cohort/', component: Cohort },
+    { path: '/cohort/:id', component: Cohort },
     { path: '/major/', component: Major },
+    { path: '/major/:id', component: Major },
     { path: '/cohort_list/', component: CohortList },
     { path: '/major_list/', component: MajorList },
     { path: '/log/', component: Log },
