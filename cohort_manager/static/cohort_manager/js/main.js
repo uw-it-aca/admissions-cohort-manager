@@ -30,6 +30,7 @@ var router = new VueRouter({
     { path: '/cohort_list/', component: CohortList },
     { path: '/major_list/', component: MajorList },
     { path: '/log/', component: Log },
+    { path: '/log/:id', component: Log },
   ]
 });
 

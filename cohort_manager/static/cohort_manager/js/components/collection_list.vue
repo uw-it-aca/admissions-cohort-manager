@@ -12,7 +12,7 @@
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/cohort/' + row.item.id" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
-          <a href="/log/" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
+          <a :href="'/log/' + row.item.id" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
           <a :href="'http://www.tableau.com/uw/cohort/' + row.item.id" :title="'View cohort ' + row.item.name + ' in Tableau'"><i class="fas fa-external-link-alt" /><span class="sr-only">View cohort in Tableau</span></a>
           <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
@@ -33,7 +33,7 @@
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/major/' + row.item.id" :title="'Assign applications to major ' + row.item.name">Assign</a>
-          <a href="/log/" :title="'Activity for major ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
+          <a :href="'/log/' + row.item.id" :title="'Activity for major ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
           <b-button size="sm" :title="'Remove all assignments to major' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
           </b-button>

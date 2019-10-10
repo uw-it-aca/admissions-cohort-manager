@@ -15,7 +15,7 @@
 
     <b-row>
       <b-col cols="12" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
-        <b-table 
+        <b-table
           id="assignment_history_table"
           responsive
           striped
@@ -213,6 +213,7 @@
       // Set the initial number of items
       this.totalRows = this.activities.length;
       this.getAllActivities();
+      this.selectCollection(this.$route.params.id);
     },
     methods: {
       onFiltered(filteredItems) {
@@ -256,6 +257,28 @@
             this.activities = response.data.activities;
           }
         });
+      },
+      selectCollection(id){
+        var id_to_set;
+        if(isNaN(id)){
+          $(this.majorOptions).each(function(idx, option){
+            if (id.toLowerCase() === option.value.toLowerCase()){
+              id_to_set = id;
+            }
+          });
+          if (id_to_set !== undefined){
+            this.majorFilter = id_to_set.toLowerCase();
+          }
+        } else{
+          $(this.cohortOptions).each(function(idx, option){
+            if (id === option.value){
+              id_to_set = id;
+            }
+          });
+          if (id_to_set !== undefined){
+            this.cohortFilter = id_to_set;
+          }
+        }
       }
     }
   };
@@ -279,7 +302,7 @@
     border-top: 1px solid $table-border;
     padding: 0.75rem 1.5rem;
   }
-  
+
   .aat-filter-select {
     background: none;
   }
