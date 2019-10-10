@@ -11,8 +11,8 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
 from cohort_manager.dao import InvalidCollectionException
 
 
-# @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
-#                   name='dispatch')
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class RESTDispatch(View):
     @staticmethod
     def json_response(content={}, status=200):
