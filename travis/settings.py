@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cohort_manager'
+    'cohort_manager',
+    'uw_saml'
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ALLOWED_USERS_GROUP = ''
+
+
+from django.urls import reverse_lazy
+
+LOGIN_URL = reverse_lazy('saml_login')
+LOGOUT_URL = reverse_lazy('saml_logout')
+ALLOWED_USERS_GROUP = 'u_test_group'

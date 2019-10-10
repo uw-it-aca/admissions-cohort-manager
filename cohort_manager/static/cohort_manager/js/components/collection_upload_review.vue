@@ -49,16 +49,16 @@
 
     <div id="reassign_app_option">
       <b-form-checkbox
-        v-model="is_reassign"
         id="app_reassign_checkbox"
+        v-model="is_reassign"
         name="app_reassign_checkbox"
         class="aat-checkbox"
       >
         Reassign applications that already have a cohort.
       </b-form-checkbox>
       <b-form-checkbox
-        v-model="is_reassign_protected"
         id="app_unprotect_checkbox"
+        v-model="is_reassign_protected"
         name="app_unprotect_checkbox"
         class="aat-checkbox aat-secondary-checkbox"
       >
@@ -144,8 +144,8 @@
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
           {'submit': true,
-          'is_reassign': this.is_reassign,
-          'is_reassign_protected': this.is_reassign_protected},
+           'is_reassign': this.is_reassign,
+           'is_reassign_protected': this.is_reassign_protected},
           {
             headers: {
               'Content-Type': 'application/json',
