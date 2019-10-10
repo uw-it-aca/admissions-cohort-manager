@@ -1,6 +1,6 @@
 import json
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
@@ -15,7 +15,7 @@ from cohort_manager.dao import InvalidCollectionException
 #                   name='dispatch')
 class RESTDispatch(View):
     @staticmethod
-    def json_response(content='', status=200):
+    def json_response(content={}, status=200):
         return HttpResponse(json.dumps(content, sort_keys=True),
                             status=status,
                             content_type='application/json')
@@ -83,6 +83,11 @@ class CollectionDetails(RESTDispatch):
                                            message="Collection Not Found")
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
+
+    def delete(self, request, collection_type, collection_id, *args, **kwargs):
+        params = json.loads(request.body)
+        comment = params.get('comment')
+        return self.json_response()
 
 
 class ActivityLog(RESTDispatch):

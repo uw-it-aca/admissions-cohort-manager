@@ -48,7 +48,14 @@
     <!-- Reset Collection modal -->
     <template>
       <div>
-        <b-modal :id="resetModal.id" :title="resetModal.title" ok-only @hide="resetresetModal">
+        <b-modal
+          :id="resetModal.id"
+          :title="resetModal.title"
+          ok-only
+          :ok-disabled="resetModal.ok_disabled"
+          @hide="resetResetModal"
+          @ok="submit_reset"
+        >
           <form @submit.prevent="handleUpload">
             <div class="aat-modal-container">
               <fieldset class="aat-form-section">
@@ -58,6 +65,7 @@
                 <div id="reset_col_option">
                   <b-form-checkbox
                     id="col_reset_checkbox"
+                    v-model="checked"
                     name="col_reset_checkbox"
                     value=""
                   >
@@ -172,15 +180,31 @@
         majors: [],
         resetModal: {
           id: 'reset-modal',
-          title: ''
+          title: '',
+          itemId: '',
+          ok_disabled: true
         },
+        checked: false,
         comment: '',
       };
     },
+    watch: {
+      checked: function(val){
+        if(val === false){
+          this.resetModal.ok_disabled = true;
+        } else {
+          this.resetModal.ok_disabled = false;
+        }
+      }
+    },
     mounted() {
       this.load_data();
+      this.setCSRF();
     },
     methods: {
+      setCSRF() {
+        this.csrfToken = $cookies.get("csrftoken");
+      },
       load_data(){
         axios.get(
           '/api/collection/' + this.collectionType.toLowerCase() + "/",
@@ -194,14 +218,33 @@
       },
       info(item, index, button) {
         this.resetModal.title = `Reset ${this.collectionType}`;
-        this.resetModal.itemName = `${item.name}`;
+        this.resetModal.itemId = `${item.id}`;
         this.resetModal.protect = `${item.protect}`;
         this.$root.$emit('bv::show::modal', this.resetModal.id, button);
       },
-      resetresetModal() {
+      resetResetModal() {
         this.resetModal.title = '';
         this.resetModal.content = '';
+        this.checked = false;
+        this.resetModal.ok_disabled = true;
       },
+      submit_reset(){
+
+        axios.delete(
+          '/api/collection/' +
+            this.$props.collectionType.toLowerCase() +
+            "/" +
+            this.resetModal.itemId,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'X-CSRFToken': this.csrfToken
+            },
+            data: {comment: this.comment}
+          },
+        );
+        this.resetResetModal();
+      }
     }
   };
 </script>
