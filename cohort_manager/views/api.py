@@ -62,9 +62,15 @@ class UploadView(RESTDispatch):
 
 class UploadConfirmationView(RESTDispatch):
     def put(self, request, upload_id, *args, **kwargs):
+        request_params = json.loads(request.body)
+        is_reassign = request_params.get('is_reassign', False)
+        is_reassign_protected = request_params.get('is_reassign_protected',
+                                                   False)
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
             upload.is_submitted = True
+            upload.is_reassign = is_reassign
+            upload.is_reassign_protected = is_reassign_protected
             upload.save()
             return self.json_response(status=200, content={})
         except ObjectDoesNotExist as ex:
