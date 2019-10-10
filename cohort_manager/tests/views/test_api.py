@@ -46,5 +46,3 @@ class CollectionListTest(TestViewApi):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content), 3)
         self.assertEqual(response_content[0]['id'], '1')
-
-

@@ -6,7 +6,6 @@ from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
 
-
 def get_user(netid):
     try:
         user = User.objects.get(username=netid)
