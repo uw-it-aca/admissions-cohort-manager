@@ -14,7 +14,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" lg="8" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
         <b-table 
           id="assignment_history_table"
           responsive

@@ -46,7 +46,7 @@
           </b-collapse>
         </b-navbar>
       </b-col>
-      <b-col cols="8" lg="10" class="aat-content-area">
+      <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
           <messagearea />
         </b-row>
@@ -139,23 +139,22 @@
     text-transform: uppercase;
 
     .aat-app-logo {
-      float: left;
-      margin: 0.3rem 0;
-      width: 20%;
+      margin: 0.25rem 0;
+      min-width: 40px;
+      width: 15%;
     }
   }
 
   .aat-app-name {
     color: $uw-purple;
     display: block;
-    float: left;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 700;
     padding-left: 0.25rem;
 
     .aat-app-name-first {
       display: block;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 800;
     }
   }
@@ -165,11 +164,17 @@
     flex-direction: column !important;
   }
 
+  @media screen and (min-width: 1257px) {
+    .aat-app-name,
+    .aat-app-logo {
+      float: left;
+    }
+  }
+
   // side-nav styles
   .aat-main-navbar {
     border-right: 1px solid $uw-light-grey;
-    max-width: 250px;
-    padding: 1rem;
+    padding: 0 !important;
   }
 
   .aat-nav-group {
