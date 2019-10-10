@@ -52,6 +52,7 @@
           :id="resetModal.id"
           :title="resetModal.title"
           ok-only
+          :ok-title="'Reset ' + collectionType"
           :ok-disabled="resetModal.ok_disabled"
           @hide="resetResetModal"
           @ok="submit_reset"
