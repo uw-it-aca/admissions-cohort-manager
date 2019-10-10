@@ -71,6 +71,8 @@ class AssignmentImport(models.Model):
     major = models.CharField(
         max_length=30, blank=True, validators=[validate_major])
     is_submitted = models.BooleanField(default=False)
+    is_reassign = models.BooleanField(default=False)
+    is_reassign_protected = models.BooleanField(default=False)
 
     objects = AssignmentImportManager()
 
@@ -91,6 +93,9 @@ class AssignmentImport(models.Model):
             'imported_message': self.imported_message,
             'assignments': [a.json_data() for a in assignments],
             'is_submitted': True if self.is_submitted else False,
+            'is_reassign': True if self.is_reassign else False,
+            'is_reassign_protected':
+                True if self.is_reassign_protected else False,
             'errors': errors,
         }
 
