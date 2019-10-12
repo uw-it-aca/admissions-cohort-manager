@@ -2,49 +2,55 @@
   <b-container fluid>
     <b-row class="aat-app-banner">
        <b-navbar toggleable="lg">
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-navbar-nav class="aat-banner-content">
-          Welcome, <span id="netid">{{ netid }}</span>
-          <a href="#" class="aat-logout-link">Sign out</a>
-        </b-navbar-nav>
+        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
+          <span class="aat-app-info aat-mobile-brand">
+            <a href="/" class="aat-brand-link">
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
+              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+            </a>
+          </span>
+          <span class="aat-login-info">
+            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
+            <a href="#" tabindex="0" class="aat-logout-link">Sign out</a>
+          </span>
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
       <b-col cols="4" lg="2" class="aat-main-navbar">
-        <b-navbar toggleable="lg" class="aat-nav-container">
+        <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container">
           <b-navbar-brand class="aat-app-info">
             <a href="/" class="aat-brand-link">
               <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
               <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
             </a>
           </b-navbar-brand>
-          <b-collapse id="nav-collapse" class="aat-nav-container" is-nav>
+          <b-navbar class="aat-nav-container">
             <b-navbar-nav class="aat-nav-group">
-              <b-link to="/cohort/" class="aat-button btn btn-secondary">
+              <b-link to="/cohort/" tabindex="1" class="aat-button btn btn-secondary">
                 Assign Cohort
               </b-link>
-              <b-link to="/major/" class="aat-button btn btn-secondary">
+              <b-link to="/major/" tabindex="1" class="aat-button btn btn-secondary">
                 Assign Major
               </b-link>
             </b-navbar-nav>
             <b-navbar-nav class="aat-nav-group">
-              <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
+              <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
                 Cohorts
               </b-link>
-              <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
+              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
                 Majors
               </b-link>
-              <b-link to="/log/" class="nav-link aat-link" title="View all activity">
+              <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
                 Activity Log
               </b-link>
             </b-navbar-nav>
             <b-navbar-nav vertical class="aat-link-group">
-              <b-link href="https://www.tableau.com" class="nav-link aat-link" target="_blank">
+              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
                 Tableau Selection Tool
               </b-link>
             </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
+          </b-navbar>
+        </b-collapse>
       </b-col>
       <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
@@ -93,12 +99,23 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
+  
+  // hide for small screens
+  @media screen and (max-width: 992px) {
+    .aat-lg-only {
+      display: none;
+    }
+  }
+
   // top banner styles
   .aat-app-banner {
     background-color: $banner-bkgnd;
     border-bottom: 1px solid $banner-border;
     font-size: 0.875rem;
-    height: 3rem;
+
+    nav {
+      flex: auto;
+    }
 
     div:first-child {
       border-right: 1px solid $banner-border;
@@ -107,7 +124,18 @@
     }
 
     .aat-banner-content {
-      flex-direction: row;
+      flex: auto;
+    }
+  }
+
+  .aat-logout-link {
+    float: right;
+    padding-left: 1rem;
+  }
+
+  @media screen and (min-width: 992px) {
+    .aat-login-info {
+      flex: auto;
     }
   }
 
@@ -134,11 +162,18 @@
   }
 
   .aat-app-info {
-    margin-bottom: 1rem;
+    display: none !important;
+    margin: 0 auto !important;
     text-align: center;
     text-transform: uppercase;
+    width: 160px;
+
+    &.aat-mobile-brand {
+      display: block !important;
+    }
 
     .aat-app-logo {
+      float: left;
       margin: 0.25rem 0;
       min-width: 40px;
       width: 15%;
@@ -159,22 +194,30 @@
     }
   }
 
-  .aat-nav-container {
-    align-items: start !important;
-    flex-direction: column !important;
-  }
+  @media screen and (min-width: 992px) {
+    .aat-app-info {
+      display: block !important;
+      margin: 1rem auto !important;
 
-  @media screen and (min-width: 1257px) {
-    .aat-app-name,
-    .aat-app-logo {
-      float: left;
+      &.aat-mobile-brand {
+        display: none !important;
+      }
     }
   }
 
   // side-nav styles
+  .aat-nav-container {
+    align-items: start !important;
+    clear: both;
+    flex-direction: column !important;
+  }
+  
   .aat-main-navbar {
     border-right: 1px solid $uw-light-grey;
+    max-width: 220px !important;
     padding: 0 !important;
+    position: absolute !important;
+    z-index: 99;
   }
 
   .aat-nav-group {
@@ -209,6 +252,17 @@
     margin-top: 1rem;
     padding-top: 0.5rem;
 
+  }
+
+  @media screen and (min-width: 992px) {
+    .aat-main-navbar {
+      max-width: none !important;
+      position: relative !important;
+    }
+
+    .aat-nav-container {
+      display: block !important;
+    }
   }
 
 
