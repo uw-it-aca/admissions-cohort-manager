@@ -25,12 +25,12 @@
             </a>
           </b-navbar-brand>
           <b-navbar class="aat-nav-container">
-            <b-navbar-nav class="aat-nav-group">
+            <b-navbar-nav class="aat-nav-group aat-assign-group">
               <b-link to="/cohort/" tabindex="1" class="aat-button btn btn-secondary">
-                Assign Cohort
+                <span aria-hidden="true">+ </span>Assign Cohort
               </b-link>
               <b-link to="/major/" tabindex="1" class="aat-button btn btn-secondary">
-                Assign Major
+                <span aria-hidden="true">+ </span>Assign Major
               </b-link>
             </b-navbar-nav>
             <b-navbar-nav class="aat-nav-group">
@@ -112,7 +112,7 @@
     background-color: $uw-purple;
     border-bottom: 1px solid $banner-border;
     color: #fff;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
 
     a {
       color: #fff;
@@ -139,12 +139,13 @@
 
   .aat-logout-link {
     float: right;
-    padding-left: 1rem;
+    padding-left: 2rem;
   }
 
   @media screen and (min-width: 992px) {    
     .aat-login-info {
       flex: auto;
+      font-weight: 100;
     }
   }
 
@@ -238,6 +239,10 @@
     flex-direction: column !important;
     margin: 24px 0 0;
 
+    &.aat-assign-group {
+      margin-top: 0;
+    }
+
     .aat-link {
       padding: 0.5rem 0 0.5rem 1rem;
     }
@@ -246,16 +251,26 @@
   .aat-button {
     margin: 0.5rem;
     padding: 0.5rem 1rem;
+
+    &.btn-secondary {
+      background: none;
+      border-color: $uw-light-grey;
+      border-radius: 0;
+      border-style: none none solid;
+      color: $nav-text;
+      margin: 0 -1rem;
+      padding: 1rem 0 1rem 1.5rem;
+      text-align: left;
+    }
   }
 
   .aat-button.router-link-exact-active {
-    background-color: $banner-bkgnd;
-    border-color: $banner-border;
+    background-color: $grey-bkgnd;
     color: $text-color;
     font-weight: bold;
 
     &:hover {
-      background-color: $banner-bkgnd;
+      background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
     }
@@ -307,12 +322,14 @@
     .aat-footer-wordmark {
       background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
       display: inline-block;
+      margin-bottom: 1rem;
       overflow: hidden;
       text-indent: -9999px;
       width: 335px;
     }
 
     .aat-footer-links {
+      font-size: 0.8725rem;
       padding: 0.5rem 0;
     }
   }
