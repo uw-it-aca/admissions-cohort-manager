@@ -17,6 +17,10 @@ $blue: #0069d9;
   font-weight: bold;
 }
 
+.navbar-light .navbar-toggler {
+  border-color: #fff !important;
+}
+
 //modals
 .modal-backdrop {
   opacity: 0.75;

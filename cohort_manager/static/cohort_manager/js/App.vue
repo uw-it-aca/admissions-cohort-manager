@@ -5,7 +5,7 @@
         <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
           <span class="aat-app-info aat-mobile-brand">
             <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
               <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
             </a>
           </span>
@@ -109,9 +109,18 @@
 
   // top banner styles
   .aat-app-banner {
-    background-color: $banner-bkgnd;
+    background-color: $uw-purple;
     border-bottom: 1px solid $banner-border;
+    color: #fff;
     font-size: 0.875rem;
+
+    a {
+      color: #fff;
+    }
+
+    a:hover {
+      color: $uw-light-grey;
+    }
 
     nav {
       flex: auto;
@@ -133,7 +142,7 @@
     padding-left: 1rem;
   }
 
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 992px) {    
     .aat-login-info {
       flex: auto;
     }
@@ -181,7 +190,7 @@
   }
 
   .aat-app-name {
-    color: $uw-purple;
+    color: #fff;
     display: block;
     font-size: 0.7rem;
     font-weight: 700;
@@ -201,6 +210,11 @@
 
       &.aat-mobile-brand {
         display: none !important;
+
+      }
+
+      .aat-app-name {
+        color: $uw-purple;
       }
     }
   }
