@@ -23,16 +23,16 @@ $blue: #0069d9;
 
 .navbar-light .navbar-toggler .navbar-toggler-icon {
   background: none;
-  border-bottom: 3px solid #fff;
-  border-top: 3px solid #fff;
+  border-bottom: 2px solid #fff;
+  border-top: 2px solid #fff;
   display: inline-block;
-  height: 14px;
+  height: 12px;
   margin-right: 0.3rem;
   position: relative;
   width: 1rem;
   
   &::before {
-    border-top: 3px solid #fff;
+    border-top: 2px solid #fff;
     content: '';
     left: 0;
     position: absolute;

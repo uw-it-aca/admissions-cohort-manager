@@ -241,6 +241,7 @@
 
     &.aat-assign-group {
       margin-top: 0;
+      width: 100%;
     }
 
     .aat-link {
@@ -299,6 +300,7 @@
 
   .aat-cohort-manager {
     min-height: 85vh;
+    overflow: hidden;
 
     .aat-content-area {
       background-color: $app-bkgnd;
