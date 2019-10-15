@@ -77,6 +77,30 @@ $blue: #0069d9;
   clear: both;
 }
 
+.btn.btn-primary {
+  background-color: $uw-purple;
+  border-color: $uw-purple;
+  border-radius: 0;
+  font-size: 0.8175rem;
+  font-weight: bold;
+  height: 2.5rem;
+  text-transform: uppercase;
+  width: 7rem;
+
+}
+
+.btn.btn-secondary {
+  background-color: #fff;
+  border: solid $uw-purple 1px;
+  border-radius: 0;
+  color: $uw-purple;
+  font-size: 0.8175rem;
+  font-weight: bold;
+  height: 2.5rem;
+  text-transform: uppercase;
+  width: 7rem;
+}
+
 
 // Bootstrap and its default variables
 @import 'node_modules/bootstrap/scss/bootstrap';
