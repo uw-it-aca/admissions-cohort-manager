@@ -120,7 +120,7 @@
 
     a:hover,
     a:focus {
-      color: $uw-light-grey;
+      color: $uw-metallic;
     }
 
     nav {
@@ -372,7 +372,7 @@
   }
 
   .aat-data-table .aat-data-cell {
-    padding: 1rem;
+    vertical-align: baseline;
 
     &.aat-data-nowrap {
       white-space: nowrap;
