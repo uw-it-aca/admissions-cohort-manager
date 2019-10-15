@@ -26,10 +26,10 @@
           </b-navbar-brand>
           <b-navbar class="aat-nav-container">
             <b-navbar-nav class="aat-nav-group aat-assign-group">
-              <b-link to="/cohort/" tabindex="1" class="aat-button btn btn-secondary">
+              <b-link to="/cohort/" tabindex="1" class="aat-button-override">
                 <span aria-hidden="true">+ </span>Assign Cohort
               </b-link>
-              <b-link to="/major/" tabindex="1" class="aat-button btn btn-secondary">
+              <b-link to="/major/" tabindex="1" class="aat-button-override">
                 <span aria-hidden="true">+ </span>Assign Major
               </b-link>
             </b-navbar-nav>
@@ -249,32 +249,27 @@
     }
   }
 
-  .aat-button {
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-
-    &.btn-secondary {
-      background: none;
-      border-color: $uw-light-grey;
-      border-radius: 0;
-      border-style: none none solid;
-      color: $nav-text;
-      margin: 0 -1rem;
-      padding: 1rem 0 1rem 1.5rem;
-      text-align: left;
-    }
-  }
-
-  .aat-button.router-link-exact-active {
-    background-color: $grey-bkgnd;
-    color: $text-color;
-    font-weight: bold;
+  .aat-button-override {
+    background: none;
+    border-color: $uw-light-grey;
+    border-radius: 0;
+    border-style: none none solid;
+    border-width: 1px;
+    color: $nav-text;
+    margin: 0 -1rem;
+    padding: 1rem 0 1rem 1.5rem;
+    text-align: left;
 
     &:hover {
       background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
     }
+  }
+
+  .aat-button-override.router-link-exact-active {
+    color: $text-color;
+    font-weight: bold;
   }
 
   .aat-link-group {
