@@ -372,8 +372,8 @@
   }
 
   .aat-data-table .aat-data-cell {
-    padding: 1rem;
-
+    vertical-align: baseline;
+    
     &.aat-data-nowrap {
       white-space: nowrap;
     }
