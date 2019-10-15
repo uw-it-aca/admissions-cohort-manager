@@ -118,7 +118,8 @@
       color: #fff;
     }
 
-    a:hover {
+    a:hover,
+    a:focus {
       color: $uw-light-grey;
     }
 
@@ -166,7 +167,8 @@
   .aat-brand-link {
     line-height: 1.25;
 
-    &:hover {
+    &:hover,
+    &:focus {
       text-decoration: none;
     }
   }
@@ -260,7 +262,8 @@
     padding: 1rem 0 1rem 1.5rem;
     text-align: left;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
@@ -334,7 +337,8 @@
   .aat-footer a {
     color: $light-text;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $uw-metallic;
     }
   }

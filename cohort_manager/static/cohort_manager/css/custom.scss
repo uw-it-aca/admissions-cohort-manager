@@ -84,9 +84,13 @@ $blue: #0069d9;
   font-size: 0.8175rem;
   font-weight: bold;
   height: 2.5rem;
+  min-width: 7rem;
   text-transform: uppercase;
-  width: 7rem;
 
+  &:focus {
+    background-color: $blue;
+    border-color: $blue;
+  }
 }
 
 .btn.btn-secondary {
@@ -97,8 +101,8 @@ $blue: #0069d9;
   font-size: 0.8175rem;
   font-weight: bold;
   height: 2.5rem;
+  min-width: 7rem;
   text-transform: uppercase;
-  width: 7rem;
 }
 
 

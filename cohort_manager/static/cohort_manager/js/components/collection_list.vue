@@ -11,9 +11,9 @@
         :fields="cohortFields"
       >
         <template v-slot:cell(actions)="row">
-          <a href="/cohort/" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
           <a href="/log/" :title="'Activity for cohort ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
           <a href="https://www.tableau.com" :title="'View cohort ' + row.item.name + ' in Tableau'"><i class="fas fa-external-link-alt" /><span class="sr-only">View cohort in Tableau</span></a>
+          <a href="/cohort/" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
           </b-button>
@@ -32,8 +32,8 @@
         :fields="majorFields"
       >
         <template v-slot:cell(actions)="row">
-          <a href="/major/" :title="'Assign applications to major ' + row.item.name">Assign</a>
           <a href="/log/" :title="'Activity for major ' + row.item.name"><i class="far fa-clock" /><span class="sr-only">Activity</span></a>
+          <a href="/major/" :title="'Assign applications to major ' + row.item.name">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to major' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
           </b-button>
@@ -206,10 +206,40 @@
 
 <style lang="scss">
 
+  @import '../../css/_variables.scss';
+  @import '../../css/custom.scss';
+
   // Table action buttons
   .aat-actions-cell a,
   .aat-actions-cell button {
+    color: $blue;
+    font-weight: bold;
     margin: 0 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .aat-actions-cell a i {
+    color: $nav-text;
+
+    &:hover,
+    &:focus {
+      color: $blue;
+    }
+  }
+
+  .aat-actions-cell.aat-data-cell .btn-secondary {
+    background: none;
+    border-style: none;
+    color: $nav-text;
+    min-width: auto;
+    padding: 0;
+    vertical-align: baseline;
+
+    &:hover,
+    &:focus {
+      color: $blue !important;
+      text-decoration: underline;
+    }
   }
 
 </style>
