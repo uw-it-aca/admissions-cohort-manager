@@ -1,49 +1,58 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <b-col cols="4" lg="2">
-        Welcome, <span id="netid">{{ netid }}</span>
-      </b-col>
-      <b-col cols="8" lg="10">
-        <a href="/saml/logout" class="aat-logout-link">Sign out</a>
-      </b-col>
+       <b-navbar toggleable="lg">
+        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
+          <span class="aat-app-info aat-mobile-brand">
+            <a href="/" class="aat-brand-link">
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
+              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+            </a>
+          </span>
+          <span class="aat-login-info">
+            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
+            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+          </span>
+      </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
       <b-col cols="4" lg="2" class="aat-main-navbar">
-        <header>
-          <div class="aat-app-info">
+        <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container">
+          <b-navbar-brand class="aat-app-info">
             <a href="/" class="aat-brand-link">
               <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
-              <span class="aat-app-name">Application Assignment Tool</span>
+              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
             </a>
-          </div>
-          <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort/" class="aat-button btn btn-secondary">
-              Assign Cohort
-            </b-link>
-            <b-link to="/major/" class="aat-button btn btn-secondary">
-              Assign Major
-            </b-link>
-          </b-nav>
-          <b-nav vertical class="aat-nav-group">
-            <b-link to="/cohort_list/" class="nav-link aat-link" title="View all cohorts">
-              Cohorts
-            </b-link>
-            <b-link to="/major_list/" class="nav-link aat-link" title="View all majors">
-              Majors
-            </b-link>
-            <b-link to="/log/" class="nav-link aat-link" title="View all activity">
-              Activity Log
-            </b-link>
-          </b-nav>
-          <b-nav vertical class="aat-link-group">
-            <b-link href="https://www.tableau.com" class="nav-link aat-link" target="_blank">
-              Tableau Selection Tool
-            </b-link>
-          </b-nav>
-        </header>
+          </b-navbar-brand>
+          <b-navbar class="aat-nav-container">
+            <b-navbar-nav class="aat-nav-group aat-assign-group">
+              <b-link to="/cohort/" tabindex="1" class="aat-button-override">
+                <span aria-hidden="true">+ </span>Assign Cohort
+              </b-link>
+              <b-link to="/major/" tabindex="1" class="aat-button-override">
+                <span aria-hidden="true">+ </span>Assign Major
+              </b-link>
+            </b-navbar-nav>
+            <b-navbar-nav class="aat-nav-group">
+              <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
+                Cohorts
+              </b-link>
+              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+                Majors
+              </b-link>
+              <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
+                Activity Log
+              </b-link>
+            </b-navbar-nav>
+            <b-navbar-nav vertical class="aat-link-group">
+              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+                Tableau Selection Tool
+              </b-link>
+            </b-navbar-nav>
+          </b-navbar>
+        </b-collapse>
       </b-col>
-      <b-col cols="8" lg="10" class="aat-content-area">
+      <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
           <messagearea />
         </b-row>
@@ -90,25 +99,56 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
+  
+  // hide for small screens
+  @media screen and (max-width: 992px) {
+    .aat-lg-only {
+      display: none;
+    }
+  }
+
   // top banner styles
   .aat-app-banner {
-    background-color: $banner-bkgnd;
+    background-color: $uw-purple;
     border-bottom: 1px solid $banner-border;
-    font-size: 0.875rem;
-    height: 3rem;
+    color: #fff;
+    font-size: 0.75rem;
+
+    a {
+      color: #fff;
+    }
+
+    a:hover,
+    a:focus {
+      color: $uw-light-grey;
+    }
+
+    nav {
+      flex: auto;
+    }
 
     div:first-child {
       border-right: 1px solid $banner-border;
       height: 100%;
       padding: 0.75rem 1rem;
     }
+
+    .aat-banner-content {
+      flex: auto;
+    }
   }
 
   .aat-logout-link {
     float: right;
-    padding: 0.75rem 0;
+    padding-left: 2rem;
   }
 
+  @media screen and (min-width: 992px) {    
+    .aat-login-info {
+      flex: auto;
+      font-weight: 100;
+    }
+  }
 
   // branding styles
   .aat-page-header {
@@ -125,61 +165,114 @@
   }
 
   .aat-brand-link {
-    color: inherit;
+    line-height: 1.25;
 
-    &:hover {
+    &:hover,
+    &:focus {
       text-decoration: none;
     }
   }
 
   .aat-app-info {
-    margin-bottom: 1rem;
+    display: none !important;
+    margin: 0 auto !important;
     text-align: center;
     text-transform: uppercase;
+    width: 160px;
+
+    &.aat-mobile-brand {
+      display: block !important;
+    }
 
     .aat-app-logo {
-      margin: 1rem 0;
-      width: 35%;
+      float: left;
+      margin: 0.25rem 0;
+      min-width: 40px;
+      width: 15%;
     }
   }
 
   .aat-app-name {
+    color: #fff;
     display: block;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding-left: 0.25rem;
 
+    .aat-app-name-first {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .aat-app-info {
+      display: block !important;
+      margin: 1rem auto !important;
+
+      &.aat-mobile-brand {
+        display: none !important;
+
+      }
+
+      .aat-app-name {
+        color: $uw-purple;
+      }
+    }
   }
 
   // side-nav styles
+  .aat-nav-container {
+    align-items: start !important;
+    clear: both;
+    flex-direction: column !important;
+  }
+  
   .aat-main-navbar {
     border-right: 1px solid $uw-light-grey;
-    padding: 1rem;
+    max-width: 220px !important;
+    padding: 0 !important;
+    position: absolute !important;
+    z-index: 99;
   }
 
   .aat-nav-group {
+    flex-direction: column !important;
     margin: 24px 0 0;
+
+    &.aat-assign-group {
+      margin-top: 0;
+      width: 100%;
+    }
 
     .aat-link {
       padding: 0.5rem 0 0.5rem 1rem;
     }
   }
 
-  .aat-button {
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-  }
+  .aat-button-override {
+    background: none;
+    border-color: $uw-light-grey;
+    border-radius: 0;
+    border-style: none none solid;
+    border-width: 1px;
+    color: $nav-text;
+    margin: 0 -1rem;
+    padding: 1rem 0 1rem 1.5rem;
+    text-align: left;
 
-  .aat-button.router-link-exact-active {
-    background-color: $banner-bkgnd;
-    border-color: $banner-border;
-    color: $text-color;
-    font-weight: bold;
-
-    &:hover {
-      background-color: $banner-bkgnd;
+    &:hover,
+    &:focus {
+      background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
     }
+  }
+
+  .aat-button-override.router-link-exact-active {
+    color: $text-color;
+    font-weight: bold;
   }
 
   .aat-link-group {
@@ -189,10 +282,23 @@
 
   }
 
+  @media screen and (min-width: 992px) {
+    .aat-main-navbar {
+      max-width: none !important;
+      position: relative !important;
+    }
+
+    .aat-nav-container {
+      display: block !important;
+    }
+  }
+
+
   // main content container styles
 
   .aat-cohort-manager {
     min-height: 85vh;
+    overflow: hidden;
 
     .aat-content-area {
       background-color: $app-bkgnd;
@@ -216,12 +322,14 @@
     .aat-footer-wordmark {
       background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
       display: inline-block;
+      margin-bottom: 1rem;
       overflow: hidden;
       text-indent: -9999px;
       width: 335px;
     }
 
     .aat-footer-links {
+      font-size: 0.8725rem;
       padding: 0.5rem 0;
     }
   }
@@ -229,7 +337,8 @@
   .aat-footer a {
     color: $light-text;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $uw-metallic;
     }
   }
