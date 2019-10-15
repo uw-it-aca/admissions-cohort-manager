@@ -5,8 +5,8 @@ from uw_saml.decorators import group_required
 from uw_saml.utils import get_user
 
 
-# @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
-#                   name='dispatch')
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class PageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

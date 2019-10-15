@@ -11,7 +11,7 @@
           </span>
           <span class="aat-login-info">
             <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
-            <a href="#" tabindex="0" class="aat-logout-link">Sign out</a>
+            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
           </span>
       </b-navbar>
     </b-row>

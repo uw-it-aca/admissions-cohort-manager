@@ -252,11 +252,11 @@ def get_collection_list_by_type(collection_type):
         ]
     elif collection_type == COHORT_COLLECTION_TYPE:
         return [
-            {"id": "0",
+            {"id": "1",
              "name": "WA Admit"},
-            {"id": "12",
+            {"id": "2",
              "name": "Intl Admit"},
-            {"id": "34",
+            {"id": "99",
              "name": "Athlete, protected"},
         ]
     else:
