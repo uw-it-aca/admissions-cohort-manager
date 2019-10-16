@@ -16,7 +16,7 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-col cols="4" lg="2" class="aat-main-navbar">
+      <b-col cols="12" lg="2" class="aat-main-navbar">
         <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container">
           <b-navbar-brand class="aat-app-info">
             <a href="/" class="aat-brand-link">
@@ -230,11 +230,8 @@
   }
   
   .aat-main-navbar {
+    border-bottom: 2px solid $uw-light-grey;
     border-right: 1px solid $uw-light-grey;
-    max-width: 220px !important;
-    padding: 0 !important;
-    position: absolute !important;
-    z-index: 99;
   }
 
   .aat-nav-group {
