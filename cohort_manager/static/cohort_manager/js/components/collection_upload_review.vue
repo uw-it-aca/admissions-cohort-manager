@@ -4,7 +4,7 @@
       Imported file: {{ uploaded_filename }}
     </div>
     <p id="upload_app_count" class="aat-status-feedback">
-      {{ upload_count }} system keys found. <a href="#">Reset</a>
+      {{ upload_count }} system keys found. <a href="#" @click.prevent="reset_upload">Reset</a>
     </p>
 
     <div role="tablist" class="aat-accordian">
@@ -115,6 +115,9 @@
       this.upload_response = this.$props.uploadResponse;
     },
     methods: {
+      reset_upload: function(){
+        this.$emit('upload_reset');
+      }
     },
   };
 </script>

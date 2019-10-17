@@ -20,14 +20,16 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <component
-            :is="uploadComponent"
-            @fileselected="selectedFile"
-            @listupdated="selectedList"
-          />
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
+                         @upload_reset="handleReset"
+          />
+          <component
+            :is="uploadComponent"
+            v-else
+            @fileselected="selectedFile"
+            @listupdated="selectedList"
           />
           <div>
             or
@@ -122,7 +124,10 @@
       setCSRF() {
         this.csrfToken = $cookies.get("csrftoken");
       },
-
+      handleReset() {
+        this.has_uploaded = false;
+        this.upload_response = undefined;
+      },
       handleUpload() {
         let formData = new FormData();
         if (this.file !== null){
@@ -157,7 +162,7 @@
         });
       },
 
-      mark_for_submission: function(){
+      mark_for_submission(){
         var vue = this;
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
