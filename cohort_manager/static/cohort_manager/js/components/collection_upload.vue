@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="handleUpload">
+    <form @submit.prevent="">
       <div class="aat-form-section">
         <fieldset>
           <legend class="aat-sub-header">
@@ -20,8 +20,14 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
+          <upload-review v-if="has_uploaded"
+                         :upload-response="upload_response"
+                         :collection-type="collection_type"
+                         @upload_reset="handleReset"
+          />
           <component
             :is="uploadComponent"
+            v-else
             @fileselected="selectedFile"
             @listupdated="selectedList"
           />
@@ -43,7 +49,7 @@
         <label for="assignment_comment">Enter comment for this assignment</label>
         <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
       </fieldset>
-      <b-button type="submit" variant="primary">
+      <b-button type="submit" variant="primary" @click="mark_for_submission">
         Submit
       </b-button>
     </form>
@@ -55,6 +61,7 @@
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
+  import UploadReview from "../components/collection_upload_review.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
@@ -62,6 +69,7 @@
     name: "Upload",
     components: {
       collectionDetails: CollectionDetails,
+      uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
       CollectionUploadFileInput: CollectionUploadFileInput
     },
@@ -85,6 +93,9 @@
         manual_upload: false,
         upload_toggle_label_file: "by file",
         upload_toggle_label_manual: "manually by system keys",
+        has_uploaded: false,
+        upload_response: undefined,
+        collection_type: this.$props.collectionType
       };
     },
     computed: {
@@ -113,7 +124,10 @@
       setCSRF() {
         this.csrfToken = $cookies.get("csrftoken");
       },
-
+      handleReset() {
+        this.has_uploaded = false;
+        this.upload_response = undefined;
+      },
       handleUpload() {
         let formData = new FormData();
         if (this.file !== null){
@@ -141,8 +155,30 @@
           }
         ).then(response => {
           this.$emit('uploaded', response);
+          this.has_uploaded = true;
+          this.upload_response = response.data;
         }).catch(function () {
           this.uploadResponse = "THERE WAS AN ERROR";
+        });
+      },
+
+      mark_for_submission(){
+        var vue = this;
+        axios.put(
+          '/api/upload/' + this.upload_response.id + "/",
+          {'submit': true,
+           'is_reassign': this.is_reassign,
+           'is_reassign_protected': this.is_reassign_protected},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function() {
+          vue.$emit('showMessage', vue.upload_response.id.toString());
+          vue.$router.push({path: '/'});
+
         });
       },
 
