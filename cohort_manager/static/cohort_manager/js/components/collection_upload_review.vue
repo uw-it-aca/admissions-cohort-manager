@@ -46,31 +46,6 @@
         </b-collapse>
       </b-card>
     </div>
-
-    <div id="reassign_app_option">
-      <b-form-checkbox
-        id="app_reassign_checkbox"
-        v-model="is_reassign"
-        name="app_reassign_checkbox"
-        class="aat-checkbox"
-      >
-        Reassign applications that already have a cohort.
-      </b-form-checkbox>
-      <b-form-checkbox
-        id="app_unprotect_checkbox"
-        v-model="is_reassign_protected"
-        name="app_unprotect_checkbox"
-        class="aat-checkbox aat-secondary-checkbox"
-      >
-        Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
-      </b-form-checkbox>
-      <b-form-text>
-        Note: Applications with a protected cohort will not be reassigned.
-      </b-form-text>
-    </div>
-    <button type="submit" @click="mark_for_submission">
-      Submit for processing
-    </button>
   </div>
 </template>
 
@@ -79,7 +54,7 @@
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
-  const axios = require("axios");
+
   export default {
     name: "UploadReview",
     components: {
@@ -140,23 +115,6 @@
       this.upload_response = this.$props.uploadResponse;
     },
     methods: {
-      mark_for_submission: function(){
-        axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
-          {'submit': true,
-           'is_reassign': this.is_reassign,
-           'is_reassign_protected': this.is_reassign_protected},
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': this.csrfToken
-            }
-          }
-        ).then(function() {
-          this.$router.push({path: '/'});
-
-        });
-      },
     },
   };
 </script>

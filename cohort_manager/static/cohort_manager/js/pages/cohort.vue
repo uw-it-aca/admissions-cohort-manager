@@ -3,19 +3,17 @@
     <h1 class="aat-page-header">
       Assign Cohort
     </h1>
-    <component :is="currentComponent" v-bind="currentProperties" @uploaded="onFileUpload" />
+    <upload v-bind="currentProperties" />
   </div>
 </template>
 
 <script>
   import Upload from "../components/collection_upload.vue";
-  import UploadReview from "../components/collection_upload_review.vue";
 
   export default {
     name: "Cohort",
     components: {
       upload: Upload,
-      uploadReview: UploadReview,
     },
     data(){
       return {
