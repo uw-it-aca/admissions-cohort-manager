@@ -176,6 +176,7 @@
             }
           }
         ).then(function() {
+          vue.$emit('showMessage', vue.upload_response.id.toString());
           vue.$router.push({path: '/'});
 
         });
