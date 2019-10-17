@@ -137,7 +137,7 @@
     }
 
     .btn-info {
-      background-color: $banner-bkgnd;
+      background-color: $grey-bkgnd;
       border-style: none;
       color: inherit;
     }
