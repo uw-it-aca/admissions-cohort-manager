@@ -1,5 +1,6 @@
 <template>
-  <input id="file" ref="file" type="file" class="aat-file-input" @change="selectedFile">
+  <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." id="file" class="aat-file-input" @change="selectedFile">
+  </b-form-file>
 </template>
 
 <script>
