@@ -120,3 +120,11 @@ class CollectionList(RESTDispatch):
             return self.json_response(list)
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
+
+
+class ApplicantLookup(RESTDispatch):
+    def get(self, request):
+        try:
+            return self.json_response()
+        except Exception as ex:
+            return self.error_response(status=400, message=ex)
