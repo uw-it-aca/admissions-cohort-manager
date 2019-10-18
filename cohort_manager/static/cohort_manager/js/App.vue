@@ -16,42 +16,40 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-col cols="4" lg="2" class="aat-main-navbar">
-        <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container">
-          <b-navbar-brand class="aat-app-info">
-            <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
-              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-            </a>
-          </b-navbar-brand>
-          <b-navbar class="aat-nav-container">
-            <b-navbar-nav class="aat-nav-group aat-assign-group">
-              <b-link to="/cohort/" tabindex="1" class="aat-button-override">
-                <span aria-hidden="true">+ </span>Assign Cohort
-              </b-link>
-              <b-link to="/major/" tabindex="1" class="aat-button-override">
-                <span aria-hidden="true">+ </span>Assign Major
-              </b-link>
-            </b-navbar-nav>
-            <b-navbar-nav class="aat-nav-group">
-              <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
-                Cohorts
-              </b-link>
-              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
-                Majors
-              </b-link>
-              <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
-                Activity Log
-              </b-link>
-            </b-navbar-nav>
-            <b-navbar-nav vertical class="aat-link-group">
-              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
-                Tableau Selection Tool
-              </b-link>
-            </b-navbar-nav>
-          </b-navbar>
-        </b-collapse>
-      </b-col>
+      <b-collapse cols="12" lg="2" id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar">
+        <b-navbar-brand class="aat-app-info">
+          <a href="/" class="aat-brand-link">
+            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
+            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+          </a>
+        </b-navbar-brand>
+        <b-navbar class="aat-nav-container">
+          <b-navbar-nav class="aat-nav-group aat-assign-group">
+            <b-link to="/cohort/" tabindex="1" class="aat-button-override">
+              <span aria-hidden="true">+ </span>Assign Cohort
+            </b-link>
+            <b-link to="/major/" tabindex="1" class="aat-button-override">
+              <span aria-hidden="true">+ </span>Assign Major
+            </b-link>
+          </b-navbar-nav>
+          <b-navbar-nav class="aat-nav-group">
+            <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
+              Cohorts
+            </b-link>
+            <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+              Majors
+            </b-link>
+            <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
+              Activity Log
+            </b-link>
+          </b-navbar-nav>
+          <b-navbar-nav vertical class="aat-link-group">
+            <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+              Tableau Selection Tool
+            </b-link>
+          </b-navbar-nav>
+        </b-navbar>
+      </b-collapse>
       <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
           <messagearea />
@@ -232,8 +230,8 @@
   .aat-main-navbar {
     border-bottom: 2px solid $uw-light-grey;
     max-width: 100% !important;
-    position: absolute !important;
-    z-index: 99;
+    position: relative !important;
+    width: 100%;
   }
 
   .aat-nav-group {
@@ -285,6 +283,7 @@
     .aat-main-navbar {
       max-width: none !important;
       position: relative !important;
+      width: auto;
     }
 
     .aat-nav-container {
