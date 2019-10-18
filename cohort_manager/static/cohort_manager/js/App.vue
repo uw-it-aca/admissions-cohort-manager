@@ -52,11 +52,15 @@
       </b-collapse>
       <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
-          <messagearea />
+          <messagearea
+            :message-string="message"
+          />
         </b-row>
         <b-row>
           <main class="col">
-            <router-view />
+            <router-view
+              @showMessage="show_message"
+            />
           </main>
         </b-row>
       </b-col>
@@ -83,12 +87,29 @@
     data(){
       return {
         netid: '',
+        message: '',
+        navCount: 0
       };
+    },
+    watch: {
+      $route(){
+        // Hide the message on the next route AFTER the post-upload one
+        if(this.message.length > 0){
+          this.navCount++;
+          if (this.navCount > 1){
+            this.message = '';
+            this.navCount = 0;
+          }
+        }
+      }
     },
     mounted() {
       this.netid = window.user_netid;
     },
     methods: {
+      show_message(msg){
+        this.message = msg;
+      }
     }
   };
 </script>
