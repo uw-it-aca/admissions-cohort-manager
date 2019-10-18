@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
-    get_activity_log, get_collection_list_by_type
+    get_activity_log, get_collection_list_by_type, get_apps_by_syskey_list
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -122,9 +122,11 @@ class CollectionList(RESTDispatch):
             return self.error_response(status=400, message=ex)
 
 
-class ApplicantLookup(RESTDispatch):
-    def get(self, request):
+class ManualAssign(RESTDispatch):
+    def post(self, request):
+        # Takes a list of syskeys, looks up all possible applicants for them,
+        # creates CSV and stores
         try:
-            return self.json_response()
+            return self.json_response(get_apps_by_syskey_list([]))
         except Exception as ex:
             return self.error_response(status=400, message=ex)

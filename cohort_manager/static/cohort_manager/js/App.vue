@@ -1,18 +1,18 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-       <b-navbar toggleable="lg">
-        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
-          <span class="aat-app-info aat-mobile-brand">
-            <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
-              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-            </a>
-          </span>
-          <span class="aat-login-info">
-            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
-            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
-          </span>
+      <b-navbar toggleable="lg">
+        <b-navbar-toggle tabindex="1" target="nav-collapse" />
+        <span class="aat-app-info aat-mobile-brand">
+          <a href="/" class="aat-brand-link">
+            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
+            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+          </a>
+        </span>
+        <span class="aat-login-info">
+          <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+        </span>
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">

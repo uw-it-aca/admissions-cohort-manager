@@ -29,16 +29,13 @@
             :is="uploadComponent"
             v-else
             @fileselected="selectedFile"
-            @listupdated="selectedList"
           />
           <div>
             or
             <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
               {{ uploadToggleLabel }}
             </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
+            <CollectionUploadListInput @listupdated="selectedList" />
           </div>
         </div>
       </fieldset>
@@ -192,7 +189,33 @@
       },
       selectedList(list) {
         this.syskey_list = list;
-        this.handleUpload();
+        let formData = new FormData();
+        formData.append('syskey_list', this.syskey_list);
+        formData.append('comment', this.comment);
+        if (this.collectionType == "Cohort") {
+          formData.append('cohort_id', this.collection_id);
+        } else if (this.collectionType == "Major") {
+          formData.append('major_id', this.collection_id);
+        } else {
+          this.uploadResponse = "THERE WAS AN ERROR";
+          return;
+        }
+        axios.post(
+          '/api/manual_upload',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(response => {
+          this.$emit('uploaded', response);
+          this.has_uploaded = true;
+          this.upload_response = response.data;
+        }).catch(function () {
+          this.uploadResponse = "THERE WAS AN ERROR";
+        });
       },
       selectCollection(id){
         // Only allow options that are in list

@@ -261,3 +261,7 @@ def get_collection_list_by_type(collection_type):
         ]
     else:
         raise InvalidCollectionException(collection_type)
+
+
+def get_apps_by_syskey_list(syskeys):
+    return []
