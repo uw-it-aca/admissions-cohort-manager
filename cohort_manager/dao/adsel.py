@@ -1,6 +1,7 @@
 from cohort_manager.dao import InvalidCollectionException
-from cohort_manager.models import Activity
+from cohort_manager.models import Activity, Assignment, AssignmentImport
 from datetime import datetime
+from cohort_manager.utils import to_csv
 
 
 MAJOR_COLLECTION_TYPE = "major"
@@ -263,5 +264,75 @@ def get_collection_list_by_type(collection_type):
         raise InvalidCollectionException(collection_type)
 
 
+def get_application_by_syskey(syskey):
+    # TODO: Implement a real ADSEL API query
+    if syskey == "123":
+        assignment = Assignment(system_key="123",
+                                campus=0,
+                                year=2019,
+                                quarter=1,
+                                application_number=1,
+                                admission_selection_id="123,0,2019,1,1",
+                                cohort="1",
+                                major="foo")
+        return [assignment]
+    if syskey == "asd":
+        assignment = Assignment(system_key="asd",
+                                campus=0,
+                                year=2019,
+                                quarter=1,
+                                application_number=1,
+                                admission_selection_id="123,0,2019,1,1",
+                                cohort="1",
+                                major="foo")
+        assignment2 = Assignment(system_key="asd",
+                                 campus=0,
+                                 year=2019,
+                                 quarter=1,
+                                 application_number=2,
+                                 admission_selection_id="asd,0,2019,1,2",
+                                 cohort="1",
+                                 major="foo")
+        assignment3 = Assignment(system_key="asd",
+                                 campus=0,
+                                 year=2019,
+                                 quarter=1,
+                                 application_number=3,
+                                 admission_selection_id="asd,0,2019,1,3",
+                                 cohort="1",
+                                 major="foo")
+        return [assignment, assignment2, assignment3]
+    if syskey == "123asd":
+        assignment = Assignment(system_key="123asd",
+                                campus=0,
+                                year=2019,
+                                quarter=1,
+                                application_number=1,
+                                admission_selection_id="123asd,0,2019,1,1",
+                                cohort="1",
+                                major="foo")
+        assignment2 = Assignment(system_key="123asd",
+                                 campus=0,
+                                 year=2019,
+                                 quarter=1,
+                                 application_number=2,
+                                 admission_selection_id="123asd,0,2019,1,2",
+                                 cohort="1",
+                                 major="foo")
+        return [assignment, assignment2]
+
+
 def get_apps_by_syskey_list(syskeys):
-    return []
+    app_list = []
+    for syskey in syskeys:
+        app_list += get_application_by_syskey(syskey)
+    return app_list
+
+
+def create_import_by_syskeys(syskeys):
+    applications = get_apps_by_syskey_list(syskeys)
+    assignment_import = AssignmentImport()
+    app_csv = [to_csv(assignment_import.FIELD_NAMES)]
+    for app in applications:
+        app_csv.append(app.csv_data())
+    app_csv_string = "".join(app_csv)

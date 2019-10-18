@@ -32,10 +32,10 @@ class AssignmentImportManager(models.Manager):
         kwargs['upload_filename'] = uploaded_file.name
         return AssignmentImport(**kwargs)
 
-    def create_from_list(self, sys_keys, **kwargs):
+    def create_from_list(self, applications, **kwargs):
         document = to_csv(AssignmentImport.FIELD_NAMES)
-        for sys_key in sys_keys:
-            document += to_csv([sys_key])
+        for application in applications:
+            document += application.csv_data()
 
         kwargs['is_file_upload'] = False
         kwargs['document'] = document

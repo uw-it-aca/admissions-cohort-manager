@@ -189,33 +189,7 @@
       },
       selectedList(list) {
         this.syskey_list = list;
-        let formData = new FormData();
-        formData.append('syskey_list', this.syskey_list);
-        formData.append('comment', this.comment);
-        if (this.collectionType == "Cohort") {
-          formData.append('cohort_id', this.collection_id);
-        } else if (this.collectionType == "Major") {
-          formData.append('major_id', this.collection_id);
-        } else {
-          this.uploadResponse = "THERE WAS AN ERROR";
-          return;
-        }
-        axios.post(
-          '/api/manual_upload',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'X-CSRFToken': this.csrfToken
-            }
-          }
-        ).then(response => {
-          this.$emit('uploaded', response);
-          this.has_uploaded = true;
-          this.upload_response = response.data;
-        }).catch(function () {
-          this.uploadResponse = "THERE WAS AN ERROR";
-        });
+        this.handleUpload();
       },
       selectCollection(id){
         // Only allow options that are in list

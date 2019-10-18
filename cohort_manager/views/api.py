@@ -31,7 +31,7 @@ class RESTDispatch(View):
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES.get('file')
-        syskey_list = request.POST.get('syskey_list')
+        syskey_list = request.POST.get('syskey_list').split(",")
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
@@ -41,8 +41,9 @@ class UploadView(RESTDispatch):
             assignment_import = AssignmentImport.objects.create_from_file(
                 uploaded_file, created_by='TODO')
         if syskey_list:
+            applications = get_apps_by_syskey_list(syskey_list)
             assignment_import = AssignmentImport.objects.create_from_list(
-                syskey_list, created_by='TODO'
+                applications, created_by='TODO'
             )
         if cohort_id:
             assignment_import.cohort = cohort_id
@@ -119,14 +120,4 @@ class CollectionList(RESTDispatch):
             list = get_collection_list_by_type(collection_type)
             return self.json_response(list)
         except InvalidCollectionException as ex:
-            return self.error_response(status=400, message=ex)
-
-
-class ManualAssign(RESTDispatch):
-    def post(self, request):
-        # Takes a list of syskeys, looks up all possible applicants for them,
-        # creates CSV and stores
-        try:
-            return self.json_response(get_apps_by_syskey_list([]))
-        except Exception as ex:
             return self.error_response(status=400, message=ex)
