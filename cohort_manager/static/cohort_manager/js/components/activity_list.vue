@@ -167,7 +167,7 @@
           },
           {
             key: 'selection',
-            class: "aat-data-cell",
+            class: "aat-data-cell aat-filters-cell",
             sortable: false,
           },
           {
@@ -317,6 +317,12 @@
   .aat-filter-reset button {
     float: right;
     padding: 0;
+  }
+
+  //table
+  .aat-filters-cell {
+    text-align: center;
+    vertical-align: middle !important;
   }
 
 </style>
