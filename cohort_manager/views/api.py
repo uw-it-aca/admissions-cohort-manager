@@ -61,15 +61,17 @@ class UploadView(RESTDispatch):
             return self.error_response(status=400, message=ex)
 
 
-class UploadConfirmationView(RESTDispatch):
+class ModifyUploadView(RESTDispatch):
     def put(self, request, upload_id, *args, **kwargs):
         request_params = json.loads(request.body)
         is_reassign = request_params.get('is_reassign', False)
         is_reassign_protected = request_params.get('is_reassign_protected',
                                                    False)
+        is_submitted = request_params.get('is_submitted', False)
+        ids_to_delete = request_params.get('to_delete', [])
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
-            upload.is_submitted = True
+            upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
             upload.save()

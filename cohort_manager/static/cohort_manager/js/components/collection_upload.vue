@@ -24,6 +24,7 @@
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
+                         @dupeToRemove="handleRemove"
           />
           <component
             :is="uploadComponent"
@@ -92,7 +93,8 @@
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
         upload_response: undefined,
-        collection_type: this.$props.collectionType
+        collection_type: this.$props.collectionType,
+        to_remove: []
       };
     },
     computed: {
@@ -124,6 +126,9 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
+      },
+      handleRemove(to_remove) {
+        this.to_remove = to_remove;
       },
       handleUpload() {
         let formData = new FormData();
@@ -160,12 +165,15 @@
       },
 
       mark_for_submission(){
-        var vue = this;
+
+        var vue = this,
+            request = {'submit': true,
+                       'is_reassign': this.is_reassign,
+                       'is_reassign_protected': this.is_reassign_protected,
+                       'to_delete': this.to_remove};
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
-          {'submit': true,
-           'is_reassign': this.is_reassign,
-           'is_reassign_protected': this.is_reassign_protected},
+          request,
           {
             headers: {
               'Content-Type': 'application/json',

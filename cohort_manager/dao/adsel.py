@@ -327,12 +327,3 @@ def get_apps_by_syskey_list(syskeys):
     for syskey in syskeys:
         app_list += get_application_by_syskey(syskey)
     return app_list
-
-
-def create_import_by_syskeys(syskeys):
-    applications = get_apps_by_syskey_list(syskeys)
-    assignment_import = AssignmentImport()
-    app_csv = [to_csv(assignment_import.FIELD_NAMES)]
-    for app in applications:
-        app_csv.append(app.csv_data())
-    app_csv_string = "".join(app_csv)
