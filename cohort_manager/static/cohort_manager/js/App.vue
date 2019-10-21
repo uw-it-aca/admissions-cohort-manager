@@ -249,7 +249,6 @@
   // admission period select
   .aat-content-area {
     .aat-adperiod-select {
-      background: none;
       float: right;
       font-size: 0.75rem;
       margin: 1rem 0;
@@ -395,7 +394,6 @@
     margin: 0 0 3rem;
 
     .aat-select-inline {
-      background: none;
       border-color: $text-color;
       border-radius: 0;
       border-style: none none solid;

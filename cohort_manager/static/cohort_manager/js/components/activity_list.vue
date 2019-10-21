@@ -303,10 +303,6 @@
     padding: 0.75rem 1.5rem;
   }
 
-  .aat-filter-select {
-    background: none;
-  }
-
   .aat-filter-title {
     float: left;
     font-size: 1rem;
