@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
-import VueAnalytics from "vue-analytics";
+import VueAnalytics from 'vue-analytics';
 
 import App from "./App.vue";
 import Cohort from './pages/cohort.vue';
