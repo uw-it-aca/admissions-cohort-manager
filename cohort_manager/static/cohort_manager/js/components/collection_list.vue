@@ -253,12 +253,11 @@
 <style lang="scss">
 
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // Table action buttons
   .aat-actions-cell a,
   .aat-actions-cell button {
-    color: $blue;
+    color: $link-blue;
     font-weight: bold;
     margin: 0 0.25rem;
     text-transform: uppercase;
@@ -269,7 +268,7 @@
 
     &:hover,
     &:focus {
-      color: $blue;
+      color: $link-blue;
     }
   }
 
@@ -283,7 +282,7 @@
 
     &:hover,
     &:focus {
-      color: $blue !important;
+      color: $link-blue !important;
       text-decoration: underline;
     }
   }

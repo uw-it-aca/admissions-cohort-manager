@@ -286,7 +286,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // general layout
   .aat-col-nopad {
@@ -301,10 +300,6 @@
   .aat-filter-form {
     border-top: 1px solid $table-border;
     padding: 0.75rem 1.5rem;
-  }
-
-  .aat-filter-select {
-    background: none;
   }
 
   .aat-filter-title {
