@@ -2,12 +2,12 @@
   <div>
     <form @submit.prevent="">
       <div class="aat-form-section">
-        <fieldset>
+        <fieldset class="aat-collection-select">
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-input id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
+          <label class="aat-collection-select-label" for="collection_chooser">Assign applications to</label>
+          <b-form-input id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" :placeholder="'Select ' + collectionType" class="aat-select-inline" />
         </fieldset>
         <collectionDetails
           v-if="collectionType === 'Cohort'"
@@ -227,6 +227,18 @@
     min-width: 250px;
     padding: 0.5rem;
     width: 100%;
+  }
+
+  .aat-collection-select {
+    .aat-collection-select-label {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .aat-select-inline {
+      display: inline-block;
+      vertical-align: middle;
+    }
   }
 
   // form messaging
