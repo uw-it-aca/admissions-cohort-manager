@@ -26,10 +26,10 @@
         <b-navbar class="aat-nav-container">
           <b-navbar-nav class="aat-nav-group aat-assign-group">
             <b-link to="/cohort/" tabindex="1" class="aat-button-override">
-              <span aria-hidden="true">+ </span>Assign Cohort
+              Assign Cohort
             </b-link>
             <b-link to="/major/" tabindex="1" class="aat-button-override">
-              <span aria-hidden="true">+ </span>Assign Major
+              Assign Major
             </b-link>
           </b-navbar-nav>
           <b-navbar-nav class="aat-nav-group">
@@ -300,6 +300,17 @@
       background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
+    }
+
+    &::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      float: right;
+      margin-right: 1.5rem;
+      margin-top: 0.5rem;
+      padding: 2px;
+      transform: rotate(-45deg);
     }
   }
 
