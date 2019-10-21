@@ -259,8 +259,10 @@
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
+    border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
+    padding-top: 0;
   }
   
   .aat-main-navbar {
