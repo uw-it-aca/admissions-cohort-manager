@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="aat-page-header">
-      Assign Major
+      Assign to Major
     </h1>
     <component :is="currentComponent" v-bind="currentProperties" @uploaded="onFileUpload" />
   </div>
