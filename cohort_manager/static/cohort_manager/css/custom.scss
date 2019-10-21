@@ -105,12 +105,9 @@ $blue: #0069d9;
   text-transform: uppercase;
 }
 
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
+
 
 
 // Bootstrap and its default variables
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';

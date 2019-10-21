@@ -286,7 +286,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // general layout
   .aat-col-nopad {
