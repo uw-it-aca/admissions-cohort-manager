@@ -57,7 +57,8 @@
           />
         </b-row>
         <b-row>
-          <main class="col">
+          <main class="col aat-main-containter">
+            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
             <router-view
               @showMessage="show_message"
             />
@@ -86,6 +87,10 @@
     },
     data(){
       return {
+        current_admission_period: 'a',
+        admission_periods: [
+          {value: 'a', text: 'Autumn 2019' }, 
+        ],
         netid: '',
         message: '',
         navCount: 0
@@ -241,6 +246,17 @@
     }
   }
 
+  // admission period select
+  .aat-content-area {
+    .aat-adperiod-select {
+      background: none;
+      float: right;
+      font-size: 0.75rem;
+      margin: 1rem 0;
+      width: max-content;
+    }
+  }
+
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
@@ -329,6 +345,10 @@
     .aat-content-area {
       background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
+    }
+
+    .aat-main-containter {
+      padding-right: 0;
     }
 
   }
