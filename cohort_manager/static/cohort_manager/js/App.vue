@@ -446,4 +446,18 @@
     margin: 2rem 1rem 0;
   }
 
+  // Accordian 
+
+  .card-header {
+    a::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      display: inline-block;
+      padding: 2px;
+      transform: rotate(-45deg);
+      vertical-align: middle;
+    }
+  }
+
 </style>

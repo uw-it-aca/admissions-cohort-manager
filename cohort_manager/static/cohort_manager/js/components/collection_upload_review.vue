@@ -37,9 +37,9 @@
             Duplicates (#)
           </b-button>
         </b-card-header>
-        <span class="aat-accordion-note">Select applications to assign:</span>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
+            <b-card-text class="aat-accordion-note">Select applications to assign:</b-card-text>
             <b-card-text><applicationlist application-return="Duplicate" :collection-type="collectionType" /></b-card-text>
           </b-card-body>
         </b-collapse>
@@ -128,10 +128,6 @@
   .aat-accordian {
     .btn-block {
       text-align: left;
-    }
-
-    .aat-accordion-note {
-      margin: 1.5rem 1.5rem 0;
     }
 
     .btn-info {
