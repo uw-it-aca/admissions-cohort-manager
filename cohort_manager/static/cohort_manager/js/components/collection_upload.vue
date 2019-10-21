@@ -230,8 +230,7 @@
 
   // form messaging
   .aat-status-feedback {
-    font-style: italic;
-    margin-top: 1.5rem;
+    font-size: 0.75rem;
   }
 
 </style>

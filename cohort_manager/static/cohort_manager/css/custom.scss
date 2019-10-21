@@ -59,6 +59,15 @@ $blue: #0069d9;
   opacity: 0.75;
 }
 
+//cards 
+.card-header {
+  background: none !important;
+
+  a {
+    background: none;
+  }
+}
+
 //pagination
 .pagination {
   .page-link {
