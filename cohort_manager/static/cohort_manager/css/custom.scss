@@ -105,6 +105,16 @@ $blue: #0069d9;
   text-transform: uppercase;
 }
 
+.custom-file-input.is-invalid ~ .custom-file-label {
+  border-color: $banner-border !important;
+}
+
+.custom-file.b-form-file {
+  max-width: 650px;
+}
+
+
 
 // Bootstrap and its default variables
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';

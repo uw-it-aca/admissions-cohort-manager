@@ -20,25 +20,32 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
+          <div>
+            Enter applications by file (csv) or
+            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+              {{ uploadToggleLabel }}
+            </b-button>
+            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
+              <CollectionUploadListInput />
+            </b-modal>
+          </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
+                         @dupeToRemove="handleRemove"
           />
           <component
             :is="uploadComponent"
             v-else
             @fileselected="selectedFile"
-            @listupdated="selectedList"
           />
           <div>
             or
             <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
               {{ uploadToggleLabel }}
             </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
+            <CollectionUploadListInput @listupdated="selectedList" />
           </div>
         </div>
       </fieldset>
@@ -95,7 +102,8 @@
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
         upload_response: undefined,
-        collection_type: this.$props.collectionType
+        collection_type: this.$props.collectionType,
+        to_remove: []
       };
     },
     computed: {
@@ -127,6 +135,9 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
+      },
+      handleRemove(to_remove) {
+        this.to_remove = to_remove;
       },
       handleUpload() {
         let formData = new FormData();
@@ -163,12 +174,15 @@
       },
 
       mark_for_submission(){
-        var vue = this;
+
+        var vue = this,
+            request = {'submit': true,
+                       'is_reassign': this.is_reassign,
+                       'is_reassign_protected': this.is_reassign_protected,
+                       'to_delete': this.to_remove};
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
-          {'submit': true,
-           'is_reassign': this.is_reassign,
-           'is_reassign_protected': this.is_reassign_protected},
+          request,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -213,7 +227,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // form fields
   .aat-file-input {
@@ -245,6 +258,12 @@
   .aat-status-feedback {
     font-style: italic;
     margin-top: 1.5rem;
+  }
+
+  // action elements
+  .aat-btn-link {
+    padding: 0 !important;
+    vertical-align: baseline !important;
   }
 
 </style>

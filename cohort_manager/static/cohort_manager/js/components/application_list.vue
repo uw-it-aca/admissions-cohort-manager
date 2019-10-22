@@ -55,15 +55,18 @@
         :fields="appDupeFields"
       >
         <template v-slot:cell(actions)="row">
-          <b-form-checkbox
-            :id="'app_select_' + row.item.Key + '_' + row.item.Number"
-            v-model="selected"
-            :name="'app_select_' + row.item.Key + '_' + row.item.Number"
-            value="selected"
-            unchecked-value="not_selected"
-          >
-            <span class="sr-only">Select application {{ row.item.Key }}</span>
-          </b-form-checkbox>
+          <b-form-group>
+            <b-form-checkbox
+              :id="'app_select_' + row.item.admission_selection_id + '_' + row.item.application_number"
+              :key="row.item.admission_selection_id"
+              v-model="selected[row.item.admission_selection_id]"
+              :name="'app_select_' + row.item.admission_selection_id + '_' + row.item.application_number"
+              :value="true"
+              @input="mark_to_delete"
+            >
+              <span class="sr-only">Select application {{ row.item.admission_selection_id }}</span>
+            </b-form-checkbox>
+          </b-form-group>
         </template>
         <template v-slot:cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
@@ -97,8 +100,8 @@
     },
     data(){
       return {
-        selected: 'not_selected',
-
+        selected: {},
+        to_remove: [],
         applicationFields: [
           {
             key: 'Key',
@@ -145,13 +148,19 @@
             label: '',
             class: "aat-data-cell aat-app-select", },
           {
-            key: 'Key',
+            key: 'system_key',
             label: "System Key",
             class: "aat-data-cell",
             sortable: true
           },
           {
-            key: 'Number',
+            key: 'admission_selection_id',
+            label: "AdSel ID",
+            class: "aat-data-cell",
+            sortable: true
+          },
+          {
+            key: 'application_number',
             label: "Application #",
             class: "aat-data-cell",
             sortable: false,
@@ -173,17 +182,17 @@
             sortable: true
           },
           {
-            key: 'Campus',
+            key: 'campus',
             class: "aat-data-cell",
             sortable: true
           },
           {
-            key: 'Cohort',
+            key: 'cohort',
             class: "aat-data-cell",
             sortable: true
           },
           {
-            key: 'Major',
+            key: 'major',
             class: "aat-data-cell aat-data-nowrap",
             sortable: true
           },
@@ -192,9 +201,28 @@
 
       };
     },
+    watch: {
+      applications: function (applications) {
+        var vue = this;
+        $.each(applications, function (idx, app) {
+          vue.selected[app.admission_selection_id] = false;
+        });
+      },
+    },
     mounted() {
     },
     methods: {
+      mark_to_delete: function() {
+        var vue = this;
+        this.to_remove = [];
+        $.each(this.selected, function (idx, selected) {
+          if (selected === false) {
+            vue.to_remove.push(idx);
+          }
+        });
+        this.$emit("dupeToRemove", this.to_remove);
+      }
+
     }
   };
 </script>

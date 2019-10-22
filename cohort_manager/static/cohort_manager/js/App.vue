@@ -1,18 +1,18 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-       <b-navbar toggleable="lg">
-        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
-          <span class="aat-app-info aat-mobile-brand">
-            <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
-              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-            </a>
-          </span>
-          <span class="aat-login-info">
-            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
-            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
-          </span>
+      <b-navbar toggleable="lg">
+        <b-navbar-toggle tabindex="1" target="nav-collapse" />
+        <span class="aat-app-info aat-mobile-brand">
+          <a href="/" class="aat-brand-link">
+            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
+            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+          </a>
+        </span>
+        <span class="aat-login-info">
+          <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+        </span>
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
@@ -26,10 +26,10 @@
         <b-navbar class="aat-nav-container">
           <b-navbar-nav class="aat-nav-group aat-assign-group">
             <b-link to="/cohort/" tabindex="1" class="aat-button-override">
-              <span aria-hidden="true">+ </span>Assign Cohort
+              Assign Cohort
             </b-link>
             <b-link to="/major/" tabindex="1" class="aat-button-override">
-              <span aria-hidden="true">+ </span>Assign Major
+              Assign Major
             </b-link>
           </b-navbar-nav>
           <b-navbar-nav class="aat-nav-group">
@@ -57,7 +57,8 @@
           />
         </b-row>
         <b-row>
-          <main class="col">
+          <main class="col aat-main-containter">
+            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
             <router-view
               @showMessage="show_message"
             />
@@ -86,6 +87,10 @@
     },
     data(){
       return {
+        current_admission_period: 'a',
+        admission_periods: [
+          {value: 'a', text: 'Autumn 2019' },
+        ],
         netid: '',
         message: '',
         navCount: 0
@@ -118,7 +123,7 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
-  
+
   // hide for small screens
   @media screen and (max-width: 992px) {
     .aat-lg-only {
@@ -162,7 +167,7 @@
     padding-left: 2rem;
   }
 
-  @media screen and (min-width: 992px) {    
+  @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
       font-weight: 100;
@@ -241,13 +246,25 @@
     }
   }
 
+  // admission period select
+  .aat-content-area {
+    .aat-adperiod-select {
+      float: right;
+      font-size: 0.75rem;
+      margin: 1rem 0;
+      width: max-content;
+    }
+  }
+
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
+    border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
+    padding-top: 0;
   }
-  
+
   .aat-main-navbar {
     border-bottom: 2px solid $uw-light-grey;
     max-width: 100% !important;
@@ -285,6 +302,17 @@
       background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
+    }
+
+    &::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      float: right;
+      margin-right: 1.5rem;
+      margin-top: 0.5rem;
+      padding: 2px;
+      transform: rotate(-45deg);
     }
   }
 
@@ -329,6 +357,10 @@
     .aat-content-area {
       background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
+    }
+
+    .aat-main-containter {
+      padding-right: 0;
     }
 
   }
