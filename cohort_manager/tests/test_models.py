@@ -148,3 +148,18 @@ class AssignmentImportTest(TestCase):
 
         imp.document = b'<html>'
         self.assertRaises(TypeError, imp.assignments)
+
+    def test_remove_assignments(self):
+        file_data = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                               [1234568, 0, 2019, 4, 1, 124]])
+
+        uploaded_file = SimpleUploadedFile(
+            'test.csv', file_data.encode(), content_type='text/csv')
+
+        imp = AssignmentImport.objects.create_from_file(
+            uploaded_file=uploaded_file, created_by='javerage')
+        assignments, errors = imp.assignments()
+        self.assertEqual(len(assignments), 2)
+        imp.remove_assignments("124")
+        assignments, errors = imp.assignments()
+        self.assertEqual(len(assignments), 1)

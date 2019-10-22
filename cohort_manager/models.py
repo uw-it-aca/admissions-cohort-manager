@@ -117,14 +117,12 @@ class AssignmentImport(models.Model):
 
     def remove_assignments(self, ids_to_remove):
         assignments, errors = self.assignments()
-        assignments_to_keep = []
         document = to_csv(AssignmentImport.FIELD_NAMES)
         for assignment in assignments:
             if assignment.admission_selection_id not in ids_to_remove:
                 document += assignment.csv_data()
         self.document = document
         self.save()
-        assignments, errors = self.assignments()
 
 
 class Assignment(models.Model):
