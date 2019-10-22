@@ -20,6 +20,15 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
+          <div>
+            Enter applications by file (csv) or
+            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+              {{ uploadToggleLabel }}
+            </b-button>
+            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
+              <CollectionUploadListInput />
+            </b-modal>
+          </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
@@ -237,6 +246,12 @@
   .aat-status-feedback {
     font-style: italic;
     margin-top: 1.5rem;
+  }
+
+  // action elements
+  .aat-btn-link {
+    padding: 0 !important;
+    vertical-align: baseline !important;
   }
 
 </style>

@@ -89,7 +89,7 @@
       return {
         current_admission_period: 'a',
         admission_periods: [
-          {value: 'a', text: 'Autumn 2019' }, 
+          {value: 'a', text: 'Autumn 2019' },
         ],
         netid: '',
         message: '',
@@ -123,7 +123,7 @@
   @import '../css/_variables.scss';
   @import '../css/custom.scss';
 
-  
+
   // hide for small screens
   @media screen and (max-width: 992px) {
     .aat-lg-only {
@@ -167,7 +167,7 @@
     padding-left: 2rem;
   }
 
-  @media screen and (min-width: 992px) {    
+  @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
       font-weight: 100;
@@ -264,7 +264,7 @@
     flex-direction: column !important;
     padding-top: 0;
   }
-  
+
   .aat-main-navbar {
     border-bottom: 2px solid $uw-light-grey;
     max-width: 100% !important;
