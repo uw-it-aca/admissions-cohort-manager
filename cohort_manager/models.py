@@ -41,10 +41,6 @@ class AssignmentImportManager(models.Manager):
         kwargs['document'] = document
         return AssignmentImport(**kwargs)
 
-    def create_from_override(self, sys_key, **kwargs):
-        kwargs['is_override'] = True
-        return AssignmentImport.objects.create_from_list([sys_key], **kwargs)
-
 
 class AssignmentImport(models.Model):
     FIELD_SYSTEM_KEY = 'system_key'
@@ -118,6 +114,17 @@ class AssignmentImport(models.Model):
                 errors.append({idx: ex})
             assignments.append(assignment)
         return assignments, errors
+
+    def remove_assignments(self, ids_to_remove):
+        assignments, errors = self.assignments()
+        assignments_to_keep = []
+        document = to_csv(AssignmentImport.FIELD_NAMES)
+        for assignment in assignments:
+            if assignment.admission_selection_id not in ids_to_remove:
+                document += assignment.csv_data()
+        self.document = document
+        self.save()
+        assignments, errors = self.assignments()
 
 
 class Assignment(models.Model):
