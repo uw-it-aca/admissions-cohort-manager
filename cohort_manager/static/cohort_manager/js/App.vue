@@ -121,6 +121,7 @@
 
 <style lang="scss">
   @import '../css/_variables.scss';
+  @import '../css/base.scss';
   @import '../css/custom.scss';
 
 

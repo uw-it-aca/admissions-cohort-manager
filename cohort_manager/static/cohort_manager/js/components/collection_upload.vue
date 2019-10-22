@@ -25,9 +25,7 @@
             <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
               {{ uploadToggleLabel }}
             </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
+            <CollectionUploadListInput @listupdated="selectedList" />
           </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
@@ -40,13 +38,6 @@
             v-else
             @fileselected="selectedFile"
           />
-          <div>
-            or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <CollectionUploadListInput @listupdated="selectedList" />
-          </div>
         </div>
       </fieldset>
       <fieldset class="aat-form-section">
