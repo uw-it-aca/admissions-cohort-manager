@@ -56,16 +56,26 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(len(data['errors']), 0)
 
     def test_create_from_list(self):
-        imp = AssignmentImport.objects.create_from_list(
-            sys_keys=[1234567, 1234568], created_by='javerage')
+        a1 = Assignment(
+                system_key='131',
+                campus='0',
+                year=2020,
+                quarter=3,
+                application_number='8',
+                admission_selection_id='000',
+                cohort='65')
+        a2 = Assignment(
+                system_key='1',
+                campus='0',
+                year=2020,
+                quarter=3,
+                application_number='8',
+                admission_selection_id='0001',
+                cohort='65')
+        imp = AssignmentImport.objects.create_from_list([a1, a2],
+                                                        created_by='javerage')
         self.assertEqual(imp.is_file_upload, False)
         self.assertEqual(imp.is_override, False)
-
-    def test_create_from_override(self):
-        imp = AssignmentImport.objects.create_from_override(
-            1234568, created_by='javerage')
-        self.assertEqual(imp.is_file_upload, False)
-        self.assertEqual(imp.is_override, True)
 
     def test_json_data(self):
         import1 = AssignmentImport(comment='comment', created_by='javerage')
@@ -138,3 +148,18 @@ class AssignmentImportTest(TestCase):
 
         imp.document = b'<html>'
         self.assertRaises(TypeError, imp.assignments)
+
+    def test_remove_assignments(self):
+        file_data = self._csv([[1234567, 0, 2019, 4, 1, 123],
+                               [1234568, 0, 2019, 4, 1, 124]])
+
+        uploaded_file = SimpleUploadedFile(
+            'test.csv', file_data.encode(), content_type='text/csv')
+
+        imp = AssignmentImport.objects.create_from_file(
+            uploaded_file=uploaded_file, created_by='javerage')
+        assignments, errors = imp.assignments()
+        self.assertEqual(len(assignments), 2)
+        imp.remove_assignments("124")
+        assignments, errors = imp.assignments()
+        self.assertEqual(len(assignments), 1)

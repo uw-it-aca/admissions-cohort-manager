@@ -82,8 +82,7 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
-
+  
   // general layout
   .aat-form-section {
     &.aat-details-container {
