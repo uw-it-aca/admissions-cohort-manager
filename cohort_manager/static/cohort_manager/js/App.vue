@@ -464,7 +464,7 @@
       transform: rotate(45deg);
     }
 
-    a.collapsed::after {
+    .btn-block.collapsed::after {
       transform: rotate(-45deg) !important;
     }
   }
