@@ -456,7 +456,16 @@
       display: inline-block;
       padding: 2px;
       transform: rotate(-45deg);
+      transition: transform 0.5s;
       vertical-align: middle;
+    }
+
+    a:not(.collapsed)::after {
+      transform: rotate(45deg);
+    }
+
+    a.collapsed::after {
+      transform: rotate(-45deg) !important;
     }
   }
 

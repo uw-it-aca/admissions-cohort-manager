@@ -66,6 +66,13 @@ $blue: #0069d9;
   a {
     background: none;
   }
+
+  a:hover,
+  a:focus,
+  a:active {
+    background: $uw-light-grey !important;
+    color: inherit !important;
+  }
 }
 
 //pagination
