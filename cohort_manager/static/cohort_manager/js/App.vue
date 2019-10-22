@@ -16,50 +16,49 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-col cols="4" lg="2" class="aat-main-navbar">
-        <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container">
-          <b-navbar-brand class="aat-app-info">
-            <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
-              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-            </a>
-          </b-navbar-brand>
-          <b-navbar class="aat-nav-container">
-            <b-navbar-nav class="aat-nav-group aat-assign-group">
-              <b-link to="/cohort/" tabindex="1" class="aat-button-override">
-                <span aria-hidden="true">+ </span>Assign Cohort
-              </b-link>
-              <b-link to="/major/" tabindex="1" class="aat-button-override">
-                <span aria-hidden="true">+ </span>Assign Major
-              </b-link>
-            </b-navbar-nav>
-            <b-navbar-nav class="aat-nav-group">
-              <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
-                Cohorts
-              </b-link>
-              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
-                Majors
-              </b-link>
-              <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
-                Activity Log
-              </b-link>
-            </b-navbar-nav>
-            <b-navbar-nav vertical class="aat-link-group">
-              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
-                Tableau Selection Tool
-              </b-link>
-            </b-navbar-nav>
-          </b-navbar>
-        </b-collapse>
-      </b-col>
-      <b-col cols="12" lg="10" class="aat-content-area">
+      <b-collapse cols="12" lg="3" id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar">
+        <b-navbar-brand class="aat-app-info">
+          <a href="/" class="aat-brand-link">
+            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
+            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+          </a>
+        </b-navbar-brand>
+        <b-navbar class="aat-nav-container">
+          <b-navbar-nav class="aat-nav-group aat-assign-group">
+            <b-link to="/cohort/" tabindex="1" class="aat-button-override">
+              Assign Cohort
+            </b-link>
+            <b-link to="/major/" tabindex="1" class="aat-button-override">
+              Assign Major
+            </b-link>
+          </b-navbar-nav>
+          <b-navbar-nav class="aat-nav-group">
+            <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
+              Cohorts
+            </b-link>
+            <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+              Majors
+            </b-link>
+            <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
+              Activity Log
+            </b-link>
+          </b-navbar-nav>
+          <b-navbar-nav vertical class="aat-link-group">
+            <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+              Tableau Selection Tool
+            </b-link>
+          </b-navbar-nav>
+        </b-navbar>
+      </b-collapse>
+      <b-col cols="12" lg="9" class="aat-content-area">
         <b-row>
           <messagearea
             :message-string="message"
           />
         </b-row>
         <b-row>
-          <main class="col">
+          <main class="col aat-main-containter">
+            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
             <router-view
               @showMessage="show_message"
             />
@@ -88,6 +87,10 @@
     },
     data(){
       return {
+        current_admission_period: 'a',
+        admission_periods: [
+          {value: 'a', text: 'Autumn 2019' }, 
+        ],
         netid: '',
         message: '',
         navCount: 0
@@ -243,19 +246,30 @@
     }
   }
 
+  // admission period select
+  .aat-content-area {
+    .aat-adperiod-select {
+      float: right;
+      font-size: 0.75rem;
+      margin: 1rem 0;
+      width: max-content;
+    }
+  }
+
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
+    border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
+    padding-top: 0;
   }
   
   .aat-main-navbar {
-    border-right: 1px solid $uw-light-grey;
-    max-width: 220px !important;
-    padding: 0 !important;
-    position: absolute !important;
-    z-index: 99;
+    border-bottom: 2px solid $uw-light-grey;
+    max-width: 100% !important;
+    position: relative !important;
+    width: 100%;
   }
 
   .aat-nav-group {
@@ -289,6 +303,17 @@
       border-color: $banner-border;
       color: inherit;
     }
+
+    &::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      float: right;
+      margin-right: 1.5rem;
+      margin-top: 0.5rem;
+      padding: 2px;
+      transform: rotate(-45deg);
+    }
   }
 
   .aat-button-override.router-link-exact-active {
@@ -307,10 +332,18 @@
     .aat-main-navbar {
       max-width: none !important;
       position: relative !important;
+      width: auto;
     }
 
     .aat-nav-container {
       display: block !important;
+    }
+
+    .aat-main-navbar {
+      border-right: 1px solid $uw-light-grey;
+      max-width: 220px !important;
+      padding: 0 !important;
+      position: relative !important;
     }
   }
 
@@ -324,6 +357,10 @@
     .aat-content-area {
       background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
+    }
+
+    .aat-main-containter {
+      padding-right: 0;
     }
 
   }
@@ -370,7 +407,6 @@
     margin: 0 0 3rem;
 
     .aat-select-inline {
-      background: none;
       border-color: $text-color;
       border-radius: 0;
       border-style: none none solid;

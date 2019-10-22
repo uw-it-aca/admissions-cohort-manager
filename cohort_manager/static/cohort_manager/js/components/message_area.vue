@@ -1,6 +1,8 @@
 <template>
   <div v-if="messageString" id="alert_container" role="alert" class="aat-alert">
-    <p>Successfully created {{ messageString }}</p>
+    <b-alert variant="success" show>
+      {{ messageString }}
+    </b-alert>
   </div>
 </template>
 
@@ -26,5 +28,8 @@
 </script>
 
 <style lang="scss">
-
+  .aat-alert {
+    margin: 1rem auto;
+    max-width: 100%;
+  }
 </style>

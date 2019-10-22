@@ -152,7 +152,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // upload issues lists
   .aat-accordian {

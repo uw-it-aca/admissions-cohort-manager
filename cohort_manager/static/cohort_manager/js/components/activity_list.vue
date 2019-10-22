@@ -167,7 +167,7 @@
           },
           {
             key: 'selection',
-            class: "aat-data-cell",
+            class: "aat-data-cell aat-filters-cell",
             sortable: false,
           },
           {
@@ -286,7 +286,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // general layout
   .aat-col-nopad {
@@ -303,10 +302,6 @@
     padding: 0.75rem 1.5rem;
   }
 
-  .aat-filter-select {
-    background: none;
-  }
-
   .aat-filter-title {
     float: left;
     font-size: 1rem;
@@ -317,6 +312,12 @@
   .aat-filter-reset button {
     float: right;
     padding: 0;
+  }
+
+  //table
+  .aat-filters-cell {
+    text-align: center;
+    vertical-align: middle !important;
   }
 
 </style>

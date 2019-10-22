@@ -218,7 +218,6 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
   // form fields
   .aat-file-input {
