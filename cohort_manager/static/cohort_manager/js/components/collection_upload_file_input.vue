@@ -1,5 +1,11 @@
 <template>
-  <b-form-file :state="Boolean(file)" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." id="file" ref="file" class="aat-file-input" @change="selectedFile">
+  <b-form-file :state="Boolean(file_upload)"
+               placeholder="Choose a file or drop it here..."
+               drop-placeholder="Drop file here..."
+               id="file"
+               ref="file"
+               class="aat-file-input"
+               v-model="file_upload">
   </b-form-file>
 </template>
 
@@ -10,18 +16,17 @@
     props: {},
     data(){
       return {
-        file: ''
+        file_upload: undefined
       };
     },
-    watch: {},
+    watch: {
+      file_upload: function(file){
+        this.$emit('fileselected', file);
+      }
+    },
     mounted() {
     },
     methods: {
-      selectedFile() {
-        this.file = this.$refs.file.files[0];
-        this.$emit('fileselected', this.file);
-      }
-
     },
   };
 </script>
