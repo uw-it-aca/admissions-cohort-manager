@@ -40,7 +40,14 @@
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text class="aat-accordion-note">Select applications to assign:</b-card-text>
-            <b-card-text><applicationlist application-return="Duplicate" :collection-type="collectionType" /></b-card-text>
+            <b-card-text>
+              <applicationlist
+                application-return="Duplicate"
+                :collection-type="collectionType"
+                :applications="duplicates"
+                @dupeToRemove="proc"
+              />
+            </b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -98,6 +105,7 @@
             }
           }
         });
+        this.duplicates = this.get_duplicates(this.upload_response.assignments);
       }
     },
     mounted() {
@@ -114,8 +122,28 @@
       this.upload_response = this.$props.uploadResponse;
     },
     methods: {
+      proc: function(list){
+        this.$emit("dupeToRemove", list);
+      },
       reset_upload: function(){
         this.$emit('upload_reset');
+      },
+      get_duplicates: function(assignments){
+        var syskeys = {},
+            dupe_assignments =[];
+        $.each(assignments, function(idx, assignment){
+          if(assignment.system_key in syskeys){
+            syskeys[assignment.system_key] += 1;
+          } else {
+            syskeys[assignment.system_key] = 1;
+          }
+        });
+        $.each(assignments, function(idx, assignment) {
+          if(syskeys[assignment.system_key] > 1){
+            dupe_assignments.push(assignment);
+          }
+        });
+        return dupe_assignments;
       }
     },
   };

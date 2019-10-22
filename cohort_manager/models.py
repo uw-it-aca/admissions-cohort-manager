@@ -32,18 +32,14 @@ class AssignmentImportManager(models.Manager):
         kwargs['upload_filename'] = uploaded_file.name
         return AssignmentImport(**kwargs)
 
-    def create_from_list(self, sys_keys, **kwargs):
+    def create_from_list(self, applications, **kwargs):
         document = to_csv(AssignmentImport.FIELD_NAMES)
-        for sys_key in sys_keys:
-            document += to_csv([sys_key])
+        for application in applications:
+            document += application.csv_data()
 
         kwargs['is_file_upload'] = False
         kwargs['document'] = document
         return AssignmentImport(**kwargs)
-
-    def create_from_override(self, sys_key, **kwargs):
-        kwargs['is_override'] = True
-        return AssignmentImport.objects.create_from_list([sys_key], **kwargs)
 
 
 class AssignmentImport(models.Model):
@@ -118,6 +114,15 @@ class AssignmentImport(models.Model):
                 errors.append({idx: ex})
             assignments.append(assignment)
         return assignments, errors
+
+    def remove_assignments(self, ids_to_remove):
+        assignments, errors = self.assignments()
+        document = to_csv(AssignmentImport.FIELD_NAMES)
+        for assignment in assignments:
+            if assignment.admission_selection_id not in ids_to_remove:
+                document += assignment.csv_data()
+        self.document = document
+        self.save()
 
 
 class Assignment(models.Model):
