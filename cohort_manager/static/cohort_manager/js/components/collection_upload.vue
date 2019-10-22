@@ -22,7 +22,7 @@
         <div id="add_applications_widget">
           <div>
             Enter applications by file (csv) or
-            <b-button id="manual_toggle" class="aat-btn-link" v-b-modal.add_list_modal variant="link">
+            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
               {{ uploadToggleLabel }}
             </b-button>
             <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">

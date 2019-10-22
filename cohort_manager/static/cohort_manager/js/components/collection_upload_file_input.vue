@@ -1,12 +1,12 @@
 <template>
-  <b-form-file :state="Boolean(file_upload)"
+  <b-form-file id="file"
+               ref="file"
+               v-model="file_upload"
+               :state="Boolean(file_upload)"
                placeholder="Choose a file or drop it here..."
                drop-placeholder="Drop file here..."
-               id="file"
-               ref="file"
                class="aat-file-input"
-               v-model="file_upload">
-  </b-form-file>
+  />
 </template>
 
 <script>
