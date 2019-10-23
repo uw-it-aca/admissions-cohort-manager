@@ -20,24 +20,25 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <div id="add_ssignment_options">
-            Enter applications by file (csv) or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <CollectionUploadListInput @listupdated="selectedList" />
-          </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
                          @dupeToRemove="handleRemove"
           />
-          <component
+          <div v-else>
+            <div>
+              Enter applications by file (csv) or
+              <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                {{ uploadToggleLabel }}
+              </b-button>
+              <CollectionUploadListInput @listupdated="selectedList" />
+            </div>
+            <component
             :is="uploadComponent"
-            v-else
             @fileselected="selectedFile"
-          />
+            />
+          </div>
         </div>
       </fieldset>
       <fieldset class="aat-form-section">
