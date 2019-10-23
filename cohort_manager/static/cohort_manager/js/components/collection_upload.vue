@@ -20,7 +20,7 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <div>
+          <div id="add_ssignment_options">
             Enter applications by file (csv) or
             <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
               {{ uploadToggleLabel }}
