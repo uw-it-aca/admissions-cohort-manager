@@ -10,6 +10,9 @@ import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
 
+// import the bootstrap / bootstrap-vue base css
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 //TODO: Replace with real key, vue analytics requires *a* key!
 //const gaCode = $("body").data("google-analytics");

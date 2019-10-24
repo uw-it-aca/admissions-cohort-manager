@@ -120,9 +120,9 @@
 </script>
 
 <style lang="scss">
-  @import '../css/_variables.scss';
-  @import '../css/custom.scss';
 
+  // import base.scss which inherits the custom theme
+  @import '../css/base.scss';
 
   // hide for small screens
   @media screen and (max-width: 992px) {
