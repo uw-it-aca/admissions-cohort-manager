@@ -1,5 +1,5 @@
 <template>
-  <b-container class="aat-details-container aat-form-section" fluid>
+  <b-container class="aat-details-container aat-form-section" fluidv v-if="collectionId">
     <b-row>
       <b-col cols="12" md="3" class="aat-group-info-primary">
         <b-row class="aat-info-spacing">
@@ -82,7 +82,7 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  
+
   // general layout
   .aat-form-section {
     &.aat-details-container {
