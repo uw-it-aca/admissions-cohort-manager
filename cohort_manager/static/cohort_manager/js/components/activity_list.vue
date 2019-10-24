@@ -29,7 +29,7 @@
           :filter="filter"
         >
           <template v-slot:cell(selection)="row">
-            <a href="www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
+            <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
           </template>
         </b-table>
       </b-col>

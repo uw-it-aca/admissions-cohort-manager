@@ -31,7 +31,10 @@ class RESTDispatch(View):
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES.get('file')
-        syskey_list = request.POST.get('syskey_list').split(",")
+        try:
+            syskey_list = request.POST.get('syskey_list').split(",")
+        except AttributeError:
+            syskey_list = None
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
