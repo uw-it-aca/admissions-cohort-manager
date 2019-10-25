@@ -3,7 +3,7 @@
     <h1 class="aat-page-header">
       Assign Major
     </h1>
-    <component :is="currentComponent" v-bind="currentProperties" @uploaded="onFileUpload" />
+    <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
 </template>
 
