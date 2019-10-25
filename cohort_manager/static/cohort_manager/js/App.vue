@@ -16,7 +16,7 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-collapse cols="12" lg="3" id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar">
+      <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
         <b-navbar-brand class="aat-app-info">
           <a href="/" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
@@ -58,7 +58,7 @@
         </b-row>
         <b-row>
           <main class="col aat-main-containter">
-            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
+            <b-form-select v-model="current_admission_period" class="aat-adperiod-select" :options="admission_periods" />
             <router-view
               @showMessage="show_message"
             />
