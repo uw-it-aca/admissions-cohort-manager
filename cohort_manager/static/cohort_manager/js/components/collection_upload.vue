@@ -36,8 +36,8 @@
               <CollectionUploadListInput @listupdated="selectedList" />
             </div>
             <component
-            :is="uploadComponent"
-            @fileselected="selectedFile"
+              :is="uploadComponent"
+              @fileselected="selectedFile"
             />
           </div>
         </div>

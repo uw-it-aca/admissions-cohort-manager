@@ -9,13 +9,11 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
-  import UploadReview from "../components/collection_upload_review.vue";
 
   export default {
     name: "Major",
     components: {
       upload: Upload,
-      uploadReview: UploadReview,
     },
     data(){
       return {
