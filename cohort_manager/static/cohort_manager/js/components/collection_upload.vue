@@ -21,32 +21,24 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <div>
-            Enter applications by file (csv) or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
-          </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
                          @dupeToRemove="handleRemove"
           />
-          <component
+          <div v-else>
+            <div>
+              Enter applications by file (csv) or
+              <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                {{ uploadToggleLabel }}
+              </b-button>
+              <CollectionUploadListInput @listupdated="selectedList" />
+            </div>
+            <component
             :is="uploadComponent"
-            v-else
             @fileselected="selectedFile"
-          />
-          <div>
-            or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <CollectionUploadListInput @listupdated="selectedList" />
+            />
           </div>
         </div>
       </fieldset>
@@ -245,8 +237,7 @@
 
   // form messaging
   .aat-status-feedback {
-    font-style: italic;
-    margin-top: 1.5rem;
+    font-size: 0.75rem;
   }
 
   // action elements
