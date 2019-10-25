@@ -275,7 +275,7 @@
   .aat-actions-cell.aat-data-cell .btn-secondary {
     background: none;
     border-style: none;
-    color: $text-color;
+    color: $sub-header;
     min-width: auto;
     padding: 0;
     vertical-align: baseline;
