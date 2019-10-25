@@ -7,7 +7,8 @@
             Select {{ collectionType }}
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
+          <b-form-input id="input-with-list" v-model="collection_id" list="input-list" />
+          <b-form-datalist id="input-list" :options="collectionOptions" />
         </fieldset>
         <collectionDetails
           v-if="collectionType === 'Cohort'"
