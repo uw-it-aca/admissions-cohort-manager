@@ -1,5 +1,5 @@
 <template>
-  <b-container class="aat-details-container aat-form-section" fluidv v-if="collectionId">
+  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluidv>
     <b-row>
       <b-col cols="12" md="3" class="aat-group-info-primary">
         <b-row class="aat-info-spacing">

@@ -20,9 +20,9 @@
         has_uploaded: false,
         upload_response: undefined,
         cohort_options: [
-          {value: '1', text: '1'},
-          {value: '2', text: '2'},
-          {value: '99', text: '99'},
+          {value: '1', text: 'First Cohort'},
+          {value: '2', text: 'Another test cohort'},
+          {value: '99', text: 'final cohort'},
         ]
       };
     },
