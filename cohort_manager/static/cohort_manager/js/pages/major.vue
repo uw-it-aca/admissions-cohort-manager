@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="aat-page-header">
-      Assign Major
+      Assign to Major
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
   </div>

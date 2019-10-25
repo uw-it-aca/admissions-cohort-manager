@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="aat-page-header">
-      Assign Cohort
+      Assign to Cohort
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
