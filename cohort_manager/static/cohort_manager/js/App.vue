@@ -444,6 +444,8 @@
   // Accordian 
 
   .card-header {
+    background: #fff;
+
     a::after {
       border-style: solid;
       border-width: 0 2px 2px 0;

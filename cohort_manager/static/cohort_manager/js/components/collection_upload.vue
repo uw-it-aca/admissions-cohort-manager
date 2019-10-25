@@ -239,6 +239,7 @@
       display: inline-block;
       margin-right: 0.5rem;
     }
+    
     .aat-select-inline {
       display: inline-block;
       vertical-align: middle;
