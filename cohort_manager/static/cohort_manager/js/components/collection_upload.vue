@@ -6,8 +6,9 @@
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label class="aat-collection-select-label" for="collection_chooser">Assign applications to</label>
-          <b-form-input id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" :placeholder="'Select ' + collectionType" class="aat-select-inline" />
+          <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
+          <b-form-input id="input-with-list" v-model="collection_id" list="input-list" />
+          <b-form-datalist id="input-list" :options="collectionOptions" />
         </fieldset>
         <collectionDetails
           v-if="collectionType === 'Cohort'"
@@ -20,32 +21,24 @@
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <div>
-            Enter applications by file (csv) or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
-          </div>
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
                          @dupeToRemove="handleRemove"
           />
-          <component
+          <div v-else>
+            <div>
+              Enter applications by file (csv) or
+              <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                {{ uploadToggleLabel }}
+              </b-button>
+              <CollectionUploadListInput @listupdated="selectedList" />
+            </div>
+            <component
             :is="uploadComponent"
-            v-else
             @fileselected="selectedFile"
-          />
-          <div>
-            or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <CollectionUploadListInput @listupdated="selectedList" />
+            />
           </div>
         </div>
       </fieldset>
@@ -256,8 +249,7 @@
 
   // form messaging
   .aat-status-feedback {
-    font-style: italic;
-    margin-top: 1.5rem;
+    font-size: 0.75rem;
   }
 
   // action elements

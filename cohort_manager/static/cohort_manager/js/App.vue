@@ -1,22 +1,22 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <b-navbar toggleable="lg">
-        <b-navbar-toggle tabindex="1" target="nav-collapse" />
-        <span class="aat-app-info aat-mobile-brand">
-          <a href="/" class="aat-brand-link">
-            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
-            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-          </a>
-        </span>
-        <span class="aat-login-info">
-          <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
-          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
-        </span>
+       <b-navbar toggleable="lg">
+        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
+          <span class="aat-app-info aat-mobile-brand">
+            <a href="/" class="aat-brand-link">
+              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
+              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+            </a>
+          </span>
+          <span class="aat-login-info">
+            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
+            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+          </span>
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-collapse cols="12" lg="3" id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar">
+      <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
         <b-navbar-brand class="aat-app-info">
           <a href="/" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
@@ -58,7 +58,7 @@
         </b-row>
         <b-row>
           <main class="col aat-main-containter">
-            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
+            <b-form-select v-model="current_admission_period" class="aat-adperiod-select" :options="admission_periods" />
             <router-view
               @showMessage="show_message"
             />
@@ -120,9 +120,8 @@
 </script>
 
 <style lang="scss">
-  @import '../css/_variables.scss';
-  @import '../css/custom.scss';
-
+  // import base.scss which inherits the custom theme
+  @import '../css/base.scss';
 
   // hide for small screens
   @media screen and (max-width: 992px) {
@@ -440,6 +439,29 @@
 
   .aat-modal-container {
     margin: 2rem 1rem 0;
+  }
+
+  // Accordian 
+
+  .card-header {
+    a::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      display: inline-block;
+      padding: 2px;
+      transform: rotate(-45deg);
+      transition: transform 0.5s;
+      vertical-align: middle;
+    }
+
+    a:not(.collapsed)::after {
+      transform: rotate(45deg);
+    }
+
+    .btn-block.collapsed::after {
+      transform: rotate(-45deg) !important;
+    }
   }
 
 </style>

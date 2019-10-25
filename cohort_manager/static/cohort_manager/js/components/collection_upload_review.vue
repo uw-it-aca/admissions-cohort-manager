@@ -1,12 +1,11 @@
 <template>
   <div class="aat-app-add-review">
-    <div id="file_name">
-      Imported file: {{ uploaded_filename }}
-    </div>
-    <p id="upload_app_count" class="aat-status-feedback">
+    <div id="upload_app_count">
       {{ upload_count }} system keys found. <a href="#" @click.prevent="reset_upload">Reset</a>
+    </div>
+    <p id="file_name" class="aat-status-feedback">
+      <b>Imported file:</b> {{ uploaded_filename }}
     </p>
-
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
@@ -38,9 +37,9 @@
             Duplicates (#)
           </b-button>
         </b-card-header>
-        <span class="aat-accordion-note">Select applications to assign:</span>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
+            <b-card-text class="aat-accordion-note">Select applications to assign:</b-card-text>
             <b-card-text>
               <applicationlist
                 application-return="Duplicate"
@@ -159,12 +158,7 @@
       text-align: left;
     }
 
-    .aat-accordion-note {
-      margin: 1.5rem 1.5rem 0;
-    }
-
     .btn-info {
-      background-color: $grey-bkgnd;
       border-style: none;
       color: inherit;
     }
