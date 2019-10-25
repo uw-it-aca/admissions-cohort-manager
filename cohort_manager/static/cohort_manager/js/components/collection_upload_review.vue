@@ -158,7 +158,9 @@
       text-align: left;
     }
 
-    .btn-info {
+    .btn-block.btn-info,
+    .btn-block.btn-info:active {
+      background-color: transparent;
       border-style: none;
       color: inherit;
     }
