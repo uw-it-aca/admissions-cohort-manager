@@ -1,7 +1,7 @@
 <template>
   <div v-if="messageString" id="alert_container" role="alert" class="aat-alert">
     <b-alert variant="success" show>
-      {{ messageString }}
+      Successfully assigned {{ messageString }} applications
     </b-alert>
   </div>
 </template>
