@@ -1,33 +1,36 @@
 <template>
   <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluidv>
     <b-row>
-      <b-col cols="12" md="3" class="aat-group-info-primary">
+      <b-col class="aat-group-info-primary">
         <b-row class="aat-info-spacing">
-          <div class="aat-data-primary">
-            {{ collectionType }}
-          </div> <div class="aat-group-data aat-data-primary">
-            {{ collectionId }}
+          <b-col cols="3" class="aat-data-primary">
+              {{ collectionType }}
+            <div class="aat-group-data aat-data-primary">
+            #{{ collectionId }}
+            </div>
+          </b-col>
+          <b-col cols="9" class="aat-group-info-secondary">
+          Description
+          <div class="aat-group-data aat-data-baseline">
+            {{ description }}
           </div>
-        </b-row>
-        <b-row>
-          <div class="aat-data-primary">
-            Applications Assigned
-          </div> <div class="aat-group-data aat-data-primary">
-            {{ applications_assigned }}
-          </div>
+          </b-col>
         </b-row>
       </b-col>
-      <b-col cols="12" md="4" class="aat-group-info-secondary">
-        <b-row class="aat-info-spacing">
-          Residency <span class="aat-group-data">{{ residency }}</span>
-        </b-row>
-        <b-row class="aat-info-spacing">
-          Admit Decision<span class="aat-group-data">{{ admit_decision }}</span>
-        </b-row>
-        <b-row>Protected Group <span class="aat-group-data">{{ protected_group }}</span></b-row>
+    </b-row>
+    <b-row class="aat-group-info-secondary">
+      <b-col class="aat-info-spacing">
+        Residency <div class="aat-group-data">{{ residency }}</div>
       </b-col>
-      <b-col cols="12" md="5" class="aat-group-info-secondary">
-        <b-row>Description<span class="aat-group-data">{{ description }}</span></b-row>
+      <b-col class="aat-info-spacing">Protected <div class="aat-group-data">{{ protected_group }}</div></b-col>
+      <b-col class="aat-info-spacing">
+        Admit Status<div class="aat-group-data">{{ admit_decision }}</div>
+      </b-col>
+      <b-col class="aat-info-spacing">
+        Assigned
+        <div class="aat-group-data">
+          {{ applications_assigned }}
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -99,10 +102,6 @@
   // labels and data
 
   .aat-group-info-primary {
-    .row {
-      flex-direction: column-reverse;
-    }
-
     .aat-group-data {
       font-size: 2rem;
 
@@ -116,11 +115,6 @@
 
   .aat-info-spacing {
     padding-bottom: 1.5rem;
-  }
-
-  .aat-data-primary {
-    margin: auto;
-    text-align: center;
   }
 
   .aat-group-info-secondary {
