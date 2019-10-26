@@ -45,6 +45,10 @@ legend {
   font-weight: bold;
 }
 
+.navbar-light .navbar-nav .nav-link {
+  color: $text-color !important;
+}
+
 .navbar-light .navbar-toggler {
   border-style: none;
 }

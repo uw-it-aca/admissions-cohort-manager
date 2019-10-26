@@ -291,7 +291,7 @@
     border-radius: 0;
     border-style: none none solid;
     border-width: 1px;
-    color: $nav-text;
+    color: $text-color;
     margin: 0 -1rem;
     padding: 1rem 0 1rem 1.5rem;
     text-align: left;

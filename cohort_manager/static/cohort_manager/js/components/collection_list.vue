@@ -264,7 +264,7 @@
   }
 
   .aat-actions-cell a i {
-    color: $nav-text;
+    color: $text-color;
 
     &:hover,
     &:focus {
@@ -275,7 +275,7 @@
   .aat-actions-cell.aat-data-cell .btn-secondary {
     background: none;
     border-style: none;
-    color: $nav-text;
+    color: $sub-header;
     min-width: auto;
     padding: 0;
     vertical-align: baseline;
