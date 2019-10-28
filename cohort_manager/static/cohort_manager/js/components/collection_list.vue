@@ -70,7 +70,7 @@
                     name="col_reset_checkbox"
                     value=""
                   >
-                    Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemName }}" to <em>unassigned</em>.
+                    Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemId }}" to <em>unassigned</em>.
                   </b-form-checkbox>
                 </div>
               </fieldset>
