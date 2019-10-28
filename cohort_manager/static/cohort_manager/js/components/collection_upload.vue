@@ -184,7 +184,12 @@
           }
         ).then(function() {
           vue.$emit('showMessage', vue.upload_response.id.toString());
-          vue.$router.push({path: '/'});
+          if(vue.collection_type == "Cohort"){
+            vue.$router.push({path: '/cohort_list'});
+          } else if(vue.collection_type == "Major"){
+            vue.$router.push({path: '/major_list'});
+          }
+
 
         });
       },
@@ -240,7 +245,7 @@
       display: inline-block;
       margin-right: 0.5rem;
     }
-    
+
     .aat-select-inline {
       display: inline-block;
       margin-left: 0.25rem;
