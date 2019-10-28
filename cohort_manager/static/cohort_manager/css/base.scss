@@ -47,6 +47,12 @@ legend {
 
 .navbar-light .navbar-nav .nav-link {
   color: $text-color !important;
+
+  &:hover,
+  &:focus {
+    background-color: $grey-bkgnd;
+    text-decoration: underline;
+  }
 }
 
 .navbar-light .navbar-toggler {
