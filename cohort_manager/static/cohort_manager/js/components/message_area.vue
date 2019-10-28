@@ -1,7 +1,8 @@
 <template>
   <div v-if="messageString" id="alert_container" role="alert" class="aat-alert">
-    <b-alert variant="success" show>
-      Successfully assigned {{ messageString }} applications
+    <b-alert variant="primary" show>
+      {{ messageString }} assignment submitted.
+      <div class="aat-note">This may take up to 10 minutes before the changes are visible everywhere.</div>
     </b-alert>
   </div>
 </template>
@@ -31,5 +32,17 @@
   .aat-alert {
     margin: 1rem auto;
     max-width: 100%;
+  }
+
+  .aat-alert {
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .aat-note {
+      font-size: 0.8125rem;
+      padding-top: 0.25rem;
+    }
   }
 </style>
