@@ -127,3 +127,9 @@ class CollectionList(RESTDispatch):
             return self.json_response(list)
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
+
+
+class PeriodList(RESTDispatch):
+    def get(self):
+        return self.json_response(status=200, content=[{'quarter': 'autumn',
+                                                        'year': 2019}])
