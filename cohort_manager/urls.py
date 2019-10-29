@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 
 from cohort_manager.views.api import UploadView, CollectionDetails, \
-    ActivityLog, CollectionList, ModifyUploadView
+    ActivityLog, CollectionList, ModifyUploadView, PeriodList
 from cohort_manager.views.pages import LandingView
 
 urlpatterns = [
@@ -15,5 +15,7 @@ urlpatterns = [
             name="collection_list"),
     re_path(r'^api/activity/',
             ActivityLog.as_view()),
+    re_path(r'^api/periods/',
+            PeriodList.as_view()),
     re_path(r'^.*$', LandingView.as_view()),
 ]
