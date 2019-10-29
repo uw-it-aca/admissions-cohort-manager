@@ -144,7 +144,7 @@ legend {
 }
 
 .custom-file-input.is-invalid ~ .custom-file-label {
-  border-color: $banner-border !important;
+  color: $alert-red !important;
 }
 
 .custom-file.b-form-file {

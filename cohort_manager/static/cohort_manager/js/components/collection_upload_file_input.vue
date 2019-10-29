@@ -5,7 +5,7 @@
                :state="Boolean(file_upload)"
                placeholder="Choose a file or drop it here..."
                drop-placeholder="Drop file here..."
-               class="aat-file-input"
+               class="aat-file-input is-invalid"
                required
   />
 </template>
