@@ -6,6 +6,7 @@
                placeholder="Choose a file or drop it here..."
                drop-placeholder="Drop file here..."
                class="aat-file-input"
+               required
   />
 </template>
 

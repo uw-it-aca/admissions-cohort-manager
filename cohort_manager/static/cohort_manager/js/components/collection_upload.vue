@@ -7,7 +7,7 @@
             Select {{ collectionType }}
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="aat-select-inline" />
+          <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="aat-select-inline" required/>
           <b-form-datalist id="input-list" :options="collectionOptions" />
         </fieldset>
         <collectionDetails
