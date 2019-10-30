@@ -1,10 +1,10 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      {{ upload_count }} system keys found. <a href="#" @click.prevent="reset_upload">Reset</a>
+      {{ uploaded_filename }} <a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      <b>Imported file:</b> {{ uploaded_filename }}
+      {{ upload_count }} applications found.
     </p>
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
@@ -172,6 +172,9 @@
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }
+  }
 
+  .aat-reset-link {
+    margin-left: 0.5rem;
   }
 </style>

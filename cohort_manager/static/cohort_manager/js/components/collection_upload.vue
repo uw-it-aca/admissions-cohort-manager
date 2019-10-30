@@ -261,7 +261,7 @@
 
   // form messaging
   .aat-status-feedback {
-    font-size: 0.75rem;
+    padding-top: 0.5rem;
   }
 
   // action elements
