@@ -131,5 +131,9 @@ class CollectionList(RESTDispatch):
 
 class PeriodList(RESTDispatch):
     def get(self, request):
-        return self.json_response(status=200, content=[{'quarter': 'autumn',
-                                                        'year': 2019}])
+        return self.json_response(status=200,
+                                  content=[{'value': '2019_autumn',
+                                            'text': 'Autumn 2019'},
+                                           {'value': '2020_winter',
+                                            'text': 'Winter 2020'}
+                                           ])

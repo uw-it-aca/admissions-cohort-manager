@@ -80,6 +80,7 @@
 
 <script>
   import MessageArea from "./components/message_area.vue";
+  const axios = require("axios");
   export default {
     name: "LandingPage",
     components: {
@@ -110,10 +111,20 @@
     },
     mounted() {
       this.netid = window.user_netid;
+      this.get_periods();
     },
     methods: {
-      show_message(msg){
+      show_message(msg) {
         this.message = msg;
+      },
+      get_periods() {
+        var vue = this;
+        axios.get(
+          '/api/periods/',
+        ).then(response => {
+          vue.admission_periods = response.data;
+          vue.current_admission_period = vue.admission_periods[0].value;
+        });
       }
     }
   };
@@ -441,7 +452,7 @@
     margin: 2rem 1rem 0;
   }
 
-  // Accordian 
+  // Accordian
 
   .card-header {
     background: #fff;
