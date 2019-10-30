@@ -7,8 +7,13 @@
             Select {{ collectionType }}
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="aat-select-inline" />
-          <b-form-datalist id="input-list" :options="collectionOptions" />
+          <div class="aat-select-inline">
+            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required/>
+            <b-form-invalid-feedback true>
+              Please select an option.
+            </b-form-invalid-feedback>
+            <b-form-datalist id="input-list" :options="collectionOptions" />
+          </div>
         </fieldset>
         <collectionDetails
           v-if="collectionType === 'Cohort'"
@@ -247,7 +252,7 @@
     }
 
     .aat-select-inline {
-      display: inline-block;
+      display: inline-grid;
       margin-left: 0.25rem;
     }
   }
