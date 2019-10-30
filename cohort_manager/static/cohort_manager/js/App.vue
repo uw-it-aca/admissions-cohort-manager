@@ -58,7 +58,11 @@
         </b-row>
         <b-row>
           <main class="col aat-main-containter">
-            <b-form-select v-model="current_admission_period" class="aat-adperiod-select" :options="admission_periods" />
+            <b-form-select v-model="current_admission_period"
+                           class="aat-adperiod-select"
+                           :class="{disabled: admission_periods.length < 2}"
+                           :options="admission_periods"
+            />
             <router-view
               @showMessage="show_message"
             />
@@ -92,6 +96,7 @@
         admission_periods: [
           {value: 'a', text: 'Autumn 2019' },
         ],
+        disable_period_select: false,
         netid: '',
         message: '',
         navCount: 0
