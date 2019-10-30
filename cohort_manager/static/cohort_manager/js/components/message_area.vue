@@ -1,8 +1,10 @@
 <template>
   <div v-if="messageString" id="alert_container" role="alert" class="aat-alert">
     <b-alert variant="primary" show>
-      {{ messageString }} assignment submitted.
-      <div class="aat-note">This may take up to 10 minutes before the changes are visible everywhere.</div>
+      Assignment submitted for {{ messageString }}.
+      <div class="aat-note">
+        This may take up to 10 minutes before the changes are visible everywhere.
+      </div>
     </b-alert>
   </div>
 </template>
