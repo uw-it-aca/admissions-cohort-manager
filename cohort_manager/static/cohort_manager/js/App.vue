@@ -58,7 +58,11 @@
         </b-row>
         <b-row>
           <main class="col aat-main-containter">
-            <b-form-select v-model="current_admission_period" class="aat-adperiod-select" :options="admission_periods" />
+            <b-form-select v-model="current_admission_period"
+                           class="aat-adperiod-select"
+                           :class="{disabled: admission_periods.length < 2}"
+                           :options="admission_periods"
+            />
             <router-view
               @showMessage="show_message"
             />
@@ -80,6 +84,7 @@
 
 <script>
   import MessageArea from "./components/message_area.vue";
+  const axios = require("axios");
   export default {
     name: "LandingPage",
     components: {
@@ -91,6 +96,7 @@
         admission_periods: [
           {value: 'a', text: 'Autumn 2019' },
         ],
+        disable_period_select: false,
         netid: '',
         message: '',
         navCount: 0
@@ -110,10 +116,20 @@
     },
     mounted() {
       this.netid = window.user_netid;
+      this.get_periods();
     },
     methods: {
-      show_message(msg){
+      show_message(msg) {
         this.message = msg;
+      },
+      get_periods() {
+        var vue = this;
+        axios.get(
+          '/api/periods/',
+        ).then(response => {
+          vue.admission_periods = response.data;
+          vue.current_admission_period = vue.admission_periods[0].value;
+        });
       }
     }
   };
@@ -441,7 +457,7 @@
     margin: 2rem 1rem 0;
   }
 
-  // Accordian 
+  // Accordian
 
   .card-header {
     background: #fff;
