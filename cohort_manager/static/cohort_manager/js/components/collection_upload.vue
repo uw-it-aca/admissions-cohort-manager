@@ -8,7 +8,7 @@
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
           <div class="aat-select-inline">
-            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required/>
+            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
             <b-form-invalid-feedback true>
               Please select an option.
             </b-form-invalid-feedback>
@@ -188,10 +188,12 @@
             }
           }
         ).then(function() {
-          vue.$emit('showMessage', vue.upload_response.id.toString());
           if(vue.collection_type == "Cohort"){
+
+            vue.$emit('showMessage', "Cohort " + vue.collection_id);
             vue.$router.push({path: '/cohort_list'});
           } else if(vue.collection_type == "Major"){
+            vue.$emit('showMessage', vue.collection_id);
             vue.$router.push({path: '/major_list'});
           }
 
