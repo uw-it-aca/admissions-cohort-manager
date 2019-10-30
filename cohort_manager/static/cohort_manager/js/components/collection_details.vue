@@ -4,27 +4,35 @@
       <b-col class="aat-group-info-primary">
         <b-row class="aat-info-spacing">
           <b-col cols="3" class="aat-data-primary">
-              {{ collectionType }}
+            {{ collectionType }}
             <div class="aat-group-data aat-data-primary">
-            #{{ collectionId }}
+              #{{ collectionId }}
             </div>
           </b-col>
           <b-col cols="9" class="aat-group-info-secondary">
-          Description
-          <div class="aat-group-data aat-data-baseline">
-            {{ description }}
-          </div>
+            Description
+            <div class="aat-group-data aat-data-baseline">
+              {{ description }}
+            </div>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
     <b-row class="aat-group-info-secondary">
       <b-col class="aat-info-spacing">
-        Residency <div class="aat-group-data">{{ residency }}</div>
+        Residency <div class="aat-group-data">
+          {{ residency }}
+        </div>
       </b-col>
-      <b-col class="aat-info-spacing">Protected <div class="aat-group-data">{{ protected_group }}</div></b-col>
       <b-col class="aat-info-spacing">
-        Admit Status<div class="aat-group-data">{{ admit_decision }}</div>
+        Protected <div class="aat-group-data">
+          {{ protected_group }}
+        </div>
+      </b-col>
+      <b-col class="aat-info-spacing">
+        Admit Status<div class="aat-group-data">
+          {{ admit_decision }}
+        </div>
       </b-col>
       <b-col class="aat-info-spacing">
         Assigned
