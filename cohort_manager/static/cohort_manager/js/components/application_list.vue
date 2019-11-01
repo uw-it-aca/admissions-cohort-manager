@@ -107,37 +107,44 @@
             key: 'Key',
             label: "System Key",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Type',
             label: "Application Type",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Status',
             class: "aat-data-cell aat-data-nowrap",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Class',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Campus',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Cohort',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'Major',
             class: "aat-data-cell aat-data-nowrap",
+            thClass: "aat-table-header",
             sortable: true
           },
         ],
@@ -151,50 +158,59 @@
             key: 'system_key',
             label: "System Key",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'admission_selection_id',
             label: "AdSel ID",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true
           },
           {
             key: 'application_number',
             label: "Application #",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'Type',
             label: "Application Type",
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Status',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Class',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'campus',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'cohort',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'major',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
         ],
 
