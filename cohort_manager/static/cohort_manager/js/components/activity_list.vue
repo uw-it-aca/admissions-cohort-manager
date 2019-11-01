@@ -151,33 +151,39 @@
             key: 'activity_date',
             label: "Date/Time",
             class: "aat-data-cell aat-data-nowrap",
+            thClass: "aat-table-header",
             sortable: true,
           },
           {
             key: 'assigned_msg',
             label: 'Assignment',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: false
           },
           {
             key: 'submitted_msg',
             label: 'Submitted',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: false
           },
           {
             key: 'selection',
             class: "aat-data-cell aat-filters-cell",
+            thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'comment',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'user',
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: true,
           },
         ],
