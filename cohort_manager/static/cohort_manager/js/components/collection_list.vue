@@ -111,33 +111,33 @@
             key: 'name',
             label: "Cohort #",
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'description',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'residency',
             class: "aat-data-cell",
-            sortable: true,
+            sortable: false,
           },
           {
             key: 'protect',
             label: 'Protected',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'admit_status',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'assigned',
             class: "aat-data-cell",
-            sortable: true,
+            sortable: false,
           },
           { key: 'actions',
             label: '',
@@ -149,27 +149,27 @@
             key: 'name',
             label: 'Major',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Division',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'College',
             class: "aat-data-cell",
-            sortable: true,
+            sortable: false,
           },
           {
             key: 'DTX',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Assigned',
             class: "aat-data-cell",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Actions',
