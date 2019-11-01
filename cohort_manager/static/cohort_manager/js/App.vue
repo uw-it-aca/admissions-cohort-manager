@@ -198,6 +198,10 @@
   .aat-sub-header {
     color: $text-color;
     font-size: 1.75rem;
+
+    h3 {
+      font-size: 1.5rem;
+    }
   }
 
   .aat-brand-link {
@@ -465,7 +469,7 @@
   // Accordian
 
   .card-header {
-    background: #fff;
+    background: $light-grey-bkgnd;
 
     a::after {
       border-style: solid;
