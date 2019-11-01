@@ -111,33 +111,39 @@
             key: 'name',
             label: "Cohort #",
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'description',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'residency',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'protect',
             label: 'Protected',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'admit_status',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'assigned',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           { key: 'actions',
             label: '',
@@ -149,27 +155,32 @@
             key: 'name',
             label: 'Major',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Division',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'College',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'DTX',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Assigned',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Actions',
@@ -258,6 +269,7 @@
   .aat-actions-cell a,
   .aat-actions-cell button {
     color: $link-blue;
+    font-family: 'Encode Sans Compressed',sans-serif;
     font-weight: bold;
     margin: 0 0.25rem;
     text-transform: uppercase;

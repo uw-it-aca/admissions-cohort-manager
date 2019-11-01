@@ -151,7 +151,7 @@
             key: 'activity_date',
             label: "Date/Time",
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            sortable: true,
           },
           {
             key: 'assigned_msg',
@@ -178,7 +178,7 @@
           {
             key: 'user',
             class: "aat-data-cell",
-            sortable: false
+            sortable: true,
           },
         ],
         activities: [],
