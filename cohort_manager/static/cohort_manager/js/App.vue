@@ -422,13 +422,22 @@
   }
 
   //Tables
+  
   .aat-data-table {
     border-bottom: 2px solid $table-border;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 100;
     line-height: 1.3;
+
+    th.aat-data-cell {
+      color: $sub-header;
+      font-size: 0.75rem !important;
+      font-weight: normal;
+    }
   }
 
   .aat-data-table .aat-data-cell {
+    padding: 1rem 0.5rem;
     vertical-align: baseline;
 
     &.aat-data-nowrap {
