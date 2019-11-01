@@ -1,0 +1,9 @@
+/** app specific custom theme for bootstrap **/
+
+// replace color variables
+$blue: #0069d9;
+
+
+// Bootstrap and its default variables
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';

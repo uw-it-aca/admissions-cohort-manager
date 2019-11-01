@@ -1,22 +1,22 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-       <b-navbar toggleable="lg">
-        <b-navbar-toggle tabindex="1" target="nav-collapse"></b-navbar-toggle>
-          <span class="aat-app-info aat-mobile-brand">
-            <a href="/" class="aat-brand-link">
-              <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
-              <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
-            </a>
-          </span>
-          <span class="aat-login-info">
-            <span class="aat-lg-only" >Welcome, </span><span id="netid">{{ netid }}</span>
-            <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
-          </span>
+      <b-navbar toggleable="lg">
+        <b-navbar-toggle tabindex="1" target="nav-collapse" />
+        <span class="aat-app-info aat-mobile-brand">
+          <a href="/" class="aat-brand-link">
+            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
+            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+          </a>
+        </span>
+        <span class="aat-login-info">
+          <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+        </span>
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-collapse cols="12" lg="3" id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar">
+      <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
         <b-navbar-brand class="aat-app-info">
           <a href="/" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
@@ -58,7 +58,11 @@
         </b-row>
         <b-row>
           <main class="col aat-main-containter">
-            <b-form-select class="aat-adperiod-select" v-model= "current_admission_period" :options="admission_periods"></b-form-select>
+            <b-form-select v-model="current_admission_period"
+                           class="aat-adperiod-select"
+                           :class="{disabled: admission_periods.length < 2}"
+                           :options="admission_periods"
+            />
             <router-view
               @showMessage="show_message"
             />
@@ -80,6 +84,7 @@
 
 <script>
   import MessageArea from "./components/message_area.vue";
+  const axios = require("axios");
   export default {
     name: "LandingPage",
     components: {
@@ -89,8 +94,9 @@
       return {
         current_admission_period: 'a',
         admission_periods: [
-          {value: 'a', text: 'Autumn 2019' }, 
+          {value: 'a', text: 'Autumn 2019' },
         ],
+        disable_period_select: false,
         netid: '',
         message: '',
         navCount: 0
@@ -110,20 +116,29 @@
     },
     mounted() {
       this.netid = window.user_netid;
+      this.get_periods();
     },
     methods: {
-      show_message(msg){
+      show_message(msg) {
         this.message = msg;
+      },
+      get_periods() {
+        var vue = this;
+        axios.get(
+          '/api/periods/',
+        ).then(response => {
+          vue.admission_periods = response.data;
+          vue.current_admission_period = vue.admission_periods[0].value;
+        });
       }
     }
   };
 </script>
 
 <style lang="scss">
-  @import '../css/_variables.scss';
-  @import '../css/custom.scss';
+  // import base.scss which inherits the custom theme
+  @import '../css/base.scss';
 
-  
   // hide for small screens
   @media screen and (max-width: 992px) {
     .aat-lg-only {
@@ -167,7 +182,7 @@
     padding-left: 2rem;
   }
 
-  @media screen and (min-width: 992px) {    
+  @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
       font-weight: 100;
@@ -264,7 +279,7 @@
     flex-direction: column !important;
     padding-top: 0;
   }
-  
+
   .aat-main-navbar {
     border-bottom: 2px solid $uw-light-grey;
     max-width: 100% !important;
@@ -292,7 +307,7 @@
     border-radius: 0;
     border-style: none none solid;
     border-width: 1px;
-    color: $nav-text;
+    color: $text-color;
     margin: 0 -1rem;
     padding: 1rem 0 1rem 1.5rem;
     text-align: left;
@@ -407,11 +422,7 @@
     margin: 0 0 3rem;
 
     .aat-select-inline {
-      border-color: $text-color;
-      border-radius: 0;
-      border-style: none none solid;
-      margin: -0.25rem 0.5rem 0;
-      padding: 0;
+      border-color: $banner-border;
       width: max-content;
     }
 
@@ -453,6 +464,31 @@
 
   .aat-modal-container {
     margin: 2rem 1rem 0;
+  }
+
+  // Accordian
+
+  .card-header {
+    background: #fff;
+
+    a::after {
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      display: inline-block;
+      padding: 2px;
+      transform: rotate(-45deg);
+      transition: transform 0.5s;
+      vertical-align: middle;
+    }
+
+    a:not(.collapsed)::after {
+      transform: rotate(45deg);
+    }
+
+    .btn-block.collapsed::after {
+      transform: rotate(-45deg) !important;
+    }
   }
 
 </style>

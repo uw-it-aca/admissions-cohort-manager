@@ -1,12 +1,11 @@
 <template>
   <div class="aat-app-add-review">
-    <div id="file_name">
-      Imported file: {{ uploaded_filename }}
+    <div id="upload_app_count">
+      {{ uploaded_filename }} <a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
     </div>
-    <p id="upload_app_count" class="aat-status-feedback">
-      {{ upload_count }} system keys found. <a href="#" @click.prevent="reset_upload">Reset</a>
+    <p id="file_name" class="aat-status-feedback">
+      {{ upload_count }} applications found.
     </p>
-
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
@@ -38,10 +37,19 @@
             Duplicates (#)
           </b-button>
         </b-card-header>
-        <span class="aat-accordion-note">Select applications to assign:</span>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Duplicate" :collection-type="collectionType" /></b-card-text>
+            <b-card-text class="aat-accordion-note">
+              Select applications to assign:
+            </b-card-text>
+            <b-card-text>
+              <applicationlist
+                application-return="Duplicate"
+                :collection-type="collectionType"
+                :applications="duplicates"
+                @dupeToRemove="proc"
+              />
+            </b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -99,6 +107,7 @@
             }
           }
         });
+        this.duplicates = this.get_duplicates(this.upload_response.assignments);
       }
     },
     mounted() {
@@ -115,8 +124,28 @@
       this.upload_response = this.$props.uploadResponse;
     },
     methods: {
+      proc: function(list){
+        this.$emit("dupeToRemove", list);
+      },
       reset_upload: function(){
         this.$emit('upload_reset');
+      },
+      get_duplicates: function(assignments){
+        var syskeys = {},
+            dupe_assignments =[];
+        $.each(assignments, function(idx, assignment){
+          if(assignment.system_key in syskeys){
+            syskeys[assignment.system_key] += 1;
+          } else {
+            syskeys[assignment.system_key] = 1;
+          }
+        });
+        $.each(assignments, function(idx, assignment) {
+          if(syskeys[assignment.system_key] > 1){
+            dupe_assignments.push(assignment);
+          }
+        });
+        return dupe_assignments;
       }
     },
   };
@@ -131,12 +160,9 @@
       text-align: left;
     }
 
-    .aat-accordion-note {
-      margin: 1.5rem 1.5rem 0;
-    }
-
-    .btn-info {
-      background-color: $grey-bkgnd;
+    .btn-block.btn-info,
+    .btn-block.btn-info:active {
+      background-color: transparent;
       border-style: none;
       color: inherit;
     }
@@ -146,6 +172,9 @@
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }
+  }
 
+  .aat-reset-link {
+    margin-left: 0.5rem;
   }
 </style>

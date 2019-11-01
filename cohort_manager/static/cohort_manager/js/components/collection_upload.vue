@@ -2,12 +2,18 @@
   <div>
     <form @submit.prevent="">
       <div class="aat-form-section">
-        <fieldset>
+        <fieldset class="aat-collection-select">
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
           <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
-          <b-form-select id="collection_chooser" v-model="collection_id" name="collection" :options="collectionOptions" class="aat-select-inline" />
+          <div class="aat-select-inline">
+            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
+            <b-form-invalid-feedback true>
+              Please select an option.
+            </b-form-invalid-feedback>
+            <b-form-datalist id="input-list" :options="collectionOptions" />
+          </div>
         </fieldset>
         <collectionDetails
           v-if="collectionType === 'Cohort'"
@@ -24,21 +30,20 @@
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
+                         @dupeToRemove="handleRemove"
           />
-          <component
-            :is="uploadComponent"
-            v-else
-            @fileselected="selectedFile"
-            @listupdated="selectedList"
-          />
-          <div>
-            or
-            <b-button id="manual_toggle" v-b-modal.add_list_modal variant="link">
-              {{ uploadToggleLabel }}
-            </b-button>
-            <b-modal id="add_list_modal" title="Add Applicantions" ok-title="Done">
-              <CollectionUploadListInput />
-            </b-modal>
+          <div v-else>
+            <div>
+              Enter applications by file (csv) or
+              <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                {{ uploadToggleLabel }}
+              </b-button>
+              <CollectionUploadListInput @listupdated="selectedList" />
+            </div>
+            <component
+              :is="uploadComponent"
+              @fileselected="selectedFile"
+            />
           </div>
         </div>
       </fieldset>
@@ -95,7 +100,8 @@
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
         upload_response: undefined,
-        collection_type: this.$props.collectionType
+        collection_type: this.$props.collectionType,
+        to_remove: []
       };
     },
     computed: {
@@ -127,6 +133,9 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
+      },
+      handleRemove(to_remove) {
+        this.to_remove = to_remove;
       },
       handleUpload() {
         let formData = new FormData();
@@ -163,12 +172,15 @@
       },
 
       mark_for_submission(){
-        var vue = this;
+
+        var vue = this,
+            request = {'submit': true,
+                       'is_reassign': this.is_reassign,
+                       'is_reassign_protected': this.is_reassign_protected,
+                       'to_delete': this.to_remove};
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
-          {'submit': true,
-           'is_reassign': this.is_reassign,
-           'is_reassign_protected': this.is_reassign_protected},
+          request,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -176,8 +188,15 @@
             }
           }
         ).then(function() {
-          vue.$emit('showMessage', vue.upload_response.id.toString());
-          vue.$router.push({path: '/'});
+          if(vue.collection_type == "Cohort"){
+
+            vue.$emit('showMessage', "Cohort " + vue.collection_id);
+            vue.$router.push({path: '/cohort_list'});
+          } else if(vue.collection_type == "Major"){
+            vue.$emit('showMessage', vue.collection_id);
+            vue.$router.push({path: '/major_list'});
+          }
+
 
         });
       },
@@ -228,10 +247,27 @@
     width: 100%;
   }
 
+  .aat-collection-select {
+    .aat-collection-select-label {
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .aat-select-inline {
+      display: inline-grid;
+      margin-left: 0.25rem;
+    }
+  }
+
   // form messaging
   .aat-status-feedback {
-    font-style: italic;
-    margin-top: 1.5rem;
+    padding-top: 0.5rem;
+  }
+
+  // action elements
+  .aat-btn-link {
+    padding: 0 !important;
+    vertical-align: baseline !important;
   }
 
 </style>

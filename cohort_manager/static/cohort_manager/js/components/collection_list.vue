@@ -70,7 +70,7 @@
                     name="col_reset_checkbox"
                     value=""
                   >
-                    Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemName }}" to <em>unassigned</em>.
+                    Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemId }}" to <em>unassigned</em>.
                   </b-form-checkbox>
                 </div>
               </fieldset>
@@ -264,7 +264,7 @@
   }
 
   .aat-actions-cell a i {
-    color: $nav-text;
+    color: $text-color;
 
     &:hover,
     &:focus {
@@ -275,7 +275,7 @@
   .aat-actions-cell.aat-data-cell .btn-secondary {
     background: none;
     border-style: none;
-    color: $nav-text;
+    color: $sub-header;
     min-width: auto;
     padding: 0;
     vertical-align: baseline;

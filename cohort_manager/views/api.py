@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
-    get_activity_log, get_collection_list_by_type
+    get_activity_log, get_collection_list_by_type, get_apps_by_syskey_list
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -31,7 +31,10 @@ class RESTDispatch(View):
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES.get('file')
-        syskey_list = request.POST.get('syskey_list')
+        try:
+            syskey_list = request.POST.get('syskey_list').split(",")
+        except AttributeError:
+            syskey_list = None
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
@@ -41,8 +44,9 @@ class UploadView(RESTDispatch):
             assignment_import = AssignmentImport.objects.create_from_file(
                 uploaded_file, created_by='TODO')
         if syskey_list:
+            applications = get_apps_by_syskey_list(syskey_list)
             assignment_import = AssignmentImport.objects.create_from_list(
-                syskey_list, created_by='TODO'
+                applications, created_by='TODO'
             )
         if cohort_id:
             assignment_import.cohort = cohort_id
@@ -60,17 +64,20 @@ class UploadView(RESTDispatch):
             return self.error_response(status=400, message=ex)
 
 
-class UploadConfirmationView(RESTDispatch):
+class ModifyUploadView(RESTDispatch):
     def put(self, request, upload_id, *args, **kwargs):
         request_params = json.loads(request.body)
         is_reassign = request_params.get('is_reassign', False)
         is_reassign_protected = request_params.get('is_reassign_protected',
                                                    False)
+        is_submitted = request_params.get('is_submitted', False)
+        ids_to_delete = request_params.get('to_delete', [])
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
-            upload.is_submitted = True
+            upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
+            upload.remove_assignments(ids_to_delete)
             upload.save()
             return self.json_response(status=200, content={})
         except ObjectDoesNotExist as ex:
@@ -122,9 +129,11 @@ class CollectionList(RESTDispatch):
             return self.error_response(status=400, message=ex)
 
 
-class ApplicantLookup(RESTDispatch):
+class PeriodList(RESTDispatch):
     def get(self, request):
-        try:
-            return self.json_response()
-        except Exception as ex:
-            return self.error_response(status=400, message=ex)
+        return self.json_response(status=200,
+                                  content=[{'value': '2019_autumn',
+                                            'text': 'Autumn 2019'},
+                                           {'value': '2020_winter',
+                                            'text': 'Winter 2020'}
+                                           ])
