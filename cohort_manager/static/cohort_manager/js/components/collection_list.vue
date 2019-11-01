@@ -258,6 +258,7 @@
   .aat-actions-cell a,
   .aat-actions-cell button {
     color: $link-blue;
+    font-family: 'Encode Sans Compressed',sans-serif;
     font-weight: bold;
     margin: 0 0.25rem;
     text-transform: uppercase;

@@ -191,16 +191,13 @@
 
   // branding styles
   .aat-page-header {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 2rem;
     padding: 1.5rem 0;
   }
 
   .aat-sub-header {
-    color: $sub-header;
-    font-size: 1rem;
-    font-weight: normal;
-    text-transform: uppercase;
+    color: $text-color;
+    font-size: 1.75rem;
   }
 
   .aat-brand-link {
@@ -437,7 +434,6 @@
   .aat-data-table {
     border-bottom: 2px solid $table-border;
     font-size: 0.875rem;
-    font-weight: 100;
     line-height: 1.3;
 
     th.aat-data-cell {
