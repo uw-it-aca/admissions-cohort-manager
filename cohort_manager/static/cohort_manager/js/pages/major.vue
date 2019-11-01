@@ -9,6 +9,7 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
+  const axios = require("axios");
 
   export default {
     name: "Major",
@@ -19,11 +20,7 @@
       return {
         has_uploaded: false,
         upload_response: undefined,
-        major_options: [
-          {value: 'CSE', text: 'Computer Science and Enginerding'},
-          {value: 'CHEM', text: 'Chemistry'},
-          {value: 'ART H', text: 'Art History'},
-        ]
+        major_options: []
       };
     },
     computed: {
@@ -45,6 +42,13 @@
       }
     },
     mounted() {
+      axios.get(
+        '/api/collection/major/'
+      ).then(response => {
+        this.major_options = response.data;
+      }).catch(function () {
+        return;
+      });
     },
     methods: {
       onFileUpload(response){

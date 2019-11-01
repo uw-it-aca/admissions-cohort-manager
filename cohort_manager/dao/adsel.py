@@ -2,6 +2,7 @@ from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.models import Activity, Assignment, AssignmentImport
 from datetime import datetime
 from cohort_manager.utils import to_csv
+from uw_adsel import AdSel
 
 
 MAJOR_COLLECTION_TYPE = "major"
@@ -243,22 +244,20 @@ def _get_activity_log_all():
 def get_collection_list_by_type(collection_type):
     # TODO: Implement a real ADSEL API query
     if collection_type == MAJOR_COLLECTION_TYPE:
-        return [
-            {"id": "CSE",
-             "name": "Computer Science and Engineering"},
-            {"id": "ART H",
-             "name": "Art History"},
-            {"id": "MATH",
-             "name": "MAthematics"},
-        ]
+        majors = AdSel().get_majors()
+        resp = []
+        for major in majors:
+            resp.append({'value': major.major_abbr,
+                         'text': major.display_name})
+        return resp
     elif collection_type == COHORT_COLLECTION_TYPE:
         return [
-            {"id": "1",
-             "name": "WA Admit"},
-            {"id": "2",
-             "name": "Intl Admit"},
-            {"id": "99",
-             "name": "Athlete, protected"},
+            {"value": "1",
+             "text": "WA Admit"},
+            {"value": "2",
+             "text": "Intl Admit"},
+            {"value": "99",
+             "text": "Athlete, protected"},
         ]
     else:
         raise InvalidCollectionException(collection_type)
