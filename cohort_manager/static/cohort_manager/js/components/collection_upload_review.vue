@@ -39,8 +39,8 @@
         </b-card-header>
         <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text class="aat-accordion-note">
-              Select applications to assign:
+            <b-card-text class="aat-sub-header">
+              <h3>Select applications to assign</h3>
             </b-card-text>
             <b-card-text>
               <applicationlist
@@ -164,7 +164,7 @@
     .btn-block.btn-info:active {
       background-color: transparent;
       border-style: none;
-      color: inherit;
+      color: $link-blue;
     }
   }
 

@@ -108,44 +108,31 @@
             label: "System Key",
             class: "aat-data-cell",
             thClass: "aat-table-header",
-            sortable: true
-          },
-          {
-            key: 'Type',
-            label: "Application Type",
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: true
-          },
-          {
-            key: 'Status',
-            class: "aat-data-cell aat-data-nowrap",
-            thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Class',
             class: "aat-data-cell",
             thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Campus',
             class: "aat-data-cell",
             thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Cohort',
             class: "aat-data-cell",
             thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'Major',
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
         ],
 
@@ -159,32 +146,12 @@
             label: "System Key",
             class: "aat-data-cell",
             thClass: "aat-table-header",
-            sortable: true
-          },
-          {
-            key: 'admission_selection_id',
-            label: "AdSel ID",
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: true
+            sortable: false,
           },
           {
             key: 'application_number',
             label: "Application #",
             class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
-            key: 'Type',
-            label: "Application Type",
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
-            key: 'Status',
-            class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
             sortable: false,
           },
