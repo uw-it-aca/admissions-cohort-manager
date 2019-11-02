@@ -45,6 +45,11 @@
               @fileselected="selectedFile"
             />
           </div>
+          <collection-upload-dupe-modal
+            v-if="has_dupes"
+            :duplicates="dupes"
+            :collection-type="collectionType"
+          />
         </div>
       </fieldset>
       <fieldset class="aat-form-section">
@@ -66,6 +71,7 @@
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
+  import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
@@ -73,10 +79,11 @@
   export default {
     name: "Upload",
     components: {
+      CollectionUploadDupeModal,
       collectionDetails: CollectionDetails,
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
-      CollectionUploadFileInput: CollectionUploadFileInput
+      CollectionUploadFileInput: CollectionUploadFileInput,
     },
     props: {
       collectionType: {
@@ -99,6 +106,8 @@
         upload_toggle_label_file: "by file",
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
+        has_dupes: false,
+        dupes: [],
         upload_response: undefined,
         collection_type: this.$props.collectionType,
         to_remove: []
@@ -138,6 +147,7 @@
         this.to_remove = to_remove;
       },
       handleUpload() {
+        var vue = this;
         let formData = new FormData();
         if (this.file !== null){
           formData.append('file', this.file);
@@ -163,11 +173,16 @@
             }
           }
         ).then(response => {
-          this.$emit('uploaded', response);
-          this.has_uploaded = true;
-          this.upload_response = response.data;
-        }).catch(function () {
-          this.uploadResponse = "THERE WAS AN ERROR";
+          vue.$emit('uploaded', response);
+          vue.has_uploaded = true;
+          vue.upload_response = response.data;
+          var dupes = vue.get_duplicates(this.upload_response.assignments);
+          if(dupes.length > 1){
+            vue.has_dupes = true;
+            vue.dupes = dupes;
+          }
+        }).catch(function (err) {
+          vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};
         });
       },
 
@@ -201,9 +216,22 @@
         });
       },
 
-      toggleUpload() {
-        this.manual_upload = !this.manual_upload;
-        return false;
+      get_duplicates: function(assignments){
+        var syskeys = {},
+            dupe_assignments =[];
+        $.each(assignments, function(idx, assignment){
+          if(assignment.system_key in syskeys){
+            syskeys[assignment.system_key] += 1;
+          } else {
+            syskeys[assignment.system_key] = 1;
+          }
+        });
+        $.each(assignments, function(idx, assignment) {
+          if(syskeys[assignment.system_key] > 1){
+            dupe_assignments.push(assignment);
+          }
+        });
+        return dupe_assignments;
       },
       selectedFile(file) {
         this.file = file;
