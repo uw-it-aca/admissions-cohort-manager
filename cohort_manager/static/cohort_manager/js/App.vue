@@ -5,8 +5,8 @@
         <b-navbar-toggle tabindex="1" target="nav-collapse" />
         <span class="aat-app-info aat-mobile-brand">
           <a href="/" class="aat-brand-link">
-            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo-white.png" alt="UW-IT">
-            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+            <img class="aat-app-logo" src="/static/cohort_manager/img/AAT-Logo-white.svg" alt="UW-IT">
+            <span class="sr-only">Application Assignment Tool</span>
           </a>
         </span>
         <span class="aat-login-info">
@@ -19,8 +19,8 @@
       <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
         <b-navbar-brand class="aat-app-info">
           <a href="/" class="aat-brand-link">
-            <img class="aat-app-logo" src="/static/cohort_manager/img/W-Logo.png" alt="UW-IT">
-            <span class="aat-app-name"><span class="aat-app-name-first">Application</span> Assignment Tool</span>
+            <img class="aat-app-logo" src="/static/cohort_manager/img/AAT-Logo-purple.svg" alt="UW-IT">
+            <span class="sr-only">Application Assignment Tool</span>
           </a>
         </b-navbar-brand>
         <b-navbar class="aat-nav-container">
@@ -224,25 +224,16 @@
       display: block !important;
     }
 
+    &.aat-mobile-brand .aat-app-logo {
+      margin: 0.25rem 0;
+      min-width: unset;
+    }
+
     .aat-app-logo {
       float: left;
-      margin: 0.25rem 0;
-      min-width: 40px;
-      width: 15%;
-    }
-  }
-
-  .aat-app-name {
-    color: #fff;
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding-left: 0.25rem;
-
-    .aat-app-name-first {
-      display: block;
-      font-size: 1rem;
-      font-weight: 800;
+      margin: 0 0 1rem;
+      min-width: 120px;
+      width: 100%;
     }
   }
 
@@ -254,10 +245,6 @@
       &.aat-mobile-brand {
         display: none !important;
 
-      }
-
-      .aat-app-name {
-        color: $uw-purple;
       }
     }
   }
