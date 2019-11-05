@@ -460,7 +460,10 @@
     opacity: 0;
   }
 
-  .aat-actions-cell:focus-within,
+  .aat-actions-cell:focus-within {
+    opacity: 1;
+  }
+
   tbody tr:hover .aat-actions-cell {
     opacity: 1;
   }
