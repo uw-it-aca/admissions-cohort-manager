@@ -18,7 +18,7 @@
     <b-row class="aat-cohort-manager">
       <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
         <b-navbar-brand class="aat-app-info">
-          <a href="/" class="aat-brand-link">
+          <a href="/" tabindex="1" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/AAT-Logo-purple.svg" alt="UW-IT">
             <span class="sr-only">Application Assignment Tool</span>
           </a>
