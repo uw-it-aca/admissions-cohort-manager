@@ -10,7 +10,7 @@
           application-return="Duplicate"
           :collection-type="collectionType"
           :applications="duplicates"
-          @dupeToRemove="proc"
+          @dupeToRemove="dupeManager"
         />
       </b-card-text>
     </div>
@@ -36,17 +36,23 @@
     },
     data(){
       return {
+        to_remove: []
       };
     },
     mounted() {
       this.$refs.dupe_modal.show();
     },
     methods: {
-      proc: function(list){
-        this.$emit("dupeToRemove", list);
-      },
-      removeDupes() {
+      dupeManager(list) {
+        // Something is causing this to fire when modal closes,
+        // ignore that object
+        if(Array.isArray(list)){
+          this.to_remove = list;
+        }
         return;
+      },
+      removeDupes(){
+        this.$emit('removeDupes', this.to_remove);
       }
     }
   };

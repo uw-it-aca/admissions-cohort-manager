@@ -30,7 +30,6 @@
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
-                         @dupeToRemove="handleRemove"
           />
           <div v-else>
             <div>
@@ -49,6 +48,7 @@
             v-if="has_dupes"
             :duplicates="dupes"
             :collection-type="collectionType"
+            @removeDupes="remove_applications"
           />
         </div>
       </fieldset>
@@ -143,9 +143,6 @@
         this.has_uploaded = false;
         this.upload_response = undefined;
       },
-      handleRemove(to_remove) {
-        this.to_remove = to_remove;
-      },
       handleUpload() {
         var vue = this;
         let formData = new FormData();
@@ -173,8 +170,6 @@
             }
           }
         ).then(response => {
-          vue.$emit('uploaded', response);
-          vue.has_uploaded = true;
           vue.upload_response = response.data;
           var dupes = vue.get_duplicates(this.upload_response.assignments);
           if(dupes.length > 1){
@@ -187,7 +182,6 @@
       },
 
       mark_for_submission(){
-
         var vue = this,
             request = {'submit': true,
                        'is_reassign': this.is_reassign,
@@ -213,6 +207,27 @@
           }
 
 
+        });
+      },
+
+      remove_applications(list){
+        var vue = this,
+            request = {'submit': false,
+                       'is_reassign': false,
+                       'is_reassign_protected': false,
+                       'to_delete': list};
+        axios.put(
+          '/api/upload/' + this.upload_response.id + "/",
+          request,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function(response) {
+          vue.upload_response = response.data;
+          vue.has_uploaded = true;
         });
       },
 
