@@ -1,7 +1,7 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      {{ uploaded_filename }} <a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
+      <i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} <a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
     </div>
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
@@ -153,6 +153,12 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
+
+  //upload icon
+  .fa-file-csv {
+    font-size: 1.375rem;
+    width: 1.5rem;
+  }
 
   // upload issues lists
   .aat-accordian {
