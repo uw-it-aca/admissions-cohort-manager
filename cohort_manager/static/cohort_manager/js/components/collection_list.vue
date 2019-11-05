@@ -2,8 +2,8 @@
   <div>
     <div v-if="collectionType === 'Cohort'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -23,8 +23,8 @@
 
     <div v-else-if="collectionType === 'Major'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"

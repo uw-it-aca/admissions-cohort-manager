@@ -17,9 +17,10 @@
       <b-col cols="12" lg="8" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
         <b-table 
           id="assignment_history_table"
+          hover
           responsive
-          striped
           show-empty
+          striped
           small
           class="aat-data-table"
           :items="activities"
