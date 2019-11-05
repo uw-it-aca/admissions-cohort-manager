@@ -2,8 +2,8 @@
   <div>
     <div v-if="applicationReturn === 'Assigned'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -18,8 +18,8 @@
 
     <div v-else-if="applicationReturn === 'Protected'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -46,8 +46,8 @@
 
     <div v-else-if="applicationReturn === 'Duplicate'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"

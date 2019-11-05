@@ -440,7 +440,6 @@
   }
 
   .aat-data-table .aat-data-cell {
-    padding: 1rem 0.5rem;
     vertical-align: baseline;
 
     &.aat-data-nowrap {
@@ -450,6 +449,20 @@
 
   .aat-data-split {
     padding-bottom: 0.5rem;
+  }
+
+  .table-hover tbody tr:focus-within {
+    background-color: rgba(0, 0, 0, 0.075);
+    color: #212529;
+  }
+
+  .row .aat-actions-cell {
+    opacity: 0;
+  }
+
+  .aat-actions-cell:focus-within,
+  tbody tr:hover .aat-actions-cell {
+    opacity: 1;
   }
 
   // Modals
