@@ -178,14 +178,19 @@
   }
 
   .aat-logout-link {
-    float: right;
-    padding-left: 2rem;
+    display: block;
+    padding-left: 0;
   }
 
   @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
       font-weight: 100;
+    }
+
+    .aat-logout-link {
+      float: right;
+      padding-left: 2rem;
     }
   }
 
@@ -377,7 +382,7 @@
     font-size: 0.75rem;
     min-height: 100px;
     min-width: 100%;
-    padding: 3rem 3rem 2rem;
+    padding: 3rem 0;
     text-align: center;
 
     .aat-footer-wordmark {
