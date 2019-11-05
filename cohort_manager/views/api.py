@@ -79,7 +79,7 @@ class ModifyUploadView(RESTDispatch):
             upload.is_reassign_protected = is_reassign_protected
             upload.remove_assignments(ids_to_delete)
             upload.save()
-            return self.json_response(status=200, content={})
+            return self.json_response(status=200, content=upload.json_data())
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 

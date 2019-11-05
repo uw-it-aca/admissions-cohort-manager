@@ -30,7 +30,6 @@
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          @upload_reset="handleReset"
-                         @dupeToRemove="handleRemove"
           />
           <div v-else>
             <div>
@@ -45,6 +44,12 @@
               @fileselected="selectedFile"
             />
           </div>
+          <collection-upload-dupe-modal
+            v-if="has_dupes"
+            :duplicates="dupes"
+            :collection-type="collectionType"
+            @removeDupes="remove_applications"
+          />
         </div>
       </fieldset>
       <fieldset class="aat-form-section">
@@ -66,6 +71,7 @@
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
+  import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
@@ -73,10 +79,11 @@
   export default {
     name: "Upload",
     components: {
+      CollectionUploadDupeModal,
       collectionDetails: CollectionDetails,
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
-      CollectionUploadFileInput: CollectionUploadFileInput
+      CollectionUploadFileInput: CollectionUploadFileInput,
     },
     props: {
       collectionType: {
@@ -99,6 +106,8 @@
         upload_toggle_label_file: "by file",
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
+        has_dupes: false,
+        dupes: [],
         upload_response: undefined,
         collection_type: this.$props.collectionType,
         to_remove: []
@@ -134,10 +143,8 @@
         this.has_uploaded = false;
         this.upload_response = undefined;
       },
-      handleRemove(to_remove) {
-        this.to_remove = to_remove;
-      },
       handleUpload() {
+        var vue = this;
         let formData = new FormData();
         if (this.file !== null){
           formData.append('file', this.file);
@@ -163,16 +170,18 @@
             }
           }
         ).then(response => {
-          this.$emit('uploaded', response);
-          this.has_uploaded = true;
-          this.upload_response = response.data;
-        }).catch(function () {
-          this.uploadResponse = "THERE WAS AN ERROR";
+          vue.upload_response = response.data;
+          var dupes = vue.get_duplicates(this.upload_response.assignments);
+          if(dupes.length > 1){
+            vue.has_dupes = true;
+            vue.dupes = dupes;
+          }
+        }).catch(function (err) {
+          vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};
         });
       },
 
       mark_for_submission(){
-
         var vue = this,
             request = {'submit': true,
                        'is_reassign': this.is_reassign,
@@ -201,9 +210,43 @@
         });
       },
 
-      toggleUpload() {
-        this.manual_upload = !this.manual_upload;
-        return false;
+      remove_applications(list){
+        var vue = this,
+            request = {'submit': false,
+                       'is_reassign': false,
+                       'is_reassign_protected': false,
+                       'to_delete': list};
+        axios.put(
+          '/api/upload/' + this.upload_response.id + "/",
+          request,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function(response) {
+          vue.upload_response = response.data;
+          vue.has_uploaded = true;
+        });
+      },
+
+      get_duplicates: function(assignments){
+        var syskeys = {},
+            dupe_assignments =[];
+        $.each(assignments, function(idx, assignment){
+          if(assignment.system_key in syskeys){
+            syskeys[assignment.system_key] += 1;
+          } else {
+            syskeys[assignment.system_key] = 1;
+          }
+        });
+        $.each(assignments, function(idx, assignment) {
+          if(syskeys[assignment.system_key] > 1){
+            dupe_assignments.push(assignment);
+          }
+        });
+        return dupe_assignments;
       },
       selectedFile(file) {
         this.file = file;

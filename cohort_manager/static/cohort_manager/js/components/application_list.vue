@@ -101,7 +101,6 @@
     data(){
       return {
         selected: {},
-        to_remove: [],
         applicationFields: [
           {
             key: 'Key',
@@ -196,14 +195,20 @@
     },
     methods: {
       mark_to_delete: function() {
-        var vue = this;
-        this.to_remove = [];
-        $.each(this.selected, function (idx, selected) {
-          if (selected === false) {
-            vue.to_remove.push(idx);
+        var keys_to_keep = [],
+            keys_to_remove  = [],
+            vue = this;
+        $.each(vue.selected, function(key, value){
+          if (value === true){
+            keys_to_keep.push(key);
           }
         });
-        this.$emit("dupeToRemove", this.to_remove);
+        $.each(vue.applications, function(idx, app){
+          if(!keys_to_keep.includes(app.admission_selection_id)){
+            keys_to_remove.push(app.admission_selection_id);
+          }
+        });
+        this.$emit("dupeToRemove", keys_to_remove);
       }
 
     }
