@@ -11,7 +11,7 @@
         </span>
         <span class="aat-login-info">
           <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
-          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">sign out</a>
         </span>
       </b-navbar>
     </b-row>
@@ -179,7 +179,7 @@
 
   .aat-logout-link {
     display: block;
-    padding-left: 0;
+    text-decoration: underline;
   }
 
   @media screen and (min-width: 992px) {
@@ -190,7 +190,7 @@
 
     .aat-logout-link {
       float: right;
-      padding-left: 2rem;
+      margin-left: 2rem;
     }
   }
 
