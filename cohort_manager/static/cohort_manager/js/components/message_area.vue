@@ -1,5 +1,5 @@
 <template>
-  <div v-if="messageString" id="alert_container" role="alert" class="aat-alert">
+  <div v-if="messageString" id="alert_container" class="aat-alert">
     <b-alert variant="primary" show>
       Assignment submitted for {{ messageString }}.
       <div class="aat-note">

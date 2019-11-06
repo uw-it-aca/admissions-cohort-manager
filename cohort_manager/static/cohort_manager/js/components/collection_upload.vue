@@ -6,7 +6,7 @@
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
+          <label for="input-with-list">Assign applications to {{ collectionType }} </label>
           <div class="aat-select-inline">
             <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
             <b-form-invalid-feedback true>
@@ -15,11 +15,13 @@
             <b-form-datalist id="input-list" :options="collectionOptions" />
           </div>
         </fieldset>
-        <collectionDetails
+        <div role="region" aria-live="polite">
+          <collectionDetails
           v-if="collectionType === 'Cohort'"
           :collection-id="collection_id"
           :collection-type="collectionType"
-        />
+          />
+        </div>
       </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
