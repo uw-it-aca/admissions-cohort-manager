@@ -267,7 +267,7 @@
       float: right;
       font-size: 0.75rem;
       margin: 1rem 0;
-      width: max-content;
+      width: auto;
     }
   }
 
