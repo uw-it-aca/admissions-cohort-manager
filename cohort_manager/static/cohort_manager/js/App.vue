@@ -1,7 +1,8 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <b-navbar toggleable="lg">
+      <h2 id="aat_navbar_header" class="sr-only">Main Navigation</h2>
+      <b-navbar aria-labelledby="aat_navbar_header" toggleable="lg">
         <b-navbar-toggle tabindex="1" target="nav-collapse" />
         <span class="aat-app-info aat-mobile-brand">
           <a href="/" class="aat-brand-link">
@@ -10,7 +11,8 @@
           </a>
         </span>
         <span class="aat-login-info">
-          <span class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
+          <h3 id="aat_login_header" class="sr-only">Your information</h3>
+          <span aria-labelledby="aat_login_header" class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
           <a href="/saml/logout" tabindex="0" class="aat-logout-link">sign out</a>
         </span>
       </b-navbar>
@@ -24,29 +26,32 @@
           </a>
         </b-navbar-brand>
         <b-navbar class="aat-nav-container">
-          <b-navbar-nav class="aat-nav-group aat-assign-group">
-            <b-link to="/cohort/" tabindex="1" class="aat-button-override">
+          <h3 id="aat_collection_assignment_header" class="sr-only">Assign Applications</h3>
+          <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
+            <li class="aat-button-override"><b-link to="/cohort/" tabindex="1">
               Assign Cohort
-            </b-link>
-            <b-link to="/major/" tabindex="1" class="aat-button-override">
+            </b-link></li>
+            <li class="aat-button-override"><b-link to="/major/" tabindex="1">
               Assign Major
-            </b-link>
+            </b-link></li>
           </b-navbar-nav>
-          <b-navbar-nav class="aat-nav-group">
-            <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
+          <h3 id="aat_navlink_header" class="sr-only">Go to:</h3>
+          <b-navbar-nav aria-labelledby="aat_navlink_header" class="aat-nav-group">
+            <li><b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
               Cohorts
-            </b-link>
-            <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+            </b-link></li>
+            <li><b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
               Majors
-            </b-link>
-            <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
+            </b-link></li>
+            <li><b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
               Activity Log
-            </b-link>
+            </b-link></li>
           </b-navbar-nav>
-          <b-navbar-nav vertical class="aat-link-group">
-            <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+          <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
+          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-link-group">
+            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
               Tableau Selection Tool
-            </b-link>
+            </b-link></li>
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
@@ -57,9 +62,11 @@
           />
         </b-row>
         <b-row>
-          <main class="col aat-main-containter">
+          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
+            <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
             <b-form-select v-model="current_admission_period"
                            class="aat-adperiod-select"
+                           id="aat_adperiod_select"
                            :class="{disabled: admission_periods.length < 2}"
                            :options="admission_periods"
             />
@@ -185,7 +192,7 @@
   @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
-      font-weight: 100;
+      font-weight: 600;
     }
 
     .aat-logout-link {
@@ -260,7 +267,7 @@
       float: right;
       font-size: 0.75rem;
       margin: 1rem 0;
-      width: max-content;
+      width: auto;
     }
   }
 
@@ -305,8 +312,13 @@
     padding: 1rem 0 1rem 1.5rem;
     text-align: left;
 
-    &:hover,
-    &:focus {
+    &:hover {
+      background-color: $grey-bkgnd;
+      border-color: $banner-border;
+      color: inherit;
+    }
+
+    &:focus-within {
       background-color: $grey-bkgnd;
       border-color: $banner-border;
       color: inherit;
@@ -324,9 +336,13 @@
     }
   }
 
-  .aat-button-override.router-link-exact-active {
+  .aat-button-override .router-link-exact-active {
     color: $text-color;
     font-weight: bold;
+  }
+
+  .aat-button-override a {
+    color: $text-color;
   }
 
   .aat-link-group {
