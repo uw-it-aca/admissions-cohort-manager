@@ -2,10 +2,25 @@ from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.models import Activity, Assignment, AssignmentImport
 from datetime import datetime
 from cohort_manager.utils import to_csv
+from uw_adsel import AdSel
+from datetime import datetime
+from restclients_core.exceptions import DataFailureException
 
 
 MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
+
+
+def get_current_quarter():
+    # Returns the quarter we're currently in
+    # or the first quarter in the list if not
+    client = AdSel()
+    quarters = client.get_quarters()
+    now = datetime.now()
+    for quarter in quarters:
+        if quarter.begin < now < quarter.end:
+            return quarter
+    return quarter[0]
 
 
 def get_collection_by_id_type(id, collection_type):
@@ -240,26 +255,32 @@ def _get_activity_log_all():
            + _get_activity_log_by_system_key('')
 
 
-def get_collection_list_by_type(collection_type):
+def get_collection_list_by_type(collection_type, quarter_id):
     # TODO: Implement a real ADSEL API query
     if collection_type == MAJOR_COLLECTION_TYPE:
-        return [
-            {"id": "CSE",
-             "name": "Computer Science and Engineering"},
-            {"id": "ART H",
-             "name": "Art History"},
-            {"id": "MATH",
-             "name": "MAthematics"},
-        ]
+        client = AdSel()
+        majors = client.get_majors_by_qtr(quarter_id)
+        response = []
+        for major in majors:
+            response.append({'id': major.major_abbr,
+                             'name': major.display_name})
+
+        return response
     elif collection_type == COHORT_COLLECTION_TYPE:
-        return [
-            {"id": "1",
-             "name": "WA Admit"},
-            {"id": "2",
-             "name": "Intl Admit"},
-            {"id": "99",
-             "name": "Athlete, protected"},
-        ]
+        client = AdSel()
+        cohorts = client.get_cohorts_by_qtr(quarter_id)
+        response = []
+        for cohort in cohorts:
+            response.append({'id': cohort.cohort_number,
+                             'name': cohort.cohort_number,
+                             'description': cohort.cohort_description,
+                             'residency': cohort.cohort_residency,
+                             'protected': cohort.protected_group,
+                             'admit_decision': cohort.admit_decision,
+                             'assigned_count': cohort.assigned_count
+                             })
+
+        return response
     else:
         raise InvalidCollectionException(collection_type)
 

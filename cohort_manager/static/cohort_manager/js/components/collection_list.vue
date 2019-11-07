@@ -127,20 +127,20 @@
             sortable: false,
           },
           {
-            key: 'protect',
+            key: 'protected',
             label: 'Protected',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
-            key: 'admit_status',
+            key: 'admit_decision',
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
-            key: 'assigned',
+            key: 'assigned_count',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
