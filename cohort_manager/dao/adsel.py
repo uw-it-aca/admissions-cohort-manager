@@ -256,14 +256,17 @@ def _get_activity_log_all():
 
 
 def get_collection_list_by_type(collection_type, quarter_id):
-    # TODO: Implement a real ADSEL API query
     if collection_type == MAJOR_COLLECTION_TYPE:
         client = AdSel()
         majors = client.get_majors_by_qtr(quarter_id)
         response = []
         for major in majors:
             response.append({'id': major.major_abbr,
-                             'name': major.display_name})
+                             'name': major.display_name,
+                             'division': major.division,
+                             'college': major.college,
+                             'dtx': major.dtx,
+                             'assigned_count': major.assigned_count})
 
         return response
     elif collection_type == COHORT_COLLECTION_TYPE:
