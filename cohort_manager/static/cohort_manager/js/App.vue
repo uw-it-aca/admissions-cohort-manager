@@ -374,9 +374,12 @@
 
 
   // main content container styles
+  html {
+    background-color: $uw-purple;
+  }
 
   .aat-cohort-manager {
-    min-height: 65vh;
+    min-height: 70vh;
     overflow: hidden;
 
     .aat-content-area {
@@ -452,7 +455,6 @@
     .aat-table-header.aat-data-cell {
       color: $sub-header;
       font-size: 0.75rem !important;
-      font-weight: normal;
     }
   }
 
