@@ -11,16 +11,10 @@ MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
 
 
-def get_current_quarter():
-    # Returns the quarter we're currently in
-    # or the first quarter in the list if not
+def get_quarters_with_current():
     client = AdSel()
     quarters = client.get_quarters()
-    now = datetime.now()
-    for quarter in quarters:
-        if quarter.begin < now < quarter.end:
-            return quarter
-    return quarter[0]
+    return quarters
 
 
 def get_collection_by_id_type(id, collection_type):

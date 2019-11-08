@@ -17,9 +17,9 @@
         </fieldset>
         <div role="region" aria-live="polite">
           <collectionDetails
-          v-if="collectionType === 'Cohort'"
-          :collection-id="collection_id"
-          :collection-type="collectionType"
+            v-if="collectionType === 'Cohort'"
+            :collection-id="collection_id"
+            :collection-type="collectionType"
           />
         </div>
       </div>
