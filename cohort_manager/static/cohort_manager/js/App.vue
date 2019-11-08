@@ -210,6 +210,7 @@
   .aat-sub-header {
     color: $text-color;
     font-size: 1.75rem;
+    font-weight: 600;
 
     h3 {
       font-size: 1.5rem;
@@ -375,7 +376,7 @@
   // main content container styles
 
   .aat-cohort-manager {
-    min-height: 85vh;
+    min-height: 65vh;
     overflow: hidden;
 
     .aat-content-area {
