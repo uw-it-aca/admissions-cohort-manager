@@ -53,6 +53,8 @@
             @removeDupes="remove_applications"
           />
         </div>
+        <b-alert id="add_app_fail_manual" variant="danger">Invalid systems keys.</b-alert>
+        <b-alert id="add_app_fail_csv" variant="danger">CSV is invalid.</b-alert>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -307,6 +309,10 @@
   // form messaging
   .aat-status-feedback {
     padding-top: 0.5rem;
+  }
+
+  .alert-danger {
+    max-width: 650px;
   }
 
   // action elements

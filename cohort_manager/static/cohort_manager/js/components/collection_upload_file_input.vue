@@ -2,6 +2,7 @@
   <b-form-file id="file"
                ref="file"
                v-model="file_upload"
+               accept=".csv"
                :state="Boolean(file_upload)"
                placeholder="Choose a file or drop it here..."
                drop-placeholder="Drop file here..."

@@ -455,7 +455,6 @@
     .aat-table-header.aat-data-cell {
       color: $sub-header;
       font-size: 0.75rem !important;
-      font-weight: normal;
     }
   }
 
