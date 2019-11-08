@@ -35,7 +35,7 @@ class CollectionListTest(TestViewApi):
                                      kwargs={'collection_type': 'major'})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 3)
+        self.assertEqual(len(response_content), 4)
         self.assertEqual(response_content[0]['id'], 'CSE')
 
     def test_get_cohort_list(self):
@@ -44,5 +44,5 @@ class CollectionListTest(TestViewApi):
                                      kwargs={'collection_type': 'cohort'})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 3)
+        self.assertEqual(len(response_content), 4)
         self.assertEqual(response_content[0]['id'], '1')
