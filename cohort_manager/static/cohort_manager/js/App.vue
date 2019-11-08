@@ -61,15 +61,17 @@
             :message-string="message"
           />
         </b-row>
-        <b-row>
-          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
-            <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
+        <b-row class="aat-adperiod-container">
+          <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
             <b-form-select v-model="current_admission_period"
                            class="aat-adperiod-select"
                            id="aat_adperiod_select"
                            :class="{disabled: admission_periods.length < 2}"
                            :options="admission_periods"
             />
+        </b-row>
+        <b-row>
+          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
               @showMessage="show_message"
             />
@@ -391,6 +393,10 @@
       padding-right: 0;
     }
 
+  }
+
+  .aat-adperiod-container {
+    float: right;
   }
 
   // footer styles
