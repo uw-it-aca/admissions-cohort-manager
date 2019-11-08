@@ -46,28 +46,6 @@
             </b-button>
           </span>
           <b-form-group
-            label="Assignment Type"
-            label-size="sm"
-            label-for="as_type_filter"
-          >
-            <b-input-group size="sm">
-              <b-form-select
-                id="as_type_filter"
-                v-model="astypeFilter"
-                class="aat-filter-select"
-                :options="astypeOptions"
-                @change="getAssignmentActivities"
-              >
-                <template v-slot:first>
-                  <option :value="null" disabled>
-                    -- Select --
-                  </option>
-                </template>
-              </b-form-select>
-            </b-input-group>
-          </b-form-group>
-
-          <b-form-group
             label="Cohort"
             label-size="sm"
             label-for="cohort_filter"
@@ -189,11 +167,6 @@
           },
         ],
         activities: [],
-        astypeFilter: null,
-        astypeOptions: [
-          { value: 'cohort', text: 'Cohort' },
-          { value: 'major', text: 'Major' }
-        ],
         cohortFilter: null,
         cohortOptions: [
           { value: '1', text: '1' },
@@ -231,7 +204,6 @@
       onReset(evt) {
         evt.preventDefault();
         // Reset our form values
-        this.astypeFilter = null;
         this.cohortFilter = null;
         this.majorFilter = null;
         this.syskeyFilter = '';
@@ -246,9 +218,6 @@
       },
       getCohortActivities(cohort_id){
         this.getActivities("?cohort_id=" + cohort_id);
-      },
-      getAssignmentActivities(assignment_type){
-        this.getActivities("?assignment_type=" + assignment_type);
       },
       getSyskeyActivities(syskey){
         this.getActivities("?system_key=" + syskey);
