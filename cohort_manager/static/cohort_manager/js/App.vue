@@ -359,6 +359,7 @@
 
   @media screen and (min-width: 992px) {
     .aat-main-navbar {
+      border-bottom-style: none;
       max-width: none !important;
       position: relative !important;
       width: auto;
