@@ -173,6 +173,7 @@
 
     nav {
       flex: auto;
+      padding: 1rem;
     }
 
     div:first-child {
@@ -195,6 +196,7 @@
     .aat-login-info {
       flex: auto;
       font-weight: 600;
+      padding: 0 0.75rem;
     }
 
     .aat-logout-link {
