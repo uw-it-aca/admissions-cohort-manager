@@ -70,7 +70,7 @@
                            :options="admission_periods"
             />
         </b-row>
-        <b-row>
+        <b-row class="aat-main-content-container">
           <main aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
               @showMessage="show_message"
@@ -390,6 +390,10 @@
     .aat-content-area {
       background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
+    }
+
+    .aat-main-content-container {
+      display: block;
     }
 
     .aat-main-containter {
