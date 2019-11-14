@@ -14,7 +14,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" lg="8" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
         <b-table 
           id="assignment_history_table"
           hover
@@ -35,7 +35,7 @@
         </b-table>
       </b-col>
 
-      <b-col order-lg="2" order="1">
+      <b-col order-md="3" order="1">
         <b-form class="aat-filter-form" @reset="onReset">
           <h2 class="aat-filter-title">
             Filter
@@ -275,7 +275,7 @@
 
   .aat-filter-form {
     border-top: 1px solid $table-border;
-    padding: 0.75rem 1.5rem;
+    margin-bottom: 3rem;
   }
 
   .aat-filter-title {
@@ -287,7 +287,10 @@
 
   .aat-filter-reset button {
     float: right;
-    padding: 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    padding: 0 0 0 0.5rem;
+    text-transform: lowercase;
   }
 
   //table

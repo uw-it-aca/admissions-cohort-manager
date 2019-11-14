@@ -70,7 +70,7 @@
                            :options="admission_periods"
             />
         </b-row>
-        <b-row>
+        <b-row class="aat-main-content-container">
           <main aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
               @showMessage="show_message"
@@ -173,6 +173,7 @@
 
     nav {
       flex: auto;
+      padding: 1rem;
     }
 
     div:first-child {
@@ -195,6 +196,7 @@
     .aat-login-info {
       flex: auto;
       font-weight: 600;
+      padding: 0 0.75rem;
     }
 
     .aat-logout-link {
@@ -357,6 +359,7 @@
 
   @media screen and (min-width: 992px) {
     .aat-main-navbar {
+      border-bottom-style: none;
       max-width: none !important;
       position: relative !important;
       width: auto;
@@ -387,6 +390,10 @@
     .aat-content-area {
       background-color: $app-bkgnd;
       padding: 0 2rem 2rem;
+    }
+
+    .aat-main-content-container {
+      display: block;
     }
 
     .aat-main-containter {
