@@ -48,8 +48,8 @@
             </b-link></li>
           </b-navbar-nav>
           <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
-          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-link-group">
-            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
+            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
               Tableau Selection Tool
             </b-link></li>
           </b-navbar-nav>
@@ -282,7 +282,7 @@
     border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
-    padding-top: 0;
+    padding: 0;
   }
 
   .aat-main-navbar {
@@ -295,15 +295,16 @@
   .aat-nav-group {
     flex-direction: column !important;
     margin: 24px 0 0;
+    width: 100%;
 
     &.aat-assign-group {
       margin-top: 0;
       width: 100%;
     }
+  }
 
-    .aat-link {
-      padding: 0.5rem 0 0.5rem 1rem;
-    }
+  .aat-link {
+    padding: 0.75rem 1rem !important;
   }
 
   .aat-button-override {
@@ -314,47 +315,49 @@
     border-width: 1px;
     color: $text-color;
     margin: 0 -1rem;
-    padding: 1rem 0 1rem 1.5rem;
     text-align: left;
 
-    &:hover {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+    a:hover {
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
+      text-decoration: underline;
     }
 
-    &:focus-within {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+    a:focus {
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
+      text-decoration: underline;   
     }
+
+    
+  }
+
+  .aat-button-override .router-link-exact-active {
+    background-color: $nav-active-bkgnd;
+    color: $light-text;
+  }
+
+  .aat-button-override a {
+    color: $text-color;
+    display: block;
+    padding: 1rem 0 1rem 2rem;
+    width: 100%;
 
     &::after {
       border-style: solid;
       border-width: 0 2px 2px 0;
       content: '';
-      float: right;
-      margin-right: 1.5rem;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       padding: 2px;
+      position: absolute;
+      right: 1.5rem;
       transform: rotate(-45deg);
     }
   }
 
-  .aat-button-override .router-link-exact-active {
-    color: $text-color;
-    font-weight: bold;
-  }
-
-  .aat-button-override a {
-    color: $text-color;
-  }
-
-  .aat-link-group {
+  .aat-external-link {
     border-top: solid 1px $uw-light-grey;
-    margin-top: 1rem;
-    padding-top: 0.5rem;
-
+    padding-top: 1rem !important;
   }
 
   @media screen and (min-width: 992px) {
