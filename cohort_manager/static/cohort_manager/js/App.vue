@@ -48,8 +48,8 @@
             </b-link></li>
           </b-navbar-nav>
           <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
-          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-link-group">
-            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
+          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
+            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
               Tableau Selection Tool
             </b-link></li>
           </b-navbar-nav>
@@ -304,7 +304,7 @@
   }
 
   .aat-link {
-    padding: 0.5rem 1rem !important;
+    padding: 0.75rem 1rem !important;
   }
 
   .aat-button-override {
@@ -317,14 +317,16 @@
     margin: 0 -1rem;
     text-align: left;
 
-    &:hover {
+    a:hover {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
+      text-decoration: underline;
     }
 
-    &:focus-within {
+    a:focus {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
+      text-decoration: underline;   
     }
 
     
@@ -353,11 +355,9 @@
     }
   }
 
-  .aat-link-group {
+  .aat-external-link {
     border-top: solid 1px $uw-light-grey;
-    margin-top: 1rem;
-    padding-top: 0.5rem;
-    width: 100%;
+    padding-top: 1rem !important;
   }
 
   @media screen and (min-width: 992px) {
