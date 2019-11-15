@@ -40,17 +40,18 @@ legend {
 
 .router-link-exact-active,
 .router-link-exact-active:hover {
-  color: $text-color;
+  background: $nav-active-bkgnd !important;
+  color: $light-text !important;
   cursor: default;
-  font-weight: bold;
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: $text-color !important;
+  color: $text-color;
 
   &:hover,
   &:focus {
-    background-color: $grey-bkgnd;
+    background-color: $nav-hover-bkgnd;
+    color: $text-black;
     text-decoration: underline;
   }
 }

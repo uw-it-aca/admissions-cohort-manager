@@ -282,7 +282,7 @@
     border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
-    padding-top: 0;
+    padding: 0;
   }
 
   .aat-main-navbar {
@@ -295,15 +295,16 @@
   .aat-nav-group {
     flex-direction: column !important;
     margin: 24px 0 0;
+    width: 100%;
 
     &.aat-assign-group {
       margin-top: 0;
       width: 100%;
     }
+  }
 
-    .aat-link {
-      padding: 0.5rem 0 0.5rem 1rem;
-    }
+  .aat-link {
+    padding: 0.5rem 1rem !important;
   }
 
   .aat-button-override {
@@ -314,47 +315,49 @@
     border-width: 1px;
     color: $text-color;
     margin: 0 -1rem;
-    padding: 1rem 0 1rem 1.5rem;
     text-align: left;
 
     &:hover {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
     }
 
     &:focus-within {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
     }
+
+    
+  }
+
+  .aat-button-override .router-link-exact-active {
+    background-color: $nav-active-bkgnd;
+    color: $light-text;
+  }
+
+  .aat-button-override a {
+    color: $text-color;
+    display: block;
+    padding: 1rem 0 1rem 2rem;
+    width: 100%;
 
     &::after {
       border-style: solid;
       border-width: 0 2px 2px 0;
       content: '';
-      float: right;
-      margin-right: 1.5rem;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       padding: 2px;
+      position: absolute;
+      right: 1.5rem;
       transform: rotate(-45deg);
     }
-  }
-
-  .aat-button-override .router-link-exact-active {
-    color: $text-color;
-    font-weight: bold;
-  }
-
-  .aat-button-override a {
-    color: $text-color;
   }
 
   .aat-link-group {
     border-top: solid 1px $uw-light-grey;
     margin-top: 1rem;
     padding-top: 0.5rem;
-
+    width: 100%;
   }
 
   @media screen and (min-width: 992px) {
