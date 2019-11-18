@@ -13,7 +13,7 @@
         <span class="aat-login-info">
           <h3 id="aat_login_header" class="sr-only">Your information</h3>
           <span aria-labelledby="aat_login_header" class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
-          <a href="/saml/logout" tabindex="0" class="aat-logout-link">sign out</a>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
         </span>
       </b-navbar>
     </b-row>
@@ -189,7 +189,6 @@
 
   .aat-logout-link {
     display: block;
-    text-decoration: underline;
   }
 
   @media screen and (min-width: 992px) {
