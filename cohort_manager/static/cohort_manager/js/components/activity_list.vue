@@ -9,6 +9,7 @@
           :per-page="perPage"
           size="sm"
           aria-controls="assignment_history_table"
+          v-if="totalRows > perPage"
         />
       </b-col>
     </b-row>
