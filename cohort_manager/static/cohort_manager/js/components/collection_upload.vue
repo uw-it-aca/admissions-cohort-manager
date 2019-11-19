@@ -8,7 +8,12 @@
           </legend>
           <label for="input-with-list">Assign applications to {{ collectionType }} </label>
           <div class="aat-select-inline">
-            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
+            <b-form-input id="input-with-list"
+                          v-model="collection_id"
+                          list="input-list"
+                          required
+                          v-bind:class="{'is-invalid': !collection_id}"
+            />
             <b-form-invalid-feedback true>
               Please select an option.
             </b-form-invalid-feedback>
