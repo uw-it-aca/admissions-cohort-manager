@@ -1,7 +1,9 @@
 <template>
   <b-container fluid>
     <b-row class="aat-app-banner">
-      <h2 id="aat_navbar_header" class="sr-only">Main Navigation</h2>
+      <h2 id="aat_navbar_header" class="sr-only">
+        Main Navigation
+      </h2>
       <b-navbar aria-labelledby="aat_navbar_header" toggleable="lg">
         <b-navbar-toggle tabindex="1" target="nav-collapse" />
         <span class="aat-app-info aat-mobile-brand">
@@ -26,32 +28,50 @@
           </a>
         </b-navbar-brand>
         <b-navbar class="aat-nav-container">
-          <h3 id="aat_collection_assignment_header" class="sr-only">Assign Applications</h3>
+          <h3 id="aat_collection_assignment_header" class="sr-only">
+            Assign Applications
+          </h3>
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
-            <li class="aat-button-override"><b-link to="/cohort/" tabindex="1">
-              Assign Cohort
-            </b-link></li>
-            <li class="aat-button-override"><b-link to="/major/" tabindex="1">
-              Assign Major
-            </b-link></li>
+            <li class="aat-button-override">
+              <b-link to="/cohort/" tabindex="1">
+                Assign Cohort
+              </b-link>
+            </li>
+            <li class="aat-button-override">
+              <b-link to="/major/" tabindex="1">
+                Assign Major
+              </b-link>
+            </li>
           </b-navbar-nav>
-          <h3 id="aat_navlink_header" class="sr-only">Go to:</h3>
+          <h3 id="aat_navlink_header" class="sr-only">
+            Go to:
+          </h3>
           <b-navbar-nav aria-labelledby="aat_navlink_header" class="aat-nav-group">
-            <li><b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
-              Cohorts
-            </b-link></li>
-            <li><b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
-              Majors
-            </b-link></li>
-            <li><b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
-              Activity Log
-            </b-link></li>
+            <li>
+              <b-link to="/cohort_list/" tabindex="1" class="nav-link aat-link" title="View all cohorts">
+                Cohorts
+              </b-link>
+            </li>
+            <li>
+              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+                Majors
+              </b-link>
+            </li>
+            <li>
+              <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
+                Activity Log
+              </b-link>
+            </li>
           </b-navbar-nav>
-          <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
+          <h3 id="aat_external_link_header" class="sr-only">
+            Other Tools
+          </h3>
           <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
-            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
-              Tableau Selection Tool
-            </b-link></li>
+            <li>
+              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
+                Tableau Selection Tool
+              </b-link>
+            </li>
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
@@ -63,12 +83,12 @@
         </b-row>
         <b-row class="aat-adperiod-container">
           <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
-            <b-form-select v-model="current_admission_period"
-                           class="aat-adperiod-select"
-                           id="aat_adperiod_select"
-                           :class="{disabled: admission_periods.length < 2}"
-                           :options="admission_periods"
-            />
+          <b-form-select id="aat_adperiod_select"
+                         v-model="current_admission_period"
+                         class="aat-adperiod-select"
+                         :class="{disabled: admission_periods.length < 2}"
+                         :options="admission_periods"
+          />
         </b-row>
         <b-row class="aat-main-content-container">
           <main aria-labelledby="aat_page_header" class="col aat-main-containter">
