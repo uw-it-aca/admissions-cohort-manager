@@ -71,7 +71,7 @@
             />
         </b-row>
         <b-row class="aat-main-content-container">
-          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
+          <main aria-labelledby="aat_page_header" class="col aat-main-containter" ref="main">
             <router-view
               @showMessage="show_message"
             />
@@ -113,6 +113,8 @@
     },
     watch: {
       $route(){
+        //Set focus for accessibility purposes
+        this.$refs.main.focus();
         // Hide the message on the next route AFTER the post-upload one
         if(this.message.length > 0){
           this.navCount++;
@@ -324,10 +326,10 @@
     a:focus {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
-      text-decoration: underline;   
+      text-decoration: underline;
     }
 
-    
+
   }
 
   .aat-button-override .router-link-exact-active {
@@ -460,7 +462,7 @@
   }
 
   //Tables
-  
+
   .aat-data-table {
     border-bottom: 2px solid $table-border;
     font-size: 0.875rem;
