@@ -9,6 +9,7 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
+  const axios = require("axios");
 
   export default {
     name: "Cohort",
@@ -20,9 +21,6 @@
         has_uploaded: false,
         upload_response: undefined,
         cohort_options: [
-          {value: '1', text: 'First Cohort'},
-          {value: '2', text: 'Another test cohort'},
-          {value: '99', text: 'final cohort'},
         ]
       };
     },
@@ -46,6 +44,11 @@
       }
     },
     mounted() {
+      axios.get(
+        '/api/collection/cohort/'
+      ).then(response => {
+        this.cohort_options = response.data;
+      });
     },
     methods: {
       onFileUpload(response){

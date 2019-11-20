@@ -1,9 +1,8 @@
 <template>
-  <b-modal id="dupe_list_modal" ref="dupe_modal" title="Remove Dupes" ok-title="Done" @ok="removeDupes">
+  <b-modal id="dupe_list_modal" ref="dupe_modal" title="Duplicate Applications Found" ok-title="Done" @ok="removeDupes">
     <div>
-      <p>This is the dupe modal</p>
-      <b-card-text class="aat-sub-header">
-        <h3>Select applications to assign</h3>
+      <b-card-text>
+        Select the applications that you want to assign:
       </b-card-text>
       <b-card-text>
         <applicationlist

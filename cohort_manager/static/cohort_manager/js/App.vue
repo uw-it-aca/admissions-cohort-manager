@@ -15,7 +15,7 @@
         <span class="aat-login-info">
           <h3 id="aat_login_header" class="sr-only">Your information</h3>
           <span aria-labelledby="aat_login_header" class="aat-lg-only">Welcome, </span><span id="netid">{{ netid }}</span>
-          <a href="/saml/logout" tabindex="0" class="aat-logout-link">sign out</a>
+          <a href="/saml/logout" tabindex="0" class="aat-logout-link">Sign out</a>
         </span>
       </b-navbar>
     </b-row>
@@ -63,15 +63,11 @@
               </b-link>
             </li>
           </b-navbar-nav>
-          <h3 id="aat_external_link_header" class="sr-only">
-            Other Tools
-          </h3>
-          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-link-group">
-            <li>
-              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link" target="_blank">
-                Tableau Selection Tool
-              </b-link>
-            </li>
+          <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
+          <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
+            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
+              Tableau Selection Tool
+            </b-link></li>
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
@@ -81,16 +77,17 @@
             :message-string="message"
           />
         </b-row>
-        <b-row>
-          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
-            <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
-            <b-form-select id="aat_adperiod_select"
-                           v-model="current_admission_period"
+        <b-row class="aat-adperiod-container">
+          <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
+            <b-form-select v-model="current_admission_period"
                            class="aat-adperiod-select"
                            :class="{disabled: admission_periods.length < 2}"
                            :options="admission_periods"
                            @change="set_default_period"
             />
+        </b-row>
+        <b-row class="aat-main-content-container">
+          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
               @showMessage="show_message"
             />
@@ -208,6 +205,7 @@
 
     nav {
       flex: auto;
+      padding: 1rem;
     }
 
     div:first-child {
@@ -223,13 +221,13 @@
 
   .aat-logout-link {
     display: block;
-    text-decoration: underline;
   }
 
   @media screen and (min-width: 992px) {
     .aat-login-info {
       flex: auto;
       font-weight: 600;
+      padding: 0 0.75rem;
     }
 
     .aat-logout-link {
@@ -247,6 +245,7 @@
   .aat-sub-header {
     color: $text-color;
     font-size: 1.75rem;
+    font-weight: 600;
 
     h3 {
       font-size: 1.5rem;
@@ -311,10 +310,9 @@
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
-    border-top: solid $uw-light-grey 1px;
     clear: both;
     flex-direction: column !important;
-    padding-top: 0;
+    padding: 0;
   }
 
   .aat-main-navbar {
@@ -327,15 +325,16 @@
   .aat-nav-group {
     flex-direction: column !important;
     margin: 24px 0 0;
+    width: 100%;
 
     &.aat-assign-group {
       margin-top: 0;
       width: 100%;
     }
+  }
 
-    .aat-link {
-      padding: 0.5rem 0 0.5rem 1rem;
-    }
+  .aat-link {
+    padding: 0.75rem 1rem !important;
   }
 
   .aat-button-override {
@@ -346,51 +345,54 @@
     border-width: 1px;
     color: $text-color;
     margin: 0 -1rem;
-    padding: 1rem 0 1rem 1.5rem;
     text-align: left;
 
-    &:hover {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+    a:hover {
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
+      text-decoration: underline;
     }
 
-    &:focus-within {
-      background-color: $grey-bkgnd;
-      border-color: $banner-border;
-      color: inherit;
+    a:focus {
+      background-color: $nav-hover-bkgnd;
+      color: $text-black;
+      text-decoration: underline;
     }
+
+
+  }
+
+  .aat-button-override .router-link-exact-active {
+    background-color: $nav-active-bkgnd;
+    color: $light-text;
+  }
+
+  .aat-button-override a {
+    color: $text-color;
+    display: block;
+    padding: 1rem 0 1rem 2rem;
+    width: 100%;
 
     &::after {
       border-style: solid;
       border-width: 0 2px 2px 0;
       content: '';
-      float: right;
-      margin-right: 1.5rem;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       padding: 2px;
+      position: absolute;
+      right: 1.5rem;
       transform: rotate(-45deg);
     }
   }
 
-  .aat-button-override .router-link-exact-active {
-    color: $text-color;
-    font-weight: bold;
-  }
-
-  .aat-button-override a {
-    color: $text-color;
-  }
-
-  .aat-link-group {
+  .aat-external-link {
     border-top: solid 1px $uw-light-grey;
-    margin-top: 1rem;
-    padding-top: 0.5rem;
-
+    padding-top: 1rem !important;
   }
 
   @media screen and (min-width: 992px) {
     .aat-main-navbar {
+      border-bottom-style: none;
       max-width: none !important;
       position: relative !important;
       width: auto;
@@ -410,9 +412,12 @@
 
 
   // main content container styles
+  html {
+    background-color: $uw-purple;
+  }
 
   .aat-cohort-manager {
-    min-height: 85vh;
+    min-height: 70vh;
     overflow: hidden;
 
     .aat-content-area {
@@ -420,10 +425,18 @@
       padding: 0 2rem 2rem;
     }
 
+    .aat-main-content-container {
+      display: block;
+    }
+
     .aat-main-containter {
       padding-right: 0;
     }
 
+  }
+
+  .aat-adperiod-container {
+    float: right;
   }
 
   // footer styles
@@ -488,7 +501,6 @@
     .aat-table-header.aat-data-cell {
       color: $sub-header;
       font-size: 0.75rem !important;
-      font-weight: normal;
     }
   }
 

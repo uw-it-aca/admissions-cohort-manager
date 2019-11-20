@@ -8,7 +8,12 @@
           </legend>
           <label for="input-with-list">Assign applications to {{ collectionType }} </label>
           <div class="aat-select-inline">
-            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
+            <b-form-input id="input-with-list"
+                          v-model="collection_id"
+                          list="input-list"
+                          required
+                          v-bind:class="{'is-invalid': !collection_id}"
+            />
             <b-form-invalid-feedback true>
               Please select an option.
             </b-form-invalid-feedback>
@@ -53,6 +58,8 @@
             @removeDupes="remove_applications"
           />
         </div>
+        <b-alert id="add_app_fail_manual" variant="danger">Invalid systems keys.</b-alert>
+        <b-alert id="add_app_fail_csv" variant="danger">CSV is invalid.</b-alert>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -269,7 +276,6 @@
         if (id_to_set !== undefined){
           this.collection_id = id_to_set;
         }
-
       }
     }
   };
@@ -307,6 +313,10 @@
   // form messaging
   .aat-status-feedback {
     padding-top: 0.5rem;
+  }
+
+  .alert-danger {
+    max-width: 650px;
   }
 
   // action elements

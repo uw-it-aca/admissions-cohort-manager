@@ -255,8 +255,8 @@ def get_collection_list_by_type(collection_type, quarter_id):
         majors = client.get_majors_by_qtr(quarter_id)
         response = []
         for major in majors:
-            response.append({'id': major.major_abbr,
-                             'name': major.display_name,
+            response.append({'value': major.major_abbr,
+                             'text': major.display_name,
                              'division': major.division,
                              'college': major.college,
                              'dtx': major.dtx,
@@ -268,8 +268,8 @@ def get_collection_list_by_type(collection_type, quarter_id):
         cohorts = client.get_cohorts_by_qtr(quarter_id)
         response = []
         for cohort in cohorts:
-            response.append({'id': cohort.cohort_number,
-                             'name': cohort.cohort_number,
+            response.append({'value': cohort.cohort_number,
+                             'text': cohort.cohort_number,
                              'description': cohort.cohort_description,
                              'residency': cohort.cohort_residency,
                              'protected': cohort.protected_group,
