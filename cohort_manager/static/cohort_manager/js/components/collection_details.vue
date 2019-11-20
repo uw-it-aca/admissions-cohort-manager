@@ -25,18 +25,18 @@
       <b-row class="aat-group-info-secondary">
         <b-col class="aat-info-spacing">
           Residency <div class="aat-group-data">
-          {{ residency }}
-        </div>
+            {{ residency }}
+          </div>
         </b-col>
         <b-col class="aat-info-spacing">
           Protected <div class="aat-group-data">
-          {{ protected_group }}
-        </div>
+            {{ protected_group }}
+          </div>
         </b-col>
         <b-col class="aat-info-spacing">
           Admit Status<div class="aat-group-data">
-          {{ admit_decision }}
-        </div>
+            {{ admit_decision }}
+          </div>
         </b-col>
         <b-col class="aat-info-spacing">
           Assigned
