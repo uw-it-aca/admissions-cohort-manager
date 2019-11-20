@@ -122,9 +122,9 @@ class ActivityLog(RESTDispatch):
 
 
 class CollectionList(RESTDispatch):
-    def get(self, request, collection_type):
+    def get(self, request, collection_type, quarter):
         try:
-            list = get_collection_list_by_type(collection_type, 0)
+            list = get_collection_list_by_type(collection_type, quarter)
             return self.json_response(list)
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
