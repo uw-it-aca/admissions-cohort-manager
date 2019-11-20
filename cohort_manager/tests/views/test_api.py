@@ -36,7 +36,7 @@ class CollectionListTest(TestViewApi):
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content), 3)
-        self.assertEqual(response_content[0]['id'], 'CSE')
+        self.assertEqual(response_content[0]['value'], 'CSE')
 
     def test_get_cohort_list(self):
         request = self.get_request('/', 'javerage', 'u_test_group')
@@ -45,4 +45,4 @@ class CollectionListTest(TestViewApi):
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content), 3)
-        self.assertEqual(response_content[0]['id'], '1')
+        self.assertEqual(response_content[0]['value'], '1')
