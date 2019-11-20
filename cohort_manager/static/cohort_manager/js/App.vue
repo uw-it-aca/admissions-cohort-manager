@@ -425,9 +425,7 @@
       padding: 0 2rem 2rem;
     }
 
-    .aat-main-content-container {
-      display: block;
-    }
+
 
     .aat-main-containter {
       padding-right: 0;
