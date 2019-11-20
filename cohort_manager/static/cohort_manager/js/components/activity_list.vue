@@ -3,6 +3,7 @@
     <b-row>
       <b-col>
         <b-pagination
+          v-if="totalRows > perPage"
           v-model="currentPage"
           class="aat-activity-pagination"
           :total-rows="totalRows"
@@ -15,7 +16,7 @@
 
     <b-row>
       <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
-        <b-table 
+        <b-table
           id="assignment_history_table"
           hover
           responsive
@@ -231,12 +232,13 @@
         ).then(response => {
           if(response.status === 200){
             this.activities = response.data.activities;
+            this.totalRows = this.activities.length;
           }
         });
       },
       selectCollection(id){
         var id_to_set;
-        if(isNaN(id)){
+        if(isNaN(id) && id !== undefined){
           $(this.majorOptions).each(function(idx, option){
             if (id.toLowerCase() === option.value.toLowerCase()){
               id_to_set = id;

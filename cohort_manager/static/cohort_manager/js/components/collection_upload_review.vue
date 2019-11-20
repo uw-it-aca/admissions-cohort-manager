@@ -1,7 +1,7 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      <span v-if="applicationReturn === 'uploaded_filename'"><i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} </span><span v-else><i class="fas fa-file-alt" /><span class="sr-only">Applications manually added </span></span><a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
+      <span v-if="applicationReturn === 'uploaded_filename'"><i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} </span><span v-else><i class="fas fa-file-alt" /><span class="sr-only">Applications manually added </span></span><a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
     </div>
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
