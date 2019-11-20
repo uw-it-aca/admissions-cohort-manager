@@ -276,7 +276,6 @@
         if (id_to_set !== undefined){
           this.collection_id = id_to_set;
         }
-
       }
     }
   };

@@ -244,21 +244,21 @@ def get_collection_list_by_type(collection_type):
     # TODO: Implement a real ADSEL API query
     if collection_type == MAJOR_COLLECTION_TYPE:
         return [
-            {"id": "CSE",
-             "name": "Computer Science and Engineering"},
-            {"id": "ART H",
-             "name": "Art History"},
-            {"id": "MATH",
-             "name": "MAthematics"},
+            {"value": "CSE",
+             "text": "Computer Science and Engineering"},
+            {"value": "ART H",
+             "text": "Art History"},
+            {"value": "MATH",
+             "text": "MAthematics"},
         ]
     elif collection_type == COHORT_COLLECTION_TYPE:
         return [
-            {"id": "1",
-             "name": "WA Admit"},
-            {"id": "2",
-             "name": "Intl Admit"},
-            {"id": "99",
-             "name": "Athlete, protected"},
+            {"value": "1",
+             "text": "WA Admit"},
+            {"value": "2",
+             "text": "Intl Admit"},
+            {"value": "99",
+             "text": "Athlete, protected"},
         ]
     else:
         raise InvalidCollectionException(collection_type)
