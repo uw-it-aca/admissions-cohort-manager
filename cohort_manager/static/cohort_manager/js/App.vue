@@ -426,7 +426,9 @@
   }
 
   .aat-adperiod-container {
-    float: right;
+    position: absolute;
+    right: 2rem;
+    z-index: 99;
   }
 
   // footer styles
