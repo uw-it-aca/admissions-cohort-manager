@@ -25,7 +25,8 @@ setup(
     install_requires=[
         'django>=2.2,<2.3',
         'UW-Django-SAML2>=1.4,<2.0',
-        'django-webpack-loader'
+        'django-webpack-loader',
+        'UW-RestClients-AdSel>=0.5'
     ],
     license='Apache License, Version 2.0',
     description='A tool for managing cohorts',

@@ -88,6 +88,7 @@
                          class="aat-adperiod-select"
                          :class="{disabled: admission_periods.length < 2}"
                          :options="admission_periods"
+                         @change="set_default_period"
           />
         </b-row>
         <b-row class="aat-main-content-container">
@@ -113,6 +114,8 @@
 
 <script>
   import MessageArea from "./components/message_area.vue";
+  import { EventBus } from "./main";
+
   const axios = require("axios");
   export default {
     name: "LandingPage",
@@ -121,10 +124,8 @@
     },
     data(){
       return {
-        current_admission_period: 'a',
-        admission_periods: [
-          {value: 'a', text: 'Autumn 2019' },
-        ],
+        current_admission_period: '',
+        admission_periods: [],
         disable_period_select: false,
         netid: '',
         message: '',
@@ -143,6 +144,9 @@
             this.navCount = 0;
           }
         }
+      },
+      current_admission_period: function(period){
+        EventBus.$emit('period_change', period);
       }
     },
     mounted() {
@@ -159,8 +163,26 @@
           '/api/periods/',
         ).then(response => {
           vue.admission_periods = response.data;
-          vue.current_admission_period = vue.admission_periods[0].value;
+
+          var saved_period = this.get_saved_period();
+          if(saved_period === null){
+            $.each(response.data, function (idx, period) {
+              if(period.current === true){
+                vue.current_admission_period = period.value;
+                vue.set_default_period(period.value);
+              }
+            });
+          } else {
+            vue.current_admission_period = saved_period;
+          }
+
         });
+      },
+      set_default_period(period) {
+        $cookies.set('default_period', period, "1y");
+      },
+      get_saved_period() {
+        return $cookies.get('default_period');
       }
     }
   };
@@ -415,9 +437,7 @@
       padding: 0 2rem 2rem;
     }
 
-    .aat-main-content-container {
-      display: block;
-    }
+
 
     .aat-main-containter {
       padding-right: 0;
