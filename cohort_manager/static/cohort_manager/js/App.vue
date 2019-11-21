@@ -446,7 +446,9 @@
   }
 
   .aat-adperiod-container {
-    float: right;
+    position: absolute;
+    right: 2rem;
+    z-index: 99;
   }
 
   // footer styles
@@ -541,6 +543,12 @@
 
   tbody tr:hover .aat-actions-cell {
     opacity: 1;
+  }
+
+  @media screen and (max-width: 650px) {
+    .row .aat-actions-cell {
+      opacity: 1;
+    }
   }
 
   // Modals
