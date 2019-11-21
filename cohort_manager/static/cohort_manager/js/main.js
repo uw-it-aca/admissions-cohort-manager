@@ -22,6 +22,8 @@ const debugMode = $("body").data("django-debug");
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 
+export const EventBus = new Vue();
+
 var router = new VueRouter({
   mode: "history",
   routes: [

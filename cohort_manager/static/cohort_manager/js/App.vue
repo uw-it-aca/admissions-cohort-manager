@@ -109,6 +109,8 @@
 
 <script>
   import MessageArea from "./components/message_area.vue";
+  import { EventBus } from "./main";
+
   const axios = require("axios");
   export default {
     name: "LandingPage",
@@ -135,6 +137,9 @@
             this.navCount = 0;
           }
         }
+      },
+      current_admission_period: function(period){
+        EventBus.$emit('period_change', period);
       }
     },
     mounted() {
