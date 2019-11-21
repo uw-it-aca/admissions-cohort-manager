@@ -12,7 +12,7 @@
                           v-model="collection_id"
                           list="input-list"
                           required
-                          v-bind:class="{'is-invalid': !collection_id}"
+                          :class="{'is-invalid': !collection_id}"
             />
             <b-form-invalid-feedback true>
               Please select an option.
@@ -58,8 +58,12 @@
             @removeDupes="remove_applications"
           />
         </div>
-        <b-alert id="add_app_fail_manual" variant="danger">Invalid systems keys.</b-alert>
-        <b-alert id="add_app_fail_csv" variant="danger">CSV is invalid.</b-alert>
+        <b-alert id="add_app_fail_manual" variant="danger">
+          Invalid systems keys.
+        </b-alert>
+        <b-alert id="add_app_fail_csv" variant="danger">
+          CSV is invalid.
+        </b-alert>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">

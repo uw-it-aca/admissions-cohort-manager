@@ -63,11 +63,15 @@
               </b-link>
             </li>
           </b-navbar-nav>
-          <h3 id="aat_external_link_header" class="sr-only">Other Tools</h3>
+          <h3 id="aat_external_link_header" class="sr-only">
+            Other Tools
+          </h3>
           <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
-            <li><b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
-              Tableau Selection Tool
-            </b-link></li>
+            <li>
+              <b-link href="https://www.tableau.com" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
+                Tableau Selection Tool
+              </b-link>
+            </li>
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
@@ -79,15 +83,16 @@
         </b-row>
         <b-row class="aat-adperiod-container">
           <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
-            <b-form-select v-model="current_admission_period"
-                           class="aat-adperiod-select"
-                           :class="{disabled: admission_periods.length < 2}"
-                           :options="admission_periods"
-                           @change="set_default_period"
-            />
+          <b-form-select id="aat_adperiod_select"
+                         v-model="current_admission_period"
+                         class="aat-adperiod-select"
+                         :class="{disabled: admission_periods.length < 2}"
+                         :options="admission_periods"
+                         @change="set_default_period"
+          />
         </b-row>
         <b-row class="aat-main-content-container">
-          <main aria-labelledby="aat_page_header" class="col aat-main-containter">
+          <main aria-labelledby="aat_page_header" class="col aat-main-containter" ref="main">
             <router-view
               @showMessage="show_message"
             />
@@ -129,6 +134,8 @@
     },
     watch: {
       $route(){
+        //Set focus for accessibility purposes
+        this.$refs.main.focus();
         // Hide the message on the next route AFTER the post-upload one
         if(this.message.length > 0){
           this.navCount++;

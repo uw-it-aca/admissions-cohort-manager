@@ -3,13 +3,13 @@
     <b-row>
       <b-col>
         <b-pagination
+          v-if="totalRows > perPage"
           v-model="currentPage"
           class="aat-activity-pagination"
           :total-rows="totalRows"
           :per-page="perPage"
           size="sm"
           aria-controls="assignment_history_table"
-          v-if="totalRows > perPage"
         />
       </b-col>
     </b-row>
