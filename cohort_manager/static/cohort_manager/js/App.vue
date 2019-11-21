@@ -525,6 +525,12 @@
     opacity: 1;
   }
 
+  @media screen and (max-width: 650px) {
+    .row .aat-actions-cell {
+      opacity: 1;
+    }
+  }
+
   // Modals
 
   .aat-modal-container {
