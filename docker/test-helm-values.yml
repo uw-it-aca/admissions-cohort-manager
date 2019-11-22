@@ -16,6 +16,7 @@ database:
   hostname: aat-db-test
   name: aat-db-test
 repo: admissions-cohort-manager
+instance: test
 branch: develop
 certs:
   mounted: true
