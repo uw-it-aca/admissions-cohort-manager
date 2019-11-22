@@ -7,7 +7,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
-    get_activity_log, get_collection_list_by_type, get_apps_by_syskey_list
+    get_activity_log, get_collection_list_by_type, get_apps_by_syskey_list,\
+    get_quarters_with_current
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -121,9 +122,9 @@ class ActivityLog(RESTDispatch):
 
 
 class CollectionList(RESTDispatch):
-    def get(self, request, collection_type):
+    def get(self, request, collection_type, quarter):
         try:
-            list = get_collection_list_by_type(collection_type)
+            list = get_collection_list_by_type(collection_type, quarter)
             return self.json_response(list)
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
@@ -131,9 +132,11 @@ class CollectionList(RESTDispatch):
 
 class PeriodList(RESTDispatch):
     def get(self, request):
-        return self.json_response(status=200,
-                                  content=[{'value': '2019_autumn',
-                                            'text': 'Autumn 2019'},
-                                           {'value': '2020_winter',
-                                            'text': 'Winter 2020'}
-                                           ])
+        quarters = get_quarters_with_current()
+        resp = []
+        for quarter in quarters:
+            resp.append({'value': quarter.id,
+                         'text': "{} {}".format(quarter.appl_qtr,
+                                                quarter.appl_yr),
+                         'current': quarter.is_current})
+        return self.json_response(status=200, content=resp)
