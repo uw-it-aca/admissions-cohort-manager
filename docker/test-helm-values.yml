@@ -15,6 +15,12 @@ database:
   secretName: aat-db-test-credentials
   hostname: aat-db-test
   name: aat-db-test
+externalService:
+  enabled: true
+  name: aat-db-test
+  type: ClusterIP
+  serviceAddress: 172.18.1.16
+  servicePort: 5432
 repo: admissions-cohort-manager
 instance: test
 branch: develop
@@ -30,7 +36,7 @@ environmentVariables:
     value: EVAL
 image:
   repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager        
-commitHash: 948e5f579d9fa4e49d8cfd2c22fa33ff627cb448
+commitHash: 4714fe2430b0d9858d97078726452a5ea1c1791e  
 environmentVariables:
   - name: ENV
     value: eval
