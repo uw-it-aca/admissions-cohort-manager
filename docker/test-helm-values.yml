@@ -28,3 +28,11 @@ environmentVariables:
     value: SAML
   - name: ADSEL_ENV
     value: EVAL
+image:
+  repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager        
+commitHash: c8958769a09b347488f7084e8fe228705d18e845 
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: aat-django-secret
+    secretKey: secret

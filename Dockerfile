@@ -1,7 +1,8 @@
 FROM acait/django-container:1.0.9 as django
 
 USER root
-RUN apt-get update && apt-get install mysql-client libmysqlclient-dev -y
+RUN apt-get install -y libpq-dev
+RUN apt-get install -y postgresql-client-10
 USER acait
 
 ADD --chown=acait:acait cohort_manager/VERSION /app/cohort_manager/
