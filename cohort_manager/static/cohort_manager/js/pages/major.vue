@@ -9,6 +9,8 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
+  import { EventBus } from "../main";
+  const axios = require("axios");
 
   export default {
     name: "Major",
@@ -19,12 +21,15 @@
       return {
         has_uploaded: false,
         upload_response: undefined,
-        major_options: [
-          {value: 'CSE', text: 'Computer Science and Enginerding'},
-          {value: 'CHEM', text: 'Chemistry'},
-          {value: 'ART H', text: 'Art History'},
-        ]
+        major_options: [],
+        current_period: undefined
       };
+    },
+    created (){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_majors_for_period();
+      });
     },
     computed: {
       currentComponent: function () {
@@ -47,6 +52,13 @@
     mounted() {
     },
     methods: {
+      get_majors_for_period(){
+        axios.get(
+          '/api/collection/major/' + this.current_period + "/"
+        ).then(response => {
+          this.major_options = response.data;
+        });
+      },
       onFileUpload(response){
         this.has_uploaded = true;
         this.upload_response = response.data;

@@ -9,6 +9,7 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
+  import { EventBus } from "../main";
   const axios = require("axios");
 
   export default {
@@ -21,8 +22,15 @@
         has_uploaded: false,
         upload_response: undefined,
         cohort_options: [
-        ]
+        ],
+        current_period: undefined
       };
+    },
+    created (){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_cohorts_for_period();
+      });
     },
     computed: {
       currentComponent: function () {
@@ -44,13 +52,15 @@
       }
     },
     mounted() {
-      axios.get(
-        '/api/collection/cohort/'
-      ).then(response => {
-        this.cohort_options = response.data;
-      });
     },
     methods: {
+      get_cohorts_for_period(){
+        axios.get(
+          '/api/collection/cohort/' + this.current_period + "/"
+        ).then(response => {
+          this.cohort_options = response.data;
+        });
+      },
       onFileUpload(response){
         this.has_uploaded = true;
         this.upload_response = response.data;
