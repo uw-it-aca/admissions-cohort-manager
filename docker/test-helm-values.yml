@@ -1,0 +1,25 @@
+ingress:
+  enabled: true
+  tls:
+    prereq:
+      secretName: aat-test.axdd.s.uw.edu
+      hosts:
+        - aat-test.axdd.s.uw.edu
+  hosts:
+    prereq:
+      host: aat-test.axdd.s.uw.edu
+      paths:
+        - "/"
+database:
+  engine: postgres
+  secretName: aat-db-test-credentials
+  hostname: aat-db-test
+  name: aat-db-test
+repo: admissions-cohort-manager
+instance: test
+branch: develop
+certs:
+  mounted: true
+  certPath: /certs/aat.axdd.s.uw.edu-uwca.pem
+  keyPath: /certs/aat.axdd.s.uw.edu-uwca.key
+  secretName: aat-uwca
