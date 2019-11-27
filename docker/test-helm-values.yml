@@ -19,7 +19,7 @@ externalService:
   enabled: true
   name: aat-db-test
   type: ClusterIP
-  serviceAddress: 172.18.1.16
+  serviceAddress: 172.18.1.20 
   servicePort: 5432
 repo: admissions-cohort-manager
 instance: test
