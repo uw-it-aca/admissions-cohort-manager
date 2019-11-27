@@ -86,10 +86,12 @@ class ModifyUploadView(RESTDispatch):
 
 
 class CollectionDetails(RESTDispatch):
-    def get(self, request, collection_type, collection_id, *args, **kwargs):
+    def get(self, request, collection_type, collection_id, quarter,
+            *args, **kwargs):
         try:
             response = get_collection_by_id_type(collection_id,
-                                                 collection_type)
+                                                 collection_type,
+                                                 quarter)
             if response is not None:
                 return self.json_response(status=200, content=response)
             else:
