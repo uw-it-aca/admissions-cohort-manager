@@ -36,6 +36,7 @@
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
+                         :upload-type="manual_upload ? 'list' : 'file'"
                          @upload_reset="handleReset"
           />
           <div v-else>
@@ -188,6 +189,8 @@
           if(dupes.length > 1){
             vue.has_dupes = true;
             vue.dupes = dupes;
+          } else{
+            this.has_uploaded = true;
           }
         }).catch(function (err) {
           vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};

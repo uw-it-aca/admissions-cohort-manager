@@ -3,7 +3,10 @@
     <h1 id="aat_page_header" class="aat-page-header">
       All Cohorts
     </h1>
-    <collectionlist collection-type="Cohort" />
+    <collectionlist
+      collection-type="Cohort"
+      :admissions_period="admissions_period"
+    />
   </div>
 </template>
 
@@ -16,13 +19,14 @@
     },
     data(){
       return {
-        
+        admissions_period: this.$attrs.cur_period
+
       };
     },
     mounted() {},
     methods: {
-      
-    }
+
+    },
   };
 </script>
 
