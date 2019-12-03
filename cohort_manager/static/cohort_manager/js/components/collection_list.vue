@@ -94,6 +94,7 @@
 
 <script>
   const axios = require("axios");
+  import { EventBus } from "../main";
   export default {
     name: "CollectionList",
     components: {
@@ -108,7 +109,7 @@
       return {
         cohortFields: [
           {
-            key: 'name',
+            key: 'text',
             label: "Cohort #",
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
@@ -152,7 +153,7 @@
         cohorts: [],
         majorFields: [
           {
-            key: 'name',
+            key: 'text',
             label: 'Major',
             class: "aat-data-cell",
             thClass: "aat-table-header",
@@ -198,6 +199,7 @@
         },
         checked: false,
         comment: '',
+        current_period: undefined
       };
     },
     watch: {
@@ -210,8 +212,13 @@
       }
     },
     mounted() {
-      this.load_data();
       this.setCSRF();
+    },
+    created(){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.load_data();
+      });
     },
     methods: {
       setCSRF() {
@@ -219,7 +226,11 @@
       },
       load_data(){
         axios.get(
-          '/api/collection/' + this.collectionType.toLowerCase() + "/",
+          '/api/collection/'
+            + this.collectionType.toLowerCase()
+            + "/"
+            + this.current_period
+            + "/",
         ).then(response => {
           if(this.collectionType.toLowerCase() === "cohort"){
             this.cohorts = response.data;

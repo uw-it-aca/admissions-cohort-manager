@@ -25,12 +25,6 @@
         current_period: undefined
       };
     },
-    created (){
-      EventBus.$on('period_change', period => {
-        this.current_period = period;
-        this.get_majors_for_period();
-      });
-    },
     computed: {
       currentComponent: function () {
         if(this.has_uploaded){
@@ -48,6 +42,12 @@
         properties['collectionOptions'] = this.major_options;
         return properties;
       }
+    },
+    created (){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_majors_for_period();
+      });
     },
     mounted() {
     },

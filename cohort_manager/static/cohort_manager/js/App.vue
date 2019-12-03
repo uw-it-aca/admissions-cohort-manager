@@ -92,7 +92,7 @@
           />
         </b-row>
         <b-row class="aat-main-content-container">
-          <main aria-labelledby="aat_page_header" class="col aat-main-containter" ref="main">
+          <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
               @showMessage="show_message"
             />

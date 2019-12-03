@@ -26,12 +26,6 @@
         current_period: undefined
       };
     },
-    created (){
-      EventBus.$on('period_change', period => {
-        this.current_period = period;
-        this.get_cohorts_for_period();
-      });
-    },
     computed: {
       currentComponent: function () {
         if(this.has_uploaded){
@@ -50,6 +44,12 @@
         properties['uploadResponse'] = this.upload_response;
         return properties;
       }
+    },
+    created (){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_cohorts_for_period();
+      });
     },
     mounted() {
     },
