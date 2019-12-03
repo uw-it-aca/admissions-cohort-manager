@@ -20,7 +20,7 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
+      <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar col-lg-2 col-12">
         <b-navbar-brand class="aat-app-info">
           <a href="/" tabindex="1" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/AAT-Logo-purple.svg" alt="UW-IT">
@@ -75,7 +75,7 @@
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
-      <b-col cols="12" lg="9" class="aat-content-area">
+      <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
           <messagearea
             :message-string="message"
@@ -425,7 +425,6 @@
 
     .aat-main-navbar {
       border-right: 1px solid $uw-light-grey;
-      max-width: 220px !important;
       padding: 0 !important;
       position: relative !important;
     }
