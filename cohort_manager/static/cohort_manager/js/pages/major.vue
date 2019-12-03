@@ -44,6 +44,8 @@
       }
     },
     created (){
+      this.current_period = this.$attrs.cur_period;
+      this.get_majors_for_period();
       EventBus.$on('period_change', period => {
         this.current_period = period;
         this.get_majors_for_period();
