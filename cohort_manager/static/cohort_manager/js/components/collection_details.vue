@@ -77,15 +77,15 @@
         current_period: undefined
       };
     },
-    created(){
-      EventBus.$on('period_change', period => {
-        this.current_period = period;
-      });
-    },
     watch: {
       collectionId: function() {
         this.get_collection();
       }
+    },
+    created(){
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+      });
     },
     mounted() {
     },

@@ -23,14 +23,8 @@
         upload_response: undefined,
         cohort_options: [
         ],
-        current_period: undefined
+        current_period: null
       };
-    },
-    created (){
-      EventBus.$on('period_change', period => {
-        this.current_period = period;
-        this.get_cohorts_for_period();
-      });
     },
     computed: {
       currentComponent: function () {
@@ -50,6 +44,14 @@
         properties['uploadResponse'] = this.upload_response;
         return properties;
       }
+    },
+    created (){
+      this.current_period = this.$attrs.cur_period;
+      this.get_cohorts_for_period();
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_cohorts_for_period();
+      });
     },
     mounted() {
     },
