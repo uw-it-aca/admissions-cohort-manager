@@ -199,7 +199,7 @@
         },
         checked: false,
         comment: '',
-        current_period: undefined
+        admissions_period: null
       };
     },
     watch: {
@@ -215,8 +215,10 @@
       this.setCSRF();
     },
     created(){
+      this.admissions_period = this.$attrs.admissions_period;
+      this.load_data();
       EventBus.$on('period_change', period => {
-        this.current_period = period;
+        this.admissions_period = period;
         this.load_data();
       });
     },
@@ -229,7 +231,7 @@
           '/api/collection/'
             + this.collectionType.toLowerCase()
             + "/"
-            + this.current_period
+            + this.admissions_period
             + "/",
         ).then(response => {
           if(this.collectionType.toLowerCase() === "cohort"){

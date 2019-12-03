@@ -94,6 +94,8 @@
         <b-row class="aat-main-content-container">
           <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-containter">
             <router-view
+              v-if="period_set"
+              :cur_period="cur_period"
               @showMessage="show_message"
             />
           </main>
@@ -129,8 +131,14 @@
         disable_period_select: false,
         netid: '',
         message: '',
-        navCount: 0
+        navCount: 0,
+        cur_period: null
       };
+    },
+    computed: {
+      period_set: function () {
+        return this.cur_period !== null;
+      }
     },
     watch: {
       $route(){
@@ -146,6 +154,7 @@
         }
       },
       current_admission_period: function(period){
+        this.cur_period = period;
         EventBus.$emit('period_change', period);
       }
     },
