@@ -248,7 +248,6 @@
     .aat-login-info {
       flex: auto;
       font-weight: 600;
-      padding: 0 0.75rem;
     }
 
     .aat-logout-link {
@@ -442,13 +441,6 @@
 
     .aat-content-area {
       background-color: $app-bkgnd;
-      padding: 0 2rem 2rem;
-    }
-
-
-
-    .aat-main-containter {
-      padding-right: 0;
     }
 
   }
