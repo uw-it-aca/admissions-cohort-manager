@@ -370,13 +370,13 @@
     a:hover {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     a:focus {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
 
