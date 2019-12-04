@@ -348,6 +348,7 @@
     width: 100%;
 
     &.aat-assign-group {
+      border-top: solid 1px $uw-light-grey;
       margin-top: 0;
       width: 100%;
     }
