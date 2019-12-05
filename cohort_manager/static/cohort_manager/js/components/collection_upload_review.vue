@@ -31,6 +31,37 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+      <div class="aat-reassign-checkbox">
+        <span v-if="uploadType === 'file'" >
+          <b-form-checkbox 
+            id="app_reassign_checkbox"
+            name="app_reassign_checkbox"
+            value=""
+            class="aat-checkbox">
+            Reassign applications that already have a cohort.
+          </b-form-checkbox>
+          <b-form-text>
+            Note: Applications with a protected cohort will not be reassigned.
+          </b-form-text>
+        </span>
+        <span v-else>
+          <b-form-checkbox 
+            id="app_reassign_checkbox"
+            name="app_reassign_checkbox"
+            value=""
+            class="aat-checkbox">
+            Reassign applications that already have a cohort.
+          </b-form-checkbox>
+          <b-form-checkbox
+            id="app_unprotect_checkbox"
+            name="app_unprotect_checkbox"
+            value=""
+            class="aat-checkbox aat-secondary-checkbox"
+          >
+            Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
+          </b-form-checkbox>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -161,6 +192,10 @@
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }
+  }
+
+  .aat-reassign-checkbox {
+    margin-left: 0.5rem;
   }
 
   .aat-reset-link {
