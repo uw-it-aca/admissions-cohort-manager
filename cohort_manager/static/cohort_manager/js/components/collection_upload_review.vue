@@ -32,26 +32,19 @@
         </b-collapse>
       </b-card>
       <div class="aat-reassign-checkbox">
+        <b-form-checkbox 
+          id="app_reassign_checkbox"
+          name="app_reassign_checkbox"
+          value=""
+          class="aat-checkbox">
+          Reassign applications that already have a {{ collectionType }}.
+        </b-form-checkbox>
         <span v-if="uploadType === 'file'" >
-          <b-form-checkbox 
-            id="app_reassign_checkbox"
-            name="app_reassign_checkbox"
-            value=""
-            class="aat-checkbox">
-            Reassign applications that already have a cohort.
-          </b-form-checkbox>
           <b-form-text>
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
         <span v-else>
-          <b-form-checkbox 
-            id="app_reassign_checkbox"
-            name="app_reassign_checkbox"
-            value=""
-            class="aat-checkbox">
-            Reassign applications that already have a cohort.
-          </b-form-checkbox>
           <b-form-checkbox
             id="app_unprotect_checkbox"
             name="app_unprotect_checkbox"
