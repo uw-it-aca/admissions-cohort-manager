@@ -227,7 +227,7 @@ def get_collection_list_by_type(collection_type, quarter_id):
         response = []
         for cohort in cohorts:
             response.append({'value': cohort.cohort_number,
-                             'text': cohort.cohort_number,
+                             'text': cohort.cohort_description,
                              'description': cohort.cohort_description,
                              'residency': cohort.cohort_residency,
                              'protected': cohort.protected_group,

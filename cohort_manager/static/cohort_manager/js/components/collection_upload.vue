@@ -61,10 +61,10 @@
             @removeDupes="remove_applications"
           />
         </div>
-        <b-alert id="add_app_fail_manual" variant="danger">
+        <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
           Invalid systems keys.
         </b-alert>
-        <b-alert id="add_app_fail_csv" variant="danger">
+        <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
           CSV is invalid.
         </b-alert>
       </fieldset>
@@ -129,6 +129,8 @@
         to_remove: [],
         is_reassign: false,
         is_reassign_protected: false,
+        invalid_manual: false,
+        invalid_csv: false
       };
     },
     computed: {
@@ -164,6 +166,10 @@
       handleUpload() {
         var vue = this;
         let formData = new FormData();
+        // Reset error modals
+        this.invalid_csv = false;
+        this.invalid_manual = false;
+
         if (this.file !== null){
           this.manual_upload = false;
           formData.append('file', this.file);
@@ -198,8 +204,12 @@
           } else{
             this.has_uploaded = true;
           }
-        }).catch(function (err) {
-          vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};
+        }).catch(function () {
+          if(vue.file !== null){
+            vue.invalid_csv = true;
+          }else if(vue.syskey_list!==null){
+            vue.invalid_manual = true;
+          }
         });
       },
       handle_reassign(is_reassign){
