@@ -34,6 +34,7 @@
       <div class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
+          v-model="is_reassign"
           name="app_reassign_checkbox"
           value=""
           class="aat-checkbox"
@@ -48,6 +49,7 @@
         <span v-else>
           <b-form-checkbox
             id="app_unprotect_checkbox"
+            v-model="is_reassign_protected"
             name="app_unprotect_checkbox"
             value=""
             class="aat-checkbox aat-secondary-checkbox"
@@ -115,6 +117,20 @@
           }
         });
         this.duplicates = this.get_duplicates(this.upload_response.assignments);
+      },
+      is_reassign: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign", true);
+        } else {
+          this.$emit("is_reassign", false);
+        }
+      },
+      is_reassign_protected: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign_protected", true);
+        } else {
+          this.$emit("is_reassign_protected", false);
+        }
       }
     },
     mounted() {

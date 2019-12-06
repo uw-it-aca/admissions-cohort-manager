@@ -38,6 +38,8 @@
                          :collection-type="collection_type"
                          :upload-type="manual_upload ? 'list' : 'file'"
                          @upload_reset="handleReset"
+                         @is_reassign="handle_reassign"
+                         @is_reassign_protected="handle_reassign_protected"
           />
           <div v-else>
             <div>
@@ -124,7 +126,9 @@
         dupes: [],
         upload_response: undefined,
         collection_type: this.$props.collectionType,
-        to_remove: []
+        to_remove: [],
+        is_reassign: false,
+        is_reassign_protected: false,
       };
     },
     computed: {
@@ -198,7 +202,12 @@
           vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};
         });
       },
-
+      handle_reassign(is_reassign){
+        this.is_reassign = is_reassign;
+      },
+      handle_reassign_protected(is_reassign_protected){
+        this.is_reassign_protected = is_reassign_protected;
+      },
       mark_for_submission(){
         var vue = this,
             request = {'submit': true,
