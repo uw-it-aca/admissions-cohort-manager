@@ -38,6 +38,8 @@
                          :collection-type="collection_type"
                          :upload-type="manual_upload ? 'list' : 'file'"
                          @upload_reset="handleReset"
+                         @is_reassign="handle_reassign"
+                         @is_reassign_protected="handle_reassign_protected"
           />
           <div v-else>
             <div>
@@ -125,6 +127,8 @@
         upload_response: undefined,
         collection_type: this.$props.collectionType,
         to_remove: [],
+        is_reassign: false,
+        is_reassign_protected: false,
         invalid_manual: false,
         invalid_csv: false
       };
@@ -167,8 +171,10 @@
         this.invalid_manual = false;
 
         if (this.file !== null){
+          this.manual_upload = false;
           formData.append('file', this.file);
         } else  if (this.syskey_list !== null){
+          this.manual_upload = true;
           formData.append('syskey_list', this.syskey_list);
         }
         formData.append('comment', this.comment);
@@ -206,7 +212,12 @@
           }
         });
       },
-
+      handle_reassign(is_reassign){
+        this.is_reassign = is_reassign;
+      },
+      handle_reassign_protected(is_reassign_protected){
+        this.is_reassign_protected = is_reassign_protected;
+      },
       mark_for_submission(){
         var vue = this,
             request = {'submit': true,
