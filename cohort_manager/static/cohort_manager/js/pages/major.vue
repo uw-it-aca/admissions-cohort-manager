@@ -52,6 +52,13 @@
       });
     },
     mounted() {
+      axios.get(
+        '/api/collection/major/'
+      ).then(response => {
+        this.major_options = response.data;
+      }).catch(function () {
+        return;
+      });
     },
     methods: {
       get_majors_for_period(){

@@ -1,10 +1,7 @@
 from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.models import Activity, Assignment, AssignmentImport
-from datetime import datetime
-from cohort_manager.utils import to_csv
 from uw_adsel import AdSel
 from datetime import datetime
-from restclients_core.exceptions import DataFailureException
 
 
 MAJOR_COLLECTION_TYPE = "major"
