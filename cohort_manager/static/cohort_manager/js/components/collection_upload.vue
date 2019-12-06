@@ -161,8 +161,10 @@
         var vue = this;
         let formData = new FormData();
         if (this.file !== null){
+          this.manual_upload = false;
           formData.append('file', this.file);
         } else  if (this.syskey_list !== null){
+          this.manual_upload = true;
           formData.append('syskey_list', this.syskey_list);
         }
         formData.append('comment', this.comment);
