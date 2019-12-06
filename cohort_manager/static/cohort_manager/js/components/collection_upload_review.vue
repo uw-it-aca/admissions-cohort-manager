@@ -8,7 +8,7 @@
     </p>
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
             Already assigned a {{ collectionType }} (#)
           </b-button>
@@ -19,7 +19,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card v-if="collectionType === 'Cohort'" no-body class="mb-1">
+      <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned a protected Cohort (#)
@@ -75,6 +75,16 @@
         is_reassign: false,
         is_reassign_protected: false
       };
+    },
+    computed: {
+      has_assigned : function() {
+        return this.already_assigned.length > 0;
+      },
+      has_protected: function() {
+        var has_protected = this.already_assigned_protected.length > 0,
+            is_cohort = this.collectionType === "Cohort";
+        return has_protected && is_cohort;
+      }
     },
     watch: {
       upload_response: function(){
