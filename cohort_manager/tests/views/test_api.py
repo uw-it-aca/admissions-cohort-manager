@@ -32,17 +32,19 @@ class CollectionListTest(TestViewApi):
     def test_get_major_list(self):
         request = self.get_request('/', 'javerage', 'u_test_group')
         response = self.get_response('collection_list',
-                                     kwargs={'collection_type': 'major'})
+                                     kwargs={'collection_type': 'major',
+                                             'quarter': 0})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 3)
-        self.assertEqual(response_content[0]['id'], 'CSE')
+        self.assertEqual(len(response_content), 4)
+        self.assertEqual(response_content[0]['value'], 'BIOL')
 
     def test_get_cohort_list(self):
         request = self.get_request('/', 'javerage', 'u_test_group')
         response = self.get_response('collection_list',
-                                     kwargs={'collection_type': 'cohort'})
+                                     kwargs={'collection_type': 'cohort',
+                                             'quarter': 0})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 3)
-        self.assertEqual(response_content[0]['id'], '1')
+        self.assertEqual(len(response_content), 4)
+        self.assertEqual(response_content[0]['value'], 1)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="aat-page-header">
+    <h1 id="aat_page_header" class="aat-page-header">
       Assign to Cohort
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
@@ -9,6 +9,8 @@
 
 <script>
   import Upload from "../components/collection_upload.vue";
+  import { EventBus } from "../main";
+  const axios = require("axios");
 
   export default {
     name: "Cohort",
@@ -20,10 +22,8 @@
         has_uploaded: false,
         upload_response: undefined,
         cohort_options: [
-          {value: '1', text: 'First Cohort'},
-          {value: '2', text: 'Another test cohort'},
-          {value: '99', text: 'final cohort'},
-        ]
+        ],
+        current_period: null
       };
     },
     computed: {
@@ -45,9 +45,24 @@
         return properties;
       }
     },
+    created (){
+      this.current_period = this.$attrs.cur_period;
+      this.get_cohorts_for_period();
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_cohorts_for_period();
+      });
+    },
     mounted() {
     },
     methods: {
+      get_cohorts_for_period(){
+        axios.get(
+          '/api/collection/cohort/' + this.current_period + "/"
+        ).then(response => {
+          this.cohort_options = response.data;
+        });
+      },
       onFileUpload(response){
         this.has_uploaded = true;
         this.upload_response = response.data;

@@ -2,8 +2,8 @@
   <div>
     <div v-if="applicationReturn === 'Assigned'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -18,8 +18,8 @@
 
     <div v-else-if="applicationReturn === 'Protected'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -46,8 +46,8 @@
 
     <div v-else-if="applicationReturn === 'Duplicate'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -101,44 +101,37 @@
     data(){
       return {
         selected: {},
-        to_remove: [],
         applicationFields: [
           {
             key: 'Key',
             label: "System Key",
             class: "aat-data-cell",
-            sortable: true
-          },
-          {
-            key: 'Type',
-            label: "Application Type",
-            class: "aat-data-cell",
-            sortable: true
-          },
-          {
-            key: 'Status',
-            class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Class',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Campus',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Cohort',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Major',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
         ],
 
@@ -151,50 +144,39 @@
             key: 'system_key',
             label: "System Key",
             class: "aat-data-cell",
-            sortable: true
-          },
-          {
-            key: 'admission_selection_id',
-            label: "AdSel ID",
-            class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'application_number',
             label: "Application #",
             class: "aat-data-cell",
+            thClass: "aat-table-header",
             sortable: false,
-          },
-          {
-            key: 'Type',
-            label: "Application Type",
-            class: "aat-data-cell",
-            sortable: true
-          },
-          {
-            key: 'Status',
-            class: "aat-data-cell aat-data-nowrap",
-            sortable: true
           },
           {
             key: 'Class',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'campus',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'cohort',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'major',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
         ],
 
@@ -213,14 +195,20 @@
     },
     methods: {
       mark_to_delete: function() {
-        var vue = this;
-        this.to_remove = [];
-        $.each(this.selected, function (idx, selected) {
-          if (selected === false) {
-            vue.to_remove.push(idx);
+        var keys_to_keep = [],
+            keys_to_remove  = [],
+            vue = this;
+        $.each(vue.selected, function(key, value){
+          if (value === true){
+            keys_to_keep.push(key);
           }
         });
-        this.$emit("dupeToRemove", this.to_remove);
+        $.each(vue.applications, function(idx, app){
+          if(!keys_to_keep.includes(app.admission_selection_id)){
+            keys_to_remove.push(app.admission_selection_id);
+          }
+        });
+        this.$emit("dupeToRemove", keys_to_remove);
       }
 
     }

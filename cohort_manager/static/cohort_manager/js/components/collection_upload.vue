@@ -6,20 +6,27 @@
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label for="collection_chooser">Assign applications to {{ collectionType }} </label>
+          <label for="input-with-list">Assign applications to {{ collectionType }} </label>
           <div class="aat-select-inline">
-            <b-form-input id="input-with-list" v-model="collection_id" list="input-list" class="is-invalid" required />
+            <b-form-input id="input-with-list"
+                          v-model="collection_id"
+                          list="input-list"
+                          required
+                          :class="{'is-invalid': !collection_id}"
+            />
             <b-form-invalid-feedback true>
               Please select an option.
             </b-form-invalid-feedback>
             <b-form-datalist id="input-list" :options="collectionOptions" />
           </div>
         </fieldset>
-        <collectionDetails
-          v-if="collectionType === 'Cohort'"
-          :collection-id="collection_id"
-          :collection-type="collectionType"
-        />
+        <div role="region" aria-live="polite">
+          <collectionDetails
+            v-if="collectionType === 'Cohort'"
+            :collection-id="collection_id"
+            :collection-type="collectionType"
+          />
+        </div>
       </div>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -29,8 +36,10 @@
           <upload-review v-if="has_uploaded"
                          :upload-response="upload_response"
                          :collection-type="collection_type"
+                         :upload-type="manual_upload ? 'list' : 'file'"
                          @upload_reset="handleReset"
-                         @dupeToRemove="handleRemove"
+                         @is_reassign="handle_reassign"
+                         @is_reassign_protected="handle_reassign_protected"
           />
           <div v-else>
             <div>
@@ -45,7 +54,19 @@
               @fileselected="selectedFile"
             />
           </div>
+          <collection-upload-dupe-modal
+            v-if="has_dupes"
+            :duplicates="dupes"
+            :collection-type="collectionType"
+            @removeDupes="remove_applications"
+          />
         </div>
+        <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
+          Invalid systems keys.
+        </b-alert>
+        <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
+          CSV is invalid.
+        </b-alert>
       </fieldset>
       <fieldset class="aat-form-section">
         <legend class="aat-sub-header">
@@ -66,6 +87,7 @@
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
+  import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
@@ -73,10 +95,11 @@
   export default {
     name: "Upload",
     components: {
+      CollectionUploadDupeModal,
       collectionDetails: CollectionDetails,
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
-      CollectionUploadFileInput: CollectionUploadFileInput
+      CollectionUploadFileInput: CollectionUploadFileInput,
     },
     props: {
       collectionType: {
@@ -99,9 +122,15 @@
         upload_toggle_label_file: "by file",
         upload_toggle_label_manual: "manually by system keys",
         has_uploaded: false,
+        has_dupes: false,
+        dupes: [],
         upload_response: undefined,
         collection_type: this.$props.collectionType,
-        to_remove: []
+        to_remove: [],
+        is_reassign: false,
+        is_reassign_protected: false,
+        invalid_manual: false,
+        invalid_csv: false
       };
     },
     computed: {
@@ -134,14 +163,18 @@
         this.has_uploaded = false;
         this.upload_response = undefined;
       },
-      handleRemove(to_remove) {
-        this.to_remove = to_remove;
-      },
       handleUpload() {
+        var vue = this;
         let formData = new FormData();
+        // Reset error modals
+        this.invalid_csv = false;
+        this.invalid_manual = false;
+
         if (this.file !== null){
+          this.manual_upload = false;
           formData.append('file', this.file);
         } else  if (this.syskey_list !== null){
+          this.manual_upload = true;
           formData.append('syskey_list', this.syskey_list);
         }
         formData.append('comment', this.comment);
@@ -163,16 +196,29 @@
             }
           }
         ).then(response => {
-          this.$emit('uploaded', response);
-          this.has_uploaded = true;
-          this.upload_response = response.data;
+          vue.upload_response = response.data;
+          var dupes = vue.get_duplicates(this.upload_response.assignments);
+          if(dupes.length > 1){
+            vue.has_dupes = true;
+            vue.dupes = dupes;
+          } else{
+            this.has_uploaded = true;
+          }
         }).catch(function () {
-          this.uploadResponse = "THERE WAS AN ERROR";
+          if(vue.file !== null){
+            vue.invalid_csv = true;
+          }else if(vue.syskey_list!==null){
+            vue.invalid_manual = true;
+          }
         });
       },
-
+      handle_reassign(is_reassign){
+        this.is_reassign = is_reassign;
+      },
+      handle_reassign_protected(is_reassign_protected){
+        this.is_reassign_protected = is_reassign_protected;
+      },
       mark_for_submission(){
-
         var vue = this,
             request = {'submit': true,
                        'is_reassign': this.is_reassign,
@@ -201,9 +247,43 @@
         });
       },
 
-      toggleUpload() {
-        this.manual_upload = !this.manual_upload;
-        return false;
+      remove_applications(list){
+        var vue = this,
+            request = {'submit': false,
+                       'is_reassign': false,
+                       'is_reassign_protected': false,
+                       'to_delete': list};
+        axios.put(
+          '/api/upload/' + this.upload_response.id + "/",
+          request,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function(response) {
+          vue.upload_response = response.data;
+          vue.has_uploaded = true;
+        });
+      },
+
+      get_duplicates: function(assignments){
+        var syskeys = {},
+            dupe_assignments =[];
+        $.each(assignments, function(idx, assignment){
+          if(assignment.system_key in syskeys){
+            syskeys[assignment.system_key] += 1;
+          } else {
+            syskeys[assignment.system_key] = 1;
+          }
+        });
+        $.each(assignments, function(idx, assignment) {
+          if(syskeys[assignment.system_key] > 1){
+            dupe_assignments.push(assignment);
+          }
+        });
+        return dupe_assignments;
       },
       selectedFile(file) {
         this.file = file;
@@ -224,7 +304,6 @@
         if (id_to_set !== undefined){
           this.collection_id = id_to_set;
         }
-
       }
     }
   };
@@ -262,6 +341,10 @@
   // form messaging
   .aat-status-feedback {
     padding-top: 0.5rem;
+  }
+
+  .alert-danger {
+    max-width: 650px;
   }
 
   // action elements

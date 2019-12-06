@@ -2,8 +2,8 @@
   <div>
     <div v-if="collectionType === 'Cohort'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -23,8 +23,8 @@
 
     <div v-else-if="collectionType === 'Major'">
       <b-table
+        hover
         responsive
-        striped
         show-empty
         small
         class="aat-data-table"
@@ -94,6 +94,7 @@
 
 <script>
   const axios = require("axios");
+  import { EventBus } from "../main";
   export default {
     name: "CollectionList",
     components: {
@@ -108,36 +109,42 @@
       return {
         cohortFields: [
           {
-            key: 'name',
+            key: 'text',
             label: "Cohort #",
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'description',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'residency',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'protect',
+            key: 'protected',
             label: 'Protected',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'admit_status',
+            key: 'admit_decision',
             class: "aat-data-cell aat-data-nowrap",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'assigned',
+            key: 'assigned_count',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           { key: 'actions',
             label: '',
@@ -146,30 +153,35 @@
         cohorts: [],
         majorFields: [
           {
-            key: 'name',
+            key: 'text',
             label: 'Major',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'Division',
+            key: 'division',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'College',
+            key: 'college',
             class: "aat-data-cell",
-            sortable: true,
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'DTX',
+            key: 'dtx',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
-            key: 'Assigned',
+            key: 'assigned_count',
             class: "aat-data-cell",
-            sortable: true
+            thClass: "aat-table-header",
+            sortable: false,
           },
           {
             key: 'Actions',
@@ -187,6 +199,7 @@
         },
         checked: false,
         comment: '',
+        admissions_period: null
       };
     },
     watch: {
@@ -199,8 +212,15 @@
       }
     },
     mounted() {
-      this.load_data();
       this.setCSRF();
+    },
+    created(){
+      this.admissions_period = this.$attrs.admissions_period;
+      this.load_data();
+      EventBus.$on('period_change', period => {
+        this.admissions_period = period;
+        this.load_data();
+      });
     },
     methods: {
       setCSRF() {
@@ -208,7 +228,11 @@
       },
       load_data(){
         axios.get(
-          '/api/collection/' + this.collectionType.toLowerCase() + "/",
+          '/api/collection/'
+            + this.collectionType.toLowerCase()
+            + "/"
+            + this.admissions_period
+            + "/",
         ).then(response => {
           if(this.collectionType.toLowerCase() === "cohort"){
             this.cohorts = response.data;
@@ -258,6 +282,7 @@
   .aat-actions-cell a,
   .aat-actions-cell button {
     color: $link-blue;
+    font-family: 'Encode Sans Compressed',sans-serif;
     font-weight: bold;
     margin: 0 0.25rem;
     text-transform: uppercase;

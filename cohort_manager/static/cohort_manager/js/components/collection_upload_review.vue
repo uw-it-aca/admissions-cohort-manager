@@ -1,14 +1,14 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      {{ uploaded_filename }} <a href="#" @click.prevent="reset_upload" class="aat-reset-link">Reset</a>
+      <span v-if="uploadType === 'file'"><i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} </span><span v-else><i class="fas fa-file-alt" /><span class="sr-only">Applications manually added </span></span><a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
     </div>
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
     </p>
     <div role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
             Already assigned a {{ collectionType }} (#)
           </b-button>
@@ -19,7 +19,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card v-if="collectionType === 'Cohort'" no-body class="mb-1">
+      <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned a protected Cohort (#)
@@ -31,28 +31,33 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button v-b-toggle.accordion-duplicates block variant="info" href="#">
-            Duplicates (#)
-          </b-button>
-        </b-card-header>
-        <b-collapse id="accordion-duplicates" visible accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <b-card-text class="aat-accordion-note">
-              Select applications to assign:
-            </b-card-text>
-            <b-card-text>
-              <applicationlist
-                application-return="Duplicate"
-                :collection-type="collectionType"
-                :applications="duplicates"
-                @dupeToRemove="proc"
-              />
-            </b-card-text>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
+      <div class="aat-reassign-checkbox">
+        <b-form-checkbox
+          id="app_reassign_checkbox"
+          v-model="is_reassign"
+          name="app_reassign_checkbox"
+          value=""
+          class="aat-checkbox"
+        >
+          Reassign applications that already have a {{ collectionType }}.
+        </b-form-checkbox>
+        <span v-if="uploadType === 'file'">
+          <b-form-text>
+            Note: Applications with a protected cohort will not be reassigned.
+          </b-form-text>
+        </span>
+        <span v-else>
+          <b-form-checkbox
+            id="app_unprotect_checkbox"
+            v-model="is_reassign_protected"
+            name="app_unprotect_checkbox"
+            value=""
+            class="aat-checkbox aat-secondary-checkbox"
+          >
+            Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
+          </b-form-checkbox>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +82,10 @@
         type: String,
         default: function() {return [];}
       },
+      uploadType: {
+        type: String,
+        default: function() {return [];}
+      },
     },
     data(){
       return {
@@ -94,6 +103,16 @@
         is_reassign_protected: false
       };
     },
+    computed: {
+      has_assigned : function() {
+        return this.already_assigned.length > 0;
+      },
+      has_protected: function() {
+        var has_protected = this.already_assigned_protected.length > 0,
+            is_cohort = this.collectionType === "Cohort";
+        return has_protected && is_cohort;
+      }
+    },
     watch: {
       upload_response: function(){
         $.each(this.upload_response.assignments, function(idx, assignment){
@@ -108,6 +127,20 @@
           }
         });
         this.duplicates = this.get_duplicates(this.upload_response.assignments);
+      },
+      is_reassign: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign", true);
+        } else {
+          this.$emit("is_reassign", false);
+        }
+      },
+      is_reassign_protected: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign_protected", true);
+        } else {
+          this.$emit("is_reassign_protected", false);
+        }
       }
     },
     mounted() {
@@ -154,6 +187,13 @@
 <style lang="scss">
   @import '../../css/_variables.scss';
 
+  //upload icon
+  .fa-file-csv,
+  .fa-file-alt {
+    font-size: 1.375rem;
+    width: 1.5rem;
+  }
+
   // upload issues lists
   .aat-accordian {
     .btn-block {
@@ -164,7 +204,7 @@
     .btn-block.btn-info:active {
       background-color: transparent;
       border-style: none;
-      color: inherit;
+      color: $link-blue;
     }
   }
 
@@ -172,6 +212,10 @@
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }
+  }
+
+  .aat-reassign-checkbox {
+    margin-left: 0.5rem;
   }
 
   .aat-reset-link {
