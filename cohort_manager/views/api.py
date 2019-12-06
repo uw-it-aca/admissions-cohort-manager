@@ -4,6 +4,7 @@ from django.http import HttpResponse, QueryDict
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.serializers.json import DjangoJSONEncoder
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
@@ -17,7 +18,9 @@ from cohort_manager.dao import InvalidCollectionException
 class RESTDispatch(View):
     @staticmethod
     def json_response(content={}, status=200):
-        return HttpResponse(json.dumps(content, sort_keys=True),
+        return HttpResponse(json.dumps(content,
+                                       sort_keys=True,
+                                       cls=DjangoJSONEncoder),
                             status=status,
                             content_type='application/json')
 
@@ -108,19 +111,8 @@ class CollectionDetails(RESTDispatch):
 
 class ActivityLog(RESTDispatch):
     def get(self, request, *args, **kwargs):
-        assignment_type = request.GET.get('assignment_type')
-        cohort_id = request.GET.get('cohort_id')
-        major_id = request.GET.get('major_id')
-        system_key = request.GET.get('system_key')
-
-        activities = get_activity_log(assignment_type=assignment_type,
-                                      cohort_id=cohort_id,
-                                      major_id=major_id,
-                                      system_key=system_key)
-        activity_json = []
-        for activity in activities:
-            activity_json.append(activity.json_data())
-        return self.json_response(content={"activities": activity_json})
+        activities = get_activity_log()
+        return self.json_response(content={"activities": activities})
 
 
 class CollectionList(RESTDispatch):
