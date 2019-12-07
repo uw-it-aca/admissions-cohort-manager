@@ -42,7 +42,6 @@ class AssignmentImportManager(models.Manager):
                                 application.application_number,
                                 application.adsel_id])
 
-
         kwargs['is_file_upload'] = False
         kwargs['document'] = document
         return AssignmentImport(**kwargs)
