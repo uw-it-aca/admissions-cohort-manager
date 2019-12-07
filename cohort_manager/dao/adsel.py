@@ -97,7 +97,7 @@ def get_collection_list_by_type(collection_type, quarter_id):
 
 
 def get_application_by_qtr_syskey(qtr_id, syskey):
-        return AdSel().get_applications_by_qtr_syskey(qtr_id, syskey)
+    return AdSel().get_applications_by_qtr_syskey(qtr_id, syskey)
 
 
 def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
