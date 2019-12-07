@@ -96,66 +96,12 @@ def get_collection_list_by_type(collection_type, quarter_id):
         raise InvalidCollectionException(collection_type)
 
 
-def get_application_by_syskey(syskey):
-    # TODO: Implement a real ADSEL API query
-    if syskey == "123":
-        assignment = Assignment(system_key="123",
-                                campus=0,
-                                year=2019,
-                                quarter=1,
-                                application_number=1,
-                                admission_selection_id="123,0,2019,1,1",
-                                cohort="1",
-                                major="foo")
-        return [assignment]
-    if syskey == "asd":
-        assignment = Assignment(system_key="asd",
-                                campus=0,
-                                year=2019,
-                                quarter=1,
-                                application_number=1,
-                                admission_selection_id="123,0,2019,1,1",
-                                cohort="1",
-                                major="foo")
-        assignment2 = Assignment(system_key="asd",
-                                 campus=0,
-                                 year=2019,
-                                 quarter=1,
-                                 application_number=2,
-                                 admission_selection_id="asd,0,2019,1,2",
-                                 cohort="1",
-                                 major="foo")
-        assignment3 = Assignment(system_key="asd",
-                                 campus=0,
-                                 year=2019,
-                                 quarter=1,
-                                 application_number=3,
-                                 admission_selection_id="asd,0,2019,1,3",
-                                 cohort="1",
-                                 major="foo")
-        return [assignment, assignment2, assignment3]
-    if syskey == "123asd":
-        assignment = Assignment(system_key="123asd",
-                                campus=0,
-                                year=2019,
-                                quarter=1,
-                                application_number=1,
-                                admission_selection_id="123asd,0,2019,1,1",
-                                cohort="1",
-                                major="foo")
-        assignment2 = Assignment(system_key="123asd",
-                                 campus=0,
-                                 year=2019,
-                                 quarter=1,
-                                 application_number=2,
-                                 admission_selection_id="123asd,0,2019,1,2",
-                                 cohort="1",
-                                 major="foo")
-        return [assignment, assignment2]
+def get_application_by_qtr_syskey(qtr_id, syskey):
+        return AdSel().get_applications_by_qtr_syskey(qtr_id, syskey)
 
 
-def get_apps_by_syskey_list(syskeys):
+def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
     app_list = []
     for syskey in syskeys:
-        app_list += get_application_by_syskey(syskey)
+        app_list += get_application_by_qtr_syskey(qtr_id, syskey)
     return app_list

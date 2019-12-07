@@ -8,8 +8,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
-    get_activity_log, get_collection_list_by_type, get_apps_by_syskey_list,\
-    get_quarters_with_current
+    get_activity_log, get_collection_list_by_type, \
+    get_apps_by_qtr_id_syskey_list, get_quarters_with_current
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -42,16 +42,18 @@ class UploadView(RESTDispatch):
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
+        qtr_id = request.POST.get('qtr_id', "")
 
         # TODO: validate uploaded_file.content_type?
         if uploaded_file:
             assignment_import = AssignmentImport.objects.create_from_file(
                 uploaded_file, created_by='TODO')
         if syskey_list:
-            applications = get_apps_by_syskey_list(syskey_list)
+            applications = get_apps_by_qtr_id_syskey_list(qtr_id, syskey_list)
             assignment_import = AssignmentImport.objects.create_from_list(
                 applications, created_by='TODO'
             )
+            print('p2')
         if cohort_id:
             assignment_import.cohort = cohort_id
         if major_id:
@@ -60,8 +62,11 @@ class UploadView(RESTDispatch):
 
         try:
             assignment_import.status_code = 200
+            print('pre')
             assignment_import.save()
+            print('post')
             content = assignment_import.json_data()
+            print(content)
             return self.json_response(status=200, content=content)
 
         except TypeError as ex:

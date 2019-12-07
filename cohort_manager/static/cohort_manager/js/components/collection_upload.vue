@@ -109,6 +109,10 @@
       collectionOptions: {
         type: Array,
         default: function () {return[];}
+      },
+      currentPeriod: {
+        type: Number,
+        default: null
       }
     },
     data(){
@@ -178,6 +182,7 @@
           formData.append('syskey_list', this.syskey_list);
         }
         formData.append('comment', this.comment);
+        formData.append('qtr_id', this.currentPeriod);
         if (this.collectionType == "Cohort") {
           formData.append('cohort_id', this.collection_id);
         } else if (this.collectionType == "Major") {
