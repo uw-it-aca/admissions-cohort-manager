@@ -15,7 +15,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" class="aat-col-nopad aat-activity-table">
         <b-table
           id="assignment_history_table"
           hover
@@ -34,77 +34,6 @@
             <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
           </template>
         </b-table>
-      </b-col>
-
-      <b-col order-md="3" order="1">
-        <b-form class="aat-filter-form" @reset="onReset">
-          <h2 class="aat-filter-title">
-            Filter
-          </h2>
-          <span class="aat-filter-reset">
-            <b-button type="reset" variant="link" @click="getAllActivities">
-              Reset
-            </b-button>
-          </span>
-          <b-form-group
-            label="Cohort"
-            label-size="sm"
-            label-for="cohort_filter"
-          >
-            <b-input-group size="sm">
-              <b-form-select
-                id="cohort_filter"
-                v-model="cohortFilter"
-                class="aat-filter-select"
-                :options="cohortOptions"
-                @change="getCohortActivities"
-              >
-                <template v-slot:first>
-                  <option :value="null" disabled>
-                    -- Select --
-                  </option>
-                </template>
-              </b-form-select>
-            </b-input-group>
-          </b-form-group>
-
-          <b-form-group
-            label="Major"
-            label-size="sm"
-            label-for="major_filter"
-          >
-            <b-input-group size="sm">
-              <b-form-select
-                id="major_filter"
-                v-model="majorFilter"
-                class="aat-filter-select"
-                :options="majorOptions"
-                @change="getMajorActivities"
-              >
-                <template v-slot:first>
-                  <option :value="null" disabled>
-                    -- Select --
-                  </option>
-                </template>
-              </b-form-select>
-            </b-input-group>
-          </b-form-group>
-
-          <b-form-group
-            label="System Key"
-            label-size="sm"
-            label-for="SysKeyInput"
-          >
-            <b-input-group size="sm">
-              <b-form-input
-                id="SysKeyInput"
-                v-model="syskeyFilter"
-                placeholder="Type to Search"
-                @change="getSyskeyActivities"
-              />
-            </b-input-group>
-          </b-form-group>
-        </b-form>
       </b-col>
     </b-row>
   </b-container>
