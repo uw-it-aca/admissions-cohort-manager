@@ -25,6 +25,7 @@
             v-if="collectionType === 'Cohort'"
             :collection-id="collection_id"
             :collection-type="collectionType"
+            :current-period="currentPeriod"
           />
         </div>
       </div>
