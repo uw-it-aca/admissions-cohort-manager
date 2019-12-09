@@ -35,7 +35,12 @@ class AssignmentImportManager(models.Manager):
     def create_from_list(self, applications, **kwargs):
         document = to_csv(AssignmentImport.FIELD_NAMES)
         for application in applications:
-            document += application.csv_data()
+            document += to_csv([application.system_key,
+                                application.campus,
+                                2009,
+                                application.quarter_id,
+                                application.application_number,
+                                application.adsel_id])
 
         kwargs['is_file_upload'] = False
         kwargs['document'] = document
@@ -127,14 +132,13 @@ class AssignmentImport(models.Model):
 
 class Assignment(models.Model):
     CAMPUS_CHOICES = ((0, 'Seattle'), (1, 'Tacoma'), (2, 'Bothell'))
-    QTR_CHOICES = ((1, 'Winter'), (2, 'Spring'), (3, 'Summer'), (4, 'Autumn'))
 
     system_key = models.CharField(
         max_length=30, validators=[validate_system_key])
     campus = models.PositiveSmallIntegerField(
         default=0, choices=CAMPUS_CHOICES)
     year = models.PositiveSmallIntegerField(validators=[validate_year])
-    quarter = models.PositiveSmallIntegerField(default=4, choices=QTR_CHOICES)
+    quarter = models.PositiveSmallIntegerField(default=4)
     application_number = models.PositiveIntegerField(
         validators=[validate_application_number])
     admission_selection_id = models.CharField(max_length=30)

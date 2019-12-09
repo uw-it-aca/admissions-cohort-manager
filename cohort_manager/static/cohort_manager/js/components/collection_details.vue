@@ -51,7 +51,6 @@
 
 <script>
   const axios = require("axios");
-  import { EventBus } from "../main";
 
   export default {
     name: "CollectionDetails",
@@ -64,6 +63,10 @@
       collectionId: {
         type: String,
         default: ""
+      },
+      currentPeriod: {
+        type: Number,
+        default: null
       }
     },
     data(){
@@ -74,7 +77,6 @@
         protected_group: false,
         residency: "",
         invalid_collection: false,
-        current_period: undefined
       };
     },
     watch: {
@@ -82,18 +84,11 @@
         this.get_collection();
       }
     },
-    created(){
-      EventBus.$on('period_change', period => {
-        this.current_period = period;
-      });
-    },
-    mounted() {
-    },
     methods: {
       get_collection(){
         var vue = this;
         axios.get(
-          '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.current_period + "/" + this.collectionId + "/",
+          '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
           this.admit_decision = response.data.admit_decision;
           this.applications_assigned = response.data.applications_assigned;
