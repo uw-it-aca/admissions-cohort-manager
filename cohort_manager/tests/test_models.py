@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from cohort_manager.models import AssignmentImport, Assignment
+from uw_adsel.models import Application
 from cohort_manager.utils import to_csv
 from datetime import datetime
 
@@ -56,22 +57,24 @@ class AssignmentImportTest(TestCase):
         self.assertEqual(len(data['errors']), 0)
 
     def test_create_from_list(self):
-        a1 = Assignment(
-                system_key='131',
-                campus='0',
-                year=2020,
-                quarter=3,
-                application_number='8',
-                admission_selection_id='000',
-                cohort='65')
-        a2 = Assignment(
-                system_key='1',
-                campus='0',
-                year=2020,
-                quarter=3,
-                application_number='8',
-                admission_selection_id='0001',
-                cohort='65')
+        a1 = Application(
+            adsel_id=51231,
+            application_number=0,
+            system_key=123,
+            campus=1,
+            quarter_id=0,
+            assigned_cohort=31,
+            assigned_major="CSE"
+        )
+        a2 = Application(
+            adsel_id=51241,
+            application_number=1,
+            system_key=123,
+            campus=1,
+            quarter_id=0,
+            assigned_cohort=31,
+            assigned_major="CSE"
+        )
         imp = AssignmentImport.objects.create_from_list([a1, a2],
                                                         created_by='javerage')
         self.assertEqual(imp.is_file_upload, False)

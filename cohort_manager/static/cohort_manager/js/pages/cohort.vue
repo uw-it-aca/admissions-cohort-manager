@@ -42,6 +42,7 @@
         }
         properties['collectionOptions'] = this.cohort_options;
         properties['uploadResponse'] = this.upload_response;
+        properties['currentPeriod'] = this.current_period;
         return properties;
       }
     },

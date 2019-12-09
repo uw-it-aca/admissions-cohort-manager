@@ -40,6 +40,7 @@
           properties['uploadResponse'] = this.upload_response;
         }
         properties['collectionOptions'] = this.major_options;
+        properties['currentPeriod'] = this.current_period;
         return properties;
       }
     },
