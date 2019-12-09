@@ -40,6 +40,7 @@
           properties['uploadResponse'] = this.upload_response;
         }
         properties['collectionOptions'] = this.major_options;
+        properties['currentPeriod'] = this.current_period;
         return properties;
       }
     },
@@ -52,6 +53,13 @@
       });
     },
     mounted() {
+      axios.get(
+        '/api/collection/major/'
+      ).then(response => {
+        this.major_options = response.data;
+      }).catch(function () {
+        return;
+      });
     },
     methods: {
       get_majors_for_period(){

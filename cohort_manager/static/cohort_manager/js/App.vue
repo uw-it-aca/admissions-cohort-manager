@@ -20,7 +20,7 @@
       </b-navbar>
     </b-row>
     <b-row class="aat-cohort-manager">
-      <b-collapse id="nav-collapse" cols="12" lg="3" toggleable="lg" class="aat-nav-container aat-main-navbar">
+      <b-collapse id="nav-collapse" toggleable="lg" class="aat-nav-container aat-main-navbar col-lg-2 col-12">
         <b-navbar-brand class="aat-app-info">
           <a href="/" tabindex="1" class="aat-brand-link">
             <img class="aat-app-logo" src="/static/cohort_manager/img/AAT-Logo-purple.svg" alt="UW-IT">
@@ -75,7 +75,7 @@
           </b-navbar-nav>
         </b-navbar>
       </b-collapse>
-      <b-col cols="12" lg="9" class="aat-content-area">
+      <b-col cols="12" lg="10" class="aat-content-area">
         <b-row>
           <messagearea
             :message-string="message"
@@ -92,7 +92,7 @@
           />
         </b-row>
         <b-row class="aat-main-content-container">
-          <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-containter">
+          <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
             <router-view
               v-if="period_set"
               :cur_period="cur_period"
@@ -248,7 +248,6 @@
     .aat-login-info {
       flex: auto;
       font-weight: 600;
-      padding: 0 0.75rem;
     }
 
     .aat-logout-link {
@@ -349,6 +348,7 @@
     width: 100%;
 
     &.aat-assign-group {
+      border-top: solid 1px $uw-light-grey;
       margin-top: 0;
       width: 100%;
     }
@@ -371,13 +371,13 @@
     a:hover {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     a:focus {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
-      text-decoration: underline;
+      text-decoration: none;
     }
 
 
@@ -425,7 +425,6 @@
 
     .aat-main-navbar {
       border-right: 1px solid $uw-light-grey;
-      max-width: 220px !important;
       padding: 0 !important;
       position: relative !important;
     }
@@ -443,15 +442,12 @@
 
     .aat-content-area {
       background-color: $app-bkgnd;
-      padding: 0 2rem 2rem;
     }
 
+  }
 
-
-    .aat-main-containter {
-      padding-right: 0;
-    }
-
+  .aat-main-container {
+    padding-bottom: 3rem;
   }
 
   .aat-adperiod-container {

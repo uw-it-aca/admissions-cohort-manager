@@ -25,6 +25,7 @@
             v-if="collectionType === 'Cohort'"
             :collection-id="collection_id"
             :collection-type="collectionType"
+            :current-period="currentPeriod"
           />
         </div>
       </div>
@@ -38,6 +39,8 @@
                          :collection-type="collection_type"
                          :upload-type="manual_upload ? 'list' : 'file'"
                          @upload_reset="handleReset"
+                         @is_reassign="handle_reassign"
+                         @is_reassign_protected="handle_reassign_protected"
           />
           <div v-else>
             <div>
@@ -59,10 +62,10 @@
             @removeDupes="remove_applications"
           />
         </div>
-        <b-alert id="add_app_fail_manual" variant="danger">
+        <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
           Invalid systems keys.
         </b-alert>
-        <b-alert id="add_app_fail_csv" variant="danger">
+        <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
           CSV is invalid.
         </b-alert>
       </fieldset>
@@ -107,6 +110,10 @@
       collectionOptions: {
         type: Array,
         default: function () {return[];}
+      },
+      currentPeriod: {
+        type: Number,
+        default: null
       }
     },
     data(){
@@ -124,7 +131,11 @@
         dupes: [],
         upload_response: undefined,
         collection_type: this.$props.collectionType,
-        to_remove: []
+        to_remove: [],
+        is_reassign: false,
+        is_reassign_protected: false,
+        invalid_manual: false,
+        invalid_csv: false
       };
     },
     computed: {
@@ -160,12 +171,19 @@
       handleUpload() {
         var vue = this;
         let formData = new FormData();
+        // Reset error modals
+        this.invalid_csv = false;
+        this.invalid_manual = false;
+
         if (this.file !== null){
+          this.manual_upload = false;
           formData.append('file', this.file);
         } else  if (this.syskey_list !== null){
+          this.manual_upload = true;
           formData.append('syskey_list', this.syskey_list);
         }
         formData.append('comment', this.comment);
+        formData.append('qtr_id', this.currentPeriod);
         if (this.collectionType == "Cohort") {
           formData.append('cohort_id', this.collection_id);
         } else if (this.collectionType == "Major") {
@@ -192,11 +210,20 @@
           } else{
             this.has_uploaded = true;
           }
-        }).catch(function (err) {
-          vue.upload_response = {'msg':"THERE WAS AN ERROR" + err};
+        }).catch(function () {
+          if(vue.file !== null){
+            vue.invalid_csv = true;
+          }else if(vue.syskey_list!==null){
+            vue.invalid_manual = true;
+          }
         });
       },
-
+      handle_reassign(is_reassign){
+        this.is_reassign = is_reassign;
+      },
+      handle_reassign_protected(is_reassign_protected){
+        this.is_reassign_protected = is_reassign_protected;
+      },
       mark_for_submission(){
         var vue = this,
             request = {'submit': true,

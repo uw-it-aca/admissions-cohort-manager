@@ -6,9 +6,9 @@
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
     </p>
-    <div role="tablist" class="aat-accordian">
+    <div role="tablist" class="aat-accordian" id="app_reassign_accordion">
       <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
             Already assigned a {{ collectionType }} (#)
           </b-button>
@@ -19,7 +19,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card v-if="collectionType === 'Cohort'" no-body class="mb-1">
+      <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned a protected Cohort (#)
@@ -31,6 +31,33 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+      <div class="aat-reassign-checkbox" id="reassign_collection">
+        <b-form-checkbox
+          id="app_reassign_checkbox"
+          v-model="is_reassign"
+          name="app_reassign_checkbox"
+          value=""
+          class="aat-checkbox"
+        >
+          Reassign applications that already have a {{ collectionType }}.
+        </b-form-checkbox>
+        <span v-if="uploadType === 'file'">
+          <b-form-text v-if="collectionType === 'Cohort'">
+            Note: Applications with a protected cohort will not be reassigned.
+          </b-form-text>
+        </span>
+        <span v-else id="reassign_collection_protected">
+          <b-form-checkbox
+            id="app_unprotect_checkbox"
+            v-model="is_reassign_protected"
+            name="app_unprotect_checkbox"
+            value=""
+            class="aat-checkbox aat-secondary-checkbox"
+          >
+            Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
+          </b-form-checkbox>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +103,16 @@
         is_reassign_protected: false
       };
     },
+    computed: {
+      has_assigned : function() {
+        return this.already_assigned.length > 0;
+      },
+      has_protected: function() {
+        var has_protected = this.already_assigned_protected.length > 0,
+            is_cohort = this.collectionType === "Cohort";
+        return has_protected && is_cohort;
+      }
+    },
     watch: {
       upload_response: function(){
         $.each(this.upload_response.assignments, function(idx, assignment){
@@ -90,6 +127,20 @@
           }
         });
         this.duplicates = this.get_duplicates(this.upload_response.assignments);
+      },
+      is_reassign: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign", true);
+        } else {
+          this.$emit("is_reassign", false);
+        }
+      },
+      is_reassign_protected: function(value){
+        if(typeof value === "string"){
+          this.$emit("is_reassign_protected", true);
+        } else {
+          this.$emit("is_reassign_protected", false);
+        }
       }
     },
     mounted() {
@@ -161,6 +212,10 @@
     &.aat-secondary-checkbox {
       margin: 1rem 1.5rem 0;
     }
+  }
+
+  .aat-reassign-checkbox {
+    margin-left: 0.5rem;
   }
 
   .aat-reset-link {
