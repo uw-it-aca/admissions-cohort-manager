@@ -42,7 +42,7 @@
           Reassign applications that already have a {{ collectionType }}.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
-          <b-form-text>
+          <b-form-text v-if="collectionType === 'Cohort'">
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
