@@ -6,7 +6,7 @@
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
     </p>
-    <div role="tablist" class="aat-accordian">
+    <div role="tablist" class="aat-accordian" id="app_reassign_accordion">
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
@@ -31,7 +31,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div class="aat-reassign-checkbox">
+      <div class="aat-reassign-checkbox" id="reassign_collection">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
@@ -42,11 +42,11 @@
           Reassign applications that already have a {{ collectionType }}.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
-          <b-form-text>
+          <b-form-text v-if="collectionType === 'Cohort'">
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
-        <span v-else>
+        <span v-else id="reassign_collection_protected">
           <b-form-checkbox
             id="app_unprotect_checkbox"
             v-model="is_reassign_protected"
