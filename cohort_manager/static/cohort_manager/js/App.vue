@@ -92,7 +92,7 @@
           />
         </b-row>
         <b-row class="aat-main-content-container">
-          <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-containter">
+          <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
             <router-view
               v-if="period_set"
               :cur_period="cur_period"
@@ -444,6 +444,10 @@
       background-color: $app-bkgnd;
     }
 
+  }
+
+  .aat-main-container {
+    padding-bottom: 3rem;
   }
 
   .aat-adperiod-container {
