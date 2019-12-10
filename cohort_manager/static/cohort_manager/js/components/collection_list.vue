@@ -109,7 +109,7 @@
       return {
         cohortFields: [
           {
-            key: 'text',
+            key: 'value',
             label: "Cohort #",
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
