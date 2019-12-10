@@ -121,32 +121,32 @@
           },
           {
             key: 'residency',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'protected',
             label: 'Protected',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'admit_decision',
-            class: "aat-data-cell aat-data-nowrap",
+            class: "aat-data-cell aat-data-nowrap center",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'assigned_count',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
           { key: 'actions',
             label: '',
-            class: "aat-actions-cell aat-data-cell aat-data-nowrap", },
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap center", },
         ],
         cohorts: [],
         majorFields: [
@@ -159,13 +159,13 @@
           },
           {
             key: 'division',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'college',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
@@ -177,14 +177,14 @@
           },
           {
             key: 'assigned_count',
-            class: "aat-data-cell",
+            class: "aat-data-cell center",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
             key: 'Actions',
             label: '',
-            class: "aat-actions-cell aat-data-cell aat-data-nowrap",
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap center",
             sortable: false,
           }
         ],
@@ -299,6 +299,7 @@
     background: none;
     border-style: none;
     color: $sub-header;
+    font-size: 0.875rem;
     min-width: auto;
     padding: 0;
     vertical-align: baseline;
