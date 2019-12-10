@@ -519,6 +519,10 @@
       color: $sub-header;
       font-size: 0.75rem !important;
     }
+
+    .aat-data-cell.center {
+      text-align: center;
+    }
   }
 
   .aat-data-table .aat-data-cell {
