@@ -6,7 +6,7 @@
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
     </p>
-    <div role="tablist" class="aat-accordian" id="app_reassign_accordion">
+    <div id="app_reassign_accordion" role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
@@ -31,7 +31,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div class="aat-reassign-checkbox" id="reassign_collection">
+      <div id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
