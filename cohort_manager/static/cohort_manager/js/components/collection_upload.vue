@@ -226,7 +226,7 @@
       },
       mark_for_submission(){
         var vue = this,
-            request = {'submit': true,
+            request = {'is_submitted': true,
                        'is_reassign': this.is_reassign,
                        'is_reassign_protected': this.is_reassign_protected,
                        'to_delete': this.to_remove};

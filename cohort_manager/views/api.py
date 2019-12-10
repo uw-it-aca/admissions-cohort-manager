@@ -9,7 +9,8 @@ from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
-    get_apps_by_qtr_id_syskey_list, get_quarters_with_current
+    get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
+    submit_collection
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -53,7 +54,6 @@ class UploadView(RESTDispatch):
             assignment_import = AssignmentImport.objects.create_from_list(
                 applications, created_by='TODO'
             )
-            print('p2')
         if cohort_id:
             assignment_import.cohort = cohort_id
         if major_id:
@@ -62,11 +62,8 @@ class UploadView(RESTDispatch):
 
         try:
             assignment_import.status_code = 200
-            print('pre')
             assignment_import.save()
-            print('post')
             content = assignment_import.json_data()
-            print(content)
             return self.json_response(status=200, content=content)
 
         except TypeError as ex:
@@ -88,6 +85,8 @@ class ModifyUploadView(RESTDispatch):
             upload.is_reassign_protected = is_reassign_protected
             upload.remove_assignments(ids_to_delete)
             upload.save()
+            if is_submitted:
+                submit_collection(upload)
             return self.json_response(status=200, content=upload.json_data())
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
