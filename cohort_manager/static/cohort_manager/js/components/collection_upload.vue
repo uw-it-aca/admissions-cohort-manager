@@ -167,6 +167,11 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
+        this.file = null;
+        this.syskey_list = null;
+        this.upload_response = null;
+        this.has_dupes = false;
+        this.dupes = null
       },
       handleUpload() {
         var vue = this;
