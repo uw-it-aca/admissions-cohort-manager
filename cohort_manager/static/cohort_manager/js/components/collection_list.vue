@@ -12,7 +12,7 @@
       >
         <template v-slot:cell(actions)="row">
           <a :href="'http://www.tableau.com/uw/cohort/' + row.item.id" :title="'View cohort ' + row.item.name + ' in Tableau'"><i class="fas fa-external-link-alt" /><span class="sr-only">View cohort in Tableau</span></a>
-          <a :href="'/cohort/' + row.item.id" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
+          <a :href="'/cohort/' + row.item.name" :title="'Assign applications to cohort ' + row.item.name">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
           </b-button>
@@ -31,7 +31,7 @@
         :fields="majorFields"
       >
         <template v-slot:cell(actions)="row">
-          <a :href="'/major/' + row.item.id" :title="'Assign applications to major ' + row.item.name">Assign</a>
+          <a :href="'/major/' + row.item.value" :title="'Assign applications to major ' + row.item.name">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to major' + row.item.name" @click="info(row.item, row.index, $event.target)">
             Reset
           </b-button>
