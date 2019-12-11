@@ -98,19 +98,9 @@
         ],
         activities: [],
         cohortFilter: null,
-        cohortOptions: [
-          { value: '1', text: '1' },
-          { value: '2', text: '2' },
-          { value: '3', text: '3' },
-          { value: '99', text: '99' }
-        ],
+        cohortOptions: [],
         majorFilter: null,
-        majorOptions: [
-          { value: 'astr', text: 'ASTR' },
-          { value: 'biol', text: 'BIOL' },
-          { value: 'cse', text: 'CSE' },
-          { value: 'hcde', text: 'HCDE' }
-        ],
+        majorOptions: [],
         syskeyFilter: null,
         totalRows: 1,
         currentPage: 1,
