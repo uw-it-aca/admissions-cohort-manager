@@ -167,6 +167,12 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
+        this.file = null;
+        this.syskey_list = null;
+        this.upload_response = null;
+        this.has_dupes = false;
+        this.dupes = null;
+        this.manual_upload = false;
       },
       handleUpload() {
         var vue = this;
@@ -226,7 +232,7 @@
       },
       mark_for_submission(){
         var vue = this,
-            request = {'submit': true,
+            request = {'is_submitted': true,
                        'is_reassign': this.is_reassign,
                        'is_reassign_protected': this.is_reassign_protected,
                        'to_delete': this.to_remove};

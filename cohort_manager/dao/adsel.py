@@ -1,6 +1,7 @@
 from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.models import Activity, Assignment, AssignmentImport
 from uw_adsel import AdSel
+from uw_adsel.models import CohortAssignment, MajorAssignment, Application
 from datetime import datetime
 
 
@@ -105,3 +106,38 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
     for syskey in syskeys:
         app_list += get_application_by_qtr_syskey(qtr_id, syskey)
     return app_list
+
+
+def submit_collection(assignment_import):
+    if assignment_import.cohort is not None:
+        assignment = CohortAssignment()
+        assignment.override_previous = assignment_import.is_reassign
+        assignment.override_protected = assignment_import.is_reassign_protected
+        assignment.cohort_number = assignment_import.cohort
+    elif assignment_import.major is not None:
+        assignment = MajorAssignment()
+        assignment.major_code = assignment_import.major
+
+    assignment.assignment_type = "file" if \
+        assignment_import.is_file_upload else "manual"
+    assignment.comments = assignment_import.comment
+    assignment.user = assignment_import.created_by
+
+    applicants_to_assign = []
+    import_assignments, errors = assignment_import.assignments()
+    for import_assignment in import_assignments:
+        app = Application()
+        app.adsel_id = import_assignment.admission_selection_id
+        app.system_key = import_assignment.system_key
+        app.application_number = import_assignment.application_number
+        applicants_to_assign.append(app)
+        assignment.quarter = import_assignment.quarter
+        assignment.campus = import_assignment.campus
+
+    assignment.applicants = applicants_to_assign
+
+    client = AdSel()
+    if assignment_import.cohort is not None:
+        client.assign_cohorts(assignment)
+    elif assignment_import.major is not None:
+        client.assign_majors(assignment)

@@ -6,7 +6,7 @@
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
     </p>
-    <div role="tablist" class="aat-accordian" id="app_reassign_accordion">
+    <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
@@ -31,7 +31,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div class="aat-reassign-checkbox" id="reassign_collection">
+      <div id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
@@ -46,7 +46,7 @@
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
-        <span v-else id="reassign_collection_protected">
+        <span v-else-if="reassign_any" id="reassign_collection_protected">
           <b-form-checkbox
             id="app_unprotect_checkbox"
             v-model="is_reassign_protected"
@@ -111,6 +111,9 @@
         var has_protected = this.already_assigned_protected.length > 0,
             is_cohort = this.collectionType === "Cohort";
         return has_protected && is_cohort;
+      },
+      reassign_any: function(){
+        return this.has_assigned || this.has_protected;
       }
     },
     watch: {
