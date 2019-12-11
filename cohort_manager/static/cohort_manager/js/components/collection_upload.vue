@@ -172,6 +172,7 @@
         this.upload_response = null;
         this.has_dupes = false;
         this.dupes = null
+        this.manual_upload = false;
       },
       handleUpload() {
         var vue = this;
