@@ -36,10 +36,10 @@ TEMPLATES = [
     }
 ]
 
-if os.getenv('ADSEL_ENV') == 'PROD':
+if os.getenv('ENV') == 'prod':
     ALLOWED_USERS_GROUP = 'u_acadev_adsel-prod'
 
-if os.getenv('ADSEL_ENV') == 'EVAL':
+if os.getenv('ENV') == 'eval':
     ALLOWED_USERS_GROUP = 'u_acadev_adsel-eval'
 
     # Stashing restclient config here until django container release happens
