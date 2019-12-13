@@ -1,6 +1,6 @@
 import json
 from django.conf import settings
-from django.http import HttpResponse, QueryDict
+from django.http import HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
@@ -19,18 +19,23 @@ from cohort_manager.dao import InvalidCollectionException
 class RESTDispatch(View):
     @staticmethod
     def json_response(content={}, status=200):
-        return HttpResponse(json.dumps(content,
-                                       sort_keys=True,
-                                       cls=DjangoJSONEncoder),
-                            status=status,
-                            content_type='application/json')
+        try:
+            data = json.dumps(content,
+                              sort_keys=True,
+                              cls=DjangoJSONEncoder)
+            return HttpResponse(data,
+                                status=status,
+                                content_type='application/json')
+        except TypeError:
+            return RESTDispatch().error_response(400)
 
     @staticmethod
     def error_response(status, message='', content={}):
         content['error'] = str(message)
         return HttpResponse(json.dumps(content),
                             status=status,
-                            content_type='application/json')
+                            content_type='application/json',
+                            )
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
@@ -46,7 +51,6 @@ class UploadView(RESTDispatch):
         comment = request.POST.get('comment', "")
         qtr_id = request.POST.get('qtr_id', "")
 
-        # TODO: validate uploaded_file.content_type?
         if uploaded_file:
             assignment_import = AssignmentImport.objects.create_from_file(
                 uploaded_file, created_by='TODO')
