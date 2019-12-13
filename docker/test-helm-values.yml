@@ -23,3 +23,8 @@ certs:
   certPath: /certs/aat.axdd.s.uw.edu-uwca.pem
   keyPath: /certs/aat.axdd.s.uw.edu-uwca.key
   secretName: aat-uwca
+environmentVariables:
+  - name: AUTH
+    value: SAML
+  - name: ADSEL_ENV
+    value: EVAL
