@@ -20,8 +20,6 @@ STATICFILES_FINDERS = (
 )
 
 
-# GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -38,7 +36,11 @@ TEMPLATES = [
     }
 ]
 
-ALLOWED_USERS_GROUP = 'u_test_group'
+if os.getenv('ADSEL_ENV') == 'PROD':
+    ALLOWED_USERS_GROUP = 'u_acadev_adsel-prod'
+
+if os.getenv('ADSEL_ENV') == 'EVAL':
+    ALLOWED_USERS_GROUP = 'u_acadev_adsel-eval'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True

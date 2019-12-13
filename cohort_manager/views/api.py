@@ -37,7 +37,8 @@ class RESTDispatch(View):
                             content_type='application/json',
                             )
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class UploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES.get('file')
@@ -73,7 +74,8 @@ class UploadView(RESTDispatch):
         except TypeError as ex:
             return self.error_response(status=400, message=ex)
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class ModifyUploadView(RESTDispatch):
     def put(self, request, upload_id, *args, **kwargs):
         request_params = json.loads(request.body)
@@ -95,7 +97,8 @@ class ModifyUploadView(RESTDispatch):
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class CollectionDetails(RESTDispatch):
     def get(self, request, collection_type, collection_id, quarter,
             *args, **kwargs):
@@ -116,13 +119,15 @@ class CollectionDetails(RESTDispatch):
         comment = params.get('comment')
         return self.json_response()
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class ActivityLog(RESTDispatch):
     def get(self, request, *args, **kwargs):
         activities = get_activity_log()
         return self.json_response(content={"activities": activities})
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class CollectionList(RESTDispatch):
     def get(self, request, collection_type, quarter):
         try:
@@ -131,7 +136,8 @@ class CollectionList(RESTDispatch):
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
 
-
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
 class PeriodList(RESTDispatch):
     def get(self, request):
         quarters = get_quarters_with_current()
