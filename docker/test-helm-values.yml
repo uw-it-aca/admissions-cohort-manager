@@ -19,7 +19,7 @@ externalService:
   enabled: true
   name: aat-db-test
   type: ClusterIP
-  serviceAddress: 172.18.1.20 
+  serviceAddress: 172.18.1.20
   servicePort: 5432
 repo: admissions-cohort-manager
 instance: test
@@ -35,8 +35,8 @@ environmentVariables:
   - name: ADSEL_ENV
     value: EVAL
 image:
-  repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager        
-commitHash: 4714fe2430b0d9858d97078726452a5ea1c1791e  
+  repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
+commitHash: 5da5517167471a858b51f748dc3af442f888cf1e
 environmentVariables:
   - name: ENV
     value: eval
