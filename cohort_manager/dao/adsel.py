@@ -1,5 +1,4 @@
 from cohort_manager.dao import InvalidCollectionException
-from cohort_manager.models import Activity, Assignment, AssignmentImport
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application
 from datetime import datetime
