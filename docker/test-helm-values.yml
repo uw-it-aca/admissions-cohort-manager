@@ -36,7 +36,7 @@ environmentVariables:
     value: EVAL
 image:
   repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
-commitHash: 5da5517167471a858b51f748dc3af442f888cf1e
+commitHash: f05c600884166070311d458712c4e97d19cdec51
 environmentVariables:
   - name: ENV
     value: eval
