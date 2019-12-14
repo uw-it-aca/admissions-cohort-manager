@@ -15,7 +15,7 @@ class PageView(TemplateView):
 
 @method_decorator(login_required(),
                   name='dispatch')
-@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
-                  name='dispatch')
+# @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+#                   name='dispatch')
 class LandingView(PageView):
     template_name = "landing.html"
