@@ -26,7 +26,7 @@ instance: test
 branch: develop
 certs:
   mounted: true
-  certPath: /certs/tls.cert
+  certPath: /certs/tls.crt
   keyPath: /certs/tls.key
   secretName: aat-uwca
 environmentVariables:
@@ -36,7 +36,7 @@ environmentVariables:
     value: EVAL
 image:
   repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
-commitHash: 2bd656b0068408afa3ac72c5f11cd5877a5d3ac2
+  tag: 19bd1029a2bf91821c82aa2841f043b3b6ab109d 
 environmentVariables:
   - name: ENV
     value: eval
