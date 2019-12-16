@@ -26,8 +26,8 @@ instance: test
 branch: develop
 certs:
   mounted: true
-  certPath: /certs/aat.axdd.s.uw.edu-uwca.pem
-  keyPath: /certs/aat.axdd.s.uw.edu-uwca.key
+  certPath: /certs/tls.cert
+  keyPath: /certs/tls.key
   secretName: aat-uwca
 environmentVariables:
   - name: AUTH
