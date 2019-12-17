@@ -23,11 +23,9 @@ function run_test {
 
 run_test "pycodestyle ${DJANGO_APP}/ --exclude='migrations,resources,static'"
 
-if [ -d ${DJANGO_APP}/static/${DJANGO_APP}/js ]; then
-    run_test "eslint ${DJANGO_APP}/static/${DJANGO_APP}/js --verbose"
-elif [ -d ${DJANGO_APP}/static/js ]; then
-    run_test "eslint ${DJANGO_APP}/static/js --verbose"
-fi
+
+run_test "eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/components/"
+run_test "eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/pages/"
 
 run_test "stylelint '**/*.vue' '**/*.css' '**/*.scss' "
 run_test "coverage run --source=${DJANGO_APP} '--omit=*/migrations/*' manage.py test ${DJANGO_APP}"
