@@ -74,6 +74,8 @@ class UploadView(RESTDispatch):
             if syskey_list:
                 applications = get_apps_by_qtr_id_syskey_list(qtr_id,
                                                               syskey_list)
+                Assignment.create_from_applications(assignment_import,
+                                                    applications)
                 assignment_import.is_file_upload = False
                 assignment_import.save()
 
