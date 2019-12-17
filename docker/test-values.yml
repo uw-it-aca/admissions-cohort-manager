@@ -36,7 +36,7 @@ environmentVariables:
     value: EVAL
 image:
   repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
-  tag: 161cfc0350026eb4ad10441af4a225c203f549ca
+  tag: $IMAGE_TAG
 environmentVariables:
   - name: ENV
     value: eval
