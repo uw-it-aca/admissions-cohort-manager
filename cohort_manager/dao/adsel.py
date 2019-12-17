@@ -123,15 +123,11 @@ def submit_collection(assignment_import):
     assignment.user = assignment_import.created_by
 
     applicants_to_assign = []
-    import_assignments, errors = assignment_import.assignments()
-    for import_assignment in import_assignments:
-        app = Application()
-        app.adsel_id = import_assignment.admission_selection_id
-        app.system_key = import_assignment.system_key
-        app.application_number = import_assignment.application_number
+    for imp_assignment in assignment_import.assignment_set.all():
+        app = imp_assignment.get_application()
         applicants_to_assign.append(app)
-        assignment.quarter = import_assignment.quarter
-        assignment.campus = import_assignment.campus
+        assignment.quarter = assignment_import.quarter
+        assignment.campus = assignment_import.campus
 
     assignment.applicants = applicants_to_assign
 

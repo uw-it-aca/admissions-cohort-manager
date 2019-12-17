@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from uw_saml.decorators import group_required
-from cohort_manager.models import AssignmentImport
+from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
@@ -37,6 +37,7 @@ class RESTDispatch(View):
                             content_type='application/json',
                             )
 
+
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
 class UploadView(RESTDispatch):
@@ -50,29 +51,38 @@ class UploadView(RESTDispatch):
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
         qtr_id = request.POST.get('qtr_id', "")
+        user = "TODO"
 
-        if uploaded_file:
-            assignment_import = AssignmentImport.objects.create_from_file(
-                uploaded_file, created_by='TODO')
-        if syskey_list:
-            applications = get_apps_by_qtr_id_syskey_list(qtr_id, syskey_list)
-            assignment_import = AssignmentImport.objects.create_from_list(
-                applications, created_by='TODO'
-            )
+        import_args = {'quarter': qtr_id,
+                       'campus': 0,
+                       'comment': comment,
+                       'created_by': user}
         if cohort_id:
-            assignment_import.cohort = cohort_id
+            import_args['cohort'] = cohort_id
         if major_id:
-            assignment_import.major = major_id
-        assignment_import.comment = comment
+            import_args['major'] = major_id
 
         try:
-            assignment_import.status_code = 200
-            assignment_import.save()
+            assignment_import = AssignmentImport.objects.create(**import_args)
+
+            if uploaded_file:
+                assignment_import.document = \
+                    uploaded_file.read().decode('utf-16-le')
+                assignment_import.upload_filename = uploaded_file.name
+                Assignment.create_from_file(assignment_import)
+
+            if syskey_list:
+                applications = get_apps_by_qtr_id_syskey_list(qtr_id,
+                                                              syskey_list)
+                assignment_import.is_file_upload = False
+                assignment_import.save()
+
             content = assignment_import.json_data()
             return self.json_response(status=200, content=content)
 
         except TypeError as ex:
             return self.error_response(status=400, message=ex)
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
@@ -97,6 +107,7 @@ class ModifyUploadView(RESTDispatch):
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 
+
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
 class CollectionDetails(RESTDispatch):
@@ -119,12 +130,14 @@ class CollectionDetails(RESTDispatch):
         comment = params.get('comment')
         return self.json_response()
 
+
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
 class ActivityLog(RESTDispatch):
     def get(self, request, *args, **kwargs):
         activities = get_activity_log()
         return self.json_response(content={"activities": activities})
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
@@ -135,6 +148,7 @@ class CollectionList(RESTDispatch):
             return self.json_response(list)
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
