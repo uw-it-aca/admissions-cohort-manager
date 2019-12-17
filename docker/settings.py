@@ -38,17 +38,23 @@ TEMPLATES = [
 
 if os.getenv('ENV') == 'prod':
     ALLOWED_USERS_GROUP = 'u_acadev_adsel-prod'
-
-if os.getenv('ENV') == 'eval':
+elif os.getenv('ENV') == 'eval':
     ALLOWED_USERS_GROUP = 'u_acadev_adsel-eval'
+else:
+    ALLOWED_USERS_GROUP = 'u_test_group'
 
-    # Stashing restclient config here until django container release happens
-    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
+if os.getenv('ADSEL_ENV') == 'PROD' or os.getenv('ADSEL_ENV') == 'EVAL':
     RESTCLIENTS_ADSEL_DAO_CLASS = 'Live'
     RESTCLIENTS_ADSEL_TIMEOUT = 120
     RESTCLIENTS_ADSEL_POOL_SIZE = 10
     RESTCLIENTS_ADSEL_CERT_FILE = APPLICATION_CERT_PATH
     RESTCLIENTS_ADSEL_KEY_FILE = APPLICATION_KEY_PATH
+
+if os.getenv('ADSEL_ENV') == 'PROD':
+    RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
+
+if os.getenv('ADSEL_ENV') == 'EVAL':
+    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu' 
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True
