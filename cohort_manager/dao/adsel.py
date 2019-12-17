@@ -108,12 +108,12 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 
 
 def submit_collection(assignment_import):
-    if assignment_import.cohort is not None:
+    if len(assignment_import.cohort) > 0:
         assignment = CohortAssignment()
         assignment.override_previous = assignment_import.is_reassign
         assignment.override_protected = assignment_import.is_reassign_protected
         assignment.cohort_number = assignment_import.cohort
-    elif assignment_import.major is not None:
+    elif len(assignment_import.major) > 0:
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
 
