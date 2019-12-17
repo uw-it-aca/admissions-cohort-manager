@@ -45,7 +45,7 @@ if os.getenv('ENV') == 'eval':
     # Stashing restclient config here until django container release happens
     RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
     RESTCLIENTS_ADSEL_DAO_CLASS = 'Live'
-    RESTCLIENTS_ADSEL_TIMEOUT = 5
+    RESTCLIENTS_ADSEL_TIMEOUT = 120
     RESTCLIENTS_ADSEL_POOL_SIZE = 10
     RESTCLIENTS_ADSEL_CERT_FILE = APPLICATION_CERT_PATH
     RESTCLIENTS_ADSEL_KEY_FILE = APPLICATION_KEY_PATH
