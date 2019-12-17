@@ -13,7 +13,7 @@ source bin/activate
 # install test tooling
 pip install pycodestyle coverage
 apt-get install -y nodejs npm
-npm install -g eslint
+npm install -g eslint eslint-plugin-vue
 
 function run_test {
     echo "##########################"
