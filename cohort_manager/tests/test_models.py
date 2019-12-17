@@ -11,30 +11,17 @@ class AssignmentTest(TestCase):
     def setUp(self):
         self.assignment = Assignment(
                 system_key='1',
-                campus='0',
-                quarter=3,
                 application_number='8',
-                admission_selection_id='000',
-                cohort='65')
+                admission_selection_id='000')
 
     def test_json_data(self):
         self.assertEqual(self.assignment.json_data(), {
             'admission_selection_id': '000',
             'application_number': '8',
-            'cohort': '65',
-            'major': '',
             'system_key': '1'})
-
-    def test_csv_data(self):
-        self.assertEqual(self.assignment.csv_data(), '1,0,3,8,000\n')
 
 
 class AssignmentImportTest(TestCase):
-    def _csv(self, rows=[]):
-        csv_data = to_csv(AssignmentImport.FIELD_NAMES)
-        for row in rows:
-            csv_data += to_csv(row)
-        return csv_data
 
     # TODO: Figure out how to make file based tests mockable
     # def test_create_from_file(self):
@@ -94,45 +81,53 @@ class AssignmentImportTest(TestCase):
             assigned_cohort=31,
             assigned_major="CSE"
         )
-        imp = AssignmentImport.objects.create_from_list([a1, a2],
-                                                        created_by='javerage')
-        self.assertEqual(imp.is_file_upload, False)
-        self.assertEqual(imp.is_override, False)
 
-    # def test_json_data(self):
-    #     import1 = AssignmentImport(comment='comment', created_by='javerage')
-    #     import1.save()
-    #
-    #     data = import1.json_data()
-    #     self.assertIsNotNone(data['id'])
-    #     self.assertEqual(data['comment'], 'comment')
-    #     self.assertEqual(data['is_override'], False)
-    #     self.assertEqual(data['is_file_upload'], True)
-    #     self.assertIsNotNone(data['created_date'])
-    #     self.assertEqual(data['created_by'], 'javerage')
-    #     self.assertEqual(data['imported_date'], None)
-    #     self.assertEqual(data['imported_status'], None)
-    #     self.assertEqual(data['imported_message'], None)
-    #     self.assertEqual(data['assignments'], [])
-    #     self.assertEqual(data['errors'], [])
-    #     self.assertFalse(data['is_submitted'])
-    #
-    #     # With assignments
-    #     import1.document = self._csv([[1234567, 0, 2019, 4, 1, 123],
-    #                                   [1234568, 0, 2019, 4, 1, None]])
-    #     data = import1.json_data()
-    #     self.assertEqual(len(data['assignments']), 2)
-    #     self.assertEqual(len(data['errors']), 1)
-    #
-    #     # Imported
-    #     import1.imported_date = datetime(2015, 10, 10)
-    #     import1.imported_status = 200
-    #     import1.imported_message = 'Success'
-    #
-    #     data = import1.json_data()
-    #     self.assertEqual(data['imported_date'], '2015-10-10T00:00:00')
-    #     self.assertEqual(data['imported_status'], 200)
-    #     self.assertEqual(data['imported_message'], 'Success')
+        import_args = {'quarter': 20194,
+                       'campus': 'SEA',
+                       'comment': "this is an import",
+                       'created_by': "javerage",
+                       'cohort': 21,
+                       'is_file_upload': False}
+
+        imp = AssignmentImport.objects.create(**import_args)
+
+        Assignment.create_from_applications(imp, [a1, a2])
+        assignments = imp.assignment_set.all()
+        self.assertEqual(len(assignments), 2)
+
+    def test_json_data(self):
+        a1 = Application(
+            adsel_id=51231,
+            application_number=0,
+            system_key=123,
+            campus=1,
+            quarter_id=0,
+            assigned_cohort=31,
+            assigned_major="CSE"
+        )
+        a2 = Application(
+            adsel_id=51241,
+            application_number=1,
+            system_key=123,
+            campus=1,
+            quarter_id=0,
+            assigned_cohort=31,
+            assigned_major="CSE"
+        )
+
+        import_args = {'quarter': 20194,
+                       'campus': 'SEA',
+                       'comment': "this is an import",
+                       'created_by': "javerage",
+                       'cohort': 21,
+                       'is_file_upload': False}
+
+        imp = AssignmentImport.objects.create(**import_args)
+
+        Assignment.create_from_applications(imp, [a1, a2])
+
+        data = imp.json_data()
+        self.assertEqual(len(data['assignments']), 2)
 
     # def test_assignment_errors(self):
     #     imp = AssignmentImport()
