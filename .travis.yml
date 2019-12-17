@@ -1,27 +1,34 @@
-dist: xenial
-sudo: false
+sudo: required
 language: python
 python:
-  - "3.6"
-addons:
-  apt:
-    packages:
-      - gcc-4.8
-      - unixodbc-dev
-      - python-dev
-      - libxml2-dev
-      - libxmlsec1-dev
+- '3.6'
+services:
+- docker
+env:
+  global:
+  - RELEASE_NAME="aat"
+  - DJANGO_APP="cohort_manager"
+  - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
+  - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
+  - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
+  - secure: i9d+W9Do8v9GSuhMQV4DwlDys07r10Zdvhu5IX3ZVzwS+0tEaKmAiORl3KjT5tSYB0/07C68ttNl0puw3wMviSyKW/N84TgT0wMDtUb6Pfd6Zz81Juo7hfWELaUQQQ+ub71+60eOMqwtwoIvDhjN1Wcw2xmOPDH/u0gSedVpsFImK4yTT/kFT8IJVPEUhROj3NfAAi70S4eC7NnO3oqyrPk7muGQgepJFn0m+MrYlv1L+aUuLFEfrHZWoGcF8Y5XwBSfddnaVgraXC9is5aqnrKoz28L+z6C0FMHeibJmcGWLzLk5lsXGrRrAqXOt9oWbPLEn+4E7pRY8larpVKNTIKJjK23Wnnd/CavUxOOfBW5CD5zQfl2RfxiBR+qh1CGiHtdWgIuEv1bPTulKmozjhyFi8cSQUA7AoIsTAuDBHmTpR9S3fvfTd743xJhhmdJMFtYbpbVnMXNMxwsPSr1IUuaaL5aqPbU4/R1pY1IAyiLBZ8JMNyXwP5AGkzt9ptQGT5Ty+VKLD6p5Y+/6uIXLzOtbfWUYfkNkzLQFJyJylbT4jwTADn+Qqvn9IETog/lQvpvLX34VFINrsc4k5jHw9o9anljMydPrXB6yUb9+01iiJ7dEttmxFfgMX3WpR6oaPYPp6xA+0Ou+GqDPLjd/yOsNn0k0CFo30bKECBlut0=
+  - secure: H7w2n+lBGj2BeF/wvHN0qEkJgIT3Y2i99FOsn+7tCBajJeidPNvXg9qj5+ujduREDQie0Uog330ImJpCPDuP9s17GjXS6DiZHEYhrrcj82nWiDl6oNU3Er/wTt3w4iTH0p522jv1+LqH58UMz6P6YhTB+4mUCybdPt3Q6zMHCAzMMf7Q6EhxrJdR/REcewHTXT+POJbuRzYYkAEWqrIQ90K3KD8e3Peco7KnyB+bVzW+WFh4Acj9a6eC8hlUMuJJdP44oNQB5kcJIjHtgXcxlhRSebKWMwXosifF1qm9FVEc+lBRdPIsAuW00tXx1ZmezGvwPACwHb2YxHalwEueZcNcUXqWHSHrQoWEul99AhmjVdKs32+Urmc28xoo2lCv9f1D1Ae4dnzxQ6oeK91dF3cYjZtxPr9ie9VESTFed+/CbHleub83gdpDkUXSfUDg/sxduwWkU39j2ORN/xkH0i70UakOM4HHRBJNPXkbGtmO9Oby0v4n5ZEELcVSfhaZGJbEFCqxtG/zy46gnqFCvbsVoqLT1cUkXX49qU6vomwu+ue2hLPERJT1TavMRPnpFWRDAI78xhH3mvN3+F77ypLySWiZgeen3IDG33MN1wqIx+vc3SSjHWF8ho04aqFF+D85L8Udr5BTxFkTtogUYPE5KDi/+RVJQ0G4S5yUiqU=
+  - secure: W1a1Fo81mi+isKghUCKv2xbFGqWFeqtiU7YAja0Xk3D2WgbbpseJKlD83Flm/8kYrbHbueOzzSI0vqOZyfLFgxDsRNqGhjXn0U9GUAjluiqv3aL2xos8/qxzXsCknyZWxWa2vqdvNI4UEc+M+Zt2Tiqvh6tz2xgAmfjSC36j7qtpmG0qiBNItlNGC2Ifk7lAqoVwY/HHKB0vf+EpKAbyIQiQ/pS8O5IF0Ym95NHNEdloPoVDpsX+2e7NUNvph32+KulU22V+9E/EWTNoHa6KioykId+07buo8/4OCDiqXw7Lag/A9mqBG79WcxMe2W5roBLqwA2vLrFW1KSXh6daS89zv5+vyKm7VnOff4Ii9JjeWuPzBKvCZq6H33PjznUuha0C3/S0xItZWfq0HdD8j6+N17I1GO1I8UGVqhtKiD5H+YwFLWVWgSduUnAzNXq9Cpi28DH0Ykaus30wIH/gz4TulF8HPGK0FXUkXWxywpu01/nmvm4y5tHSrTcHIttRfpujo6J53synHOtIC+kwAyONfH9iUMWF6PpLWp3d91Pw8wZhdTOM+yFhLpYotzsy2sPcTkV2+6dmtPm7VZS5UC+JV6HZ52biEP2eUuN69lLNLvvkoUSdGkJeg7g6+Q6I+1LZrTj7KbhFqxFnpdRcUaqX+ws/K6akJ+GlW3g9o60=
+install:
+- docker build -t "$IMAGE_TAG" .
 before_script:
-  - pip install pycodestyle
-  - pip install coveralls
-  - npm install
-  - pip install .
-  - cp travis/manage.py manage.py
+- pip install coverage
+- pip install coveralls
 script:
-  - pycodestyle cohort_manager/ --exclude=migrations
-  - ./node_modules/.bin/stylelint '**/*.vue' '**/*.css' '**/*.scss'
-  - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/components/
-  - ./node_modules/.bin/eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/pages/
-  - coverage run --source=cohort_manager/ --omit=cohort_manager/migrations/* manage.py test cohort_manager
-after_success:
-  - coveralls
+- docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev"
+  -e "AUTH=SAML_MOCK" "$IMAGE_TAG" bash -c ". ./travis-ci/test.sh"
+after_script:
+- cp /tmp/.coverage.* .
+- coverage combine
+- coveralls
+- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_BRANCH" =~ ^(develop|master)$
+  ]]; then curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash; fi
+cache:
+  directories:
+  - "$HOME/helm"
+  - "$HOME/kubeval"
