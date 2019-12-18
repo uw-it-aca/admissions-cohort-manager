@@ -36,7 +36,7 @@ class CollectionListTest(TestViewApi):
                                              'quarter': 0})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 4)
+        self.assertEqual(len(response_content), 2)
         self.assertEqual(response_content[0]['value'], 'BIOL')
 
     def test_get_cohort_list(self):
@@ -46,5 +46,5 @@ class CollectionListTest(TestViewApi):
                                              'quarter': 0})
         response_content = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response_content), 4)
+        self.assertEqual(len(response_content), 2)
         self.assertEqual(response_content[0]['value'], 1)
