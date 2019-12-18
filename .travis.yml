@@ -1,34 +1,42 @@
 sudo: required
+
 language: python
 python:
-- '3.6'
+  - '3.6'
+
 services:
-- docker
+  - docker
+
 env:
   global:
-  - RELEASE_NAME="aat"
-  - DJANGO_APP="cohort_manager"
-  - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
-  - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
-  - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
-  - secure: sf54P2vglhs12WDCP/R+2KPqJy4IagRakIbAhf1Jc2TfxL+g9fvprTXnL6jR8HC9G2OjmPx9umhsgFYNVUbJo8yZMJuFeR3UrxlG29N9h2IWUJwn1enDUdDWaEbDO29JJ1VKLzYJGjXOBQ4BgjVKcOI6Xj51Ha+K+2xj5VQ3YR9dgPyDro0pSdZNCs1ERmDnLxzvHJXoDA2yQpEYkvjCZk3pa9t+DiEvd5gkyFSgeneBO3wxpbUfpVreUBREKqLI5zIy+JbW2avieNyC4YA3LFXhNsi70jpygD457m7q3kBIz/0igB2l+ohfuaB6ZFnCI8nnsfU/GvFUciRqCklJVZeQO1+6nxSPU0Sv4TG51AkiMJ0Hq/4x6mmccY+3OKoU5mDk7LpAX8C+pv6G67nPkkMndW6ehMX4NVUilQ9i2VZGfdJA1z21vyy1E84TN3nm3DeC93ZhomwXTEQz55P1MU/WEQNog845wWpq8SuomCsoZQ1g43oypkkQIgOIeoDSQw8TiZXFHWehc3I0F/B6qC20VinmmXpPZql+EhF3IC/bygXvPz/aiCZ6cVlCuKqJjgNEoIL+P8M43KDEAgyaXVagHudR3wIfYfpzEN4qRhB+gL5/zbgSZpARKM7SbebNcmWmfo1BSjMp62V/UEE7UUa7v/9v3hK/UNrWDIC9pTs=
-  - secure: SAnk9tJARu5VPDvzX2twHrM2zLupwb3A0Areke3hDHTogbOdWq5xElJrlpEJSeZZrGPdeoJa8UP4KQ34bNTvUgPVVyk6KkreG/ccTOmGXmq/2Q86a1uTnuTjhUt7rfoCArnxgbFiJXq+Q9LdQcxg7mLvMJPie4g2kDmKb5dTFtzh7axVpfwlipwQq+uUowbD+A+CybQOmDNYnk6cNaWnCr6ZWzuCcHO4vL9jiKAFhQFc10I5uKjjENAk81PebmdnUlb6TW9yXmkLUMmWisQpQVdTw8r2KB3+GUe70AIB+ue8M2NGbavokSxK7RqNK8rngqKvn5hhyBR4GbO4JGaCiBfC09NLrj/108bAfNomdpRQUt/lb45inkYu6R0Be05OlqNLdZS99WzCuY2RleB2WDCe/mQBdGDNNTMq6zpzDsxDNhU0z7pM2r6SZ4QxXEdcBclT0ToYQG3rp3yavgZGDtDgyCf9j6BuxiKgHObMfBHrUIBcsE3RHBKzZCwa6IU1wESZ8SPw0fvKHeWMEMKirql/5tsRnGex601SS/8swAc18TCV60U8Npm641HcnU+srKL4e9UNCshXfWSk//3Ow/NLj4lvDjsB341vsZzy6HgoOziMYDHzX8V3jCIIDNN5CL+1oXhUQPNGXirVJe3PQUfprJB0Vvfr2SE4oPJXZo0=
-  - secure: kK+B0s/RGbloCMhJEzlJMwOlVWt/YFgsqs4ef+N97GQFt3QKZB2HO5TTDIYjACBW7QdDY/ohq3rcayVuzx27gME0k1eve9eRJLD7tFAQH8GwaUhQOgFcCZ+TVGv/kwoykk1FRXwnGsH28mvjUP++7u7yZkBGKdQkwLhyW6pmPkdEsDlbhMRstarSIGARAv1+gxIXHFj07Kx4ByiTYPfxkjS8QEaJGWjbshUIjfiDYDDB8A7efdaGUMaWxZlSUvpxPILDsRlZcF9Bz69ks+nqgfZOHDPyHzEKnUGia6t76oLnUEak/UbmcYiduu1f5+MItrDNbcMxp48vxzJc3a+dsp/e+rj8g6rDkxqPEAmG3q5/n+ZvqNzs9gBXc3JrzSt8ZZtDGWCe/2nXwIudnZwH2McREwBh1j4aXpcaqIBd0wHVe3AQ7RMKzZM+zeKNNFdVf8fWtjWJqVd+DFr5ujCgJHLrTI5AgfZMJxXpE5oZ464Nrk3sZxWkdDDbu+1DqTDHJbRN+S+20wyuRXK3do1OISE6LPIQftl+j8+whQPHem0XkN9cDhpN30TFRkm02bqzLSB1QbgEwgM9wZSr17oNg1AtP87Ayobary9UJOTaYQNEvIB783sRGgPoSF8cx8NcChWjP85aGbgbWD1ixGV3E5ccIYOVAxxcobdCwUZiIxI=
+    - RELEASE_NAME="aat"
+    - DJANGO_APP="cohort_manager"
+    - COMMIT_HASH="$(git rev-parse --short=7 HEAD)"
+    - IMAGE_TAG="${RELEASE_NAME}:${COMMIT_HASH}"
+    - DEPLOY_SCRIPT_BASE=https://raw.githubusercontent.com/uw-it-aca/gcp-app-deploy/master
+    - secure: sf54P2vglhs12WDCP/R+2KPqJy4IagRakIbAhf1Jc2TfxL+g9fvprTXnL6jR8HC9G2OjmPx9umhsgFYNVUbJo8yZMJuFeR3UrxlG29N9h2IWUJwn1enDUdDWaEbDO29JJ1VKLzYJGjXOBQ4BgjVKcOI6Xj51Ha+K+2xj5VQ3YR9dgPyDro0pSdZNCs1ERmDnLxzvHJXoDA2yQpEYkvjCZk3pa9t+DiEvd5gkyFSgeneBO3wxpbUfpVreUBREKqLI5zIy+JbW2avieNyC4YA3LFXhNsi70jpygD457m7q3kBIz/0igB2l+ohfuaB6ZFnCI8nnsfU/GvFUciRqCklJVZeQO1+6nxSPU0Sv4TG51AkiMJ0Hq/4x6mmccY+3OKoU5mDk7LpAX8C+pv6G67nPkkMndW6ehMX4NVUilQ9i2VZGfdJA1z21vyy1E84TN3nm3DeC93ZhomwXTEQz55P1MU/WEQNog845wWpq8SuomCsoZQ1g43oypkkQIgOIeoDSQw8TiZXFHWehc3I0F/B6qC20VinmmXpPZql+EhF3IC/bygXvPz/aiCZ6cVlCuKqJjgNEoIL+P8M43KDEAgyaXVagHudR3wIfYfpzEN4qRhB+gL5/zbgSZpARKM7SbebNcmWmfo1BSjMp62V/UEE7UUa7v/9v3hK/UNrWDIC9pTs=
+    - secure: SAnk9tJARu5VPDvzX2twHrM2zLupwb3A0Areke3hDHTogbOdWq5xElJrlpEJSeZZrGPdeoJa8UP4KQ34bNTvUgPVVyk6KkreG/ccTOmGXmq/2Q86a1uTnuTjhUt7rfoCArnxgbFiJXq+Q9LdQcxg7mLvMJPie4g2kDmKb5dTFtzh7axVpfwlipwQq+uUowbD+A+CybQOmDNYnk6cNaWnCr6ZWzuCcHO4vL9jiKAFhQFc10I5uKjjENAk81PebmdnUlb6TW9yXmkLUMmWisQpQVdTw8r2KB3+GUe70AIB+ue8M2NGbavokSxK7RqNK8rngqKvn5hhyBR4GbO4JGaCiBfC09NLrj/108bAfNomdpRQUt/lb45inkYu6R0Be05OlqNLdZS99WzCuY2RleB2WDCe/mQBdGDNNTMq6zpzDsxDNhU0z7pM2r6SZ4QxXEdcBclT0ToYQG3rp3yavgZGDtDgyCf9j6BuxiKgHObMfBHrUIBcsE3RHBKzZCwa6IU1wESZ8SPw0fvKHeWMEMKirql/5tsRnGex601SS/8swAc18TCV60U8Npm641HcnU+srKL4e9UNCshXfWSk//3Ow/NLj4lvDjsB341vsZzy6HgoOziMYDHzX8V3jCIIDNN5CL+1oXhUQPNGXirVJe3PQUfprJB0Vvfr2SE4oPJXZo0=
+    - secure: kK+B0s/RGbloCMhJEzlJMwOlVWt/YFgsqs4ef+N97GQFt3QKZB2HO5TTDIYjACBW7QdDY/ohq3rcayVuzx27gME0k1eve9eRJLD7tFAQH8GwaUhQOgFcCZ+TVGv/kwoykk1FRXwnGsH28mvjUP++7u7yZkBGKdQkwLhyW6pmPkdEsDlbhMRstarSIGARAv1+gxIXHFj07Kx4ByiTYPfxkjS8QEaJGWjbshUIjfiDYDDB8A7efdaGUMaWxZlSUvpxPILDsRlZcF9Bz69ks+nqgfZOHDPyHzEKnUGia6t76oLnUEak/UbmcYiduu1f5+MItrDNbcMxp48vxzJc3a+dsp/e+rj8g6rDkxqPEAmG3q5/n+ZvqNzs9gBXc3JrzSt8ZZtDGWCe/2nXwIudnZwH2McREwBh1j4aXpcaqIBd0wHVe3AQ7RMKzZM+zeKNNFdVf8fWtjWJqVd+DFr5ujCgJHLrTI5AgfZMJxXpE5oZ464Nrk3sZxWkdDDbu+1DqTDHJbRN+S+20wyuRXK3do1OISE6LPIQftl+j8+whQPHem0XkN9cDhpN30TFRkm02bqzLSB1QbgEwgM9wZSr17oNg1AtP87Ayobary9UJOTaYQNEvIB783sRGgPoSF8cx8NcChWjP85aGbgbWD1ixGV3E5ccIYOVAxxcobdCwUZiIxI=
+
 install:
-- docker build -t "$IMAGE_TAG" .
+  - docker build -t "$IMAGE_TAG" .
+
 before_script:
-- pip install coverage
-- pip install coveralls
+  - pip install coverage
+  - pip install coveralls
+
 script:
-- docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev"
-  -e "AUTH=SAML_MOCK" "$IMAGE_TAG" bash -c ". ./travis-ci/test.sh"
+  - docker run -u root -it -v /tmp:/coverage -e DJANGO_APP="$DJANGO_APP" -e "ENV=localdev" -e "AUTH=SAML_MOCK" "$IMAGE_TAG" bash -c ". ./travis-ci/test.sh"
+
 after_script:
-- cp /tmp/.coverage.* .
-- coverage combine
-- coveralls
-- if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_BRANCH" =~ ^(develop|master)$
-  ]]; then curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash; fi
+  - cp /tmp/.coverage.* .
+  - coverage combine
+  - coveralls
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [[ "$TRAVIS_BRANCH" =~ ^(develop|master)$ ]]; then
+    curl -Ls ${DEPLOY_SCRIPT_BASE}/travis-ci/deploy.sh | bash;
+    fi
+
 cache:
   directories:
-  - "$HOME/helm"
-  - "$HOME/kubeval"
+    - "$HOME/helm"
+    - "$HOME/kubeval"
