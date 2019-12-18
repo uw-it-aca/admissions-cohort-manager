@@ -103,14 +103,8 @@
         selected: {},
         applicationFields: [
           {
-            key: 'Key',
+            key: 'system_key',
             label: "System Key",
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
-            key: 'Class',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
@@ -122,13 +116,13 @@
             sortable: false,
           },
           {
-            key: 'Cohort',
+            key: 'assigned_cohort',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
-            key: 'Major',
+            key: 'assigned_major',
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
             sortable: false,

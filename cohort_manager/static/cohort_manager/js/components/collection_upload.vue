@@ -38,6 +38,7 @@
                          :upload-response="upload_response"
                          :collection-type="collection_type"
                          :upload-type="manual_upload ? 'list' : 'file'"
+                         :collection-options="collectionOptions"
                          @upload_reset="handleReset"
                          @is_reassign="handle_reassign"
                          @is_reassign_protected="handle_reassign_protected"
@@ -112,7 +113,7 @@
         default: function () {return[];}
       },
       currentPeriod: {
-        type: Number,
+        type: String,
         default: null
       }
     },
