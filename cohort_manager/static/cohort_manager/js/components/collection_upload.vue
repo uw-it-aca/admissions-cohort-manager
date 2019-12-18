@@ -112,7 +112,7 @@
         default: function () {return[];}
       },
       currentPeriod: {
-        type: Number,
+        type: String,
         default: null
       }
     },

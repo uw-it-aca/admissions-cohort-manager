@@ -10,7 +10,7 @@
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
-            Already assigned a {{ collectionType }} (#)
+            Already assigned a {{ collectionType }} ({{ already_assigned.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
@@ -118,14 +118,15 @@
     },
     watch: {
       upload_response: function(){
+        var vue = this;
         $.each(this.upload_response.assignments, function(idx, assignment){
-          if(this.collection_type === "Major"){
-            if(assignment.major !== "null"){
-              this.already_assigned.push(assignment);
+          if(vue.collectionType === "Major"){
+            if(assignment.assigned_major !== null){
+              vue.already_assigned.push(assignment);
             }
-          } else if(this.collection_type === "Cohort") {
-            if(assignment.cohort !== "null"){
-              this.already_assigned.push(assignment);
+          } else if(vue.collectionType === "Cohort") {
+            if(assignment.assigned_cohort !== null){
+              vue.already_assigned.push(assignment);
             }
           }
         });
