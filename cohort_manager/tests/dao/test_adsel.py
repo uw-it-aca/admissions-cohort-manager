@@ -11,7 +11,7 @@ class RestDispatchTest(TestCase):
         self.assertIsNone(get_collection_by_id_type(1234, "cohort", 0))
 
     def test_major(self):
-        resp = get_collection_by_id_type("CSE", "major", 0)
+        resp = get_collection_by_id_type("BIOL", "major", 0)
         self.assertEqual(resp['applications_assigned'], 32)
         self.assertIsNotNone(get_collection_by_id_type("CHEM", "major", 0))
         self.assertIsNone(get_collection_by_id_type("FOOBAR", "major", 0))
