@@ -22,12 +22,12 @@
       <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
-            Already assigned a protected Cohort (#)
+            Already assigned a protected Cohort ({{ already_assigned_protected.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" /></b-card-text>
+            <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" :applications="already_assigned_protected" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -86,6 +86,10 @@
         type: String,
         default: function() {return [];}
       },
+      collectionOptions: {
+        type: Array,
+        default: function () {return[];}
+      },
     },
     data(){
       return {
@@ -100,7 +104,7 @@
         collection_type: "",
         csrfToken: "",
         is_reassign: false,
-        is_reassign_protected: false
+        is_reassign_protected: false,
       };
     },
     computed: {
@@ -114,6 +118,15 @@
       },
       reassign_any: function(){
         return this.has_assigned || this.has_protected;
+      },
+      protected_cohort_ids: function(){
+        var protected_ids = [];
+        $.each(this.collectionOptions, function(idx, cohort){
+          if(cohort.protected){
+            protected_ids.push(cohort.value);
+          }
+        });
+        return protected_ids;
       }
     },
     watch: {
@@ -127,6 +140,9 @@
           } else if(vue.collectionType === "Cohort") {
             if(assignment.assigned_cohort !== null){
               vue.already_assigned.push(assignment);
+              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
+                vue.already_assigned_protected.push(assignment);
+              }
             }
           }
         });

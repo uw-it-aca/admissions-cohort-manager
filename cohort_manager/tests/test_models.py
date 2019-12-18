@@ -13,12 +13,26 @@ class AssignmentTest(TestCase):
                 system_key='1',
                 application_number='8',
                 admission_selection_id='000')
+        self.assignment_reassign = Assignment(
+            system_key='1',
+            application_number='8',
+            admission_selection_id='000',
+            assigned_cohort= 32,
+            assigned_major= "CSE")
 
     def test_json_data(self):
         self.assertEqual(self.assignment.json_data(), {
             'admission_selection_id': '000',
             'application_number': '8',
-            'system_key': '1'})
+            'system_key': '1',
+            'assigned_cohort': None,
+            'assigned_major': None})
+        self.assertEqual(self.assignment_reassign.json_data(), {
+            'admission_selection_id': '000',
+            'application_number': '8',
+            'system_key': '1',
+            'assigned_cohort': 32,
+            'assigned_major': "CSE"})
 
 
 class AssignmentImportTest(TestCase):
