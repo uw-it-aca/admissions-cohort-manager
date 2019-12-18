@@ -17,8 +17,8 @@ class AssignmentTest(TestCase):
             system_key='1',
             application_number='8',
             admission_selection_id='000',
-            assigned_cohort= 32,
-            assigned_major= "CSE")
+            assigned_cohort=32,
+            assigned_major="CSE")
 
     def test_json_data(self):
         self.assertEqual(self.assignment.json_data(), {
