@@ -5,7 +5,10 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
+    'userservice'
 ]
+
+MIDDLEWARE += ['userservice.user.UserServiceMiddleware']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
@@ -54,7 +57,7 @@ if os.getenv('ADSEL_ENV') == 'PROD':
     RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
 
 if os.getenv('ADSEL_ENV') == 'EVAL':
-    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu' 
+    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True
