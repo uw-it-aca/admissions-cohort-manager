@@ -215,13 +215,15 @@
             vue.has_dupes = true;
             vue.dupes = dupes;
           } else{
-            this.has_uploaded = true;
+            vue.has_uploaded = true;
           }
         }).catch(function () {
           if(vue.file !== null){
             vue.invalid_csv = true;
+            vue.handleReset();
           }else if(vue.syskey_list!==null){
             vue.invalid_manual = true;
+            vue.handleReset();
           }
         });
       },

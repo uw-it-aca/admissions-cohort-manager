@@ -13,6 +13,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     submit_collection
 from cohort_manager.dao import InvalidCollectionException
 from userservice.user import UserService
+from restclients_core.exceptions import DataFailureException
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
@@ -72,8 +73,11 @@ class UploadView(RESTDispatch):
                 Assignment.create_from_file(assignment_import)
 
             if syskey_list:
-                applications = get_apps_by_qtr_id_syskey_list(qtr_id,
-                                                              syskey_list)
+                try:
+                    applications = get_apps_by_qtr_id_syskey_list(qtr_id,
+                                                                  syskey_list)
+                except DataFailureException as ex:
+                    return self.error_response(status=404, message=ex)
                 Assignment.create_from_applications(assignment_import,
                                                     applications)
                 assignment_import.is_file_upload = False
