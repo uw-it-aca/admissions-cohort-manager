@@ -1,8 +1,8 @@
 <template>
-  <b-modal id="add_list_modal" title="Add Applications" ok-title="Done" @ok="processList">
+  <b-modal id="add_list_modal" title="Add Applications" ok-title="Done" @ok="processList" @shown="focusElement">
     <div>
       <p>Enter system keys, one per line or separated by commas.</p>
-      <textarea v-model="syskey_input" required class="is-invalid syskey-input" @ />
+      <textarea v-model="syskey_input" required class="is-invalid syskey-input" ref="focusThis" @ />
     </div>
   </b-modal>
 </template>
@@ -19,6 +19,9 @@
       };
     },
     methods: {
+      focusElement(e) {
+        this.$refs.focusThis.focus()
+      },
       processList() {
         var parsed = this.syskey_input.replace(new RegExp(',', 'g'), " ");
         this.syskey_list = parsed.match(/[^\s]+/g);
