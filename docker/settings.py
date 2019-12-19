@@ -46,7 +46,7 @@ elif os.getenv('ENV') == 'eval':
 else:
     ALLOWED_USERS_GROUP = 'u_test_group'
 
-if os.getenv('ENV') == 'prod' or os.getenv('ADSEL_ENV') == 'eval':
+if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
     RESTCLIENTS_ADSEL_DAO_CLASS = 'Live'
     RESTCLIENTS_ADSEL_TIMEOUT = 120
     RESTCLIENTS_ADSEL_POOL_SIZE = 10
