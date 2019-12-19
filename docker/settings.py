@@ -8,7 +8,7 @@ INSTALLED_APPS += [
     'userservice'
 ]
 
-MIDDLEWARE_CLASSES += ['userservice.user.UserServiceMiddleware']
+MIDDLEWARE += ['userservice.user.UserServiceMiddleware']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
