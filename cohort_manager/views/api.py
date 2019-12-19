@@ -100,12 +100,14 @@ class ModifyUploadView(RESTDispatch):
                                                    False)
         is_submitted = request_params.get('is_submitted', False)
         ids_to_delete = request_params.get('to_delete', [])
+        comment = request_params.get('comment', '')
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
             upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
             upload.remove_assignments(ids_to_delete)
+            upload.comment = comment
             upload.save()
             if is_submitted:
                 submit_collection(upload)

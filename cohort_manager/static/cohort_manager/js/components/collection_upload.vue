@@ -235,10 +235,11 @@
       },
       mark_for_submission(){
         var vue = this,
-            request = {'is_submitted': true,
-                       'is_reassign': this.is_reassign,
-                       'is_reassign_protected': this.is_reassign_protected,
-                       'to_delete': this.to_remove};
+          request = {'is_submitted': true,
+            'is_reassign': this.is_reassign,
+            'is_reassign_protected': this.is_reassign_protected,
+            'to_delete': this.to_remove,
+            'comment': this.comment};
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
           request,
