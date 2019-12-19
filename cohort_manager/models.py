@@ -145,6 +145,8 @@ class Assignment(models.Model):
     application_number = models.PositiveIntegerField(
         validators=[validate_application_number])
     admission_selection_id = models.CharField(max_length=30)
+    assigned_cohort = models.IntegerField(null=True)
+    assigned_major = models.CharField(max_length=30, null=True)
 
     def validate(self):
         self.full_clean()
@@ -154,6 +156,8 @@ class Assignment(models.Model):
             'system_key': self.system_key,
             'application_number': self.application_number,
             'admission_selection_id': self.admission_selection_id,
+            'assigned_cohort': self.assigned_cohort,
+            'assigned_major': self.assigned_major
         }
 
     @staticmethod
@@ -164,12 +168,15 @@ class Assignment(models.Model):
             assign.system_key = application.system_key
             assign.application_number = application.application_number
             assign.admission_selection_id = application.adsel_id
+            assign.assigned_major = application.assigned_major
+            assign.assigned_cohort = application.assigned_cohort
             assign.save()
 
     @staticmethod
     def create_from_file(assign_import):
         reader = csv.DictReader(StringIO(assign_import.document),
                                 delimiter='\t')
+        assignments = []
         for idx, row in enumerate(reader):
             assignment = Assignment()
             assignment.assignment_import = assign_import
@@ -179,7 +186,8 @@ class Assignment(models.Model):
                 row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
-            assignment.save()
+            assignments.append(assignment)
+        Assignment.objects.bulk_create(assignments)
 
     def get_application(self):
         app = Application()

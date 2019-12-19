@@ -1,16 +1,27 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      <span v-if="uploadType === 'file'"><i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} </span><span v-else><i class="fas fa-file-alt" /><span class="sr-only">Applications manually added </span></span><a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      <span v-if="uploadType === 'file'">
+        <i class="fas fa-file-csv" />
+        <span class="sr-only">Uploaded file: </span>
+        {{ uploaded_filename }}
+        <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      </span>
+      <span v-else>
+        <span class="sr-only">Applications manually added </span>
+      </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
+      <span v-if="uploadType === 'list'">
+        <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      </span>
     </p>
     <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
-            Already assigned a {{ collectionType }} (#)
+            Already assigned a {{ collectionType }} ({{ already_assigned.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
@@ -22,12 +33,12 @@
       <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
-            Already assigned a protected Cohort (#)
+            Already assigned a protected Cohort ({{ already_assigned_protected.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" /></b-card-text>
+            <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" :applications="already_assigned_protected" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -66,6 +77,7 @@
   import ApplicationList from "../components/application_list.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
+
   Vue.use(VueCookies);
 
   export default {
@@ -86,6 +98,10 @@
         type: String,
         default: function() {return [];}
       },
+      collectionOptions: {
+        type: Array,
+        default: function () {return[];}
+      },
     },
     data(){
       return {
@@ -100,7 +116,7 @@
         collection_type: "",
         csrfToken: "",
         is_reassign: false,
-        is_reassign_protected: false
+        is_reassign_protected: false,
       };
     },
     computed: {
@@ -114,18 +130,31 @@
       },
       reassign_any: function(){
         return this.has_assigned || this.has_protected;
+      },
+      protected_cohort_ids: function(){
+        var protected_ids = [];
+        $.each(this.collectionOptions, function(idx, cohort){
+          if(cohort.protected){
+            protected_ids.push(cohort.value);
+          }
+        });
+        return protected_ids;
       }
     },
     watch: {
       upload_response: function(){
+        var vue = this;
         $.each(this.upload_response.assignments, function(idx, assignment){
-          if(this.collection_type === "Major"){
-            if(assignment.major !== "null"){
-              this.already_assigned.push(assignment);
+          if(vue.collectionType === "Major"){
+            if(assignment.assigned_major !== null){
+              vue.already_assigned.push(assignment);
             }
-          } else if(this.collection_type === "Cohort") {
-            if(assignment.cohort !== "null"){
-              this.already_assigned.push(assignment);
+          } else if(vue.collectionType === "Cohort") {
+            if(assignment.assigned_cohort !== null){
+              vue.already_assigned.push(assignment);
+              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
+                vue.already_assigned_protected.push(assignment);
+              }
             }
           }
         });

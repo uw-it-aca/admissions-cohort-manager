@@ -5,7 +5,10 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
+    'userservice'
 ]
+
+MIDDLEWARE += ['userservice.user.UserServiceMiddleware']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
@@ -43,18 +46,18 @@ elif os.getenv('ENV') == 'eval':
 else:
     ALLOWED_USERS_GROUP = 'u_test_group'
 
-if os.getenv('ADSEL_ENV') == 'PROD' or os.getenv('ADSEL_ENV') == 'EVAL':
+if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
     RESTCLIENTS_ADSEL_DAO_CLASS = 'Live'
     RESTCLIENTS_ADSEL_TIMEOUT = 120
     RESTCLIENTS_ADSEL_POOL_SIZE = 10
     RESTCLIENTS_ADSEL_CERT_FILE = APPLICATION_CERT_PATH
     RESTCLIENTS_ADSEL_KEY_FILE = APPLICATION_KEY_PATH
 
-if os.getenv('ADSEL_ENV') == 'PROD':
+if os.getenv('ENV') == 'prod':
     RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
 
-if os.getenv('ADSEL_ENV') == 'EVAL':
-    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu' 
+if os.getenv('ENV') == 'eval':
+    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True
