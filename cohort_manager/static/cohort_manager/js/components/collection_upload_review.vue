@@ -1,10 +1,21 @@
 <template>
   <div class="aat-app-add-review">
     <div id="upload_app_count">
-      <span v-if="uploadType === 'file'"><i class="fas fa-file-csv" /><span class="sr-only">Uploaded file: </span>{{ uploaded_filename }} </span><span v-else><i class="fas fa-file-alt" /><span class="sr-only">Applications manually added </span></span><a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      <span v-if="uploadType === 'file'">
+        <i class="fas fa-file-csv" />
+        <span class="sr-only">Uploaded file: </span>
+        {{ uploaded_filename }}
+        <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      </span>
+      <span v-else>
+        <span class="sr-only">Applications manually added </span>
+      </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
       {{ upload_count }} applications found.
+      <span v-if="uploadType === 'list'">
+        <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      </span>
     </p>
     <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-accordian">
       <b-card no-body class="mb-1">
@@ -66,6 +77,7 @@
   import ApplicationList from "../components/application_list.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
+
   Vue.use(VueCookies);
 
   export default {
