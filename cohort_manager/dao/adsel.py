@@ -132,7 +132,7 @@ def submit_collection(assignment_import):
     assignment.applicants = applicants_to_assign
 
     client = AdSel()
-    if assignment_import.cohort is not None:
+    if len(assignment_import.cohort) > 0:
         client.assign_cohorts(assignment)
-    elif assignment_import.major is not None:
+    elif len(assignment_import.major) > 0:
         client.assign_majors(assignment)

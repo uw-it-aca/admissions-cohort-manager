@@ -12,6 +12,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
     submit_collection
 from cohort_manager.dao import InvalidCollectionException
+from userservice.user import UserService
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
@@ -51,8 +52,7 @@ class UploadView(RESTDispatch):
         major_id = request.POST.get('major_id')
         comment = request.POST.get('comment', "")
         qtr_id = request.POST.get('qtr_id', "")
-        user = "TODO"
-
+        user = UserService().get_original_user()
         import_args = {'quarter': qtr_id,
                        'campus': 0,
                        'comment': comment,
