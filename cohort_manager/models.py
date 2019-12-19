@@ -176,6 +176,7 @@ class Assignment(models.Model):
     def create_from_file(assign_import):
         reader = csv.DictReader(StringIO(assign_import.document),
                                 delimiter='\t')
+        assignments = []
         for idx, row in enumerate(reader):
             assignment = Assignment()
             assignment.assignment_import = assign_import
@@ -185,7 +186,8 @@ class Assignment(models.Model):
                 row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
-            assignment.save()
+            assignments.append(assignment)
+        Assignment.objects.bulk_create(assignments)
 
     def get_application(self):
         app = Application()
