@@ -146,7 +146,7 @@
           },
           { key: 'actions',
             label: '',
-            class: "aat-actions-cell aat-data-cell aat-data-nowrap center", },
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap", },
         ],
         cohorts: [],
         majorFields: [
@@ -191,7 +191,7 @@
           {
             key: 'Actions',
             label: '',
-            class: "aat-actions-cell aat-data-cell aat-data-nowrap center",
+            class: "aat-actions-cell aat-data-cell aat-data-nowrap",
             sortable: false,
           }
         ],
