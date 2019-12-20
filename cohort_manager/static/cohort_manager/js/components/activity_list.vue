@@ -71,7 +71,7 @@
           },
           {
             key: 'assigned_msg',
-            label: 'Assignment',
+            label: 'Assigned',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false
