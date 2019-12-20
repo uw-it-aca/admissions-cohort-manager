@@ -151,6 +151,13 @@
         cohorts: [],
         majorFields: [
           {
+            key: 'value',
+            label: 'Major Code',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
             key: 'text',
             label: 'Major',
             class: "aat-data-cell",
