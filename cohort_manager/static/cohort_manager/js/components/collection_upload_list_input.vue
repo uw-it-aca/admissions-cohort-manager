@@ -19,8 +19,8 @@
       };
     },
     methods: {
-      focusElement(e) {
-        this.$refs.focusThis.focus()
+      focusElement() {
+        this.$refs.focusThis.focus();
       },
       processList() {
         var parsed = this.syskey_input.replace(new RegExp(',', 'g'), " ");
