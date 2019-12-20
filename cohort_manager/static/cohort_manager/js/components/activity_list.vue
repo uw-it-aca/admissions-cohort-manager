@@ -30,6 +30,12 @@
           :per-page="perPage"
           :filter="filter"
         >
+          <template v-slot:cell(assigned_msg)="row">
+            {{row.item.assigned_msg}} applications to <span v-if="row.item.cohort">Cohort {{row.item.cohort}}</span><span v-if="row.item.major">{{row.item.major}}</span>
+          </template>
+          <template v-slot:cell(submitted_msg)="row">
+            Attempted {{row.item.submitted_msg}} applications to <span v-if="row.item.cohort">Cohort {{row.item.cohort}}</span><span v-if="row.item.major">{{row.item.major}}</span>
+          </template>
           <template v-slot:cell(selection)="row">
             <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
           </template>
@@ -65,7 +71,7 @@
           },
           {
             key: 'assigned_msg',
-            label: 'Assignment',
+            label: 'Assigned',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false
