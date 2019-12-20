@@ -248,7 +248,7 @@
       },
       info(item, index, button) {
         this.resetModal.title = `Reset ${this.collectionType}`;
-        this.resetModal.itemId = `${item.id}`;
+        this.resetModal.itemId = `${item.value}`;
         this.resetModal.protect = `${item.protect}`;
         this.$root.$emit('bv::show::modal', this.resetModal.id, button);
       },
