@@ -122,6 +122,13 @@
             sortable: false,
           },
           {
+            key: 'protected',
+            label: 'Protected',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
             key: 'assigned_major',
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
