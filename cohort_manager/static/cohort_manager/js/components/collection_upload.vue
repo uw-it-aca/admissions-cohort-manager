@@ -215,13 +215,15 @@
             vue.has_dupes = true;
             vue.dupes = dupes;
           } else{
-            this.has_uploaded = true;
+            vue.has_uploaded = true;
           }
         }).catch(function () {
           if(vue.file !== null){
             vue.invalid_csv = true;
+            vue.handleReset();
           }else if(vue.syskey_list!==null){
             vue.invalid_manual = true;
+            vue.handleReset();
           }
         });
       },
@@ -236,7 +238,8 @@
             request = {'is_submitted': true,
                        'is_reassign': this.is_reassign,
                        'is_reassign_protected': this.is_reassign_protected,
-                       'to_delete': this.to_remove};
+                       'to_delete': this.to_remove,
+                       'comment': this.comment};
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
           request,

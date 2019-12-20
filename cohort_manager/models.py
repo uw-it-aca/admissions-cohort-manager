@@ -186,6 +186,12 @@ class Assignment(models.Model):
                 row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
+            cohort_data = row.get(AssignmentImport.FIELD_ASSIGNED_COHORT)
+            if len(cohort_data) > 0:
+                assignment.assigned_cohort = cohort_data
+            major_data = row.get(AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
+            if len(major_data) > 0:
+                assignment.assigned_major = major_data
             assignments.append(assignment)
         Assignment.objects.bulk_create(assignments)
 
