@@ -2,7 +2,7 @@
   <b-modal id="add_list_modal" title="Add Applications" ok-title="Done" @ok="processList" @shown="focusElement">
     <div>
       <p>Enter system keys, one per line or separated by commas.</p>
-      <textarea v-model="syskey_input" required class="is-invalid syskey-input" ref="focusThis" @ />
+      <textarea ref="focusThis" v-model="syskey_input" required class="is-invalid syskey-input" @ />
     </div>
   </b-modal>
 </template>
