@@ -554,7 +554,7 @@
     opacity: 1;
   }
 
-  table.b-table[aria-busy='true'] .b-table-busy-slot .text-info {
+  .b-table[aria-busy='true'] .b-table-busy-slot .text-info {
     padding: 3rem 0;
   }
 
