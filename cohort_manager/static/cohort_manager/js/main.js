@@ -2,6 +2,7 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from 'vue-analytics';
+import VuePluralize from 'vue-pluralize';
 
 import App from "./App.vue";
 import Cohort from './pages/cohort.vue';
@@ -21,6 +22,7 @@ const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(VuePluralize);
 
 export const EventBus = new Vue();
 
