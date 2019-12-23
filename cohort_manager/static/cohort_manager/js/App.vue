@@ -554,6 +554,10 @@
     opacity: 1;
   }
 
+  .b-table[aria-busy='true'] .b-table-busy-slot .text-info {
+    padding: 3rem 0;
+  }
+
   @media screen and (max-width: 650px) {
     .row .aat-actions-cell {
       opacity: 1;
