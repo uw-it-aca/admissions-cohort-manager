@@ -144,6 +144,12 @@
             sortable: false,
           },
           {
+            key: 'description',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
             key: 'protected',
             label: 'Protected',
             class: "aat-data-cell",
@@ -179,12 +185,6 @@
           },
           {
             key: 'Class',
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
-            key: 'campus',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
