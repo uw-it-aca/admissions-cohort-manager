@@ -24,6 +24,7 @@
           striped
           small
           class="aat-data-table"
+          :busy="isBusy"
           :items="activities"
           :fields="activityFields"
           :current-page="currentPage"
@@ -38,6 +39,12 @@
           </template>
           <template v-slot:cell(selection)="row">
             <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
+          </template>
+          <template v-slot:table-busy>
+            <div class="text-center text-info">
+              <b-spinner class="align-middle"></b-spinner>
+              <strong>Loading...</strong>
+            </div>
           </template>
         </b-table>
       </b-col>
@@ -61,6 +68,7 @@
     },
     data(){
       return {
+        isBusy: false,
         activityFields: [
           {
             key: 'activity_date',

@@ -7,11 +7,18 @@
         show-empty
         small
         class="aat-data-table"
+        :busy="isBusy"
         :items="applications"
         :fields="applicationFields"
       >
         <template v-slot:cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+        </template>
+        <template v-slot:table-busy>
+          <div class="text-center text-info">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
         </template>
       </b-table>
     </div>
@@ -23,6 +30,7 @@
         show-empty
         small
         class="aat-data-table"
+        :busy="isBusy"
         :items="applications"
         :fields="applicationFields"
       >
@@ -40,6 +48,12 @@
         <template v-slot:cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
         </template>
+        <template v-slot:table-busy>
+          <div class="text-center text-info">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </template>
       </b-table>
     </div>
 
@@ -51,6 +65,7 @@
         show-empty
         small
         class="aat-data-table"
+        :busy="isBusy"
         :items="applications"
         :fields="appDupeFields"
       >
@@ -70,6 +85,12 @@
         </template>
         <template v-slot:cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
+        </template>
+        <template v-slot:table-busy>
+          <div class="text-center text-info">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
         </template>
       </b-table>
     </div>
@@ -100,6 +121,7 @@
     },
     data(){
       return {
+        isBusy: false,
         selected: {},
         applicationFields: [
           {
