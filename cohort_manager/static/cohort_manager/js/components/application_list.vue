@@ -190,12 +190,6 @@
             sortable: false,
           },
           {
-            key: 'campus',
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
             key: 'cohort',
             class: "aat-data-cell",
             thClass: "aat-table-header",
