@@ -451,6 +451,7 @@
 
   .aat-main-container {
     padding-bottom: 3rem;
+    padding-left: 1.5rem;
   }
 
   .aat-adperiod-container {
