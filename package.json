@@ -38,6 +38,7 @@
     "vue-analytics": "^5.16.4",
     "vue-cookies": "^1.5.12",
     "vue-loader": "^15.6.4",
+    "vue-pluralize": "0.0.2",
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.6.7",
     "vue-underscore": "^0.1.4",
