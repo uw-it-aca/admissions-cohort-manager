@@ -155,6 +155,13 @@
         }
       }
     },
+    watch: {
+      collectionOptions: function(){
+        if (this.$route.params.id !== undefined) {
+          this.selectCollection(this.$route.params.id);
+        }
+      },
+    },
     mounted() {
       if (this.$route.params.id !== undefined) {
         this.selectCollection(this.$route.params.id);
@@ -313,7 +320,8 @@
         // Only allow options that are in list
         var id_to_set;
         $(this.collectionOptions).each(function(idx, option){
-          if (id === option.value){
+
+          if (id === option.value.toString()){
             id_to_set = id;
           }
         });
