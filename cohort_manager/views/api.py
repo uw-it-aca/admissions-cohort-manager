@@ -173,7 +173,7 @@ class CollectionList(RESTDispatch):
         try:
             list = get_collection_list_by_type(collection_type, quarter)
             return self.json_response(list)
-        except InvalidCollectionException as ex:
+        except (InvalidCollectionException, DataFailureException) as ex:
             return self.error_response(status=400, message=ex)
 
 
