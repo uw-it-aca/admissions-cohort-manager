@@ -101,8 +101,15 @@ class ModifyUploadView(RESTDispatch):
         is_submitted = request_params.get('is_submitted', False)
         ids_to_delete = request_params.get('to_delete', [])
         comment = request_params.get('comment', '')
+        major_id = request_params.get('major_id')
+        cohort_id = request_params.get('cohort_id')
+
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
+            if cohort_id:
+                upload.cohort = cohort_id
+            if major_id:
+                upload.major = major_id
             upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
@@ -173,7 +180,7 @@ class CollectionList(RESTDispatch):
         try:
             list = get_collection_list_by_type(collection_type, quarter)
             return self.json_response(list)
-        except InvalidCollectionException as ex:
+        except (InvalidCollectionException, DataFailureException) as ex:
             return self.error_response(status=400, message=ex)
 
 
