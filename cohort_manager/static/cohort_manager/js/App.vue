@@ -72,7 +72,7 @@
                 Tableau Selection Tool
               </b-link>
               <b-link href="https://crm.recruit.uw.edu/" tabindex="1" class="nav-link aat-link" target="_blank">
-                Recruiter
+                CRM Recruiter
               </b-link>
             </li>
           </b-navbar-nav>
@@ -451,6 +451,7 @@
 
   .aat-main-container {
     padding-bottom: 3rem;
+    padding-left: 1.5rem;
   }
 
   .aat-adperiod-container {
