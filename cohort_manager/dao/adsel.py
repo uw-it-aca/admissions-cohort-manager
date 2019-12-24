@@ -145,12 +145,12 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 
 
 def submit_collection(assignment_import):
-    if len(assignment_import.cohort) > 0:
+    if assignment_import.cohort and len(assignment_import.cohort) > 0:
         assignment = CohortAssignment()
         assignment.override_previous = assignment_import.is_reassign
         assignment.override_protected = assignment_import.is_reassign_protected
         assignment.cohort_number = assignment_import.cohort
-    elif len(assignment_import.major) > 0:
+    elif assignment_import.major and len(assignment_import.major) > 0:
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
 
@@ -169,9 +169,9 @@ def submit_collection(assignment_import):
     assignment.applicants = applicants_to_assign
 
     client = AdSel()
-    if len(assignment_import.cohort) > 0:
+    if assignment_import.cohort and len(assignment_import.cohort) > 0:
         client.assign_cohorts(assignment)
-    elif len(assignment_import.major) > 0:
+    elif assignment_import.major and len(assignment_import.major) > 0:
         client.assign_majors(assignment)
 
 

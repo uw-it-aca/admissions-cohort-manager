@@ -247,6 +247,11 @@
                        'is_reassign_protected': this.is_reassign_protected,
                        'to_delete': this.to_remove,
                        'comment': this.comment};
+        if (this.collectionType == "Cohort") {
+          request.cohort_id = this.collection_id;
+        } else if (this.collectionType == "Major") {
+          request.major_id = this.collection_id;
+        }
         axios.put(
           '/api/upload/' + this.upload_response.id + "/",
           request,
