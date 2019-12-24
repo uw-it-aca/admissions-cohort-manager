@@ -10,7 +10,7 @@ from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
-    submit_collection
+    submit_collection, get_applications_by_type_id_qtr, reset_collection
 from cohort_manager.dao import InvalidCollectionException
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
@@ -133,9 +133,28 @@ class CollectionDetails(RESTDispatch):
         except InvalidCollectionException as ex:
             return self.error_response(status=400, message=ex)
 
-    def delete(self, request, collection_type, collection_id, *args, **kwargs):
+    def delete(self, request, quarter, collection_type,
+               collection_id, *args, **kwargs):
         params = json.loads(request.body)
         comment = params.get('comment')
+        user = UserService().get_original_user()
+        apps = get_applications_by_type_id_qtr(collection_type,
+                                               collection_id, quarter)
+
+        import_args = {'quarter': quarter,
+                       'campus': 0,
+                       'comment': comment,
+                       'created_by': user}
+        if collection_type == "cohort":
+            import_args['cohort'] = None
+        if collection_type == "cohort":
+            import_args['major'] = None
+
+        assignment_import = AssignmentImport.objects.create(**import_args)
+        Assignment.create_from_applications(assignment_import, apps)
+
+        reset_collection(assignment_import, collection_type)
+
         return self.json_response()
 
 

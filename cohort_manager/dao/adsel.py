@@ -1,6 +1,7 @@
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application
+from restclients_core.exceptions import DataFailureException
 from datetime import datetime
 
 
@@ -45,6 +46,42 @@ def _get_major_by_id(major_id, quarter):
         if major.major_abbr == major_id:
             return {"collection_id": major.major_abbr,
                     "applications_assigned": major.assigned_count}
+
+
+def get_applications_by_type_id_qtr(type, id, quarter):
+    apps = []
+    if type == COHORT_COLLECTION_TYPE:
+        apps = get_applications_by_cohort_qtr(id, quarter)
+    if type == MAJOR_COLLECTION_TYPE:
+        apps = get_applications_by_major_qtr(id, quarter)
+    return apps
+
+
+def get_applications_by_cohort_qtr(cohort_id, quarter):
+    matching_apps = []
+    try:
+        client = AdSel()
+        applications = client.get_all_applications_by_qtr(quarter)
+
+        for application in applications:
+            if application.assigned_cohort == int(cohort_id):
+                matching_apps.append(application)
+    except DataFailureException:
+        pass
+    return matching_apps
+
+
+def get_applications_by_major_qtr(major_id, quarter):
+    try:
+        client = AdSel()
+        applications = client.get_all_applications_by_qtr(quarter)
+        matching_apps = []
+        for application in applications:
+            if application.assigned_major == major_id:
+                matching_apps.append(application)
+    except DataFailureException:
+        pass
+    return matching_apps
 
 
 def get_activity_log():
@@ -135,4 +172,35 @@ def submit_collection(assignment_import):
     if len(assignment_import.cohort) > 0:
         client.assign_cohorts(assignment)
     elif len(assignment_import.major) > 0:
+        client.assign_majors(assignment)
+
+
+def reset_collection(assignment_import, collection_type):
+    if collection_type == COHORT_COLLECTION_TYPE:
+        assignment = CohortAssignment()
+        assignment.override_previous = True
+        assignment.override_protected = True
+        assignment.cohort_number = assignment_import.cohort
+    elif collection_type == MAJOR_COLLECTION_TYPE:
+        assignment = MajorAssignment()
+        assignment.major_code = assignment_import.major
+
+    assignment.assignment_type = "file" if \
+        assignment_import.is_file_upload else "manual"
+    assignment.comments = assignment_import.comment
+    assignment.user = assignment_import.created_by
+
+    applicants_to_assign = []
+    for imp_assignment in assignment_import.assignment_set.all():
+        app = imp_assignment.get_application()
+        applicants_to_assign.append(app)
+        assignment.quarter = assignment_import.quarter
+        assignment.campus = assignment_import.campus
+
+    assignment.applicants = applicants_to_assign
+
+    client = AdSel()
+    if collection_type == COHORT_COLLECTION_TYPE:
+        client.assign_cohorts(assignment)
+    elif collection_type == MAJOR_COLLECTION_TYPE:
         client.assign_majors(assignment)

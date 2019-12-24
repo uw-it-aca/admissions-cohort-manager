@@ -32,17 +32,17 @@
           :filter="filter"
         >
           <template v-slot:cell(assigned_msg)="row">
-            {{ row.item.assigned_msg }} {{'application' | pluralize(row.item.assigned_msg)}} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
+            {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
           </template>
           <template v-slot:cell(submitted_msg)="row">
-            Attempted {{ row.item.submitted_msg }} {{'application' | pluralize(row.item.submitted_msg)}} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
+            Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
           </template>
           <template v-slot:cell(selection)="row">
             <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
           </template>
           <template v-slot:table-busy>
             <div class="text-center text-info">
-              <b-spinner class="align-middle"></b-spinner>
+              <b-spinner class="align-middle" />
               <strong>Loading...</strong>
             </div>
           </template>

@@ -20,7 +20,7 @@
         </template>
         <template v-slot:table-busy>
           <div class="text-center text-info">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong>Loading...</strong>
           </div>
         </template>
@@ -46,7 +46,7 @@
         </template>
         <template v-slot:table-busy>
           <div class="text-center text-info">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong>Loading...</strong>
           </div>
         </template>
@@ -274,12 +274,14 @@
         this.resetModal.ok_disabled = true;
       },
       submit_reset(){
-
         axios.delete(
-          '/api/collection/' +
-            this.$props.collectionType.toLowerCase() +
-            "/" +
-            this.resetModal.itemId,
+          '/api/collection/'
+            + this.collectionType.toLowerCase()
+            + "/"
+            + this.admissions_period
+            + "/"
+            + this.resetModal.itemId
+            + "/",
           {
             headers: {
               'Content-Type': 'multipart/form-data',
