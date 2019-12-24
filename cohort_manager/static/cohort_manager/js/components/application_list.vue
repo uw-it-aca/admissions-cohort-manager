@@ -16,7 +16,7 @@
         </template>
         <template v-slot:table-busy>
           <div class="text-center text-info">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong>Loading...</strong>
           </div>
         </template>
@@ -50,7 +50,7 @@
         </template>
         <template v-slot:table-busy>
           <div class="text-center text-info">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong>Loading...</strong>
           </div>
         </template>
@@ -88,7 +88,7 @@
         </template>
         <template v-slot:table-busy>
           <div class="text-center text-info">
-            <b-spinner class="align-middle"></b-spinner>
+            <b-spinner class="align-middle" />
             <strong>Loading...</strong>
           </div>
         </template>

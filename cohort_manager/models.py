@@ -103,9 +103,9 @@ class AssignmentImport(models.Model):
     quarter = models.IntegerField()
     campus = models.CharField(max_length=30)
     cohort = models.CharField(
-        max_length=30, blank=True, validators=[validate_cohort])
+        max_length=30, blank=True, null=True, validators=[validate_cohort])
     major = models.CharField(
-        max_length=30, blank=True, validators=[validate_major])
+        max_length=30, blank=True, null=True, validators=[validate_major])
     is_submitted = models.BooleanField(default=False)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)

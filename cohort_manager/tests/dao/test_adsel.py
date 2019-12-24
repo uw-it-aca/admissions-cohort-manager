@@ -1,5 +1,6 @@
 from django.test import TestCase
-from cohort_manager.dao.adsel import get_collection_by_id_type
+from cohort_manager.dao.adsel import get_collection_by_id_type, \
+    get_applications_by_cohort_qtr, get_applications_by_major_qtr
 from cohort_manager.dao import InvalidCollectionException
 
 
@@ -19,3 +20,20 @@ class RestDispatchTest(TestCase):
     def test_invalid_collection(self):
         with self.assertRaises(InvalidCollectionException):
             get_collection_by_id_type(123, "FOOBAR", 0)
+
+    def test_apps_by_cohort(self):
+        apps = get_applications_by_cohort_qtr(2, 0)
+        self.assertEqual(len(apps), 2)
+
+        apps = get_applications_by_cohort_qtr(1, 0)
+        self.assertEqual(len(apps), 1)
+
+        apps = get_applications_by_cohort_qtr(1, 1)
+        self.assertEqual(len(apps), 0)
+
+    def test_apps_by_major(self):
+        apps = get_applications_by_major_qtr("string", 0)
+        self.assertEqual(len(apps), 4)
+
+        apps = get_applications_by_major_qtr("test", 0)
+        self.assertEqual(len(apps), 0)

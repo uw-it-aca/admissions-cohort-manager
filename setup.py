@@ -26,7 +26,7 @@ setup(
         'django>=2.2,<2.3',
         'UW-Django-SAML2>=1.4,<2.0',
         'django-webpack-loader',
-        'UW-RestClients-AdSel>=1.01',
+        'UW-RestClients-AdSel>=1.02',
         'django-userservice<4.0,>3.1'
     ],
     license='Apache License, Version 2.0',
