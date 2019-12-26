@@ -71,7 +71,7 @@
               <b-link href="https://bitools.uw.edu/#/site/Transitional/projects/575" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
                 Tableau Selection Tool
               </b-link>
-              <b-link href="https://crm.recruit.uw.edu/" tabindex="1" class="nav-link aat-link" target="_blank">
+              <b-link href="https://crm.recruit.uw.edu/Seattle" tabindex="1" class="nav-link aat-link" target="_blank">
                 CRM Recruiter
               </b-link>
             </li>
