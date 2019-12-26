@@ -72,7 +72,7 @@
                 Tableau Selection Tool
               </b-link>
               <b-link href="https://crm.recruit.uw.edu/Seattle" tabindex="1" class="nav-link aat-link" target="_blank">
-                CRM Recruiter
+                CRM Recruit
               </b-link>
             </li>
           </b-navbar-nav>
