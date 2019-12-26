@@ -24,7 +24,7 @@
           striped
           small
           class="aat-data-table"
-          :busy="isBusy"
+          :busy="is_loading"
           :items="activities"
           :fields="activityFields"
           :current-page="currentPage"
@@ -68,7 +68,6 @@
     },
     data(){
       return {
-        isBusy: false,
         activityFields: [
           {
             key: 'activity_date',
@@ -121,6 +120,7 @@
         perPage: 20,
         filter: null,
         filterOn: [],
+        is_loading: true
       };
     },
     mounted() {
@@ -160,6 +160,7 @@
         this.getActivities("");
       },
       getActivities(filter_string){
+        this.is_loading = true;
         axios.get(
           '/api/activity/' + filter_string,
         ).then(response => {
@@ -167,6 +168,7 @@
             this.activities = response.data.activities;
             this.totalRows = this.activities.length;
           }
+          this.is_loading = false;
         });
       },
       selectCollection(id){
