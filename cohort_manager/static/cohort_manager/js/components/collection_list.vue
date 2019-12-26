@@ -274,6 +274,8 @@
         this.resetModal.ok_disabled = true;
       },
       submit_reset(){
+        // disable submit after click
+        this.resetModal.ok_disabled = true;
         axios.delete(
           '/api/collection/'
             + this.collectionType.toLowerCase()
