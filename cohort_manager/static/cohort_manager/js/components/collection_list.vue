@@ -7,7 +7,7 @@
         show-empty
         small
         class="aat-data-table"
-        :busy="isBusy"
+        :busy="is_loading"
         :items="cohorts"
         :fields="cohortFields"
       >
@@ -119,7 +119,6 @@
     },
     data(){
       return {
-        isBusy: false,
         cohortFields: [
           {
             key: 'value',
@@ -219,7 +218,8 @@
         },
         checked: false,
         comment: '',
-        admissions_period: null
+        admissions_period: null,
+        is_loading: true
       };
     },
     watch: {
@@ -247,6 +247,7 @@
         this.csrfToken = $cookies.get("csrftoken");
       },
       load_data(){
+        this.is_loading = true;
         axios.get(
           '/api/collection/'
             + this.collectionType.toLowerCase()
@@ -259,6 +260,7 @@
           } else if (this.collectionType.toLowerCase() === "major"){
             this.majors = response.data;
           }
+          this.is_loading = false;
         });
       },
       info(item, index, button) {
@@ -272,8 +274,11 @@
         this.resetModal.content = '';
         this.checked = false;
         this.resetModal.ok_disabled = true;
+        this.load_data();
       },
       submit_reset(){
+        // disable submit after click
+        this.resetModal.ok_disabled = true;
         axios.delete(
           '/api/collection/'
             + this.collectionType.toLowerCase()
@@ -290,7 +295,6 @@
             data: {comment: this.comment}
           },
         );
-        this.resetResetModal();
       }
     }
   };
