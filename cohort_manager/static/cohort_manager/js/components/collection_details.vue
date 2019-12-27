@@ -1,5 +1,5 @@
 <template>
-  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid>
+  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
       <p>You selected an invalid collection</p>
     </div>
@@ -77,6 +77,7 @@
         protected_group: false,
         residency: "",
         invalid_collection: false,
+        hide_details: true
       };
     },
     watch: {
@@ -87,6 +88,7 @@
     methods: {
       get_collection(){
         var vue = this;
+        this.hide_details = true;
         axios.get(
           '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
@@ -96,8 +98,10 @@
           this.protected_group = response.data.protected_group;
           this.residency = response.data.residency;
           this.invalid_collection = false;
+          this.hide_details = false;
         }).catch(function () {
           vue.invalid_collection = true;
+          this.hide_details = false;
         });
       }
     },
