@@ -23,7 +23,8 @@
         upload_response: undefined,
         cohort_options: [
         ],
-        current_period: null
+        current_period: null,
+        loading_collection: true,
       };
     },
     computed: {
@@ -43,6 +44,7 @@
         properties['collectionOptions'] = this.cohort_options;
         properties['uploadResponse'] = this.upload_response;
         properties['currentPeriod'] = this.current_period;
+        properties['loadingCollection'] = this.loading_collection;
         return properties;
       }
     },
@@ -58,9 +60,11 @@
     },
     methods: {
       get_cohorts_for_period(){
+        this.loading_collection = true;
         axios.get(
           '/api/collection/cohort/' + this.current_period + "/"
         ).then(response => {
+          this.loading_collection = false;
           this.cohort_options = response.data;
         });
       },

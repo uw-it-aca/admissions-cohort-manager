@@ -22,7 +22,8 @@
         has_uploaded: false,
         upload_response: undefined,
         major_options: [],
-        current_period: undefined
+        current_period: undefined,
+        loading_collection: true,
       };
     },
     computed: {
@@ -41,6 +42,7 @@
         }
         properties['collectionOptions'] = this.major_options;
         properties['currentPeriod'] = this.current_period;
+        properties['loadingCollection'] = this.loading_collection;
         return properties;
       }
     },
@@ -57,9 +59,11 @@
     },
     methods: {
       get_majors_for_period(){
+        this.loading_collection = true;
         axios.get(
           '/api/collection/major/' + this.current_period + "/"
         ).then(response => {
+          this.loading_collection = false;
           this.major_options = response.data;
         });
       },

@@ -12,6 +12,7 @@
                           v-model="collection_id"
                           list="input-list"
                           required
+                          :disabled="loadingCollection"
                           :class="{'is-invalid': !collection_id}"
             />
             <b-form-invalid-feedback true>
@@ -77,7 +78,7 @@
         <label for="assignment_comment">Enter comment for this assignment</label>
         <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
       </fieldset>
-      <b-button type="submit" variant="primary" @click="mark_for_submission" :disabled="submitted">
+      <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
         Submit
       </b-button>
     </form>
@@ -115,6 +116,10 @@
       currentPeriod: {
         type: String,
         default: null
+      },
+      loadingCollection: {
+        type: Boolean,
+        default: true
       }
     },
     data(){
