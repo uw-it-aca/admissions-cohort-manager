@@ -3,6 +3,7 @@ from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application
 from restclients_core.exceptions import DataFailureException
 from datetime import datetime
+import pytz
 
 
 MAJOR_COLLECTION_TYPE = "major"
@@ -89,7 +90,7 @@ def get_activity_log():
     activities = AdSel().get_activities()
     activity_json = []
     for activity in activities:
-        act = {'activity_date': activity.assignment_date,
+        act = {'activity_date': pytz.utc.localize(activity.assignment_date),
                'comment': activity.comment,
                'assigned_msg': activity.total_assigned,
                'submitted_msg': activity.total_submitted,

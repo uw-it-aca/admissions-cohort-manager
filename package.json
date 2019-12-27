@@ -42,6 +42,8 @@
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.6.7",
     "vue-underscore": "^0.1.4",
+    "vue-moment": "~4.1.0",
+    "moment-timezone": "~0.5.27",
     "webpack": "^4.29.5",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.3.1"

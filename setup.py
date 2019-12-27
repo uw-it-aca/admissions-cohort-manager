@@ -28,6 +28,7 @@ setup(
         'django-webpack-loader',
         'UW-RestClients-AdSel>=1.02',
         'django-userservice<4.0,>3.1'
+        'pytz==2019.3'
     ],
     license='Apache License, Version 2.0',
     description='A tool for managing cohorts',
