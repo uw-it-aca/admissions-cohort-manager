@@ -102,11 +102,14 @@
         type: Array,
         default: function () {return[];}
       },
+      collectionId: {
+        type: String,
+        default: function () {return "";}
+      },
     },
     data(){
       return {
         upload_count: 0,
-        collection_id: '',
         uploaded_filename: '',
         text: "This is some text.",
         upload_response: {},
@@ -150,9 +153,9 @@
               vue.already_assigned.push(assignment);
             }
           } else if(vue.collectionType === "Cohort") {
-            if(assignment.assigned_cohort !== null){
+            if(assignment.assigned_cohort !== null && String(assignment.assigned_cohort) !== vue.collectionId){
               vue.already_assigned.push(assignment);
-              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
+              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
                 vue.already_assigned_protected.push(assignment);
               }
             }
@@ -179,12 +182,6 @@
       this.csrfToken = $cookies.get("csrftoken");
       this.collection_type = this.$props.collectionType;
       this.upload_count = this.$props.uploadResponse.assignments.length;
-      if(this.$props.collectionType === "Cohort"){
-        this.collection_id = this.$props.uploadResponse.assignments[0].cohort;
-      }
-      else if(this.$props.collectionType === "Major"){
-        this.collection_id = this.$props.uploadResponse.assignments[0].major;
-      }
       this.uploaded_filename = this.$props.uploadResponse.upload_filename;
       this.upload_response = this.$props.uploadResponse;
     },

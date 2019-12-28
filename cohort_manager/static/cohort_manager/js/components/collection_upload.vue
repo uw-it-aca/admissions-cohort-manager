@@ -12,7 +12,7 @@
                           v-model="collection_id"
                           list="input-list"
                           required
-                          :disabled="loadingCollection"
+                          :disabled="loadingCollection || has_uploaded"
                           :class="{'is-invalid': !collection_id}"
             />
             <b-form-invalid-feedback true>
@@ -30,21 +30,12 @@
           />
         </div>
       </div>
-      <fieldset class="aat-form-section">
+      <fieldset v-if="collection_id !== null" class="aat-form-section">
         <legend class="aat-sub-header">
           Enter Applications
         </legend>
         <div id="add_applications_widget">
-          <upload-review v-if="has_uploaded"
-                         :upload-response="upload_response"
-                         :collection-type="collection_type"
-                         :upload-type="manual_upload ? 'list' : 'file'"
-                         :collection-options="collectionOptions"
-                         @upload_reset="handleReset"
-                         @is_reassign="handle_reassign"
-                         @is_reassign_protected="handle_reassign_protected"
-          />
-          <div v-else>
+          <div v-if="!has_uploaded">
             <div>
               Enter applications by file (csv) or
               <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
@@ -57,6 +48,16 @@
               @fileselected="selectedFile"
             />
           </div>
+          <upload-review v-else
+                         :upload-response="upload_response"
+                         :collection-type="collection_type"
+                         :upload-type="manual_upload ? 'list' : 'file'"
+                         :collection-options="collectionOptions"
+                         :collection-id="collection_id"
+                         @upload_reset="handleReset"
+                         @is_reassign="handle_reassign"
+                         @is_reassign_protected="handle_reassign_protected"
+          />
           <collection-upload-dupe-modal
             v-if="has_dupes"
             :duplicates="dupes"
