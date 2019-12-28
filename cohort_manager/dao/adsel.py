@@ -90,7 +90,11 @@ def get_activity_log():
     activities = AdSel().get_activities()
     activity_json = []
     for activity in activities:
-        act = {'activity_date': pytz.utc.localize(activity.assignment_date),
+        try:
+            date = pytz.utc.localize(activity.assignment_date)
+        except ValueError:
+            date = activity.assignment_date
+        act = {'activity_date': date,
                'comment': activity.comment,
                'assigned_msg': activity.total_assigned,
                'submitted_msg': activity.total_submitted,
@@ -158,6 +162,8 @@ def submit_collection(assignment_import):
     assignment.assignment_type = "file" if \
         assignment_import.is_file_upload else "manual"
     assignment.comments = assignment_import.comment
+    if assignment_import.upload_filename:
+        assignment.comments += "\nFile: " + assignment_import.upload_filename
     assignment.user = assignment_import.created_by
 
     applicants_to_assign = []
