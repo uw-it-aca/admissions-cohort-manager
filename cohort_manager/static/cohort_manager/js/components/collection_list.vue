@@ -12,7 +12,6 @@
         :fields="cohortFields"
       >
         <template v-slot:cell(actions)="row">
-          <a :href="'http://www.tableau.com/uw/cohort/' + row.item.value" :title="'View cohort ' + row.item.value + ' in Tableau'"><i class="fas fa-external-link-alt" /><span class="sr-only">View cohort in Tableau</span></a>
           <a :href="'/cohort/' + row.item.value" :title="'Assign applications to cohort ' + row.item.value">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.value" @click="info(row.item, row.index, $event.target)">
             Reset
