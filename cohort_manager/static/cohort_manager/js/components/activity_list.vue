@@ -37,9 +37,6 @@
           <template v-slot:cell(submitted_msg)="row">
             Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
           </template>
-          <template v-slot:cell(selection)="row">
-            <a href="https://www.tableau.com" :title="'View filters in Tableau'"><i class="fas fa-filter" /><span class="sr-only">Filters</span></a>
-          </template>
           <template v-slot:table-busy>
             <div class="text-center text-info">
               <b-spinner class="align-middle" />
@@ -89,12 +86,6 @@
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false
-          },
-          {
-            key: 'selection',
-            class: "aat-data-cell aat-filters-cell",
-            thClass: "aat-table-header",
-            sortable: false,
           },
           {
             key: 'comment',
