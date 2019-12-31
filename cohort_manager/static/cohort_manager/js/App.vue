@@ -68,7 +68,7 @@
           </h3>
           <b-navbar-nav aria-labelledby="aat_external_link_header" vertical class="aat-nav-group">
             <li>
-              <b-link href="https://bitools.uw.edu/#/site/Transitional/projects/575" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
+              <b-link href="https://bitools.uw.edu/#/site/Transitional/workbooks/6500/views" tabindex="1" class="nav-link aat-link aat-external-link" target="_blank">
                 Tableau Selection Tool
               </b-link>
               <b-link href="https://crm.recruit.uw.edu/Seattle" tabindex="1" class="nav-link aat-link" target="_blank">
