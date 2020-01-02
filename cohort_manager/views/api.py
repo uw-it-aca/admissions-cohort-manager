@@ -81,8 +81,8 @@ class UploadView(RESTDispatch):
                 Assignment.create_from_applications(assignment_import,
                                                     applications)
                 assignment_import.is_file_upload = False
-                assignment_import.save()
 
+            assignment_import.save()
             content = assignment_import.json_data()
             return self.json_response(status=200, content=content)
 

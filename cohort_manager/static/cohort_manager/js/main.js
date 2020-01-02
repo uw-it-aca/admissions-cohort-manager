@@ -3,6 +3,8 @@ import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from 'vue-analytics';
 import VuePluralize from 'vue-pluralize';
+import VueMoment from 'vue-moment';
+import moment from 'moment-timezone';
 
 import App from "./App.vue";
 import Cohort from './pages/cohort.vue';
@@ -23,6 +25,7 @@ const debugMode = $("body").data("django-debug");
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(VuePluralize);
+Vue.use(VueMoment, {moment});
 
 export const EventBus = new Vue();
 
