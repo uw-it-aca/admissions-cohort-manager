@@ -12,7 +12,7 @@
                           v-model="collection_id"
                           list="input-list"
                           required
-                          :disabled="loadingCollection"
+                          :disabled="loadingCollection || has_uploaded"
                           :class="{'is-invalid': !collection_id}"
             />
             <b-form-invalid-feedback true>
@@ -30,57 +30,60 @@
           />
         </div>
       </div>
-      <fieldset class="aat-form-section">
-        <legend class="aat-sub-header">
-          Enter Applications
-        </legend>
-        <div id="add_applications_widget">
-          <upload-review v-if="has_uploaded"
-                         :upload-response="upload_response"
-                         :collection-type="collection_type"
-                         :upload-type="manual_upload ? 'list' : 'file'"
-                         :collection-options="collectionOptions"
-                         @upload_reset="handleReset"
-                         @is_reassign="handle_reassign"
-                         @is_reassign_protected="handle_reassign_protected"
-          />
-          <div v-else>
-            <div>
-              Enter applications by file (csv) or
-              <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
-                {{ uploadToggleLabel }}
-              </b-button>
-              <CollectionUploadListInput @listupdated="selectedList" />
+      <div v-if="collection_id !== null">
+        <fieldset class="aat-form-section">
+          <legend class="aat-sub-header">
+            Enter Applications
+          </legend>
+          <div id="add_applications_widget">
+            <div v-if="!has_uploaded">
+              <div>
+                Enter applications by file (csv) or
+                <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                  {{ uploadToggleLabel }}
+                </b-button>
+                <CollectionUploadListInput @listupdated="selectedList" />
+              </div>
+              <component
+                :is="uploadComponent"
+                @fileselected="selectedFile"
+              />
             </div>
-            <component
-              :is="uploadComponent"
-              @fileselected="selectedFile"
+            <upload-review v-else
+                          :upload-response="upload_response"
+                          :collection-type="collection_type"
+                          :upload-type="manual_upload ? 'list' : 'file'"
+                          :collection-options="collectionOptions"
+                          :collection-id="collection_id"
+                          @upload_reset="handleReset"
+                          @is_reassign="handle_reassign"
+                          @is_reassign_protected="handle_reassign_protected"
+            />
+            <collection-upload-dupe-modal
+              v-if="has_dupes"
+              :duplicates="dupes"
+              :collection-type="collectionType"
+              @removeDupes="remove_applications"
             />
           </div>
-          <collection-upload-dupe-modal
-            v-if="has_dupes"
-            :duplicates="dupes"
-            :collection-type="collectionType"
-            @removeDupes="remove_applications"
-          />
-        </div>
-        <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
-          Invalid systems keys.
-        </b-alert>
-        <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
-          CSV is invalid.
-        </b-alert>
-      </fieldset>
-      <fieldset class="aat-form-section">
-        <legend class="aat-sub-header">
-          Add Comment
-        </legend>
-        <label for="assignment_comment">Enter comment for this assignment</label>
-        <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
-      </fieldset>
-      <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
-        Submit
-      </b-button>
+          <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
+            Invalid systems keys.
+          </b-alert>
+          <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
+            CSV is invalid.
+          </b-alert>
+        </fieldset>
+        <fieldset class="aat-form-section">
+          <legend class="aat-sub-header">
+            Add Comment
+          </legend>
+          <label for="assignment_comment">Enter comment for this assignment</label>
+          <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
+        </fieldset>
+        <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
+          Submit
+        </b-button>
+      </div>
     </form>
   </div>
 </template>
