@@ -26,13 +26,15 @@ class AssignmentTest(TestCase):
             'application_number': '8',
             'system_key': '1',
             'assigned_cohort': None,
-            'assigned_major': None})
+            'assigned_major': None,
+            'campus': "Seattle"})
         self.assertEqual(self.assignment_reassign.json_data(), {
             'admission_selection_id': '000',
             'application_number': '8',
             'system_key': '1',
             'assigned_cohort': 32,
-            'assigned_major': "CSE"})
+            'assigned_major': "CSE",
+            'campus': "Seattle"})
 
 
 class AssignmentImportTest(TestCase):
