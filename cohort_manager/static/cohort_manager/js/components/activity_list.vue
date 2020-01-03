@@ -31,6 +31,9 @@
           :per-page="perPage"
           :filter="filter"
         >
+          <template v-slot:cell(activity_date)="row">
+            {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
+          </template>
           <template v-slot:cell(assigned_msg)="row">
             {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-if="row.item.major">{{ row.item.major }}</span>
           </template>

@@ -138,6 +138,8 @@ class AssignmentImport(models.Model):
 
 
 class Assignment(models.Model):
+    CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
+
     assignment_import = models.ForeignKey(AssignmentImport,
                                           on_delete=models.PROTECT)
     system_key = models.CharField(
@@ -147,6 +149,8 @@ class Assignment(models.Model):
     admission_selection_id = models.CharField(max_length=30)
     assigned_cohort = models.IntegerField(null=True)
     assigned_major = models.CharField(max_length=30, null=True)
+    campus = models.PositiveSmallIntegerField(
+        default=1, choices=CAMPUS_CHOICES)
 
     def validate(self):
         self.full_clean()
@@ -157,7 +161,8 @@ class Assignment(models.Model):
             'application_number': self.application_number,
             'admission_selection_id': self.admission_selection_id,
             'assigned_cohort': self.assigned_cohort,
-            'assigned_major': self.assigned_major
+            'assigned_major': self.assigned_major,
+            'campus': self.get_campus_display()
         }
 
     @staticmethod
@@ -170,6 +175,7 @@ class Assignment(models.Model):
             assign.admission_selection_id = application.adsel_id
             assign.assigned_major = application.assigned_major
             assign.assigned_cohort = application.assigned_cohort
+            assign.campus = application.campus
             assign.save()
 
     @staticmethod

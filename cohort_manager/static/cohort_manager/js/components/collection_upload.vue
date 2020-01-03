@@ -18,7 +18,7 @@
             <b-form-invalid-feedback true>
               Please select an option.
             </b-form-invalid-feedback>
-            <b-form-datalist id="input-list" :options="collectionOptions" />
+            <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
         </fieldset>
         <div role="region" aria-live="polite">
@@ -50,14 +50,14 @@
               />
             </div>
             <upload-review v-else
-                          :upload-response="upload_response"
-                          :collection-type="collection_type"
-                          :upload-type="manual_upload ? 'list' : 'file'"
-                          :collection-options="collectionOptions"
-                          :collection-id="collection_id"
-                          @upload_reset="handleReset"
-                          @is_reassign="handle_reassign"
-                          @is_reassign_protected="handle_reassign_protected"
+                           :upload-response="upload_response"
+                           :collection-type="collection_type"
+                           :upload-type="manual_upload ? 'list' : 'file'"
+                           :collection-options="collectionOptions"
+                           :collection-id="collection_id"
+                           @upload_reset="handleReset"
+                           @is_reassign="handle_reassign"
+                           @is_reassign_protected="handle_reassign_protected"
             />
             <collection-upload-dupe-modal
               v-if="has_dupes"
@@ -162,6 +162,15 @@
         } else {
           return this.upload_toggle_label_file;
         }
+      },
+      computedCollectionOptions: function() {
+        var list = [];
+        $.each(this.collectionOptions, function (idx, option) {
+          var new_title_opt = {...option};
+          new_title_opt['text'] = new_title_opt['value'] + ": " + new_title_opt['text'];
+          list.push(new_title_opt);
+        });
+        return list;
       }
     },
     watch: {
