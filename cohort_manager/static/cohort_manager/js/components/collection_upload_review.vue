@@ -42,7 +42,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div id="reassign_collection" class="aat-reassign-checkbox">
+      <div id="reassign_collection" class="aat-reassign-checkbox" v-if="collectionType === 'Cohort'">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
@@ -53,11 +53,11 @@
           Reassign applications that already have a {{ collectionType }}.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
-          <b-form-text v-if="collectionType === 'Cohort'">
+          <b-form-text>
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
-        <span v-else-if="has_protected && collectionType === 'Cohort'" id="reassign_collection_protected">
+        <span v-else-if="has_protected" id="reassign_collection_protected">
           <b-form-checkbox
             id="app_unprotect_checkbox"
             v-model="is_reassign_protected"
@@ -68,6 +68,11 @@
             Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
           </b-form-checkbox>
         </span>
+      </div>
+      <div v-else>
+        <b-form-text>
+          Note: These applications will be reassigned to new major.
+        </b-form-text>
       </div>
     </div>
   </div>

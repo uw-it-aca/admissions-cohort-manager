@@ -2,9 +2,6 @@
   <div v-if="messageString" id="alert_container" class="aat-alert">
     <b-alert variant="primary" show>
       Assignment submitted for {{ messageString }}.
-      <div class="aat-note">
-        This may take up to 10 minutes before the changes are visible everywhere.
-      </div>
     </b-alert>
   </div>
 </template>
