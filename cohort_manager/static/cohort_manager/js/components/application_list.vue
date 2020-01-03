@@ -132,7 +132,7 @@
             sortable: false,
           },
           {
-            key: 'Campus',
+            key: 'campus',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
