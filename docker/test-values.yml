@@ -35,7 +35,7 @@ environmentVariables:
   - name: ADSEL_ENV
     value: EVAL
 image:
-  repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
+  repository: registry.hub.docker.com/acait/aat 
   tag: IMAGE_TAG
 environmentVariables:
   - name: ENV
