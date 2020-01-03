@@ -50,14 +50,14 @@
               />
             </div>
             <upload-review v-else
-                          :upload-response="upload_response"
-                          :collection-type="collection_type"
-                          :upload-type="manual_upload ? 'list' : 'file'"
-                          :collection-options="collectionOptions"
-                          :collection-id="collection_id"
-                          @upload_reset="handleReset"
-                          @is_reassign="handle_reassign"
-                          @is_reassign_protected="handle_reassign_protected"
+                           :upload-response="upload_response"
+                           :collection-type="collection_type"
+                           :upload-type="manual_upload ? 'list' : 'file'"
+                           :collection-options="collectionOptions"
+                           :collection-id="collection_id"
+                           @upload_reset="handleReset"
+                           @is_reassign="handle_reassign"
+                           @is_reassign_protected="handle_reassign_protected"
             />
             <collection-upload-dupe-modal
               v-if="has_dupes"

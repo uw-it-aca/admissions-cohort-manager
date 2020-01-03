@@ -150,11 +150,23 @@
         $.each(this.upload_response.assignments, function(idx, assignment){
           if(vue.collectionType === "Major"){
             if(assignment.assigned_major !== null){
+              $.each(vue.collectionOptions, function (idx, collection) {
+                if(collection.value === assignment.assigned_major){
+                  assignment.description = collection.text;
+                }
+                assignment.protected = false;
+              });
               vue.already_assigned.push(assignment);
             }
           } else if(vue.collectionType === "Cohort") {
             if(assignment.assigned_cohort !== null && String(assignment.assigned_cohort) !== vue.collectionId){
               vue.already_assigned.push(assignment);
+              $.each(vue.collectionOptions, function (idx, collection) {
+                if(collection.value === assignment.assigned_cohort){
+                  assignment.description = collection.description;
+                  assignment.protected = collection.protected;
+                }
+              });
               if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
                 vue.already_assigned_protected.push(assignment);
               }
