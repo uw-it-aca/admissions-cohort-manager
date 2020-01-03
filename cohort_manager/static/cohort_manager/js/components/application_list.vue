@@ -184,19 +184,13 @@
             sortable: false,
           },
           {
-            key: 'Class',
+            key: 'assigned_cohort',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
           },
           {
-            key: 'cohort',
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: false,
-          },
-          {
-            key: 'major',
+            key: 'assigned_major',
             class: "aat-data-cell aat-data-nowrap",
             thClass: "aat-table-header",
             sortable: false,
