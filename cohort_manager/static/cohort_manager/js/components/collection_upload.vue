@@ -6,7 +6,7 @@
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label for="input-with-list">Assign applications to {{ collectionType }} </label>
+          <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
           <div class="aat-select-inline">
             <b-form-input id="input-with-list"
                           v-model="collection_id"
