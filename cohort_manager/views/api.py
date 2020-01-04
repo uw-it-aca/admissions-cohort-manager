@@ -117,7 +117,10 @@ class ModifyUploadView(RESTDispatch):
             upload.comment = comment
             upload.save()
             if is_submitted:
-                submit_collection(upload)
+                try:
+                    submit_collection(upload)
+                except DataFailureException:
+                    return self.error_response(400)
             return self.json_response(status=200, content=upload.json_data())
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
