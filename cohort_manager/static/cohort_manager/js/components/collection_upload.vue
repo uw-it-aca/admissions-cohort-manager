@@ -83,6 +83,7 @@
         <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
           Submit
         </b-button>
+        <p>{{ submit_msg }}</p>
       </div>
     </form>
   </div>
@@ -145,7 +146,8 @@
         is_reassign_protected: false,
         invalid_manual: false,
         invalid_csv: false,
-        submitted: false
+        submitted: false,
+        submit_msg: ""
       };
     },
     computed: {
@@ -280,17 +282,25 @@
               'X-CSRFToken': this.csrfToken
             }
           }
-        ).then(function() {
-          if(vue.collection_type == "Cohort"){
+        ).then(function(response) {
+          if(response.status === 200) {
+            if(vue.collection_type == "Cohort"){
 
-            vue.$emit('showMessage', "Cohort " + vue.collection_id);
-            vue.$router.push({path: '/cohort_list'});
-          } else if(vue.collection_type == "Major"){
-            vue.$emit('showMessage', vue.collection_id);
-            vue.$router.push({path: '/major_list'});
+              vue.$emit('showMessage', "Cohort " + vue.collection_id);
+              vue.$router.push({path: '/cohort_list'});
+            } else if(vue.collection_type == "Major"){
+              vue.$emit('showMessage', vue.collection_id);
+              vue.$router.push({path: '/major_list'});
+            }
+          }else if(response.status === 202){
+            vue.submit_msg = "Your submission is still processing, " +
+              "check the Activity log in up to 10 minutes to ensure it succeeded."
           }
 
-
+        }).catch(function (error) {
+          if (error.response) {
+            vue.submit_msg = "Error making submission";
+          }
         });
       },
 

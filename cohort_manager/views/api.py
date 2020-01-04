@@ -119,8 +119,12 @@ class ModifyUploadView(RESTDispatch):
             if is_submitted:
                 try:
                     submit_collection(upload)
-                except DataFailureException:
-                    return self.error_response(400)
+                except DataFailureException as ex:
+                    if "timeout" in str(ex):
+                        return self.json_response(status=202,
+                                              content=upload.json_data())
+                    else:
+                        return self.error_response(404, message=ex)
             return self.json_response(status=200, content=upload.json_data())
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
