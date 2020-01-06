@@ -43,7 +43,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div v-else>{{already_assigned_protected.length}} are already assigned.</div>
+      <div v-else>{{already_assigned_protected.length}} are already assigned to protected.</div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
