@@ -42,7 +42,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div id="reassign_collection" class="aat-reassign-checkbox" v-if="collectionType === 'Cohort'">
+      <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"

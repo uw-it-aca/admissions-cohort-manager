@@ -294,7 +294,7 @@
             }
           }else if(response.status === 202){
             vue.submit_msg = "Your submission is still processing, " +
-              "check the Activity log in up to 10 minutes to ensure it succeeded."
+              "check the Activity log in up to 10 minutes to ensure it succeeded.";
           }
 
         }).catch(function (error) {
