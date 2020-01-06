@@ -18,7 +18,7 @@
       </span>
     </p>
     <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-accordian">
-      <b-card no-body class="mb-1">
+      <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
             Already assigned a {{ collectionType }} ({{ already_assigned.length }})
@@ -30,7 +30,8 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card v-if="has_protected" no-body class="mb-1">
+      <div v-else>{{already_assigned.length}} are already assigned.</div>
+      <b-card v-if="has_protected && already_assigned_protected.length < 100" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
             Already assigned a protected Cohort ({{ already_assigned_protected.length }})
@@ -42,6 +43,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+      <div v-else>{{already_assigned_protected.length}} are already assigned.</div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
