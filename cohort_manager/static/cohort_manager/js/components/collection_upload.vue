@@ -80,7 +80,7 @@
           <label for="assignment_comment">Enter comment for this assignment</label>
           <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
         </fieldset>
-        <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
+        <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
       </div>
@@ -171,6 +171,9 @@
           list.push(new_title_opt);
         });
         return list;
+      },
+      is_disabled_submit_button: function() {
+        return this.submitted === false && this.has_uploaded === false;
       }
     },
     watch: {
