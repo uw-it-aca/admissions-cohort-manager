@@ -153,8 +153,8 @@ class CollectionDetails(RESTDispatch):
                        'comment': comment,
                        'created_by': user}
         if collection_type == "cohort":
-            import_args['cohort'] = None
-        if collection_type == "cohort":
+            import_args['cohort'] = 0
+        if collection_type == "major":
             import_args['major'] = None
 
         assignment_import = AssignmentImport.objects.create(**import_args)

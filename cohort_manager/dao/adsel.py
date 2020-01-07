@@ -196,13 +196,14 @@ def reset_collection(assignment_import, collection_type):
         assignment_import.is_file_upload else "manual"
     assignment.comments = assignment_import.comment
     assignment.user = assignment_import.created_by
+    assignment.campus = assignment_import.campus
+    assignment.quarter = assignment_import.quarter
 
     applicants_to_assign = []
     for imp_assignment in assignment_import.assignment_set.all():
         app = imp_assignment.get_application()
         applicants_to_assign.append(app)
         assignment.quarter = assignment_import.quarter
-        assignment.campus = assignment_import.campus
 
     assignment.applicants = applicants_to_assign
 
