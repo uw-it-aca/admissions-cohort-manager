@@ -48,6 +48,7 @@
                 :is="uploadComponent"
                 @fileselected="selectedFile"
               />
+              <b-spinner v-if="is_uploading" label="Submitting your assignments"></b-spinner>
             </div>
             <upload-review v-else
                            :upload-response="upload_response"
@@ -83,6 +84,7 @@
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
+        <b-spinner v-if="is_submitting" label="Submitting your assignments"></b-spinner>
       </div>
     </form>
   </div>
@@ -145,7 +147,9 @@
         is_reassign_protected: false,
         invalid_manual: false,
         invalid_csv: false,
-        submitted: false
+        submitted: false,
+        is_uploading: false,
+        is_submitting: false,
       };
     },
     computed: {
@@ -209,6 +213,7 @@
         // Reset error modals
         this.invalid_csv = false;
         this.invalid_manual = false;
+        this.is_uploading = true;
 
         if (this.file !== null){
           this.manual_upload = false;
@@ -237,6 +242,7 @@
             }
           }
         ).then(response => {
+          vue.is_uploading = false;
           vue.upload_response = response.data;
           var dupes = vue.get_duplicates(this.upload_response.assignments);
           if(dupes.length > 1){
@@ -269,6 +275,7 @@
                        'to_delete': this.to_remove,
                        'comment': this.comment};
         this.submitted = true;
+        this.is_submitting = true;
         if (this.collectionType == "Cohort") {
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -285,15 +292,13 @@
           }
         ).then(function() {
           if(vue.collection_type == "Cohort"){
-
             vue.$emit('showMessage', "Cohort " + vue.collection_id);
             vue.$router.push({path: '/cohort_list'});
           } else if(vue.collection_type == "Major"){
             vue.$emit('showMessage', vue.collection_id);
             vue.$router.push({path: '/major_list'});
           }
-
-
+          vue.is_submitting = false;
         });
       },
 
