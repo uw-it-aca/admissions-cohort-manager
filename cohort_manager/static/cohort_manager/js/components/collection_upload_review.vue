@@ -21,7 +21,7 @@
       <b-card no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
-            Already assigned a {{ collectionType }} ({{ already_assigned.length }})
+            Already assigned a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
@@ -33,7 +33,7 @@
       <b-card v-if="has_protected" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1" role="tab">
           <b-button v-b-toggle.accordion-protected block variant="info" href="#">
-            Already assigned a protected Cohort ({{ already_assigned_protected.length }})
+            Already assigned a protected cohort ({{ already_assigned_protected.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
@@ -42,7 +42,7 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div id="reassign_collection" class="aat-reassign-checkbox" v-if="collectionType === 'Cohort'">
+      <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
@@ -50,7 +50,7 @@
           value=""
           class="aat-checkbox"
         >
-          Reassign applications that already have a {{ collectionType }}.
+          Reassign applications that already have a cohort.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
           <b-form-text>
