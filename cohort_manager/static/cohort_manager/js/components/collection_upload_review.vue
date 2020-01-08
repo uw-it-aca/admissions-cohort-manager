@@ -17,9 +17,9 @@
         <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
       </span>
     </p>
-    <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-collapse">
+    <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
       <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
-        <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
+        <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-assigned block variant="info" href="#">
             Already assigned a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
           </b-button>
@@ -34,7 +34,7 @@
         {{ already_assigned.length }} are already assigned.
       </div>
       <b-card v-if="has_protected && already_assigned_protected.length < 100" no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-card-header header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-protected block variant="info" href="#">
             Already assigned a protected cohort ({{ already_assigned_protected.length }})
           </b-button>
