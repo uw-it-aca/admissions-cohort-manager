@@ -70,7 +70,7 @@
             Invalid systems keys.
           </b-alert>
           <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
-            CSV is invalid.
+            CSV is invalid. {{ error_message }}
           </b-alert>
         </fieldset>
         <fieldset class="aat-form-section">
@@ -145,7 +145,8 @@
         is_reassign_protected: false,
         invalid_manual: false,
         invalid_csv: false,
-        submitted: false
+        submitted: false,
+        error_message: ""
       };
     },
     computed: {
@@ -242,9 +243,10 @@
           } else{
             vue.has_uploaded = true;
           }
-        }).catch(function () {
+        }).catch(function (err_resp) {
           if(vue.file !== null){
             vue.invalid_csv = true;
+            vue.error_message = err_resp.response.data.error;
             vue.handleReset();
           }else if(vue.syskey_list!==null){
             vue.invalid_manual = true;
