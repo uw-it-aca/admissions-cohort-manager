@@ -17,26 +17,26 @@
         <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
       </span>
     </p>
-    <div v-if="reassign_any" id="app_reassign_accordion" role="tablist" class="aat-accordian">
+    <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
       <b-card no-body class="mb-1">
-        <b-card-header v-if="has_assigned" header-tag="header" class="p-1" role="tab">
-          <b-button v-b-toggle.accordion-assigned block variant="info" href="#">
+        <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
+          <b-button v-b-toggle.collapse-assigned block variant="info" href="#">
             Already assigned a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
           </b-button>
         </b-card-header>
-        <b-collapse id="accordion-assigned" accordion="my-accordion" role="tabpanel">
+        <b-collapse id="collapse-assigned">
           <b-card-body>
             <b-card-text><applicationlist application-return="Assigned" :collection-type="collectionType" :applications="already_assigned" /></b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>
       <b-card v-if="has_protected" no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button v-b-toggle.accordion-protected block variant="info" href="#">
+        <b-card-header header-tag="header" class="p-1">
+          <b-button v-b-toggle.collapse-protected block variant="info" href="#">
             Already assigned a protected cohort ({{ already_assigned_protected.length }})
           </b-button>
         </b-card-header>
-        <b-collapse id="accordion-protected" accordion="my-accordion" role="tabpanel">
+        <b-collapse id="collapse-protected">
           <b-card-body>
             <b-card-text><applicationlist application-return="Protected" :collection-type="collectionType" :applications="already_assigned_protected" /></b-card-text>
           </b-card-body>
@@ -241,7 +241,7 @@
   }
 
   // upload issues lists
-  .aat-accordian {
+  .aat-collapse {
     .btn-block {
       text-align: left;
     }

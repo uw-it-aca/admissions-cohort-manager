@@ -574,7 +574,7 @@
     margin: 2rem 1rem 0;
   }
 
-  // Accordian
+  // Collapse
 
   .card-header {
     background: $light-grey-bkgnd;
