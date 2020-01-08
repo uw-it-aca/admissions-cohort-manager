@@ -60,6 +60,9 @@
     <template>
       <div>
         <b-modal
+          modal-class="aat-modal-box" 
+          content-class="aat-modal" 
+          hide-backdrop
           :id="resetModal.id"
           :title="resetModal.title"
           ok-only
@@ -69,7 +72,7 @@
           @ok="submit_reset"
         >
           <form @submit.prevent="handleUpload">
-            <div class="aat-modal-container">
+            <div>
               <fieldset class="aat-form-section">
                 <legend class="aat-sub-header">
                   Confirm Reset

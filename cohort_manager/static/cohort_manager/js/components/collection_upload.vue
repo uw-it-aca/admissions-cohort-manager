@@ -85,6 +85,9 @@
           Submit
         </b-button>
         <b-modal
+          modal-class="aat-modal-box" 
+          content-class="aat-modal" 
+          hide-backdrop
           ref="submitting_modal"
           hide-footer="true"
           hide-header="true"
@@ -92,9 +95,17 @@
           no-close-on-backdrop="true"
           no-close-on-esc="true"
         >
-          Processing, please wait
+          <div class="text-center text-info aat-processing-text">
+            <b-spinner class="align-middle" />
+            <strong>Processing...</strong>
+          </div>
+          <p class="text-center aat-processing-message">Please wait while your submission is processed.</p>
         </b-modal>
-        <b-modal ref="submitting_timeout_modal"
+        <b-modal 
+                 modal-class="aat-modal-box" 
+                 content-class="aat-modal" 
+                 hide-backdrop
+                 ref="submitting_timeout_modal"
                  hide-header="true"
                  ok-only="true"
                  ok-title="Close"
@@ -102,8 +113,11 @@
                  no-close-on-esc="true"
                  @ok="navigate_after_submit"
         >
-          <h1>The AdSel Database is not responding</h1>
-          <p>Running business logic on 30k rows takes time, what did you expect?  Come back later!</p>
+          <h1 class="aat-sub-header">The AdSel Database is not responding</h1>
+          <div class="aat-processing-message">
+            <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
+            <p>Please check the Activity Log in a few minutes to ensure your submission was completed.</p>
+          </div>
         </b-modal>
         <p>{{ submit_msg }}</p>
       </div>

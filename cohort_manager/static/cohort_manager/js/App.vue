@@ -570,8 +570,23 @@
 
   // Modals
 
-  .aat-modal-container {
-    margin: 2rem 1rem 0;
+  .modal-body,
+  .aat-processing-message {
+    margin: 2rem 1rem;
+  }
+
+  .aat-modal {
+    border: 4px solid $uw-purple;
+    box-shadow: 2px 3px 5px #777;
+
+    .modal-title {
+      color: $uw-purple;
+    }
+  }
+
+  .aat-modal-box {
+    background-color: rgba(255, 255, 255, 0.5);
+
   }
 
   // Collapse
@@ -602,7 +617,8 @@
   // Spinner
 
   .spinner-border,
-  .b-table-busy-slot .text-info {
+  .b-table-busy-slot .text-info,
+  .aat-processing-text {
     color: $uw-purple !important;
   }
 
