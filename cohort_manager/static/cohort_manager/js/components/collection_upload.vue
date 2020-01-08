@@ -116,7 +116,7 @@
           <h1 class="aat-sub-header">The AdSel Database is not responding</h1>
           <div class="aat-processing-message">
             <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
-            <p>Please check the Activity Log in a few minutes to ensure your submission was completed.</p>
+            <p>Please check the <b-link to="/log/">Activity Log</b-link> in a few minutes to ensure your submission was completed.</p>
           </div>
         </b-modal>
         <p>{{ submit_msg }}</p>
