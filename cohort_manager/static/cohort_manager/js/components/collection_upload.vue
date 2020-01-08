@@ -434,7 +434,19 @@
 
   // form messaging
   .aat-status-feedback {
+    margin-bottom: 0;
     padding-top: 0.5rem;
+  }
+
+  .aat-application-count {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .aat-assigned-count {
+    margin-left: 0.5rem;
   }
 
   .alert-danger {

@@ -12,7 +12,7 @@
       </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      {{ upload_count }} applications found.
+      <span class="aat-application-count">{{ upload_count }} applications found.</span>
       <span v-if="uploadType === 'list'">
         <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
       </span>
@@ -30,8 +30,8 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div v-else>
-        {{ already_assigned.length }} are already assigned.
+      <div v-else-if="already_assigned.length > 0" class="aat-assigned-count">
+        {{ already_assigned.length }} are already assigned to a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span>.
       </div>
       <b-card v-if="has_protected && already_assigned_protected.length < 100" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1">
@@ -45,8 +45,8 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <div v-else>
-        {{ already_assigned_protected.length }} are already assigned to protected.
+      <div v-else-if="already_assigned_protected.length > 0" class="aat-assigned-count">
+        {{ already_assigned_protected.length }} are already assigned to protected cohorts.
       </div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
@@ -76,7 +76,7 @@
         </span>
       </div>
       <div v-else>
-        <b-form-text>
+        <b-form-text class="aat-assigned-count">
           Note: These applications will be reassigned to new major.
         </b-form-text>
       </div>
@@ -268,6 +268,10 @@
 
   .aat-reassign-checkbox {
     margin-left: 0.5rem;
+
+    .aat-checkbox {
+      margin-top: 1rem;
+    }
   }
 
   .aat-reset-link {
