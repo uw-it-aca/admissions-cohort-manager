@@ -599,4 +599,11 @@
     }
   }
 
+  // Spinner
+
+  .spinner-border,
+  .b-table-busy-slot .text-info {
+    color: $uw-purple !important;
+  }
+
 </style>
