@@ -48,7 +48,7 @@
                 :is="uploadComponent"
                 @fileselected="selectedFile"
               />
-              <b-spinner v-if="is_uploading" label="Submitting your assignments"></b-spinner>
+              <b-spinner v-if="is_uploading" label="Submitting your assignments" />
             </div>
             <upload-review v-else
                            :upload-response="upload_response"
@@ -84,7 +84,27 @@
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
-        <b-spinner v-if="is_submitting" label="Submitting your assignments"></b-spinner>
+        <b-modal
+          ref="submitting_modal"
+          hide-footer="true"
+          hide-header="true"
+          hide-header-close="true"
+          no-close-on-backdrop="true"
+          no-close-on-esc="true"
+        >
+          Processing, please wait
+        </b-modal>
+        <b-modal ref="submitting_timeout_modal"
+                 hide-header="true"
+                 ok-only="true"
+                 ok-title="Close"
+                 no-close-on-backdrop="true"
+                 no-close-on-esc="true"
+                 @ok="navigate_after_submit"
+        >
+          <h1>The AdSel Database is not responding</h1>
+          <p>Running business logic on 30k rows takes time, what did you expect?  Come back later!</p>
+        </b-modal>
         <p>{{ submit_msg }}</p>
       </div>
     </form>
@@ -278,6 +298,7 @@
                        'comment': this.comment};
         this.submitted = true;
         this.is_submitting = true;
+        this.$refs['submitting_modal'].show();
         if (this.collectionType == "Cohort") {
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -293,18 +314,11 @@
             }
           }
         ).then(function(response) {
+          vue.$refs['submitting_modal'].hide();
           if(response.status === 200) {
-            if(vue.collection_type == "Cohort"){
-
-              vue.$emit('showMessage', "Cohort " + vue.collection_id);
-              vue.$router.push({path: '/cohort_list'});
-            } else if(vue.collection_type == "Major"){
-              vue.$emit('showMessage', vue.collection_id);
-              vue.$router.push({path: '/major_list'});
-            }
+            vue.navigate_after_submit();
           }else if(response.status === 202){
-            vue.submit_msg = "Your submission is still processing, " +
-              "check the Activity log in up to 10 minutes to ensure it succeeded.";
+            vue.$refs['submitting_timeout_modal'].show();
           }
           vue.is_submitting = false;
 
@@ -313,6 +327,17 @@
             vue.submit_msg = "Error making submission";
           }
         });
+      },
+
+      navigate_after_submit() {
+        if(this.collection_type == "Cohort"){
+
+          this.$emit('showMessage', "Cohort " + this.collection_id);
+          this.$router.push({path: '/cohort_list'});
+        } else if(this.collection_type == "Major"){
+          this.$emit('showMessage', this.collection_id);
+          this.$router.push({path: '/major_list'});
+        }
       },
 
       remove_applications(list){
