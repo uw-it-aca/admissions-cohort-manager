@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from cohort_manager.utils import to_csv, dict_to_csv, get_headers
 from uw_adsel.models import Application
@@ -193,11 +194,21 @@ class Assignment(models.Model):
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
             cohort_data = row.get(AssignmentImport.FIELD_ASSIGNED_COHORT)
-            if len(cohort_data) > 0:
-                assignment.assigned_cohort = cohort_data
-            major_data = row.get(AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
-            if len(major_data) > 0:
-                assignment.assigned_major = major_data
+            try:
+                if len(cohort_data) > 0:
+                    assignment.assigned_cohort = cohort_data
+            except TypeError:
+                raise ValueError("%s column not present" %
+                                 AssignmentImport.FIELD_ASSIGNED_COHORT)
+            major_data = row.get(
+                AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
+            try:
+                if len(major_data) > 0:
+                    assignment.assigned_major = major_data
+            except TypeError:
+                raise ValueError("%s column not present" %
+                                 AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
+
             assignments.append(assignment)
         Assignment.objects.bulk_create(assignments)
 
