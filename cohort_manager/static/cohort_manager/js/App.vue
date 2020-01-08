@@ -574,7 +574,7 @@
     margin: 2rem 1rem 0;
   }
 
-  // Accordian
+  // Collapse
 
   .card-header {
     background: $light-grey-bkgnd;
@@ -597,6 +597,13 @@
     .btn-block.collapsed::after {
       transform: rotate(-45deg) !important;
     }
+  }
+
+  // Spinner
+
+  .spinner-border,
+  .b-table-busy-slot .text-info {
+    color: $uw-purple !important;
   }
 
 </style>
