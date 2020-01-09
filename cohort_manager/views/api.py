@@ -5,6 +5,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.utils import IntegrityError
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
@@ -68,7 +69,7 @@ class UploadView(RESTDispatch):
 
             if uploaded_file:
                 assignment_import.document = \
-                    uploaded_file.read().decode('utf-16-le')
+                    uploaded_file.read().decode('utf-16')
                 assignment_import.upload_filename = uploaded_file.name
                 Assignment.create_from_file(assignment_import)
 
@@ -86,7 +87,7 @@ class UploadView(RESTDispatch):
             content = assignment_import.json_data()
             return self.json_response(status=200, content=content)
 
-        except TypeError as ex:
+        except (ValueError, IntegrityError) as ex:
             return self.error_response(status=400, message=ex)
 
 
