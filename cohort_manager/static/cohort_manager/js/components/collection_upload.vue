@@ -38,17 +38,19 @@
           <div id="add_applications_widget">
             <div v-if="!has_uploaded">
               <div>
-                Enter applications by file (csv) or
-                <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
-                  {{ uploadToggleLabel }}
-                </b-button>
+                <b-spinner v-if="is_uploading" class="text-center" label="Submitting your assignments" />
+                <span v-else >
+                  Enter applications by file (csv) or
+                  <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
+                    {{ uploadToggleLabel }}
+                  </b-button>
+                </span>
                 <CollectionUploadListInput @listupdated="selectedList" />
               </div>
               <component
                 :is="uploadComponent"
                 @fileselected="selectedFile"
               />
-              <b-spinner v-if="is_uploading" label="Submitting your assignments" />
             </div>
             <upload-review v-else
                            :upload-response="upload_response"
