@@ -48,6 +48,7 @@
                 :is="uploadComponent"
                 @fileselected="selectedFile"
               />
+              <b-spinner v-if="is_uploading" label="Submitting your assignments" />
             </div>
             <upload-review v-else
                            :upload-response="upload_response"
@@ -80,9 +81,45 @@
           <label for="assignment_comment">Enter comment for this assignment</label>
           <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
         </fieldset>
-        <b-button type="submit" variant="primary" :disabled="submitted" @click="mark_for_submission">
+        <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
+        <b-modal
+          modal-class="aat-modal-box" 
+          content-class="aat-modal" 
+          hide-backdrop
+          ref="submitting_modal"
+          hide-footer="true"
+          hide-header="true"
+          hide-header-close="true"
+          no-close-on-backdrop="true"
+          no-close-on-esc="true"
+        >
+          <div class="text-center text-info aat-processing-text">
+            <b-spinner class="align-middle" />
+            <strong>Processing...</strong>
+          </div>
+          <p class="text-center aat-processing-message">Please wait while your submission is processed.</p>
+        </b-modal>
+        <b-modal 
+                 modal-class="aat-modal-box" 
+                 content-class="aat-modal" 
+                 hide-backdrop
+                 ref="submitting_timeout_modal"
+                 hide-header="true"
+                 ok-only="true"
+                 ok-title="Close"
+                 no-close-on-backdrop="true"
+                 no-close-on-esc="true"
+                 @ok="navigate_after_submit"
+        >
+          <h1 class="aat-sub-header">The AdSel Database is not responding</h1>
+          <div class="aat-processing-message">
+            <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
+            <p>Please check the <b-link to="/log/">Activity Log</b-link> in a few minutes to ensure your submission was completed.</p>
+          </div>
+        </b-modal>
+        <p>{{ submit_msg }}</p>
       </div>
     </form>
   </div>
@@ -172,6 +209,9 @@
           list.push(new_title_opt);
         });
         return list;
+      },
+      is_disabled_submit_button: function() {
+        return this.submitted === false && this.has_uploaded === false;
       }
     },
     watch: {
@@ -207,6 +247,7 @@
         // Reset error modals
         this.invalid_csv = false;
         this.invalid_manual = false;
+        this.is_uploading = true;
 
         if (this.file !== null){
           this.manual_upload = false;
@@ -235,6 +276,7 @@
             }
           }
         ).then(response => {
+          vue.is_uploading = false;
           vue.upload_response = response.data;
           var dupes = vue.get_duplicates(this.upload_response.assignments);
           if(dupes.length > 1){
@@ -268,6 +310,8 @@
                        'to_delete': this.to_remove,
                        'comment': this.comment};
         this.submitted = true;
+        this.is_submitting = true;
+        this.$refs['submitting_modal'].show();
         if (this.collectionType == "Cohort") {
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -282,18 +326,31 @@
               'X-CSRFToken': this.csrfToken
             }
           }
-        ).then(function() {
-          if(vue.collection_type == "Cohort"){
-
-            vue.$emit('showMessage', "Cohort " + vue.collection_id);
-            vue.$router.push({path: '/cohort_list'});
-          } else if(vue.collection_type == "Major"){
-            vue.$emit('showMessage', vue.collection_id);
-            vue.$router.push({path: '/major_list'});
+        ).then(function(response) {
+          vue.$refs['submitting_modal'].hide();
+          if(response.status === 200) {
+            vue.navigate_after_submit();
+          }else if(response.status === 202){
+            vue.$refs['submitting_timeout_modal'].show();
           }
+          vue.is_submitting = false;
 
-
+        }).catch(function (error) {
+          if (error.response) {
+            vue.submit_msg = "Error making submission";
+          }
         });
+      },
+
+      navigate_after_submit() {
+        if(this.collection_type == "Cohort"){
+
+          this.$emit('showMessage', "Cohort " + this.collection_id);
+          this.$router.push({path: '/cohort_list'});
+        } else if(this.collection_type == "Major"){
+          this.$emit('showMessage', this.collection_id);
+          this.$router.push({path: '/major_list'});
+        }
       },
 
       remove_applications(list){
@@ -390,7 +447,19 @@
 
   // form messaging
   .aat-status-feedback {
+    margin-bottom: 0;
     padding-top: 0.5rem;
+  }
+
+  .aat-application-count {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    padding-top: 1rem;
+  }
+
+  .aat-assigned-count {
+    margin-left: 0.5rem;
   }
 
   .alert-danger {

@@ -12,13 +12,13 @@
       </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      {{ upload_count }} applications found.
+      <span class="aat-application-count">{{ upload_count }} applications found.</span>
       <span v-if="uploadType === 'list'">
         <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
       </span>
     </p>
     <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
-      <b-card no-body class="mb-1">
+      <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-assigned block variant="info" href="#">
             Already assigned a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
@@ -30,7 +30,10 @@
           </b-card-body>
         </b-collapse>
       </b-card>
-      <b-card v-if="has_protected" no-body class="mb-1">
+      <div v-else-if="already_assigned.length > 0" class="aat-assigned-count">
+        {{ already_assigned.length }} are already assigned to a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span>.
+      </div>
+      <b-card v-if="has_protected && already_assigned_protected.length < 100" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-protected block variant="info" href="#">
             Already assigned a protected cohort ({{ already_assigned_protected.length }})
@@ -42,6 +45,9 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+      <div v-else-if="already_assigned_protected.length > 0" class="aat-assigned-count">
+        {{ already_assigned_protected.length }} are already assigned to protected cohorts.
+      </div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
@@ -70,7 +76,7 @@
         </span>
       </div>
       <div v-else>
-        <b-form-text>
+        <b-form-text class="aat-assigned-count">
           Note: These applications will be reassigned to new major.
         </b-form-text>
       </div>
@@ -262,6 +268,10 @@
 
   .aat-reassign-checkbox {
     margin-left: 0.5rem;
+
+    .aat-checkbox {
+      margin-top: 1rem;
+    }
   }
 
   .aat-reset-link {

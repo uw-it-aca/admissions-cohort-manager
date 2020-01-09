@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="add_list_modal" title="Add Applications" ok-title="Done" @ok="processList" @shown="focusElement">
+  <b-modal modal-class="aat-modal-box" content-class="aat-modal" hide-backdrop id="add_list_modal" title="Add Applications" ok-title="Done" @ok="processList" @shown="focusElement">
     <div>
       <p>Enter system keys, one per line or separated by commas.</p>
       <textarea ref="focusThis" v-model="syskey_input" required class="is-invalid syskey-input" @ />
