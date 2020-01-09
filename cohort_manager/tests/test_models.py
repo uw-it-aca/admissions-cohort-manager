@@ -10,9 +10,10 @@ import os
 class AssignmentTest(TestCase):
     def setUp(self):
         self.assignment = Assignment(
-                system_key='1',
-                application_number='8',
-                admission_selection_id='000')
+            system_key='1',
+            application_number='8',
+            admission_selection_id='000',
+            sdb_app_status=12)
         self.assignment_reassign = Assignment(
             system_key='1',
             application_number='8',
@@ -27,14 +28,16 @@ class AssignmentTest(TestCase):
             'system_key': '1',
             'assigned_cohort': None,
             'assigned_major': None,
-            'campus': "Seattle"})
+            'campus': "Seattle",
+            'sdb_app_status': 12})
         self.assertEqual(self.assignment_reassign.json_data(), {
             'admission_selection_id': '000',
             'application_number': '8',
             'system_key': '1',
             'assigned_cohort': 32,
             'assigned_major': "CSE",
-            'campus': "Seattle"})
+            'campus': "Seattle",
+            'sdb_app_status': None})
 
 
 class AssignmentImportTest(TestCase):

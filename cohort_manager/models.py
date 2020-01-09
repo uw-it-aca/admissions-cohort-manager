@@ -152,6 +152,7 @@ class Assignment(models.Model):
     assigned_major = models.CharField(max_length=30, null=True)
     campus = models.PositiveSmallIntegerField(
         default=1, choices=CAMPUS_CHOICES)
+    sdb_app_status = models.IntegerField(null=True)
 
     def validate(self):
         self.full_clean()
@@ -163,7 +164,8 @@ class Assignment(models.Model):
             'admission_selection_id': self.admission_selection_id,
             'assigned_cohort': self.assigned_cohort,
             'assigned_major': self.assigned_major,
-            'campus': self.get_campus_display()
+            'campus': self.get_campus_display(),
+            'sdb_app_status': self.sdb_app_status
         }
 
     @staticmethod
@@ -193,6 +195,8 @@ class Assignment(models.Model):
                 row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
+            assignment.sdb_app_status = \
+                row.get(AssignmentImport.FIELD_APPLICATION_STATUS)
             cohort_data = row.get(AssignmentImport.FIELD_ASSIGNED_COHORT)
             try:
                 if len(cohort_data) > 0:
