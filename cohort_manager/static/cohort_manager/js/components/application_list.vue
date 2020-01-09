@@ -162,6 +162,13 @@
             thClass: "aat-table-header",
             sortable: false,
           },
+          {
+            key: 'sdb_app_status',
+            label: "SDB Application Status",
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
         ],
 
         appDupeFields: [
@@ -192,6 +199,13 @@
           {
             key: 'assigned_major',
             class: "aat-data-cell aat-data-nowrap",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
+            key: 'sdb_app_status',
+            label: "SDB Application Status",
+            class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
           },
