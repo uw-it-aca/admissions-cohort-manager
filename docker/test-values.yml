@@ -10,6 +10,8 @@ ingress:
       host: aat-test.axdd.s.uw.edu
       paths:
         - "/"
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
 database:
   engine: postgres
   secretName: aat-db-test-credentials
@@ -35,7 +37,7 @@ environmentVariables:
   - name: ADSEL_ENV
     value: EVAL
 image:
-  repository: registry.hub.docker.com/acait/aat 
+  repository: registry.hub.docker.com/acait/aat
   tag: IMAGE_TAG
 environmentVariables:
   - name: ENV
