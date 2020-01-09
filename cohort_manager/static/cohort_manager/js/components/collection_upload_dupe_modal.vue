@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="dupe_list_modal" ref="dupe_modal" modal-class="aat-modal-box" content-class="aat-modal" hide-backdrop title="Duplicate Applications Found" ok-title="Done" @ok="removeDupes">
+  <b-modal modal-class="aat-modal-box" content-class="aat-modal" hide-backdrop id="dupe_list_modal" ref="dupe_modal" title="Duplicate Applications Found" ok-title="Done" @ok="removeDupes" no-close-on-backdrop="true" no-close-on-esc="true" >
     <div>
       <b-card-text>
         Select the applications that you want to assign:
