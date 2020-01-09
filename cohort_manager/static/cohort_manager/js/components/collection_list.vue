@@ -60,10 +60,10 @@
     <template>
       <div>
         <b-modal
+          :id="resetModal.id" 
           modal-class="aat-modal-box" 
-          content-class="aat-modal" 
+          content-class="aat-modal"
           hide-backdrop
-          :id="resetModal.id"
           :title="resetModal.title"
           ok-only
           :ok-title="'Reset ' + collectionType"

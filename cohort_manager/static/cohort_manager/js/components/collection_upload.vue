@@ -85,10 +85,10 @@
           Submit
         </b-button>
         <b-modal
+          ref="submitting_modal" 
           modal-class="aat-modal-box" 
-          content-class="aat-modal" 
+          content-class="aat-modal"
           hide-backdrop
-          ref="submitting_modal"
           hide-footer="true"
           hide-header="true"
           hide-header-close="true"
@@ -99,24 +99,32 @@
             <b-spinner class="align-middle" />
             <strong>Processing...</strong>
           </div>
-          <p class="text-center aat-processing-message">Please wait while your submission is processed.</p>
+          <p class="text-center aat-processing-message">
+            Please wait while your submission is processed.
+          </p>
         </b-modal>
         <b-modal 
-                 modal-class="aat-modal-box" 
-                 content-class="aat-modal" 
-                 hide-backdrop
-                 ref="submitting_timeout_modal"
-                 hide-header="true"
-                 ok-only="true"
-                 ok-title="Close"
-                 no-close-on-backdrop="true"
-                 no-close-on-esc="true"
-                 @ok="navigate_after_submit"
+          ref="submitting_timeout_modal" 
+          modal-class="aat-modal-box" 
+          content-class="aat-modal"
+          hide-backdrop
+          hide-header="true"
+          ok-only="true"
+          ok-title="Close"
+          no-close-on-backdrop="true"
+          no-close-on-esc="true"
+          @ok="navigate_after_submit"
         >
-          <h1 class="aat-sub-header">The AdSel Database is not responding</h1>
+          <h1 class="aat-sub-header">
+            The AdSel Database is not responding
+          </h1>
           <div class="aat-processing-message">
             <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
-            <p>Please check the <b-link to="/log/">Activity Log</b-link> in a few minutes to ensure your submission was completed.</p>
+            <p>
+              Please check the <b-link to="/log/">
+                Activity Log
+              </b-link> in a few minutes to ensure your submission was completed.
+            </p>
           </div>
         </b-modal>
         <p>{{ submit_msg }}</p>
