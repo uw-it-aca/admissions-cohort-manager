@@ -12,9 +12,10 @@
       </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      <span class="aat-application-count">{{ upload_count }} applications found.</span>
-      <span v-if="uploadType === 'list'">
-        <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+      <span class="aat-application-count">{{ upload_count }} applications found.
+        <span v-if="uploadType === 'list'">
+          <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+        </span>
       </span>
     </p>
     <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
@@ -275,6 +276,7 @@
   }
 
   .aat-reset-link {
+    font-weight: normal;
     margin-left: 0.5rem;
   }
 </style>
