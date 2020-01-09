@@ -183,6 +183,9 @@
         invalid_manual: false,
         invalid_csv: false,
         submitted: false,
+        is_uploading: false,
+        is_submitting: false,
+        submit_msg: "",
         error_message: ""
       };
     },
