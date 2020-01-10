@@ -119,7 +119,7 @@
       font-size: 0.85rem;
       line-height: 1.5;
       margin: 1.5rem 0 0;
-      max-width: 800px;
+      max-width: 650px;
       padding: 2rem;
     }
   }
