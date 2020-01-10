@@ -38,7 +38,7 @@
           <div id="add_applications_widget">
             <div v-if="!has_uploaded">
               <div>
-                <b-spinner v-if="is_uploading" class="text-center" label="Submitting your assignments" />
+                <b-spinner v-if="is_uploading && invalid_csv === false" class="text-center" label="Submitting your assignments" />
                 <span v-else >
                   Enter applications by file (csv) or
                   <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
