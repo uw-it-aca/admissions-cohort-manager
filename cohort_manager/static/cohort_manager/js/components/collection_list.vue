@@ -60,8 +60,8 @@
     <template>
       <div>
         <b-modal
-          :id="resetModal.id" 
-          modal-class="aat-modal-box" 
+          :id="resetModal.id"
+          modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
           :title="resetModal.title"
@@ -296,7 +296,12 @@
             },
             data: {comment: this.comment}
           },
-        );
+        ).then(response => {
+          this.$emit('showMessage', "Reset " + this.collectionType + " " + this.resetModal.itemId);
+        }).catch(function (err_resp) {
+          this.$emit('showMessage', "Error resetting " + this.collectionType + " " + this.resetModal.itemId);
+        });
+
       }
     }
   };
