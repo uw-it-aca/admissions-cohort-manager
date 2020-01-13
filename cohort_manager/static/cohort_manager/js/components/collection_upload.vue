@@ -91,11 +91,11 @@
           modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
-          hide-footer="true"
-          hide-header="true"
-          hide-header-close="true"
-          no-close-on-backdrop="true"
-          no-close-on-esc="true"
+          v-bind:hide-footer="true"
+          v-bind:hide-header="true"
+          v-bind:hide-header-close="true"
+          v-bind:no-close-on-backdrop="true"
+          v-bind:no-close-on-esc="true"
         >
           <div class="text-center text-info aat-processing-text">
             <b-spinner class="align-middle" />
@@ -110,11 +110,11 @@
           modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
-          hide-header="true"
-          ok-only="true"
+          v-bind:hide-header="true"
+          v-bind:ok-only="true"
           ok-title="Close"
-          no-close-on-backdrop="true"
-          no-close-on-esc="true"
+          v-bind:no-close-on-backdrop="true"
+          v-bind:no-close-on-esc="true"
           @ok="navigate_after_submit"
         >
           <h1 class="aat-sub-header">
