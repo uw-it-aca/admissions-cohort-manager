@@ -14,6 +14,7 @@ source bin/activate
 pip install pycodestyle coverage
 apt-get install -y nodejs npm
 npm install npm@latest
+hash -d npm
 npm install -g eslint stylelint
 npm install
 
