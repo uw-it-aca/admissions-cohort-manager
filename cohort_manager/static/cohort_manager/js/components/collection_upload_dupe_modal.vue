@@ -1,16 +1,16 @@
 <template>
   <b-modal
-    modal-class="aat-modal-box"
-    content-class="aat-modal"
-    hide-backdrop id="dupe_list_modal"
+    id="dupe_list_modal"
     ref="dupe_modal"
+    modal-class="aat-modal-box" content-class="aat-modal"
+    hide-backdrop
     title="Duplicate Applications Found"
     ok-title="Done"
-    @ok="removeDupes"
     no-close-on-backdrop="true"
     no-close-on-esc="true"
     hide-header-close="true"
     ok-only="true"
+    @ok="removeDupes"
   >
     <div>
       <b-card-text>

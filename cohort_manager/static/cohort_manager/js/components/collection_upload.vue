@@ -39,7 +39,7 @@
             <div v-if="!has_uploaded">
               <div>
                 <b-spinner v-if="is_uploading && invalid_csv === false" class="text-center" label="Submitting your assignments" />
-                <span v-else >
+                <span v-else>
                   Enter applications by file (csv) or
                   <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
                     {{ uploadToggleLabel }}
@@ -357,11 +357,10 @@
 
       navigate_after_submit() {
         if(this.collection_type == "Cohort"){
-
-          this.$emit('showMessage', "Cohort " + this.collection_id);
+          this.$emit('showMessage', "Assignment to Cohort " + this.collection_id + " submitted");
           this.$router.push({path: '/cohort_list'});
-        } else if(this.collection_type == "Major"){
-          this.$emit('showMessage', this.collection_id);
+        } else if(this.collection_typshowMessagee == "Major"){
+          this.$emit('', "Assignment to " + this.collection_id + " submitted");
           this.$router.push({path: '/major_list'});
         }
       },

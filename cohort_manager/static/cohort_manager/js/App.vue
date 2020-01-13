@@ -82,6 +82,7 @@
         <b-row>
           <messagearea
             :message-string="message"
+            :alert_type="alert_type"
           />
         </b-row>
         <b-row class="aat-adperiod-container">
@@ -135,7 +136,8 @@
         netid: '',
         message: '',
         navCount: 0,
-        cur_period: null
+        cur_period: null,
+        alert_type: null
       };
     },
     computed: {
@@ -166,8 +168,9 @@
       this.get_periods();
     },
     methods: {
-      show_message(msg) {
+      show_message(msg, type) {
         this.message = msg;
+        this.alert_type = type;
       },
       get_periods() {
         var vue = this;
