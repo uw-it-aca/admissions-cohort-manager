@@ -111,7 +111,8 @@ def get_collection_list_by_type(collection_type, quarter_id):
         majors = client.get_majors_by_qtr(quarter_id)
         response = []
         for major in majors:
-            response.append({'value': major.major_abbr,
+            response.append({'value': major.program_code,
+                             'abbr': major.major_abbr,
                              'text': major.display_name,
                              'division': major.division,
                              'college': major.college,
