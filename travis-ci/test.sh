@@ -13,8 +13,12 @@ source bin/activate
 # install test tooling
 pip install pycodestyle coverage
 apt-get install -y nodejs npm
+echo "pre update"
 npm install npm@latest
 hash -d npm
+npm -v
+echo "post update"
+
 npm install -g eslint stylelint
 npm install
 
