@@ -6,6 +6,7 @@
     <collectionlist
       collection-type="Major"
       :admissions_period="admissions_period"
+      v-on="$listeners"
     />
   </div>
 </template>
