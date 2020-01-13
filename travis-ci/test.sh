@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ev
+set -e
 trap 'exit 1' ERR
 
 # travis test script for django app
@@ -13,11 +13,8 @@ source bin/activate
 # install test tooling
 pip install pycodestyle coverage
 apt-get install -y nodejs npm
-echo "pre update"
 npm install -g npm@latest
 hash -r
-npm -v
-echo "post update"
 
 npm install -g eslint stylelint
 npm install
