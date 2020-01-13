@@ -14,8 +14,8 @@ source bin/activate
 pip install pycodestyle coverage
 apt-get install -y nodejs npm
 echo "pre update"
-npm install npm@latest
-hash -d npm
+npm install -g npm@latest
+hash -r
 npm -v
 echo "post update"
 
