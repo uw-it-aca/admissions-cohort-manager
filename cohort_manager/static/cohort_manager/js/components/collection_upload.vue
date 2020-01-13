@@ -38,7 +38,7 @@
           <div id="add_applications_widget">
             <div v-if="!has_uploaded">
               <div>
-                <b-spinner v-if="is_uploading" class="text-center" label="Submitting your assignments" />
+                <b-spinner v-if="is_uploading && invalid_csv === false" class="text-center" label="Submitting your assignments" />
                 <span v-else >
                   Enter applications by file (csv) or
                   <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
@@ -87,8 +87,8 @@
           Submit
         </b-button>
         <b-modal
-          ref="submitting_modal" 
-          modal-class="aat-modal-box" 
+          ref="submitting_modal"
+          modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
           hide-footer="true"
@@ -105,9 +105,9 @@
             Please wait while your submission is processed.
           </p>
         </b-modal>
-        <b-modal 
-          ref="submitting_timeout_modal" 
-          modal-class="aat-modal-box" 
+        <b-modal
+          ref="submitting_timeout_modal"
+          modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
           hide-header="true"

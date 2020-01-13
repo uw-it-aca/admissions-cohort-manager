@@ -347,7 +347,7 @@
 
   .aat-nav-group {
     flex-direction: column !important;
-    margin: 24px 0 0;
+    margin: 0.5rem 0 0;
     width: 100%;
 
     &.aat-assign-group {
@@ -358,7 +358,7 @@
   }
 
   .aat-link {
-    padding: 0.75rem 1rem !important;
+    padding: 0.5rem 1rem !important;
   }
 
   .aat-button-override {

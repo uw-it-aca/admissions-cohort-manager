@@ -60,8 +60,8 @@
     <template>
       <div>
         <b-modal
-          :id="resetModal.id" 
-          modal-class="aat-modal-box" 
+          :id="resetModal.id"
+          modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
           :title="resetModal.title"
