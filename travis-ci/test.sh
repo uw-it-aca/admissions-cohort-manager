@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ev
 trap 'exit 1' ERR
 
 # travis test script for django app
