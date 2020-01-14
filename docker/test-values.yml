@@ -12,7 +12,7 @@ ingress:
         - "/"
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx/client_max_body_size: "50m"
+    kubernetes.io/ingress.class: nginx
 database:
   engine: postgres
   secretName: aat-db-test-credentials
