@@ -279,6 +279,7 @@
         this.load_data();
       },
       submit_reset(){
+        var vue = this;
         // disable submit after click
         this.resetModal.ok_disabled = true;
         axios.delete(
@@ -296,7 +297,12 @@
             },
             data: {comment: this.comment}
           },
-        );
+        ).then(function() {
+          vue.$emit('showMessage', "Reset " + vue.collectionType + " " + vue.resetModal.itemId, "success");
+        }).catch(function () {
+          vue.$emit('showMessage', "Error resetting " + vue.collectionType + " " + vue.resetModal.itemId, "error");
+        });
+
       }
     }
   };

@@ -6,6 +6,7 @@
     <collectionlist
       collection-type="Cohort"
       :admissions_period="admissions_period"
+      v-on="$listeners"
     />
   </div>
 </template>
