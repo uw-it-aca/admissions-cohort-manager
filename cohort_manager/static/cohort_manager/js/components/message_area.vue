@@ -1,5 +1,15 @@
 <template>
-  <div id="alert_container" role="alert" class="aat-alert" />
+  <div v-if="messageString" id="alert_container" class="aat-alert">
+    <b-alert v-if="alertType === 'primary'" variant="primary" show>
+      {{ messageString }}
+    </b-alert>
+    <b-alert v-if="alertType === 'success'" variant="success" show>
+      {{ messageString }}
+    </b-alert>
+    <b-alert v-if="alertType === 'error'" variant="danger" show>
+      {{ messageString }}
+    </b-alert>
+  </div>
 </template>
 
 <script>
@@ -7,11 +17,41 @@
     name: "MessageArea",
     components: {
     },
+    props: {
+      messageString: {
+        type: String,
+        default: ""
+      },
+      alertType: {
+        type: String,
+        default: "primary"
+      },
+    },
+    data() {
+      return {
+        id: ''
+      };
+    },
     methods: {
     }
   };
 </script>
 
 <style lang="scss">
+  .aat-alert {
+    margin: 1rem auto;
+    max-width: 100%;
+  }
 
+  .aat-alert {
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .aat-note {
+      font-size: 0.8125rem;
+      padding-top: 0.25rem;
+    }
+  }
 </style>

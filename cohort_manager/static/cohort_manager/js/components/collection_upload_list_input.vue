@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <p>Enter System Keys, one per line or separated by commas.</p>
-    <textarea v-model="syskey_input" class="syskey-input" />
-  </div>
+  <b-modal id="add_list_modal" modal-class="aat-modal-box" content-class="aat-modal" hide-backdrop title="Add Applications" ok-title="Done" @ok="processList" @shown="focusElement">
+    <div>
+      <p>Enter system keys, one per line or separated by commas.</p>
+      <textarea ref="focusThis" v-model="syskey_input" required class="is-invalid syskey-input" @ />
+    </div>
+  </b-modal>
 </template>
 
 <script>
@@ -16,25 +18,23 @@
         syskey_list: [],
       };
     },
-    watch: {
-      syskey_input: function(input){
-        this.processList(input);
-        this.$emit('listupdated', this.syskey_list);
-      }
-    },
-    mounted() {
-    },
     methods: {
-      processList(text_contents) {
-        var parsed = text_contents.replace(new RegExp(',', 'g'), " ");
+      focusElement() {
+        this.$refs.focusThis.focus();
+      },
+      processList() {
+        var parsed = this.syskey_input.replace(new RegExp(',', 'g'), " ");
         this.syskey_list = parsed.match(/[^\s]+/g);
+        this.$emit('listupdated', this.syskey_list);
       }
     },
   };
 </script>
 
 <style lang="scss">
+
+  // form fields
   .syskey-input {
     width: 100%;
-  }   
+  }
 </style>

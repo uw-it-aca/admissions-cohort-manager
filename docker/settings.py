@@ -5,7 +5,10 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
+    'userservice'
 ]
+
+MIDDLEWARE += ['userservice.user.UserServiceMiddleware']
 
 WEBPACK_LOADER = {
     'DEFAULT': {
@@ -19,8 +22,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-
-# GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
 
 TEMPLATES = [
     {
@@ -38,7 +39,25 @@ TEMPLATES = [
     }
 ]
 
-ALLOWED_USERS_GROUP = 'u_test_group'
+if os.getenv('ENV') == 'prod':
+    ALLOWED_USERS_GROUP = 'u_acadev_adsel-prod'
+elif os.getenv('ENV') == 'eval':
+    ALLOWED_USERS_GROUP = 'u_acadev_adsel-eval'
+else:
+    ALLOWED_USERS_GROUP = 'u_test_group'
+
+if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
+    RESTCLIENTS_ADSEL_DAO_CLASS = 'Live'
+    RESTCLIENTS_ADSEL_TIMEOUT = 240
+    RESTCLIENTS_ADSEL_POOL_SIZE = 10
+    RESTCLIENTS_ADSEL_CERT_FILE = APPLICATION_CERT_PATH
+    RESTCLIENTS_ADSEL_KEY_FILE = APPLICATION_KEY_PATH
+
+if os.getenv('ENV') == 'prod':
+    RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
+
+if os.getenv('ENV') == 'eval':
+    RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True

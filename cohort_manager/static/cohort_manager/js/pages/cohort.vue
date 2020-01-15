@@ -1,31 +1,30 @@
 <template>
   <div>
-    <h1 class="aat-page-header">
-      Assign Cohort
+    <h1 id="aat_page_header" class="aat-page-header">
+      Assign to Cohort
     </h1>
-    <component :is="currentComponent" v-bind="currentProperties" @uploaded="onFileUpload" />
+    <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
 </template>
 
 <script>
   import Upload from "../components/collection_upload.vue";
-  import UploadReview from "../components/collection_upload_review.vue";
+  import { EventBus } from "../main";
+  const axios = require("axios");
 
   export default {
     name: "Cohort",
     components: {
       upload: Upload,
-      uploadReview: UploadReview,
     },
     data(){
       return {
         has_uploaded: false,
         upload_response: undefined,
         cohort_options: [
-          {value: '1', text: '1'},
-          {value: '2', text: '2'},
-          {value: '99', text: '99'},
-        ]
+        ],
+        current_period: null,
+        loading_collection: true,
       };
     },
     computed: {
@@ -43,12 +42,32 @@
           properties['uploadResponse'] = this.upload_response;
         }
         properties['collectionOptions'] = this.cohort_options;
+        properties['uploadResponse'] = this.upload_response;
+        properties['currentPeriod'] = this.current_period;
+        properties['loadingCollection'] = this.loading_collection;
         return properties;
       }
+    },
+    created (){
+      this.current_period = this.$attrs.cur_period;
+      this.get_cohorts_for_period();
+      EventBus.$on('period_change', period => {
+        this.current_period = period;
+        this.get_cohorts_for_period();
+      });
     },
     mounted() {
     },
     methods: {
+      get_cohorts_for_period(){
+        this.loading_collection = true;
+        axios.get(
+          '/api/collection/cohort/' + this.current_period + "/"
+        ).then(response => {
+          this.loading_collection = false;
+          this.cohort_options = response.data;
+        });
+      },
       onFileUpload(response){
         this.has_uploaded = true;
         this.upload_response = response.data;

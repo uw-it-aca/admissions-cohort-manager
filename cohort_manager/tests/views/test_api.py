@@ -1,5 +1,7 @@
-from django.test import TestCase
-from cohort_manager.views.api import RESTDispatch, UploadView
+import json
+from django.test import TestCase, Client
+from cohort_manager.views.api import RESTDispatch, UploadView, CollectionList
+from cohort_manager.tests.views import TestViewApi
 
 
 class RestDispatchTest(TestCase):
@@ -24,3 +26,25 @@ class RestDispatchTest(TestCase):
 
 class UploadViewTest(TestCase):
     pass
+
+
+class CollectionListTest(TestViewApi):
+    def test_get_major_list(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        response = self.get_response('collection_list',
+                                     kwargs={'collection_type': 'major',
+                                             'quarter': 0})
+        response_content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content), 4)
+        self.assertEqual(response_content[0]['value'], '0_BIOL_1')
+
+    def test_get_cohort_list(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        response = self.get_response('collection_list',
+                                     kwargs={'collection_type': 'cohort',
+                                             'quarter': 0})
+        response_content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response_content), 2)
+        self.assertEqual(response_content[0]['value'], 1)

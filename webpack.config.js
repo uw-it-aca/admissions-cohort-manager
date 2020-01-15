@@ -60,12 +60,19 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader"]
-            }
+            },
+            {
+                test: /\.(png|svg|jpg|gif|woff|woff2|eot|ttf|svg)$/,
+                use: ['file-loader']
+            },
         ]
     },
 
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js', '.vue'],
+        alias: {
+            'vue$': 'vue/dist/vue.runtime.esm.js'
+        }
     }
 
 }

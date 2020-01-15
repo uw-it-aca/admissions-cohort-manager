@@ -1,40 +1,57 @@
 <template>
-  <b-container class="aat-details-container aat-form-section" fluid>
-    <b-row>
-      <b-col cols="12" md="3" class="aat-group-info-primary">
-        <b-row class="aat-info-spacing">
-          <div class="aat-data-primary">
-            {{ collectionType }}
-          </div> <div class="aat-group-data aat-data-primary">
-            {{ collectionId }}
+  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
+    <div v-if="invalid_collection">
+      <p>You selected an invalid collection</p>
+    </div>
+    <div v-else>
+      <b-row>
+        <b-col class="aat-group-info-primary">
+          <b-row class="aat-info-spacing">
+            <b-col cols="3" class="aat-data-primary">
+              {{ collectionType }}
+              <div class="aat-group-data aat-data-primary">
+                #{{ collectionId }}
+              </div>
+            </b-col>
+            <b-col cols="9" class="aat-group-info-secondary">
+              Description
+              <div class="aat-group-data aat-data-baseline">
+                {{ description }}
+              </div>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row class="aat-group-info-secondary">
+        <b-col class="aat-info-spacing">
+          Residency <div class="aat-group-data">
+            {{ residency }}
           </div>
-        </b-row>
-        <b-row>
-          <div class="aat-data-primary">
-            Applications Assigned
-          </div> <div class="aat-group-data aat-data-primary">
+        </b-col>
+        <b-col class="aat-info-spacing">
+          Protected <div class="aat-group-data">
+            {{ protected_group }}
+          </div>
+        </b-col>
+        <b-col class="aat-info-spacing">
+          Admit Status<div class="aat-group-data">
+            {{ admit_decision }}
+          </div>
+        </b-col>
+        <b-col class="aat-info-spacing">
+          Assigned
+          <div class="aat-group-data">
             {{ applications_assigned }}
           </div>
-        </b-row>
-      </b-col>
-      <b-col cols="12" md="4" class="aat-group-info-secondary">
-        <b-row class="aat-info-spacing">
-          Residency <span class="aat-group-data">{{ residency }}</span>
-        </b-row>
-        <b-row class="aat-info-spacing">
-          Admit Decision<span class="aat-group-data">{{ admit_decision }}</span>
-        </b-row>
-        <b-row>Protected Group <span class="aat-group-data">{{ protected_group }}</span></b-row>
-      </b-col>
-      <b-col cols="12" md="5" class="aat-group-info-secondary">
-        <b-row>Decision<span class="aat-group-data">{{ description }}</span></b-row>
-      </b-col>
-    </b-row>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
 <script>
   const axios = require("axios");
+
   export default {
     name: "CollectionDetails",
     components: {},
@@ -46,6 +63,10 @@
       collectionId: {
         type: String,
         default: ""
+      },
+      currentPeriod: {
+        type: String,
+        default: null
       }
     },
     data(){
@@ -54,7 +75,9 @@
         applications_assigned: 0,
         description: "",
         protected_group: false,
-        residency: ""
+        residency: "",
+        invalid_collection: false,
+        hide_details: true
       };
     },
     watch: {
@@ -62,18 +85,23 @@
         this.get_collection();
       }
     },
-    mounted() {
-    },
     methods: {
       get_collection(){
+        var vue = this;
+        this.hide_details = true;
         axios.get(
-          '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.collectionId,
+          '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
           this.admit_decision = response.data.admit_decision;
           this.applications_assigned = response.data.applications_assigned;
           this.description = response.data.description;
           this.protected_group = response.data.protected_group;
           this.residency = response.data.residency;
+          this.invalid_collection = false;
+          this.hide_details = false;
+        }).catch(function () {
+          vue.invalid_collection = true;
+          this.hide_details = false;
         });
       }
     },
@@ -82,33 +110,36 @@
 
 <style lang="scss">
   @import '../../css/_variables.scss';
-  @import '../../css/custom.scss';
 
+  // general layout
   .aat-form-section {
     &.aat-details-container {
-      border: solid #777 1px;
-      color: #777;
+      border: solid $banner-border 1px;
+      color: $sub-header;
       font-size: 0.85rem;
       line-height: 1.5;
       margin: 1.5rem 0 0;
-      max-width: 800px;
+      max-width: 650px;
       padding: 2rem;
-    }
-
-    .row {
-      margin: 0;
     }
   }
 
-  .aat-group-info-primary {
-    .row {
-      flex-direction: column-reverse;
-    }
+  // labels and data
 
+  .aat-group-info-primary {
     .aat-group-data {
       font-size: 2rem;
 
     }
+  }
+
+  .aat-group-data {
+    color: $text-color;
+    font-weight: bold;
+  }
+
+  .aat-info-spacing {
+    padding-bottom: 1.5rem;
   }
 
   .aat-group-info-secondary {
@@ -130,20 +161,7 @@
     }
   }
 
-  .aat-group-data {
-    color: $text-color;
-    font-weight: bold;
-  }
-
-  .aat-data-primary {
-    margin: auto;
-    text-align: center;
-  }
-
-  .aat-info-spacing {
-    padding-bottom: 1.5rem;
-  }
-
+  // small screen overrides
   @media screen and (max-width: 767px) {
     .aat-group-info-primary {
       margin-bottom: 2rem;
