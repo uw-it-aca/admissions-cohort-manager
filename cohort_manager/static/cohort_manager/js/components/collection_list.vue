@@ -298,9 +298,9 @@
             data: {comment: this.comment}
           },
         ).then(function() {
-          vue.$emit('showMessage', "Reset " + vue.collectionType + " " + vue.resetModal.itemId, "success");
+          vue.$emit('showMessage', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
         }).catch(function () {
-          vue.$emit('showMessage', "Error resetting " + vue.collectionType + " " + vue.resetModal.itemId, "error");
+          vue.$emit('showMessage', "Resetting " + vue.collectionType + " " + vue.resetModal.itemId + "was unsuccessful.", "error");
         });
 
       }
