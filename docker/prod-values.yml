@@ -31,7 +31,7 @@ certs:
   mounted: true
   certPath: /certs/tls.crt
   keyPath: /certs/tls.key
-  secretName: aat-uwca
+  secretName: aat-prod-uwca
 environmentVariables:
   - name: AUTH
     value: SAML
