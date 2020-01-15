@@ -100,7 +100,7 @@ def get_activity_log():
                'submitted_msg': activity.total_submitted,
                'user': activity.user,
                'cohort': str(activity.cohort_number),
-               'major': activity.major_abbr}
+               'major': str(activity.major_abbr) }
         activity_json.append(act)
     return activity_json
 
