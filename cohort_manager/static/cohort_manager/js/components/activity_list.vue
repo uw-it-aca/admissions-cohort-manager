@@ -35,10 +35,10 @@
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
           </template>
           <template v-slot:cell(assigned_msg)="row">
-            {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-else>{{ row.item.major }}</span>
+            {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
           </template>
           <template v-slot:cell(submitted_msg)="row">
-            Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.cohort">Cohort {{ row.item.cohort }}</span><span v-else>{{ row.item.major }}</span>
+            Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
           </template>
           <template v-slot:table-busy>
             <div class="text-center text-info">
