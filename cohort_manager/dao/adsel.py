@@ -73,6 +73,7 @@ def get_applications_by_cohort_qtr(cohort_id, quarter):
 
 
 def get_applications_by_major_qtr(major_id, quarter):
+    matching_apps = []
     try:
         client = AdSel()
         applications = client.get_all_applications_by_qtr(quarter)
@@ -146,7 +147,10 @@ def get_application_by_qtr_syskey(qtr_id, syskey):
 def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
     app_list = []
     for syskey in syskeys:
-        app_list += get_application_by_qtr_syskey(qtr_id, syskey)
+        try:
+            app_list += get_application_by_qtr_syskey(qtr_id, syskey)
+        except DataFailureException:
+            pass
     return app_list
 
 
@@ -179,8 +183,12 @@ def submit_collection(assignment_import):
     client = AdSel()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
         client.assign_cohorts(assignment)
+        assignment_import.is_submitted = True
+        assignment_import.save()
     elif assignment_import.major and len(assignment_import.major) > 0:
         client.assign_majors(assignment)
+        assignment_import.is_submitted = True
+        assignment_import.save()
 
 
 def reset_collection(assignment_import, collection_type):

@@ -111,7 +111,6 @@ class ModifyUploadView(RESTDispatch):
                 upload.cohort = cohort_id
             if major_id:
                 upload.major = major_id
-            upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
             upload.remove_assignments(ids_to_delete)
