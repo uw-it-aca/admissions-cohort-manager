@@ -33,7 +33,6 @@
         show-empty
         small
         class="aat-data-table"
-        :busy="isBusy"
         :items="majors"
         :fields="majorFields"
       >

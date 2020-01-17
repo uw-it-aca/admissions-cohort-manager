@@ -6,10 +6,10 @@
     hide-backdrop
     title="Duplicate Applications Found"
     ok-title="Done"
-    v-bind:no-close-on-backdrop="true"
-    v-bind:no-close-on-esc="true"
-    v-bind:hide-header-close="true"
-    v-bind:ok-only="true"
+    :no-close-on-backdrop="true"
+    :no-close-on-esc="true"
+    :hide-header-close="true"
+    :ok-only="true"
     @ok="removeDupes"
   >
     <div>

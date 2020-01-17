@@ -91,11 +91,11 @@
           modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
-          v-bind:hide-footer="true"
-          v-bind:hide-header="true"
-          v-bind:hide-header-close="true"
-          v-bind:no-close-on-backdrop="true"
-          v-bind:no-close-on-esc="true"
+          :hide-footer="true"
+          :hide-header="true"
+          :hide-header-close="true"
+          :no-close-on-backdrop="true"
+          :no-close-on-esc="true"
         >
           <div class="text-center text-info aat-processing-text">
             <b-spinner class="align-middle" />
@@ -110,11 +110,11 @@
           modal-class="aat-modal-box"
           content-class="aat-modal"
           hide-backdrop
-          v-bind:hide-header="true"
-          v-bind:ok-only="true"
+          :hide-header="true"
+          :ok-only="true"
           ok-title="Close"
-          v-bind:no-close-on-backdrop="true"
-          v-bind:no-close-on-esc="true"
+          :no-close-on-backdrop="true"
+          :no-close-on-esc="true"
           @ok="navigate_after_submit"
         >
           <h1 class="aat-sub-header">
@@ -359,7 +359,7 @@
         if(this.collection_type == "Cohort"){
           this.$emit('showMessage', "Assignment to Cohort " + this.collection_id + " submitted");
           this.$router.push({path: '/cohort_list'});
-        } else if(this.collection_typshowMessagee == "Major"){
+        } else if(this.collection_type == "Major"){
           this.$emit('', "Assignment to " + this.collection_id + " submitted");
           this.$router.push({path: '/major_list'});
         }
