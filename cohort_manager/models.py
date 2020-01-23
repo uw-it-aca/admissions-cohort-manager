@@ -106,7 +106,7 @@ class AssignmentImport(models.Model):
     cohort = models.CharField(
         max_length=30, blank=True, null=True, validators=[validate_cohort])
     major = models.CharField(
-        max_length=30, blank=True, null=True, validators=[validate_major])
+        max_length=128, blank=True, null=True, validators=[validate_major])
     is_submitted = models.BooleanField(default=False)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)

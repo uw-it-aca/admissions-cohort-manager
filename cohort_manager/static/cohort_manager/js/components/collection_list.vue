@@ -33,7 +33,7 @@
         show-empty
         small
         class="aat-data-table"
-        :busy="isBusy"
+        :busy="is_loading"
         :items="majors"
         :fields="majorFields"
       >
@@ -182,7 +182,7 @@
           },
           {
             key: 'division',
-            class: "aat-data-cell center",
+            class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
           },
