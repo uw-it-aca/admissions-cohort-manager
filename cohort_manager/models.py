@@ -66,7 +66,7 @@ class AssignmentImport(models.Model):
     FIELD_HS_STATE = 'HighSchoolState'
     FIELD_HS_FRL_PCT = 'HighSchoolFRLPct'
     FIELD_ASSIGNED_COHORT = 'AssignedCohort'
-    FIELD_ASSIGNED_MAJOR_CODE = 'AssignedMajorProgramCode'
+    FIELD_ASSIGNED_MAJOR_CODE = 'AdSelAssignedMajorProgramCode'
     FIELD_HIGHEST_CONCORDED_SAT_MATH = 'HighestConcordedSATMath'
     FIELD_ADSEL_ID = 'AdmissionsSelectionId'
     FIELD_EMPTY = ''
