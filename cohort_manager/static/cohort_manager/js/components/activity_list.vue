@@ -91,6 +91,13 @@
             sortable: false
           },
           {
+            key: 'collection_type',
+            label: 'Type',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: true
+          },
+          {
             key: 'comment',
             class: "aat-data-cell",
             thClass: "aat-table-header",
