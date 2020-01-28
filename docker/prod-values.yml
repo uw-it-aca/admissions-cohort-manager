@@ -42,7 +42,7 @@ image:
   tag: IMAGE_TAG
 environmentVariables:
   - name: ENV
-    value: eval
+    value: prod
   - name: AUTH
     value: SAML
   - name: CLUSTER_CNAME
