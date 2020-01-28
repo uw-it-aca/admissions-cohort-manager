@@ -1,7 +1,11 @@
 <template>
   <div>
+    <div v-if="show_error">
+      No collections found for selected admissions period.
+    </div>
     <div v-if="collectionType === 'Cohort'">
       <b-table
+        v-if="show_error === false"
         hover
         responsive
         show-empty
@@ -28,6 +32,7 @@
 
     <div v-else-if="collectionType === 'Major'">
       <b-table
+        v-if="show_error === false"
         hover
         responsive
         show-empty
@@ -221,7 +226,8 @@
         checked: false,
         comment: '',
         admissions_period: null,
-        is_loading: true
+        is_loading: true,
+        show_error: false
       };
     },
     watch: {
@@ -249,7 +255,9 @@
         this.csrfToken = $cookies.get("csrftoken");
       },
       load_data(){
+        var vue = this;
         this.is_loading = true;
+        this.show_error = false;
         axios.get(
           '/api/collection/'
             + this.collectionType.toLowerCase()
@@ -263,6 +271,8 @@
             this.majors = response.data;
           }
           this.is_loading = false;
+        }).catch(function () {
+          vue.show_error = true;
         });
       },
       info(item, index, button) {
