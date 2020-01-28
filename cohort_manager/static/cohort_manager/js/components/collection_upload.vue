@@ -38,7 +38,7 @@
           <div id="add_applications_widget">
             <div v-if="!has_uploaded">
               <div>
-                <b-spinner v-if="is_uploading && invalid_csv === false" class="text-center" label="Submitting your assignments" />
+                <b-spinner v-if="is_uploading && invalid_upload === false" class="text-center" label="Submitting your assignments" />
                 <span v-else>
                   Enter applications by file (csv) or
                   <b-button id="manual_toggle" v-b-modal.add_list_modal class="aat-btn-link" variant="link">
@@ -225,6 +225,9 @@
       },
       is_disabled_submit_button: function() {
         return this.submitted === false && this.has_uploaded === false;
+      },
+      invalid_upload: function() {
+        return this.invalid_csv || this.invalid_manual;
       }
     },
     watch: {
