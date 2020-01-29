@@ -583,7 +583,10 @@
 
   // Modals
 
-  .modal-body,
+  .modal-body {
+    margin: 2rem 0.5rem;
+  }
+
   .aat-processing-message {
     margin: 2rem 1rem;
   }
