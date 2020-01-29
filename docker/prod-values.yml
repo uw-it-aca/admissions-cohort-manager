@@ -32,15 +32,12 @@ certs:
   certPath: /certs/tls.crt
   keyPath: /certs/tls.key
   secretName: aat-prod-uwca
-environmentVariables:
-  - name: AUTH
-    value: SAML
-  - name: ADSEL_ENV
-    value: PROD
 image:
   repository: registry.hub.docker.com/acait/aat
   tag: IMAGE_TAG
 environmentVariables:
+  - name: ADSEL_ENV
+    value: PROD
   - name: ENV
     value: prod
   - name: AUTH
