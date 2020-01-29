@@ -174,14 +174,14 @@
             if(assignment.assigned_cohort !== null && String(assignment.assigned_cohort) !== vue.collectionId){
               vue.already_assigned.push(assignment);
               $.each(vue.collectionOptions, function (idx, collection) {
-                if(collection.value === assignment.assigned_cohort){
+                if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
+                  vue.already_assigned_protected.push(assignment);
+                }
+                else if(collection.value === assignment.assigned_cohort){
                   assignment.description = collection.description;
                   assignment.protected = collection.protected;
                 }
               });
-              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
-                vue.already_assigned_protected.push(assignment);
-              }
             }
           }
         });
