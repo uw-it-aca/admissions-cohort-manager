@@ -38,6 +38,8 @@ image:
 environmentVariables:
   - name: ADSEL_ENV
     value: PROD
+  - name: TEST_ENV_VAR
+    value: FOOBAR
   - name: ENV
     value: prod
   - name: AUTH
