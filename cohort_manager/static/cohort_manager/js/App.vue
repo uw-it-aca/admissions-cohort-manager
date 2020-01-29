@@ -85,7 +85,7 @@
             :alert_type="alert_type"
           />
         </b-row>
-        <b-row class="aat-adperiod-container">
+        <b-row class="aat-adperiod-container" v-if="show_period_picker">
           <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
           <b-form-select id="aat_adperiod_select"
                          v-model="current_admission_period"
@@ -137,7 +137,8 @@
         message: '',
         navCount: 0,
         cur_period: null,
-        alert_type: null
+        alert_type: null,
+        show_period_picker: true
       };
     },
     computed: {
@@ -147,6 +148,7 @@
     },
     watch: {
       $route(){
+        this.set_period_picker_visibility();
         //Set focus for accessibility purposes
         this.$refs.main.focus();
         // Hide the message on the next route AFTER the post-upload one
@@ -166,8 +168,16 @@
     mounted() {
       this.netid = window.user_netid;
       this.get_periods();
+      this.set_period_picker_visibility();
     },
     methods: {
+      set_period_picker_visibility() {
+        if(this.$router.currentRoute.path === "/log/"){
+          this.show_period_picker = false;
+        } else {
+          this.show_period_picker = true;
+        }
+      },
       show_message(msg, type) {
         this.message = msg;
         this.alert_type = type;
