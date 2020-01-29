@@ -49,7 +49,7 @@
       <div v-else-if="already_assigned_protected.length > 0" class="aat-assigned-count">
         {{ already_assigned_protected.length }} are already assigned to protected cohorts.
       </div>
-      <div v-if="collectionType === 'Cohort' && has_assigned" id="reassign_collection" class="aat-reassign-checkbox">
+      <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
@@ -172,13 +172,12 @@
             }
           } else if(vue.collectionType === "Cohort") {
             if(assignment.assigned_cohort !== null && String(assignment.assigned_cohort) !== vue.collectionId){
-              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
-                vue.already_assigned_protected.push(assignment);
-              } else {
-                vue.already_assigned.push(assignment);
-              }
+              vue.already_assigned.push(assignment);
               $.each(vue.collectionOptions, function (idx, collection) {
-                if(collection.value === assignment.assigned_cohort){
+                if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
+                  vue.already_assigned_protected.push(assignment);
+                }
+                else if(collection.value === assignment.assigned_cohort){
                   assignment.description = collection.description;
                   assignment.protected = collection.protected;
                 }
