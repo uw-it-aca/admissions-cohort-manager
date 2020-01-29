@@ -49,7 +49,7 @@
       <div v-else-if="already_assigned_protected.length > 0" class="aat-assigned-count">
         {{ already_assigned_protected.length }} are already assigned to protected cohorts.
       </div>
-      <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
+      <div v-if="collectionType === 'Cohort' && has_assigned" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
           id="app_reassign_checkbox"
           v-model="is_reassign"
