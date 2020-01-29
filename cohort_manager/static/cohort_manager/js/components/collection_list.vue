@@ -17,7 +17,7 @@
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/cohort/' + row.item.value" :title="'Assign applications to cohort ' + row.item.value">Assign</a>
-          <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.value" @click="info(row.item, row.index, $event.target)">
+          <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.value" @click="handle_reset_button(row.item, row.index, $event.target)">
             Reset
           </b-button>
         </template>
@@ -44,7 +44,7 @@
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/major/' + row.item.value" :title="'Assign applications to major ' + row.item.value">Assign</a>
-          <b-button size="sm" :title="'Remove all assignments to major' + row.item.value" @click="info(row.item, row.index, $event.target)">
+          <b-button size="sm" :title="'Remove all assignments to major' + row.item.value" @click="handle_reset_button(row.item, row.index, $event.target)">
             Reset
           </b-button>
         </template>
@@ -105,6 +105,7 @@
               </p>
             </div>
           </form>
+          <div v-if="is_resetting">Resetting...</div>
         </b-modal>
       </div>
     </template>
@@ -227,7 +228,8 @@
         comment: '',
         admissions_period: null,
         is_loading: true,
-        show_error: false
+        show_error: false,
+        is_resetting: false
       };
     },
     watch: {
@@ -275,7 +277,7 @@
           vue.show_error = true;
         });
       },
-      info(item, index, button) {
+      handle_reset_button(item, index, button) {
         this.resetModal.title = `Reset ${this.collectionType}`;
         this.resetModal.itemId = `${item.value}`;
         this.resetModal.protect = `${item.protect}`;
@@ -288,10 +290,12 @@
         this.resetModal.ok_disabled = true;
         this.load_data();
       },
-      submit_reset(){
+      submit_reset(bvModalEvent){
         var vue = this;
         // disable submit after click
         this.resetModal.ok_disabled = true;
+        bvModalEvent.preventDefault();
+        this.is_resetting = true;
         axios.delete(
           '/api/collection/'
             + this.collectionType.toLowerCase()
@@ -308,9 +312,13 @@
             data: {comment: this.comment}
           },
         ).then(function() {
+          bvModalEvent.vueTarget.hide();
+          vue.is_resetting = false;
           vue.$emit('showMessage', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
         }).catch(function () {
-          vue.$emit('showMessage', "Resetting " + vue.collectionType + " " + vue.resetModal.itemId + "was unsuccessful.", "error");
+          bvModalEvent.vueTarget.hide();
+          vue.is_resetting = false;
+          vue.$emit('showMessage', "Resetting " + vue.collectionType + " " + vue.resetModal.itemId + " was unsuccessful.", "error");
         });
 
       }
