@@ -22,7 +22,7 @@
       <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-assigned block variant="info" href="#">
-            Already assigned a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
+            Already have a <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span> ({{ already_assigned.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="collapse-assigned">
@@ -37,7 +37,7 @@
       <b-card v-if="has_protected && already_assigned_protected.length < 100" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-protected block variant="info" href="#">
-            Already assigned a protected cohort ({{ already_assigned_protected.length }})
+            Already have a protected cohort ({{ already_assigned_protected.length }})
           </b-button>
         </b-card-header>
         <b-collapse id="collapse-protected">
@@ -70,9 +70,9 @@
             v-model="is_reassign_protected"
             name="app_unprotect_checkbox"
             value=""
-            class="aat-checkbox aat-secondary-checkbox"
+            class="aat-checkbox"
           >
-            Additionally, reassign applications already assigned to <strong>protected cohorts</strong>.
+            Reassign applications that already have a protected cohort.
           </b-form-checkbox>
         </span>
       </div>
@@ -172,16 +172,17 @@
             }
           } else if(vue.collectionType === "Cohort") {
             if(assignment.assigned_cohort !== null && String(assignment.assigned_cohort) !== vue.collectionId){
-              vue.already_assigned.push(assignment);
+              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
+                vue.already_assigned_protected.push(assignment);
+              } else {
+                vue.already_assigned.push(assignment);
+              }
               $.each(vue.collectionOptions, function (idx, collection) {
                 if(collection.value === assignment.assigned_cohort){
                   assignment.description = collection.description;
                   assignment.protected = collection.protected;
                 }
               });
-              if(vue.protected_cohort_ids.includes(assignment.assigned_cohort) && String(assignment.assigned_cohort) !== vue.collectionId){
-                vue.already_assigned_protected.push(assignment);
-              }
             }
           }
         });
@@ -258,12 +259,6 @@
       background-color: transparent;
       border-style: none;
       color: $link-blue;
-    }
-  }
-
-  .aat-checkbox {
-    &.aat-secondary-checkbox {
-      margin: 1rem 1.5rem 0;
     }
   }
 
