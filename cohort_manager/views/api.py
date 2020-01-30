@@ -125,7 +125,7 @@ class ModifyUploadView(RESTDispatch):
                         return self.json_response(status=202,
                                                   content=upload.json_data())
                     else:
-                        return self.error_response(404, message=ex)
+                        return self.error_response(543, message=ex)
             return self.json_response(status=200, content=upload.json_data())
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
