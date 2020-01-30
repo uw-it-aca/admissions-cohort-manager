@@ -1,12 +1,12 @@
 <template>
   <div v-if="messageString" id="alert_container" class="aat-alert">
-    <b-alert v-if="alertType === 'primary'" variant="primary" show>
+    <b-alert v-if="alert_type === 'primary'" variant="primary" show>
       {{ messageString }}
     </b-alert>
-    <b-alert v-if="alertType === 'success'" variant="success" show>
+    <b-alert v-if="alert_type === 'success'" variant="success" show>
       {{ messageString }}
     </b-alert>
-    <b-alert v-if="alertType === 'error'" variant="danger" show>
+    <b-alert v-if="alert_type === 'error'" variant="danger" show>
       {{ messageString }}
     </b-alert>
   </div>
@@ -22,7 +22,7 @@
         type: String,
         default: ""
       },
-      alertType: {
+      alert_type: {
         type: String,
         default: "primary"
       },

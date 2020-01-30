@@ -105,7 +105,10 @@
               </p>
             </div>
           </form>
-          <div v-if="is_resetting">Resetting...</div>
+          <div v-if="is_resetting" class="text-center text-info aat-processing-text">
+            <b-spinner class="align-middle" />
+            <strong>Resetting...</strong>
+          </div>
         </b-modal>
       </div>
     </template>
