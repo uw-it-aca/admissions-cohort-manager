@@ -82,7 +82,7 @@
         <b-row>
           <messagearea
             :message-string="message"
-            :alert_type="alert_type"
+            :alertType="alert_type"
           />
         </b-row>
         <b-row class="aat-adperiod-container" v-if="show_period_picker">
@@ -137,7 +137,7 @@
         message: '',
         navCount: 0,
         cur_period: null,
-        alert_type: null,
+        alertType: null,
         show_period_picker: true
       };
     },

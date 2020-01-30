@@ -51,6 +51,7 @@
       </div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
+          v-if="has_assigned"
           id="app_reassign_checkbox"
           v-model="is_reassign"
           name="app_reassign_checkbox"
