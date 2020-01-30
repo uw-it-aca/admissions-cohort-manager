@@ -22,7 +22,7 @@
         type: String,
         default: ""
       },
-      alert_type: {
+      alertType: {
         type: String,
         default: "primary"
       },

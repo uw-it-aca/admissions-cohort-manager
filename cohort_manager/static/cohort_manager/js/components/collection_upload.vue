@@ -355,7 +355,7 @@
           if (error.response) {
             vue.submit_msg = "Error making submission.";
           } if (error.response.status === 543){
-            vue.submit_msg += " There was an issue with the AdSel API."
+            vue.submit_msg += " There was an issue with the AdSel API.";
           }
         });
       },
