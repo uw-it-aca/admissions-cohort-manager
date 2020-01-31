@@ -73,7 +73,6 @@
           ok-only
           :ok-title="'Reset ' + collectionType"
           :ok-disabled="resetModal.ok_disabled"
-          @hide="resetResetModal"
           @ok="submit_reset"
         >
           <form @submit.prevent="handleUpload">
@@ -281,6 +280,7 @@
         });
       },
       handle_reset_button(item, index, button) {
+        this.resetResetModal();
         this.resetModal.title = `Reset ${this.collectionType}`;
         this.resetModal.itemId = `${item.value}`;
         this.resetModal.protect = `${item.protect}`;
