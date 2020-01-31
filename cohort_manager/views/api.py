@@ -99,6 +99,9 @@ class ModifyUploadView(RESTDispatch):
         is_reassign = request_params.get('is_reassign', False)
         is_reassign_protected = request_params.get('is_reassign_protected',
                                                    False)
+        # reassign is required to be true to reassign protected
+        if is_reassign_protected:
+            is_reassign = True
         is_submitted = request_params.get('is_submitted', False)
         ids_to_delete = request_params.get('to_delete', [])
         comment = request_params.get('comment', '')
