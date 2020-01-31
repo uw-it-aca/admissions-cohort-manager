@@ -176,7 +176,9 @@
               if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
                 vue.already_assigned_protected.push(assignment);
               } else {
-                vue.already_assigned.push(assignment);
+                if(assignment.assigned_cohort !== 0){
+                  vue.already_assigned.push(assignment);
+                }
               }
               $.each(vue.collectionOptions, function (idx, collection) {
                 if(collection.value === assignment.assigned_cohort){
