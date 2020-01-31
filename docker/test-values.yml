@@ -13,7 +13,7 @@ ingress:
         - "/"
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "250"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "500"
 database:
   engine: postgres
   secretName: aat-db-test-credentials
