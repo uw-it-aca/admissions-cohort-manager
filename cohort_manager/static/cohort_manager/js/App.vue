@@ -82,7 +82,7 @@
         <b-row>
           <messagearea
             :message-string="message"
-            :alertType="alert_type"
+            :alertType="alertType"
           />
         </b-row>
         <b-row class="aat-adperiod-container" v-if="show_period_picker">
@@ -179,8 +179,13 @@
         }
       },
       show_message(msg, type) {
+        var vue = this;
         this.message = msg;
-        this.alert_type = type;
+        this.alertType = type;
+        // Hides the message after 10 seconds
+        window.setTimeout(function () {
+          vue.message = '';
+        }, 10000);
       },
       get_periods() {
         var vue = this;
