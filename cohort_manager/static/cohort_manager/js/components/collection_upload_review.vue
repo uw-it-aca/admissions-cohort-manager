@@ -12,9 +12,9 @@
       </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      <span class="aat-application-count">{{ upload_count }} applications found.
+      <span class="aat-application-count">{{ upload_count }} {{ 'application' | pluralize(upload_count) }} found.
         <span v-if="uploadType === 'list'">
-          <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+          <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Clear applications</a>
         </span>
       </span>
     </p>
