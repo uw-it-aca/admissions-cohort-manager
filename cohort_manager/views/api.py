@@ -66,10 +66,18 @@ class UploadView(RESTDispatch):
 
         try:
             assignment_import = AssignmentImport.objects.create(**import_args)
-
             if uploaded_file:
-                assignment_import.document = \
-                    uploaded_file.read().decode('utf-16')
+                document = None
+                file = uploaded_file.read()
+                try:
+                    document = file.decode('utf-16')
+                except UnicodeDecodeError as ex:
+                    document = file.decode('utf-8')
+
+                if document is None:
+                    return self.error_response(status=400,
+                                               message="Invalid document")
+                assignment_import.document = document
                 assignment_import.upload_filename = uploaded_file.name
                 Assignment.create_from_file(assignment_import)
 
