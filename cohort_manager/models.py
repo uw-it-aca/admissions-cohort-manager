@@ -191,7 +191,7 @@ class Assignment(models.Model):
             reader = csv.DictReader(StringIO(assign_import.document),
                                     delimiter=',')
             assignments = Assignment._create_from_reader(reader, assign_import)
-        Assignment.objects.bulk_create(assignments)
+        return assignments
 
     @staticmethod
     def _create_from_reader(reader, assign_import):
