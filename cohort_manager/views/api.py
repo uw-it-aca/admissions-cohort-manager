@@ -79,7 +79,15 @@ class UploadView(RESTDispatch):
                                                message="Invalid document")
                 assignment_import.document = document
                 assignment_import.upload_filename = uploaded_file.name
-                Assignment.create_from_file(assignment_import)
+                assignments = Assignment.create_from_file(assignment_import)
+                if len(assignments) > 0:
+                    Assignment.objects.bulk_create(assignments)
+                else:
+                    document = file.decode('ascii')
+                    assignment_import.document = document
+                    assignments = Assignment.create_from_file(
+                        assignment_import)
+                    Assignment.objects.bulk_create(assignments)
 
             if syskey_list:
                 try:
