@@ -14,6 +14,7 @@
         :busy="is_loading"
         :items="cohorts"
         :fields="cohortFields"
+        sort-by="value"
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/cohort/' + row.item.value" :title="'Assign applications to cohort ' + row.item.value">Assign</a>
@@ -41,6 +42,7 @@
         :busy="is_loading"
         :items="majors"
         :fields="majorFields"
+        sort-by="value"
       >
         <template v-slot:cell(actions)="row">
           <a :href="'/major/' + row.item.value" :title="'Assign applications to major ' + row.item.value">Assign</a>
