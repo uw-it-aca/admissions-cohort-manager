@@ -136,7 +136,8 @@ def get_collection_list_by_type(collection_type, quarter_id):
                              'assigned_count': cohort.assigned_count
                              })
 
-        return response
+        sorted_response = sorted(response, key=lambda k: k['value'])
+        return sorted_response
     else:
         raise InvalidCollectionException(collection_type)
 
