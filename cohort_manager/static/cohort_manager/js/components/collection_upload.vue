@@ -343,6 +343,7 @@
             }
           }
         ).then(function(response) {
+          console.log(JSON.stringify(response.data.request)); // eslint-disable-line
           vue.$refs['submitting_modal'].hide();
           if(response.status === 200) {
             vue.navigate_after_submit();
