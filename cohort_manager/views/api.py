@@ -11,7 +11,7 @@ from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
-    submit_collection, get_applications_by_type_id_qtr, reset_collection
+    submit_collection, get_applications_by_type_id_qtr, reset_collection, _get_collection
 from cohort_manager.dao import InvalidCollectionException
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
@@ -136,16 +136,19 @@ class ModifyUploadView(RESTDispatch):
             upload.remove_assignments(ids_to_delete)
             upload.comment = comment
             upload.save()
+            response = upload.json_data()
             if is_submitted:
+                (imp, post_body) = _get_collection(upload)
+                response['request'] = post_body.json_data()
                 try:
-                    submit_collection(upload)
+                    submission = submit_collection(upload)
                 except DataFailureException as ex:
                     if "timeout" in str(ex):
                         return self.json_response(status=202,
-                                                  content=upload.json_data())
+                                                  content=response)
                     else:
                         return self.error_response(543, message=ex)
-            return self.json_response(status=200, content=upload.json_data())
+            return self.json_response(status=200, content=response)
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 
