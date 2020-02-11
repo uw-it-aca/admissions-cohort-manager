@@ -11,7 +11,8 @@ from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
-    submit_collection, get_applications_by_type_id_qtr, reset_collection, _get_collection
+    submit_collection, get_applications_by_type_id_qtr, reset_collection,\
+    _get_collection
 from cohort_manager.dao import InvalidCollectionException
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
