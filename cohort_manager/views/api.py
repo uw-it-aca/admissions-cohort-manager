@@ -11,7 +11,8 @@ from cohort_manager.models import AssignmentImport, Assignment
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
-    submit_collection, get_applications_by_type_id_qtr, reset_collection
+    submit_collection, get_applications_by_type_id_qtr, reset_collection,\
+    _get_collection
 from cohort_manager.dao import InvalidCollectionException
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
@@ -66,12 +67,28 @@ class UploadView(RESTDispatch):
 
         try:
             assignment_import = AssignmentImport.objects.create(**import_args)
-
             if uploaded_file:
-                assignment_import.document = \
-                    uploaded_file.read().decode('utf-16')
+                document = None
+                file = uploaded_file.read()
+                try:
+                    document = file.decode('utf-16')
+                except UnicodeDecodeError as ex:
+                    document = file.decode('utf-8')
+
+                if document is None:
+                    return self.error_response(status=400,
+                                               message="Invalid document")
+                assignment_import.document = document
                 assignment_import.upload_filename = uploaded_file.name
-                Assignment.create_from_file(assignment_import)
+                assignments = Assignment.create_from_file(assignment_import)
+                if len(assignments) > 0:
+                    Assignment.objects.bulk_create(assignments)
+                else:
+                    document = file.decode('ascii')
+                    assignment_import.document = document
+                    assignments = Assignment.create_from_file(
+                        assignment_import)
+                    Assignment.objects.bulk_create(assignments)
 
             if syskey_list:
                 try:
@@ -99,6 +116,9 @@ class ModifyUploadView(RESTDispatch):
         is_reassign = request_params.get('is_reassign', False)
         is_reassign_protected = request_params.get('is_reassign_protected',
                                                    False)
+        # reassign is required to be true to reassign protected
+        if is_reassign_protected:
+            is_reassign = True
         is_submitted = request_params.get('is_submitted', False)
         ids_to_delete = request_params.get('to_delete', [])
         comment = request_params.get('comment', '')
@@ -117,16 +137,19 @@ class ModifyUploadView(RESTDispatch):
             upload.remove_assignments(ids_to_delete)
             upload.comment = comment
             upload.save()
+            response = upload.json_data()
             if is_submitted:
+                (imp, post_body) = _get_collection(upload)
+                response['request'] = post_body.json_data()
                 try:
-                    submit_collection(upload)
+                    submission = submit_collection(upload)
                 except DataFailureException as ex:
                     if "timeout" in str(ex):
                         return self.json_response(status=202,
-                                                  content=upload.json_data())
+                                                  content=response)
                     else:
-                        return self.error_response(404, message=ex)
-            return self.json_response(status=200, content=upload.json_data())
+                        return self.error_response(543, message=ex)
+            return self.json_response(status=200, content=response)
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 

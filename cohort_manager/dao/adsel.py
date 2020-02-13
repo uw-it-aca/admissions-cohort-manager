@@ -136,7 +136,8 @@ def get_collection_list_by_type(collection_type, quarter_id):
                              'assigned_count': cohort.assigned_count
                              })
 
-        return response
+        sorted_response = sorted(response, key=lambda k: k['value'])
+        return sorted_response
     else:
         raise InvalidCollectionException(collection_type)
 
@@ -152,7 +153,7 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
     return app_list
 
 
-def submit_collection(assignment_import):
+def _get_collection(assignment_import):
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
         assignment = CohortAssignment()
         assignment.override_previous = assignment_import.is_reassign
@@ -178,11 +179,17 @@ def submit_collection(assignment_import):
 
     assignment.applicants = applicants_to_assign
 
+    return assignment_import, assignment
+
+
+def submit_collection(assignment_import):
+    (assignment_import, assignment) = _get_collection(assignment_import)
     client = AdSel()
+    client.get_quarters()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        client.assign_cohorts(assignment)
+        return client.assign_cohorts(assignment)
     elif assignment_import.major and len(assignment_import.major) > 0:
-        client.assign_majors(assignment)
+        return client.assign_majors(assignment)
 
 
 def reset_collection(assignment_import, collection_type):

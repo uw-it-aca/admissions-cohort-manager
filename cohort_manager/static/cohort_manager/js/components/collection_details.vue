@@ -101,7 +101,7 @@
           this.hide_details = false;
         }).catch(function () {
           vue.invalid_collection = true;
-          this.hide_details = false;
+          vue.hide_details = false;
         });
       }
     },

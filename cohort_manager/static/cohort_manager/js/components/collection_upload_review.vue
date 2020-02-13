@@ -12,9 +12,9 @@
       </span>
     </div>
     <p id="file_name" class="aat-status-feedback">
-      <span class="aat-application-count">{{ upload_count }} applications found.
+      <span class="aat-application-count">{{ upload_count }} {{ 'application' | pluralize(upload_count) }} found.
         <span v-if="uploadType === 'list'">
-          <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Reset</a>
+          <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Clear applications</a>
         </span>
       </span>
     </p>
@@ -51,6 +51,7 @@
       </div>
       <div v-if="collectionType === 'Cohort'" id="reassign_collection" class="aat-reassign-checkbox">
         <b-form-checkbox
+          v-if="has_assigned"
           id="app_reassign_checkbox"
           v-model="is_reassign"
           name="app_reassign_checkbox"
@@ -175,7 +176,9 @@
               if(vue.protected_cohort_ids.includes(assignment.assigned_cohort)){
                 vue.already_assigned_protected.push(assignment);
               } else {
-                vue.already_assigned.push(assignment);
+                if(assignment.assigned_cohort !== 0){
+                  vue.already_assigned.push(assignment);
+                }
               }
               $.each(vue.collectionOptions, function (idx, collection) {
                 if(collection.value === assignment.assigned_cohort){

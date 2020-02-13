@@ -9,6 +9,7 @@
           <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
           <div class="aat-select-inline">
             <b-form-input id="input-with-list"
+                          autocomplete="off"
                           v-model="collection_id"
                           list="input-list"
                           required
@@ -343,6 +344,7 @@
             }
           }
         ).then(function(response) {
+          console.log(JSON.stringify(response.data.request)); // eslint-disable-line
           vue.$refs['submitting_modal'].hide();
           if(response.status === 200) {
             vue.navigate_after_submit();
@@ -353,7 +355,9 @@
 
         }).catch(function (error) {
           if (error.response) {
-            vue.submit_msg = "Error making submission";
+            vue.submit_msg = "Error making submission.";
+          } if (error.response.status === 543){
+            vue.submit_msg += " There was an issue with the AdSel API.";
           }
         });
       },

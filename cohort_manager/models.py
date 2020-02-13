@@ -185,6 +185,16 @@ class Assignment(models.Model):
     def create_from_file(assign_import):
         reader = csv.DictReader(StringIO(assign_import.document),
                                 delimiter='\t')
+        try:
+            assignments = Assignment._create_from_reader(reader, assign_import)
+        except ValueError:
+            reader = csv.DictReader(StringIO(assign_import.document),
+                                    delimiter=',')
+            assignments = Assignment._create_from_reader(reader, assign_import)
+        return assignments
+
+    @staticmethod
+    def _create_from_reader(reader, assign_import):
         assignments = []
         for idx, row in enumerate(reader):
             assignment = Assignment()
@@ -214,7 +224,7 @@ class Assignment(models.Model):
                                  AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
 
             assignments.append(assignment)
-        Assignment.objects.bulk_create(assignments)
+        return assignments
 
     def get_application(self):
         app = Application()
