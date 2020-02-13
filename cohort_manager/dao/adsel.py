@@ -185,6 +185,7 @@ def _get_collection(assignment_import):
 def submit_collection(assignment_import):
     (assignment_import, assignment) = _get_collection(assignment_import)
     client = AdSel()
+    client.get_quarters()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
         return client.assign_cohorts(assignment)
     elif assignment_import.major and len(assignment_import.major) > 0:
