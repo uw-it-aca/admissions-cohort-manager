@@ -187,7 +187,10 @@ def submit_collection(assignment_import):
     client = AdSel()
     client.get_quarters()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        return client.assign_cohorts(assignment)
+        if assignment_import.is_file_upload:
+            return client.assign_cohorts_bulk(assignment)
+        else:
+            return client.assign_cohorts_manual(assignment)
     elif assignment_import.major and len(assignment_import.major) > 0:
         return client.assign_majors(assignment)
 
