@@ -222,6 +222,6 @@ def reset_collection(assignment_import, collection_type):
 
     client = AdSel()
     if collection_type == COHORT_COLLECTION_TYPE:
-        client.assign_cohorts(assignment)
+        client.assign_cohorts_bulk(assignment)
     elif collection_type == MAJOR_COLLECTION_TYPE:
         client.assign_majors(assignment)
