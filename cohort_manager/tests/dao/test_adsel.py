@@ -32,7 +32,7 @@ class RestDispatchTest(TestCase):
         self.assertEqual(len(apps), 0)
 
     def test_apps_by_major(self):
-        apps = get_applications_by_major_qtr("string", 0)
+        apps = get_applications_by_major_qtr(None, 0)
         self.assertEqual(len(apps), 4)
 
         apps = get_applications_by_major_qtr("test", 0)
