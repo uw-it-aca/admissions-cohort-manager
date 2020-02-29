@@ -78,7 +78,7 @@ def get_applications_by_major_qtr(major_id, quarter):
         applications = client.get_all_applications_by_qtr(quarter)
         matching_apps = []
         for application in applications:
-            if application.assigned_major == major_id:
+            if application.major_program_code == major_id:
                 matching_apps.append(application)
     except DataFailureException:
         pass
