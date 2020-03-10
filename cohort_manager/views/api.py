@@ -187,7 +187,7 @@ class CollectionDetails(RESTDispatch):
             if collection_type == "cohort":
                 import_args['cohort'] = 0
             if collection_type == "major":
-                import_args['major'] = None
+                import_args['major'] = "none"
 
             assignment_import = AssignmentImport.objects.create(**import_args)
             Assignment.create_from_applications(assignment_import, apps)

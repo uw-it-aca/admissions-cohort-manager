@@ -78,7 +78,7 @@ def get_applications_by_major_qtr(major_id, quarter):
         applications = client.get_all_applications_by_qtr(quarter)
         matching_apps = []
         for application in applications:
-            if application.assigned_major == major_id:
+            if application.major_program_code == major_id:
                 matching_apps.append(application)
     except DataFailureException:
         pass
@@ -187,7 +187,10 @@ def submit_collection(assignment_import):
     client = AdSel()
     client.get_quarters()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        return client.assign_cohorts(assignment)
+        if assignment_import.is_file_upload:
+            return client.assign_cohorts_bulk(assignment)
+        else:
+            return client.assign_cohorts_manual(assignment)
     elif assignment_import.major and len(assignment_import.major) > 0:
         return client.assign_majors(assignment)
 
@@ -219,6 +222,6 @@ def reset_collection(assignment_import, collection_type):
 
     client = AdSel()
     if collection_type == COHORT_COLLECTION_TYPE:
-        client.assign_cohorts(assignment)
+        client.assign_cohorts_bulk(assignment)
     elif collection_type == MAJOR_COLLECTION_TYPE:
         client.assign_majors(assignment)
