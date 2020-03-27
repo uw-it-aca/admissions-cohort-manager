@@ -1,10 +1,11 @@
 from django.urls import path, re_path
 
 from cohort_manager.views.api import UploadView, CollectionDetails, \
-    ActivityLog, CollectionList, ModifyUploadView, PeriodList
+    ActivityLog, CollectionList, ModifyUploadView, PeriodList, BulkUpload
 from cohort_manager.views.pages import LandingView
 
 urlpatterns = [
+    re_path(r'api/v1/bulk_upload/', BulkUpload.as_view(), name="bulk_upload"),
     re_path(r'api/upload/(?P<upload_id>.*)/',
             ModifyUploadView.as_view()),
     path('api/upload', UploadView.as_view()),

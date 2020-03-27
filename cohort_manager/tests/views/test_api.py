@@ -2,6 +2,7 @@ import json
 from django.test import TestCase, Client
 from cohort_manager.views.api import RESTDispatch, UploadView, CollectionList
 from cohort_manager.tests.views import TestViewApi
+from cohort_manager.models import AssignmentImport
 
 
 class RestDispatchTest(TestCase):
@@ -48,3 +49,41 @@ class CollectionListTest(TestViewApi):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content), 2)
         self.assertEqual(response_content[0]['value'], 1)
+
+
+class BulkUploadTest(TestViewApi):
+    def test_upload(self):
+        cohort_assignment = {
+            "admissions_period": 20203,
+            "major_id": None,
+            "cohort_id": 21,
+            "applications": [{
+                "admission_selection_id": "33450",
+                "application_number": 1,
+                "assigned_cohort": 0,
+                "assigned_major": None,
+                "campus": "Seattle",
+                "sdb_app_status": 12,
+                "system_key": "2122786"
+            }, {
+                "admission_selection_id": "20718",
+                "application_number": 1,
+                "assigned_cohort": 35,
+                "assigned_major": "0_A A_00_1_6",
+                "campus": "Seattle",
+                "sdb_app_status": 14,
+                "system_key": "2107788"
+            }
+            ]}
+
+        response = self.post_response('bulk_upload',
+                                      json.dumps(cohort_assignment))
+        content = json.loads(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(content['assignments']), 2)
+        self.assertEqual(content['assignments'][0]['admission_selection_id'],
+                         "33450")
+        upload_id = content['id']
+        upload = AssignmentImport.objects.get(id=upload_id)
+        self.assertIsNotNone(upload)
+        self.assertEqual(upload.cohort, "21")
