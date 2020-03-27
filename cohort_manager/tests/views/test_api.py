@@ -1,5 +1,6 @@
 import json
 from django.test import TestCase, Client
+from django.core.exceptions import ImproperlyConfigured
 from cohort_manager.views.api import RESTDispatch, UploadView, CollectionList
 from cohort_manager.tests.views import TestViewApi
 from cohort_manager.models import AssignmentImport
@@ -52,38 +53,66 @@ class CollectionListTest(TestViewApi):
 
 
 class BulkUploadTest(TestViewApi):
-    def test_upload(self):
-        cohort_assignment = {
-            "admissions_period": 20203,
-            "major_id": None,
-            "cohort_id": 21,
-            "applications": [{
-                "admission_selection_id": "33450",
-                "application_number": 1,
-                "assigned_cohort": 0,
-                "assigned_major": None,
-                "campus": "Seattle",
-                "sdb_app_status": 12,
-                "system_key": "2122786"
-            }, {
-                "admission_selection_id": "20718",
-                "application_number": 1,
-                "assigned_cohort": 35,
-                "assigned_major": "0_A A_00_1_6",
-                "campus": "Seattle",
-                "sdb_app_status": 14,
-                "system_key": "2107788"
-            }
-            ]}
+    cohort_assignment = {
+        "admissions_period": 20203,
+        "major_id": None,
+        "cohort_id": 21,
+        "applications": [{
+            "admission_selection_id": "33450",
+            "application_number": 1,
+            "assigned_cohort": 0,
+            "assigned_major": None,
+            "campus": "Seattle",
+            "sdb_app_status": 12,
+            "system_key": "2122786"
+        }, {
+            "admission_selection_id": "20718",
+            "application_number": 1,
+            "assigned_cohort": 35,
+            "assigned_major": "0_A A_00_1_6",
+            "campus": "Seattle",
+            "sdb_app_status": 14,
+            "system_key": "2107788"
+        }
+        ]}
+    FAKE_API_TOKEN = 'FoObArBaZ123!$%'
 
-        response = self.post_response('bulk_upload',
-                                      json.dumps(cohort_assignment))
-        content = json.loads(response.content)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(content['assignments']), 2)
-        self.assertEqual(content['assignments'][0]['admission_selection_id'],
-                         "33450")
-        upload_id = content['id']
-        upload = AssignmentImport.objects.get(id=upload_id)
-        self.assertIsNotNone(upload)
-        self.assertEqual(upload.cohort, "21")
+    def test_upload(self):
+        with self.settings(API_TOKEN=self.FAKE_API_TOKEN):
+            token_str = "Basic %s" % self.FAKE_API_TOKEN
+            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
+                                 HTTP_AUTHORIZATION=token_str)
+
+            response = self.post_response('bulk_upload',
+                                          json.dumps(self.cohort_assignment))
+            content = json.loads(response.content)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(len(content['assignments']), 2)
+            adsel_id = content['assignments'][0]['admission_selection_id']
+            self.assertEqual(adsel_id, "33450")
+            upload_id = content['id']
+            upload = AssignmentImport.objects.get(id=upload_id)
+            self.assertIsNotNone(upload)
+            self.assertEqual(upload.cohort, "21")
+
+    def test_auth_failures(self):
+        with self.settings(API_TOKEN=self.FAKE_API_TOKEN):
+            token_str = "Basic %s" % "BadToken"
+            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
+                                 HTTP_AUTHORIZATION=token_str)
+
+            response = self.post_response('bulk_upload',
+                                          json.dumps(self.cohort_assignment))
+            self.assertEqual(response.status_code, 403)
+
+            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0')
+            response = self.post_response('bulk_upload',
+                                          json.dumps(self.cohort_assignment))
+            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response['WWW-Authenticate'], "Basic")
+
+        with self.assertRaises(ImproperlyConfigured):
+            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
+                                 HTTP_AUTHORIZATION=token_str)
+            self.post_response('bulk_upload',
+                               json.dumps(self.cohort_assignment))

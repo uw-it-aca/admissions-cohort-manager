@@ -14,6 +14,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection,\
     _get_collection, get_application_from_bulk_upload
 from cohort_manager.dao import InvalidCollectionException
+from cohort_manager.utils import is_valid_auth_key
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
 
@@ -38,6 +39,15 @@ class RESTDispatch(View):
                             status=status,
                             content_type='application/json',
                             )
+
+    @staticmethod
+    def no_auth_response():
+        err_msg = "Authentication token not presented"
+        response = HttpResponse(json.dumps({"error": err_msg}),
+                                status=401,
+                                content_type='application/json')
+        response['WWW-Authenticate'] = "Basic"
+        return response
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
@@ -232,8 +242,15 @@ class PeriodList(RESTDispatch):
 
 class BulkUpload(RESTDispatch):
     def post(self, request):
-        # TODO: Token Validation
         req = json.loads(request.body)
+        try:
+            presented_token = request.headers['Authorization']
+        except KeyError:
+            return self.no_auth_response()
+        if not is_valid_auth_key(presented_token):
+            error = {'error': 'Invalid Authorization Key'}
+            return self.error_response(status=403, content=error)
+
         # TODO: Switch to using file upload style if extra params are there
         applications = req['applications']
         cohort_id = req['cohort_id']
