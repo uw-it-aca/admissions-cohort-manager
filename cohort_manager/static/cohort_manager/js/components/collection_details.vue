@@ -1,7 +1,7 @@
 <template>
   <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
-      <p>You selected an invalid collection</p>
+      <p>No {{ collectionType }} information available for {{ collectionType }} {{ collectionId }} in {{ currentPeriod }} admission period.</p>
     </div>
     <div v-else>
       <b-row>
