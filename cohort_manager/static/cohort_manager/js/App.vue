@@ -113,7 +113,7 @@
         <div class="aat-footer-links">
           <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
         </div>
-        <div>© 2019 University of Washington  |  Seattle, WA</div>
+        <div>© 2020 University of Washington  |  Seattle, WA</div>
       </footer>
     </b-row>
   </b-container>
