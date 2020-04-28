@@ -100,6 +100,7 @@
             <router-view
               v-if="period_set"
               :cur_period="cur_period"
+              :periods="admission_periods"
               @showMessage="show_message"
             />
           </main>

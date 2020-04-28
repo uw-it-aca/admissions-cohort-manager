@@ -29,6 +29,7 @@
             :collection-id="collection_id"
             :collection-type="collectionType"
             :current-period="currentPeriod"
+            :periods="periods"
           />
         </div>
       </div>
@@ -172,6 +173,10 @@
       loadingCollection: {
         type: Boolean,
         default: true
+      },
+      periods: {
+        type: Array,
+        default: function () {return[];}
       }
     },
     data(){
