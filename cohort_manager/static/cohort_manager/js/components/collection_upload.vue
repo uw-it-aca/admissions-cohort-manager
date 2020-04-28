@@ -22,7 +22,7 @@
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
         </fieldset>
-        <div class="aat-collection-note">Please confirm cohort information is correct before entering applications.</div>
+        <div class="aat-collection-note">Please confirm {{collectionType}} information is correct before entering applications.</div>
         <div role="region" aria-live="polite">
           <collectionDetails
             v-if="collectionType === 'Cohort'"
