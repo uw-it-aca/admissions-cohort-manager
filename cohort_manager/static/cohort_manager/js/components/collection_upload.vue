@@ -22,6 +22,7 @@
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
         </fieldset>
+        <div class="aat-collection-note">Please confirm {{collectionType.toLowerCase()}} information is correct before entering applications.</div>
         <div role="region" aria-live="polite">
           <collectionDetails
             v-if="collectionType === 'Cohort'"
@@ -465,6 +466,11 @@
   }
 
   // form messaging
+  .aat-collection-note {
+    margin-bottom: 0;
+    margin-top: 2rem;
+  }
+
   .aat-status-feedback {
     margin-bottom: 0;
     padding-top: 0.5rem;
