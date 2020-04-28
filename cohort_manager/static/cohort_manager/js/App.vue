@@ -494,6 +494,7 @@
     .aat-footer-wordmark {
       background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
       display: inline-block;
+      height: 22px;
       margin-bottom: 1rem;
       overflow: hidden;
       text-indent: -9999px;
