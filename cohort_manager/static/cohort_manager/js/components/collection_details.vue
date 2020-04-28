@@ -1,7 +1,7 @@
 <template>
   <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
-      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collectionId }}</strong> in <strong>{{ currentPeriod }}</strong> admission period.</p>
+      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collectionId }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
     <div v-else>
       <b-row>
@@ -77,14 +77,31 @@
         protected_group: false,
         residency: "",
         invalid_collection: false,
-        hide_details: true
+        hide_details: true,
+        periods: []
       };
+    },
+    created () {
+      this.periods = this.$attrs.periods;
     },
     watch: {
       collectionId: function() {
         this.get_collection();
       }
     },
+    computed: {
+      currentPeriodName: function () {
+        var vue = this,
+            value = "";
+        $.each(vue.periods, function(idx, period){
+          if(period['value'] === parseInt(vue.currentPeriod)){
+            value = period['text'];
+          }
+        });
+        return value;
+      }
+    },
+
     methods: {
       get_collection(){
         var vue = this;
