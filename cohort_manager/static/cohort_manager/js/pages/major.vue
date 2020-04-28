@@ -24,6 +24,7 @@
         major_options: [],
         current_period: undefined,
         loading_collection: true,
+        periods: []
       };
     },
     computed: {
@@ -43,11 +44,13 @@
         properties['collectionOptions'] = this.major_options;
         properties['currentPeriod'] = this.current_period;
         properties['loadingCollection'] = this.loading_collection;
+        properties['periods'] = this.periods;
         return properties;
       }
     },
     created (){
       this.current_period = this.$attrs.cur_period;
+      this.periods = this.$attrs.periods;
       this.get_majors_for_period();
       EventBus.$on('period_change', period => {
         this.current_period = period;

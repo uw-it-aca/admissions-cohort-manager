@@ -25,6 +25,7 @@
         ],
         current_period: null,
         loading_collection: true,
+        periods: []
       };
     },
     computed: {
@@ -45,11 +46,13 @@
         properties['uploadResponse'] = this.upload_response;
         properties['currentPeriod'] = this.current_period;
         properties['loadingCollection'] = this.loading_collection;
+        properties['periods'] = this.periods;
         return properties;
       }
     },
     created (){
       this.current_period = this.$attrs.cur_period;
+      this.periods = this.$attrs.periods;
       this.get_cohorts_for_period();
       EventBus.$on('period_change', period => {
         this.current_period = period;
