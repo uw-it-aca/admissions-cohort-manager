@@ -100,6 +100,7 @@
             <router-view
               v-if="period_set"
               :cur_period="cur_period"
+              :periods="admission_periods"
               @showMessage="show_message"
             />
           </main>
@@ -112,7 +113,7 @@
         <div class="aat-footer-links">
           <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
         </div>
-        <div>© 2019 University of Washington  |  Seattle, WA</div>
+        <div>© 2020 University of Washington  |  Seattle, WA</div>
       </footer>
     </b-row>
   </b-container>
@@ -493,6 +494,7 @@
     .aat-footer-wordmark {
       background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
       display: inline-block;
+      height: 22px;
       margin-bottom: 1rem;
       overflow: hidden;
       text-indent: -9999px;
