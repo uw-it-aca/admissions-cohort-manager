@@ -2,6 +2,7 @@ import json
 from django.conf import settings
 from django.http import HttpResponse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
@@ -46,7 +47,7 @@ class RESTDispatch(View):
         response = HttpResponse(json.dumps({"error": err_msg}),
                                 status=401,
                                 content_type='application/json')
-        response['WWW-Authenticate'] = "Basic"
+        response['WWW-Authenticate'] = "Bearer"
         return response
 
 
@@ -240,6 +241,7 @@ class PeriodList(RESTDispatch):
         return self.json_response(status=200, content=resp)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class BulkUpload(RESTDispatch):
     def post(self, request):
         req = json.loads(request.body)

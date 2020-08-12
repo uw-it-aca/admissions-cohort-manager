@@ -55,7 +55,7 @@ def get_headers(fieldnames):
 
 
 def is_valid_auth_key(auth_header):
-    header_prefix = "Basic "
+    header_prefix = "Bearer "
     header_token = auth_header.replace(header_prefix, "")
     try:
         token = settings.API_TOKEN

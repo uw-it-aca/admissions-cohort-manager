@@ -79,7 +79,7 @@ class BulkUploadTest(TestViewApi):
 
     def test_upload(self):
         with self.settings(API_TOKEN=self.FAKE_API_TOKEN):
-            token_str = "Basic %s" % self.FAKE_API_TOKEN
+            token_str = "Bearer %s" % self.FAKE_API_TOKEN
             self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
                                  HTTP_AUTHORIZATION=token_str)
 
@@ -97,7 +97,7 @@ class BulkUploadTest(TestViewApi):
 
     def test_auth_failures(self):
         with self.settings(API_TOKEN=self.FAKE_API_TOKEN):
-            token_str = "Basic %s" % "BadToken"
+            token_str = "Bearer %s" % "BadToken"
             self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
                                  HTTP_AUTHORIZATION=token_str)
 
@@ -109,10 +109,4 @@ class BulkUploadTest(TestViewApi):
             response = self.post_response('bulk_upload',
                                           json.dumps(self.cohort_assignment))
             self.assertEqual(response.status_code, 401)
-            self.assertEqual(response['WWW-Authenticate'], "Basic")
-
-        with self.assertRaises(ImproperlyConfigured):
-            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
-                                 HTTP_AUTHORIZATION=token_str)
-            self.post_response('bulk_upload',
-                               json.dumps(self.cohort_assignment))
+            self.assertEqual(response['WWW-Authenticate'], "Bearer")
