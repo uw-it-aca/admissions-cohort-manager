@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+{% block title %}Bulk Page{% endblock %}
+
+{% block content %}
+<h1>Bulk Upload Test Page</h1>
+  Upload: {{ upload_id }}
+  <hr/>
+<pre>{{ applications | pprint}}</pre>
+
+
+{% endblock %}

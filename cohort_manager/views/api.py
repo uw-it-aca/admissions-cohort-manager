@@ -244,7 +244,6 @@ class PeriodList(RESTDispatch):
 @method_decorator(csrf_exempt, name='dispatch')
 class BulkUpload(RESTDispatch):
     def post(self, request):
-        req = json.loads(request.body)
         try:
             presented_token = request.headers['Authorization']
         except KeyError:
@@ -252,28 +251,29 @@ class BulkUpload(RESTDispatch):
         if not is_valid_auth_key(presented_token):
             error = {'error': 'Invalid Authorization Key'}
             return self.error_response(status=403, content=error)
-
-        # TODO: Switch to using file upload style if extra params are there
-        applications = req['applications']
-        cohort_id = req['cohort_id']
-        major_id = req['major_id']
-
-        import_args = {'quarter': req['admissions_period'],
-                       'campus': applications[0]['campus'],
-                       'created_by': "Tableau"}
-        if cohort_id:
-            import_args['cohort'] = cohort_id
-        if major_id:
-            import_args['major'] = major_id
-
         try:
+            req = json.loads(request.body)
+            # TODO: Switch to using file upload style if extra params are there
+            applications = req['applications']
+            cohort_id = req['cohort_id']
+            major_id = req['major_id']
+
+            import_args = {'quarter': req['admissions_period'],
+                           'campus': applications[0]['campus'],
+                           'created_by': req['created_by']}
+            if cohort_id:
+                import_args['cohort'] = cohort_id
+            if major_id:
+                import_args['major'] = major_id
+
             assignment_import = AssignmentImport.objects.create(**import_args)
             app_objects = get_application_from_bulk_upload(applications)
             Assignment.create_from_applications(assignment_import,
                                                 app_objects)
             assignment_import.is_file_upload = False
             assignment_import.save()
-            content = assignment_import.json_data()
+            uri = '/bulk_view/{}'.format(assignment_import.id)
+            content = {"aat_url": request.build_absolute_uri(uri)}
             return self.json_response(status=200, content=content)
-        except Exception:
-            return self.error_response(status=500)
+        except Exception as ex:
+            return self.error_response(status=500, message=ex)
