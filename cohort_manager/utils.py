@@ -1,5 +1,7 @@
 from io import StringIO
 import csv
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 
 def to_csv(data=[]):
@@ -50,3 +52,13 @@ def get_headers(fieldnames):
     csv_data = s.getvalue()
     s.close()
     return csv_data
+
+
+def is_valid_auth_key(auth_header):
+    header_prefix = "Bearer "
+    header_token = auth_header.replace(header_prefix, "")
+    try:
+        token = settings.API_TOKEN
+    except AttributeError:
+        raise ImproperlyConfigured("API_TOKEN missing")
+    return token == header_token

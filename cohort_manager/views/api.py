@@ -2,6 +2,7 @@ import json
 from django.conf import settings
 from django.http import HttpResponse
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
@@ -12,14 +13,13 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection,\
-    _get_collection
+    _get_collection, get_application_from_bulk_upload
 from cohort_manager.dao import InvalidCollectionException
+from cohort_manager.utils import is_valid_auth_key
 from userservice.user import UserService
 from restclients_core.exceptions import DataFailureException
 
 
-@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
-                  name='dispatch')
 class RESTDispatch(View):
     @staticmethod
     def json_response(content={}, status=200):
@@ -40,6 +40,15 @@ class RESTDispatch(View):
                             status=status,
                             content_type='application/json',
                             )
+
+    @staticmethod
+    def no_auth_response():
+        err_msg = "Authentication token not presented"
+        response = HttpResponse(json.dumps({"error": err_msg}),
+                                status=401,
+                                content_type='application/json')
+        response['WWW-Authenticate'] = "Bearer"
+        return response
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
@@ -230,3 +239,41 @@ class PeriodList(RESTDispatch):
                                                 quarter.appl_yr),
                          'current': quarter.is_current})
         return self.json_response(status=200, content=resp)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class BulkUpload(RESTDispatch):
+    def post(self, request):
+        try:
+            presented_token = request.headers['Authorization']
+        except KeyError:
+            return self.no_auth_response()
+        if not is_valid_auth_key(presented_token):
+            error = {'error': 'Invalid Authorization Key'}
+            return self.error_response(status=403, content=error)
+        try:
+            req = json.loads(request.body)
+            # TODO: Switch to using file upload style if extra params are there
+            applications = req['applications']
+            cohort_id = req['cohort_id']
+            major_id = req['major_id']
+
+            import_args = {'quarter': req['admissions_period'],
+                           'campus': applications[0]['campus'],
+                           'created_by': req['created_by']}
+            if cohort_id:
+                import_args['cohort'] = cohort_id
+            if major_id:
+                import_args['major'] = major_id
+
+            assignment_import = AssignmentImport.objects.create(**import_args)
+            app_objects = get_application_from_bulk_upload(applications)
+            Assignment.create_from_applications(assignment_import,
+                                                app_objects)
+            assignment_import.is_file_upload = False
+            assignment_import.save()
+            uri = '/bulk_view/{}'.format(assignment_import.id)
+            content = {"aat_url": request.build_absolute_uri(uri)}
+            return self.json_response(status=200, content=content)
+        except Exception as ex:
+            return self.error_response(status=500, message=ex)

@@ -225,3 +225,22 @@ def reset_collection(assignment_import, collection_type):
         client.assign_cohorts_bulk(assignment)
     elif collection_type == MAJOR_COLLECTION_TYPE:
         client.assign_majors(assignment)
+
+
+def get_application_from_bulk_upload(upload_json):
+    applications = []
+    for application in upload_json:
+        app = Application()
+        app.adsel_id = application['admission_selection_id']
+        app.application_number = application['application_number']
+        app.assigned_cohort = application['assigned_cohort']
+        app.assigned_major = application['assigned_major']
+        app.campus = _get_campus_id(application['campus'])
+        app.system_key = application['system_key']
+        applications.append(app)
+    return applications
+
+
+def _get_campus_id(campus_name):
+    mapping = {"Seattle": 1, "Tacoma": 2, "Bothell": 3}
+    return mapping[campus_name]
