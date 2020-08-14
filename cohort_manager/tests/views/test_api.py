@@ -57,6 +57,7 @@ class BulkUploadTest(TestViewApi):
         "admissions_period": 20203,
         "major_id": None,
         "cohort_id": 21,
+        "created_by": "javerage",
         "applications": [{
             "admission_selection_id": "33450",
             "application_number": 1,
@@ -87,11 +88,8 @@ class BulkUploadTest(TestViewApi):
                                           json.dumps(self.cohort_assignment))
             content = json.loads(response.content)
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(len(content['assignments']), 2)
-            adsel_id = content['assignments'][0]['admission_selection_id']
-            self.assertEqual(adsel_id, "33450")
-            upload_id = content['id']
-            upload = AssignmentImport.objects.get(id=upload_id)
+            self.assertEqual(content['aat_url'], "http://testserver/bulk_view/1")
+            upload = AssignmentImport.objects.get(id=1)
             self.assertIsNotNone(upload)
             self.assertEqual(upload.cohort, "21")
 
