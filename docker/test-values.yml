@@ -58,7 +58,6 @@ externalSecrets:
           property: django_secret
         - name: bulk_api_key
           property: bulk_api_key
-repo: retention-dashboard
 environmentVariablesSecrets:
   djangoSecret:
     name: DJANGO_SECRET
