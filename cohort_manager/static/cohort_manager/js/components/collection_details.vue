@@ -81,14 +81,6 @@
         periods: []
       };
     },
-    created () {
-      this.periods = this.$attrs.periods;
-    },
-    watch: {
-      collectionId: function() {
-        this.get_collection();
-      }
-    },
     computed: {
       currentPeriodName: function () {
         var vue = this,
@@ -100,6 +92,14 @@
         });
         return value;
       }
+    },
+    watch: {
+      collectionId: function() {
+        this.get_collection();
+      }
+    },
+    created () {
+      this.periods = this.$attrs.periods;
     },
 
     methods: {

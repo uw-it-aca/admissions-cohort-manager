@@ -9,8 +9,8 @@
           <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
           <div class="aat-select-inline">
             <b-form-input id="input-with-list"
-                          autocomplete="off"
                           v-model="collection_id"
+                          autocomplete="off"
                           list="input-list"
                           required
                           :disabled="loadingCollection || has_uploaded"
@@ -22,7 +22,9 @@
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
         </fieldset>
-        <div class="aat-collection-note">Please confirm {{collectionType.toLowerCase()}} information is correct before entering applications.</div>
+        <div class="aat-collection-note">
+          Please confirm {{ collectionType.toLowerCase() }} information is correct before entering applications.
+        </div>
         <div role="region" aria-live="polite">
           <collectionDetails
             v-if="collectionType === 'Cohort'"
