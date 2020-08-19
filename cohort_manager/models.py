@@ -116,6 +116,8 @@ class AssignmentImport(models.Model):
         return {
             'id': self.pk,
             'comment': self.comment,
+            'cohort': self.cohort,
+            'major': self.major,
             'is_override': True if self.is_override else False,
             'is_file_upload': True if self.is_file_upload else False,
             'upload_filename': self.upload_filename,

@@ -2,11 +2,7 @@
   <div>
     <p>IFRAME BASE</p>
     <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
-      <router-view
-        :cur_period="cur_period"
-        :periods="admission_periods"
-        @showMessage="show_message"
-      />
+      <router-view />
     </main>
   </div>
 </template>

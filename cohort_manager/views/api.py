@@ -162,6 +162,15 @@ class ModifyUploadView(RESTDispatch):
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 
+    def get(self, request, upload_id, *args, **kwargs):
+        try:
+            apps = AssignmentImport.objects.get(id=upload_id)
+            return self.json_response(apps.json_data())
+        except ValueError:
+            return self.error_response(400, message="Invalid upload ID format")
+        except AssignmentImport.DoesNotExist:
+            return self.error_response(404, message="No uploads matching ID")
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
