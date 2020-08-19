@@ -133,6 +133,7 @@ class AssignmentImport(models.Model):
             'is_reassign': True if self.is_reassign else False,
             'is_reassign_protected':
                 True if self.is_reassign_protected else False,
+            'quarter': self.quarter
         }
 
     def remove_assignments(self, ids_to_remove):

@@ -100,6 +100,11 @@
     },
     created () {
       this.periods = this.$attrs.periods;
+      if(this.collectionId.length > 0
+        && this.collectionType.length > 0
+        && this.cur_period !== null){
+        this.get_collection();
+      }
     },
 
     methods: {

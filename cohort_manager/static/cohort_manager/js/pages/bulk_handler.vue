@@ -4,16 +4,24 @@
     <p v-if="err_msg">
       {{ err_msg }}
     </p>
-    <pre v-if="upload_data">{{ upload_data }}</pre>
+    <div v-if="upload_data">
+      <collection-details
+        :collection-type="collection_type"
+        :collection-id="collection_id"
+        :current-period="current_period"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 
   const axios = require("axios");
+  import CollectionDetails from "../components/collection_details.vue";
   export default {
     name: "BulkHandler",
     components: {
+      CollectionDetails
     },
     data(){
       return {
@@ -25,6 +33,32 @@
     params: {
     },
     computed: {
+      collection_type(){
+        if(this.upload_data !== undefined){
+          if(this.upload_data.cohort !== null){
+            return "cohort";
+          } else if(this.upload_data.major !== null){
+            return "major";
+          }
+        }
+        return undefined;
+      },
+      current_period(){
+        if(this.upload_data !== undefined){
+          return this.upload_data.quarter.toString();
+        }
+        return undefined;
+      },
+      collection_id() {
+        if (this.upload_data !== undefined) {
+          if (this.upload_data.cohort !== null) {
+            return this.upload_data.cohort;
+          } else if (this.upload_data.major !== null) {
+            return this.upload_data.major;
+          }
+        }
+        return undefined;
+      }
     },
     watch: {
       upload_id: function(){
