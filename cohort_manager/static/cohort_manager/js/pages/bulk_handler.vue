@@ -7,9 +7,19 @@
     <div v-if="upload_data">
       <collection-details
         :collection-type="collection_type"
-        :collection-id="collection_id"
         :current-period="current_period"
+        :collection-data="collection_data"
       />
+      <upload-review
+        :upload-response="upload_data"
+        :collection-type="collection_type"
+        upload-type="file"
+        :collection-options="collection_options"
+        :collection-id="collection_id"
+      />
+      <!--                     @upload_reset="handleReset"-->
+      <!--                     @is_reassign="handle_reassign"-->
+      <!--                     @is_reassign_protected="handle_reassign_protected"-->
     </div>
   </div>
 </template>
@@ -18,16 +28,19 @@
 
   const axios = require("axios");
   import CollectionDetails from "../components/collection_details.vue";
+  import UploadReview from "../components/collection_upload_review.vue";
   export default {
     name: "BulkHandler",
     components: {
-      CollectionDetails
+      CollectionDetails,
+      UploadReview
     },
     data(){
       return {
         upload_id: undefined,
         upload_data: undefined,
-        err_msg: undefined
+        err_msg: undefined,
+        collection_data: undefined
       };
     },
     params: {
@@ -58,11 +71,23 @@
           }
         }
         return undefined;
+      },
+      collection_options(){
+        if (this.upload_data !== undefined) {
+          return [{'text': 'foo','description': 'bar', 'protected': false}];
+        }
+        return undefined;
       }
     },
     watch: {
       upload_id: function(){
         this.get_upload();
+      },
+      collection_id() {
+        if(this.collection_id !== undefined && this.current_period !== undefined && this.collection_type !== undefined){
+          this.get_collection_data();
+        }
+
       }
     },
     mounted() {
@@ -78,6 +103,14 @@
         }).catch(function (err_resp) {
           vue.err_msg = err_resp.response.data.error;
         });
+      },
+      get_collection_data(){
+        var vue = this;
+        axios.get(
+          '/api/collection/' + this.collection_type.toLowerCase() + "/" + this.current_period + "/" + this.collection_id + "/",
+        ).then(response => {
+          vue.collection_data = response.data;
+        }).catch(function () {});
       }
     }
   };

@@ -1,7 +1,7 @@
 <template>
-  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
+  <b-container v-if="collection_id" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
-      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collectionId }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
+      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collection_id }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
     <div v-else>
       <b-row>
@@ -10,7 +10,7 @@
             <b-col cols="3" class="aat-data-primary">
               {{ collectionType }}
               <div class="aat-group-data aat-data-primary">
-                #{{ collectionId }}
+                #{{ collection_id }}
               </div>
             </b-col>
             <b-col cols="9" class="aat-group-info-secondary">
@@ -67,6 +67,12 @@
       currentPeriod: {
         type: String,
         default: null
+      },
+      collectionData: {
+        type: Object,
+        default() {
+          return {};
+        }
       }
     },
     data(){
@@ -78,7 +84,8 @@
         residency: "",
         invalid_collection: false,
         hide_details: true,
-        periods: []
+        periods: [],
+        collection_id: "",
       };
     },
     computed: {
@@ -96,14 +103,24 @@
     watch: {
       collectionId: function() {
         this.get_collection();
+      },
+      collectionData: {
+        handler: function(){
+          this.process_collection_data();
+        },
+        deep: true
       }
     },
     created () {
       this.periods = this.$attrs.periods;
-      if(this.collectionId.length > 0
-        && this.collectionType.length > 0
-        && this.cur_period !== null){
-        this.get_collection();
+      if(Object.keys(this.collectionData).length === 0){
+        if(this.collectionId.length > 0
+          && this.collectionType.length > 0
+          && this.cur_period !== null){
+          this.get_collection();
+        }
+      } else {
+        this.process_collection_data();
       }
     },
 
@@ -114,17 +131,21 @@
         axios.get(
           '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
-          this.admit_decision = response.data.admit_decision;
-          this.applications_assigned = response.data.applications_assigned;
-          this.description = response.data.description;
-          this.protected_group = response.data.protected_group;
-          this.residency = response.data.residency;
-          this.invalid_collection = false;
-          this.hide_details = false;
+          this.collectionData = response.data;
         }).catch(function () {
           vue.invalid_collection = true;
           vue.hide_details = false;
         });
+      },
+      process_collection_data(){
+        this.admit_decision = this.collectionData.admit_decision;
+        this.applications_assigned = this.collectionData.applications_assigned;
+        this.description = this.collectionData.description;
+        this.protected_group = this.collectionData.protected_group;
+        this.residency = this.collectionData.residency;
+        this.invalid_collection = false;
+        this.hide_details = false;
+        this.collection_id = this.collectionData.collection_id;
       }
     },
   };
