@@ -81,13 +81,9 @@
             CSV is invalid. {{ error_message }}
           </b-alert>
         </fieldset>
-        <fieldset class="aat-form-section">
-          <legend class="aat-sub-header">
-            Add Comment
-          </legend>
-          <label for="assignment_comment">Enter comment for this assignment</label>
-          <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
-        </fieldset>
+        <collection-comment
+          @comment="update_comment"
+        />
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
@@ -147,6 +143,7 @@
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
   import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
+  import CollectionComment from "../components/collection_comment.vue";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
@@ -158,6 +155,7 @@
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
       CollectionUploadFileInput: CollectionUploadFileInput,
+      CollectionComment: CollectionComment
     },
     props: {
       collectionType: {
@@ -438,6 +436,9 @@
         if (id_to_set !== undefined){
           this.collection_id = id_to_set;
         }
+      },
+      update_comment(comment){
+        this.comment = comment;
       }
     }
   };
@@ -449,15 +450,6 @@
   // form fields
   .aat-file-input {
     padding: 1rem 0;
-  }
-
-  .aat-comment-field {
-    display: block;
-    height: 144px;
-    max-width: 650px;
-    min-width: 250px;
-    padding: 0.5rem;
-    width: 100%;
   }
 
   .aat-collection-select {

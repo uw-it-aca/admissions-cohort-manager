@@ -13,13 +13,16 @@
       <upload-review
         :upload-response="upload_data"
         :collection-type="collection_type"
-        upload-type="file"
+        upload-type="bulk"
         :collection-options="collection_options"
         :collection-id="collection_id"
       />
       <!--                     @upload_reset="handleReset"-->
       <!--                     @is_reassign="handle_reassign"-->
       <!--                     @is_reassign_protected="handle_reassign_protected"-->
+      <collection-comment
+        @comment="update_comment"
+      />
     </div>
   </div>
 </template>
@@ -29,18 +32,21 @@
   const axios = require("axios");
   import CollectionDetails from "../components/collection_details.vue";
   import UploadReview from "../components/collection_upload_review.vue";
+  import CollectionComment from "../components/collection_comment.vue";
   export default {
     name: "BulkHandler",
     components: {
       CollectionDetails,
-      UploadReview
+      UploadReview,
+      CollectionComment
     },
     data(){
       return {
         upload_id: undefined,
         upload_data: undefined,
         err_msg: undefined,
-        collection_data: undefined
+        collection_data: undefined,
+        comment: ''
       };
     },
     params: {
@@ -111,6 +117,9 @@
         ).then(response => {
           vue.collection_data = response.data;
         }).catch(function () {});
+      },
+      update_comment(comment){
+        this.comment = comment;
       }
     }
   };
