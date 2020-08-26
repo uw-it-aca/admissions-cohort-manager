@@ -86,6 +86,7 @@
         hide_details: true,
         periods: [],
         collection_id: "",
+        collection_data: {}
       };
     },
     computed: {
@@ -102,9 +103,17 @@
     },
     watch: {
       collectionId: function() {
+        this.collection_id = this.collectionId;
         this.get_collection();
       },
       collectionData: {
+        handler: function(){
+          this.collection_data = this.collectionData;
+          this.process_collection_data();
+        },
+        deep: true
+      },
+      collection_data: {
         handler: function(){
           this.process_collection_data();
         },
@@ -113,8 +122,8 @@
     },
     created () {
       this.periods = this.$attrs.periods;
-      if(Object.keys(this.collectionData).length === 0){
-        if(this.collectionId.length > 0
+      if(Object.keys(this.collection_data).length === 0){
+        if(this.collectionId !== null && this.collectionId.length > 0
           && this.collectionType.length > 0
           && this.cur_period !== null){
           this.get_collection();
@@ -131,21 +140,21 @@
         axios.get(
           '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
-          this.collectionData = response.data;
+          this.collection_data = response.data;
         }).catch(function () {
           vue.invalid_collection = true;
           vue.hide_details = false;
         });
       },
       process_collection_data(){
-        this.admit_decision = this.collectionData.admit_decision;
-        this.applications_assigned = this.collectionData.applications_assigned;
-        this.description = this.collectionData.description;
-        this.protected_group = this.collectionData.protected_group;
-        this.residency = this.collectionData.residency;
+        this.admit_decision = this.collection_data.admit_decision;
+        this.applications_assigned = this.collection_data.applications_assigned;
+        this.description = this.collection_data.description;
+        this.protected_group = this.collection_data.protected_group;
+        this.residency = this.collection_data.residency;
         this.invalid_collection = false;
         this.hide_details = false;
-        this.collection_id = this.collectionData.collection_id;
+        this.collection_id = this.collection_data.collection_id;
       }
     },
   };
