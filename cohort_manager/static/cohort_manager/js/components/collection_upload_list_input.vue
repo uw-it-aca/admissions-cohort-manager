@@ -37,4 +37,11 @@
   .syskey-input {
     width: 100%;
   }
+
+  @media only screen and (min-width: 768px) {
+    /* Pagination */
+    .syskey-input {
+      min-height: 250px;
+    }
+  }
 </style>
