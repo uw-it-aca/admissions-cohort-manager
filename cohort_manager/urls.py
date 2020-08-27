@@ -20,7 +20,5 @@ urlpatterns = [
             ActivityLog.as_view()),
     re_path(r'^api/periods/',
             PeriodList.as_view()),
-    # re_path(r'^bulk_view/(?P<upload_id>.*)',
-    #         BulkView.as_view()),
     re_path(r'^.*$', LandingView.as_view()),
 ]

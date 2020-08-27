@@ -279,9 +279,9 @@ class BulkUpload(RESTDispatch):
             app_objects = get_application_from_bulk_upload(applications)
             Assignment.create_from_applications(assignment_import,
                                                 app_objects)
-            assignment_import.is_file_upload = False
+            assignment_import.is_file_upload = True
             assignment_import.save()
-            uri = '/bulk_view/{}'.format(assignment_import.id)
+            uri = '/iframe/bulk_view/{}'.format(assignment_import.id)
             content = {"aat_url": request.build_absolute_uri(uri)}
             return self.json_response(status=200, content=content)
         except Exception as ex:
