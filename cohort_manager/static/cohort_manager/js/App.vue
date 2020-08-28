@@ -374,14 +374,12 @@
     }
   }
 
-  @media screen and (min-width: 992px) {
+  @media (min-height: 500px) and (min-width: 992px) {
     .aat-nav-container {
+      background-color: #fff;
+      overflow-x: hidden;
       position: fixed;
-      width: 16.6%;
-
-      .nav-link {
-        background-color: #fff;
-      }
+      width: 16.56%;
     }
   }
 
