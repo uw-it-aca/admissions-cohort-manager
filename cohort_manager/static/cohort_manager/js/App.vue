@@ -113,7 +113,7 @@
         <div class="aat-footer-links">
           <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
         </div>
-        <div>© 2020 University of Washington  |  Seattle, WA</div>
+        <div class="aat-footer-copyright">© 2020 University of Washington  |  Seattle, WA</div>
       </footer>
     </b-row>
   </b-container>
@@ -306,9 +306,9 @@
   .aat-app-info {
     display: none !important;
     margin: 0 auto !important;
+    max-width: 160px;
     text-align: center;
     text-transform: uppercase;
-    width: 160px;
 
     &.aat-mobile-brand {
       display: block !important;
@@ -320,8 +320,6 @@
     }
 
     .aat-app-logo {
-      float: left;
-      margin: 0 0 1rem;
       min-width: 120px;
       width: 100%;
     }
@@ -375,6 +373,16 @@
       width: 100%;
     }
   }
+
+  @media (min-height: 500px) and (min-width: 992px) {
+    .aat-nav-container {
+      background-color: #fff;
+      overflow-x: hidden;
+      position: fixed;
+      width: 16.56%;
+    }
+  }
+
 
   .aat-link {
     padding: 0.5rem 1rem !important;
@@ -488,7 +496,6 @@
     font-size: 0.75rem;
     min-height: 100px;
     min-width: 100%;
-    padding: 3rem 0;
     text-align: center;
 
     .aat-footer-wordmark {
@@ -496,9 +503,14 @@
       display: inline-block;
       height: 22px;
       margin-bottom: 1rem;
+      margin-top: 3rem;
       overflow: hidden;
       text-indent: -9999px;
       width: 335px;
+    }
+
+    .aat-footer-copyright {
+      margin-bottom: 1rem;
     }
 
     .aat-footer-links {
