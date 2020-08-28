@@ -320,8 +320,6 @@
     }
 
     .aat-app-logo {
-      float: left;
-      margin: 0 0 1rem;
       min-width: 120px;
       width: 100%;
     }
@@ -375,6 +373,18 @@
       width: 100%;
     }
   }
+
+  @media screen and (min-width: 992px) {
+    .aat-nav-container {
+      position: fixed;
+      width: 16.6%;
+
+      .nav-link {
+        background-color: white;
+      }
+    }
+  }
+
 
   .aat-link {
     padding: 0.5rem 1rem !important;
