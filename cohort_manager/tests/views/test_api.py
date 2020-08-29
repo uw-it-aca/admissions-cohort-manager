@@ -89,7 +89,7 @@ class BulkUploadTest(TestViewApi):
             content = json.loads(response.content)
             self.assertEqual(response.status_code, 200)
             self.assertEqual(content['aat_url'],
-                             "http://testserver/bulk_view/1")
+                             "http://testserver/iframe/bulk_view/1")
             upload = AssignmentImport.objects.get(id=1)
             self.assertIsNotNone(upload)
             self.assertEqual(upload.cohort, "21")

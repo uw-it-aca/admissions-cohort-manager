@@ -105,11 +105,11 @@
       },
       collectionType: {
         type: String,
-        default: function() {return [];}
+        default: function() {return "";}
       },
       uploadType: {
         type: String,
-        default: function() {return [];}
+        default: function() {return "";}
       },
       collectionOptions: {
         type: Array,

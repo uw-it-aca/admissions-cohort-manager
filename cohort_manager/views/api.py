@@ -262,7 +262,6 @@ class BulkUpload(RESTDispatch):
             return self.error_response(status=403, content=error)
         try:
             req = json.loads(request.body)
-            # TODO: Switch to using file upload style if extra params are there
             applications = req['applications']
             cohort_id = req['cohort_id']
             major_id = req['major_id']

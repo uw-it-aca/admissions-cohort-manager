@@ -11,6 +11,7 @@
         :collection-data="collection_data"
       />
       <upload-review
+        v-if="collection_options"
         :upload-response="upload_data"
         :collection-type="collection_type"
         upload-type="bulk"
@@ -76,7 +77,8 @@
         is_reassign_protected: false,
         is_reassign: false,
         csrfToken: '',
-        submit_msg: ''
+        submit_msg: '',
+        collection_options: undefined
       };
     },
     params: {
@@ -85,9 +87,9 @@
       collection_type(){
         if(this.upload_data !== undefined){
           if(this.upload_data.cohort !== null){
-            return "cohort";
+            return "Cohort";
           } else if(this.upload_data.major !== null){
-            return "major";
+            return "Major";
           }
         }
         return undefined;
@@ -108,22 +110,13 @@
         }
         return undefined;
       },
-      collection_options(){
-        if (this.upload_data !== undefined) {
-          return [{'text': 'foo','description': 'bar', 'protected': false}];
-        }
-        return undefined;
-      }
     },
     watch: {
       upload_id: function(){
         this.get_upload();
       },
-      collection_id() {
-        if(this.collection_id !== undefined && this.current_period !== undefined && this.collection_type !== undefined){
-          this.get_collection_data();
-        }
-
+      upload_data(){
+        this.get_collection_options();
       }
     },
     mounted() {
@@ -150,13 +143,38 @@
           vue.fetch_err_msg = err_resp.response.data.error;
         });
       },
-      get_collection_data(){
+      set_collection_data(){
         var vue = this;
-        axios.get(
-          '/api/collection/' + this.collection_type.toLowerCase() + "/" + this.current_period + "/" + this.collection_id + "/",
-        ).then(response => {
-          vue.collection_data = response.data;
-        }).catch(function () {});
+        $(this.collection_options).each(function(idx, val){
+          if(val.value.toString() === vue.collection_id){
+            vue.collection_data = {
+              admit_decision : val.admit_decision,
+              applications_assigned : val.assigned_count,
+              description : val.description,
+              protected_group : val.protected,
+              residency : val.residency,
+              collection_id : val.value
+            };
+          }
+        });
+      },
+      get_collection_options(){
+        var vue = this,
+            url = undefined;
+        if(this.collection_type === 'Cohort') {
+          url ='/api/collection/cohort/' + this.current_period + "/";
+        }
+        if(this.collection_type === 'Major'){
+          url = '/api/collection/major/' + this.current_period + "/";
+        }
+        if(url !== undefined){
+          axios.get(
+            url
+          ).then(response => {
+            vue.collection_options = response.data;
+            vue.set_collection_data();
+          });
+        }
       },
       update_comment(comment){
         this.comment = comment;
