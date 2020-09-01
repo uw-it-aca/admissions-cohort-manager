@@ -58,7 +58,7 @@
           value=""
           class="aat-checkbox"
         >
-          Reassign applications that already have a cohort.
+          Reassign applications that already have a non-protected cohort.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
           <b-form-text>
