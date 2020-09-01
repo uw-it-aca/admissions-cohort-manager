@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.management import call_command
 from django.db.utils import IntegrityError
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport, Assignment
@@ -165,6 +166,9 @@ class ModifyUploadView(RESTDispatch):
     def get(self, request, upload_id, *args, **kwargs):
         try:
             apps = AssignmentImport.objects.get(id=upload_id)
+            if apps.is_submitted:
+                return self.error_response(400,
+                                           message="Upload already submitted")
             return self.json_response(apps.json_data())
         except ValueError:
             return self.error_response(400, message="Invalid upload ID format")
@@ -285,3 +289,18 @@ class BulkUpload(RESTDispatch):
             return self.json_response(status=200, content=content)
         except Exception as ex:
             return self.error_response(status=500, message=ex)
+
+
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
+class MockDataView(RESTDispatch):
+    def put(self, request):
+        if AssignmentImport.objects.count() > 0:
+            imports = AssignmentImport.objects.all()
+            for ai in imports:
+                ai.is_submitted = False
+            AssignmentImport.objects.bulk_update(imports, ['is_submitted'])
+        else:
+            call_command('loaddata', 'mock_data.json')
+
+        return self.json_response()

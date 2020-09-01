@@ -6,7 +6,6 @@
     </p>
     <div v-if="upload_data">
       <collection-details
-        v-if="cohort_data"
         :collection-type="collection_type"
         :current-period="current_period"
         :collection-data="cohort_data"
