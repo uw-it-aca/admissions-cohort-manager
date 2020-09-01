@@ -6,9 +6,14 @@
     </p>
     <div v-if="upload_data">
       <collection-details
+        v-if="cohort_data"
         :collection-type="collection_type"
         :current-period="current_period"
-        :collection-data="collection_data"
+        :collection-data="cohort_data"
+      />
+      <major-details
+        v-if="major_data"
+        :major-data="major_data"
       />
       <upload-review
         v-if="collection_options"
@@ -58,11 +63,13 @@
 
   const axios = require("axios");
   import CollectionDetails from "../components/collection_details.vue";
+  import MajorDetails from "../components/major_details.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import CollectionComment from "../components/collection_comment.vue";
   export default {
     name: "BulkHandler",
     components: {
+      MajorDetails,
       CollectionDetails,
       UploadReview,
       CollectionComment
@@ -72,7 +79,8 @@
         upload_id: undefined,
         upload_data: undefined,
         fetch_err_msg: undefined,
-        collection_data: undefined,
+        cohort_data: undefined,
+        major_data: undefined,
         comment: '',
         is_reassign_protected: false,
         is_reassign: false,
@@ -86,9 +94,12 @@
     computed: {
       collection_type(){
         if(this.upload_data !== undefined){
+          console.log(1);
           if(this.upload_data.cohort !== null){
+            console.log(2);
             return "Cohort";
           } else if(this.upload_data.major !== null){
+            console.log(3);
             return "Major";
           }
         }
@@ -147,14 +158,27 @@
         var vue = this;
         $(this.collection_options).each(function(idx, val){
           if(val.value.toString() === vue.collection_id){
-            vue.collection_data = {
-              admit_decision : val.admit_decision,
-              applications_assigned : val.assigned_count,
-              description : val.description,
-              protected_group : val.protected,
-              residency : val.residency,
-              collection_id : val.value
-            };
+            if(vue.collection_type === "Cohort"){
+              vue.cohort_data = {
+                admit_decision : val.admit_decision,
+                applications_assigned : val.assigned_count,
+                description : val.description,
+                protected_group : val.protected,
+                residency : val.residency,
+                collection_id : val.value
+              };
+            } else if (vue.collection_type === "Major"){
+              vue.major_data = {
+                abbr : val.abbr,
+                applications_assigned : val.assigned_count,
+                text : val.text,
+                college : val.college,
+                division : val.division,
+                major_id : val.value,
+                dtx: val.dtx
+              };
+            }
+
           }
         });
       },
