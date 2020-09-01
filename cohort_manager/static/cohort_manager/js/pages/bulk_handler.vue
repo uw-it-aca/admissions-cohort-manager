@@ -94,12 +94,9 @@
     computed: {
       collection_type(){
         if(this.upload_data !== undefined){
-          console.log(1);
           if(this.upload_data.cohort !== null){
-            console.log(2);
             return "Cohort";
           } else if(this.upload_data.major !== null){
-            console.log(3);
             return "Major";
           }
         }
