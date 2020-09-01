@@ -164,7 +164,7 @@
         }
       },
       current_admission_period: function(period){
-        this.cur_period = period;
+        this.cur_period = parseInt(period);
         EventBus.$emit('period_change', period);
       }
     },

@@ -65,7 +65,7 @@
         default: ""
       },
       currentPeriod: {
-        type: String,
+        type: Number,
         default: null
       },
       collectionData: {

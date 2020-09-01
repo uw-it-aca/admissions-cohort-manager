@@ -245,10 +245,15 @@ class CollectionList(RESTDispatch):
 class PeriodList(RESTDispatch):
     def get(self, request):
         quarters = get_quarters_with_current()
+        quarter_strings = ["Winter", "Spring", "Summer", "Autumn"]
         resp = []
         for quarter in quarters:
+            try:
+                quarter_string = quarter_strings[int(quarter.appl_qtr)]
+            except (TypeError, ValueError):
+                quarter_string = quarter.appl_qtr
             resp.append({'value': quarter.id,
-                         'text': "{} {}".format(quarter.appl_qtr,
+                         'text': "{} {}".format(quarter_string,
                                                 quarter.appl_yr),
                          'current': quarter.is_current})
         return self.json_response(status=200, content=resp)
