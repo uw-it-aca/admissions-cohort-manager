@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.management import call_command
 from django.db.utils import IntegrityError
 from uw_saml.decorators import group_required
 from cohort_manager.models import AssignmentImport, Assignment
@@ -162,6 +163,18 @@ class ModifyUploadView(RESTDispatch):
         except ObjectDoesNotExist as ex:
             return self.error_response(404, message=ex)
 
+    def get(self, request, upload_id, *args, **kwargs):
+        try:
+            apps = AssignmentImport.objects.get(id=upload_id)
+            if apps.is_submitted:
+                return self.error_response(400,
+                                           message="Upload already submitted")
+            return self.json_response(apps.json_data())
+        except ValueError:
+            return self.error_response(400, message="Invalid upload ID format")
+        except AssignmentImport.DoesNotExist:
+            return self.error_response(404, message="No uploads matching ID")
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
@@ -253,7 +266,6 @@ class BulkUpload(RESTDispatch):
             return self.error_response(status=403, content=error)
         try:
             req = json.loads(request.body)
-            # TODO: Switch to using file upload style if extra params are there
             applications = req['applications']
             cohort_id = req['cohort_id']
             major_id = req['major_id']
@@ -270,10 +282,25 @@ class BulkUpload(RESTDispatch):
             app_objects = get_application_from_bulk_upload(applications)
             Assignment.create_from_applications(assignment_import,
                                                 app_objects)
-            assignment_import.is_file_upload = False
+            assignment_import.is_file_upload = True
             assignment_import.save()
-            uri = '/bulk_view/{}'.format(assignment_import.id)
+            uri = '/iframe/bulk_view/{}'.format(assignment_import.id)
             content = {"aat_url": request.build_absolute_uri(uri)}
             return self.json_response(status=200, content=content)
         except Exception as ex:
             return self.error_response(status=500, message=ex)
+
+
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
+class MockDataView(RESTDispatch):
+    def put(self, request):
+        if AssignmentImport.objects.count() > 0:
+            imports = AssignmentImport.objects.all()
+            for ai in imports:
+                ai.is_submitted = False
+            AssignmentImport.objects.bulk_update(imports, ['is_submitted'])
+        else:
+            call_command('loaddata', 'mock_data.json')
+
+        return self.json_response()

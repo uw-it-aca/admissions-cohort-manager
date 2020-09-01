@@ -1,0 +1,36 @@
+{% if debug %}
+  <html>
+  <head>
+    <title>Cohort Manager Admin</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    {% csrf_token %}
+    <script>
+      $(document).ready(function() {
+        $("#mock_data").click(function (e) {
+          e.preventDefault();
+          var csrf = jQuery("[name=csrfmiddlewaretoken]").val();
+
+          $.ajax({
+            url: "/api/admin/mock_data/",
+            method: "PUT",
+            dataTyte: 'json',
+            headers: {
+              'X-CSRFToken': csrf
+            }
+          }).done(function (response) {
+            alert('mock data loaded');
+          }).fail(function (response) {
+            alert('Issue loading mock data');
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+  <h1>Cohort Manager Admin</h1>
+  <p><button id="mock_data">Load/Reset</button> bulk submission mock data</p>
+  <p><a href="{{ major_url }}">Bulk Major Submission</a></p>
+  <p><a href="{{ cohort_url }}">Bulk Cohort Submission</a></p>
+  </body>
+  </html>
+{% endif %}

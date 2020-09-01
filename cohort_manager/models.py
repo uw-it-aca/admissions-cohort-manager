@@ -116,6 +116,8 @@ class AssignmentImport(models.Model):
         return {
             'id': self.pk,
             'comment': self.comment,
+            'cohort': self.cohort,
+            'major': self.major,
             'is_override': True if self.is_override else False,
             'is_file_upload': True if self.is_file_upload else False,
             'upload_filename': self.upload_filename,
@@ -131,6 +133,7 @@ class AssignmentImport(models.Model):
             'is_reassign': True if self.is_reassign else False,
             'is_reassign_protected':
                 True if self.is_reassign_protected else False,
+            'quarter': self.quarter
         }
 
     def remove_assignments(self, ids_to_remove):
