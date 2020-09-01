@@ -82,10 +82,10 @@
         <b-row>
           <messagearea
             :message-string="message"
-            :alertType="alertType"
+            :alert-type="alertType"
           />
         </b-row>
-        <b-row class="aat-adperiod-container" v-if="show_period_picker">
+        <b-row v-if="show_period_picker" class="aat-adperiod-container">
           <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
           <b-form-select id="aat_adperiod_select"
                          v-model="current_admission_period"
@@ -113,7 +113,9 @@
         <div class="aat-footer-links">
           <a href="https://www.washington.edu/online/privacy/">Privacy</a> / <a href="https://www.washington.edu/online/terms/">Terms</a>
         </div>
-        <div class="aat-footer-copyright">© 2020 University of Washington  |  Seattle, WA</div>
+        <div class="aat-footer-copyright">
+          © 2020 University of Washington  |  Seattle, WA
+        </div>
       </footer>
     </b-row>
   </b-container>
@@ -234,26 +236,32 @@
     border-bottom: 1px solid $banner-border;
     color: #fff;
     font-size: 0.75rem;
+
     a {
       color: #fff;
     }
+
     a:hover,
     a:focus {
       color: $uw-metallic;
     }
+
     nav {
       flex: auto;
       padding: 1rem;
     }
+
     div:first-child {
       border-right: 1px solid $banner-border;
       height: 100%;
       padding: 0.75rem 1rem;
     }
+
     .aat-banner-content {
       flex: auto;
     }
   }
+
   .aat-logout-link {
     display: block;
   }
@@ -262,6 +270,7 @@
       flex: auto;
       font-weight: 600;
     }
+
     .aat-logout-link {
       float: right;
       margin-left: 2rem;
@@ -272,34 +281,42 @@
     font-size: 2rem;
     padding: 1.5rem 0;
   }
+
   .aat-sub-header {
     color: $text-color;
     font-size: 1.75rem;
     font-weight: 600;
+
     h3 {
       font-size: 1.5rem;
     }
   }
+
   .aat-brand-link {
     line-height: 1.25;
+
     &:hover,
     &:focus {
       text-decoration: none;
     }
   }
+
   .aat-app-info {
     display: none !important;
     margin: 0 auto !important;
     max-width: 160px;
     text-align: center;
     text-transform: uppercase;
+
     &.aat-mobile-brand {
       display: block !important;
     }
+
     &.aat-mobile-brand .aat-app-logo {
       margin: 0.25rem 0;
       min-width: unset;
     }
+
     .aat-app-logo {
       min-width: 120px;
       width: 100%;
@@ -309,6 +326,7 @@
     .aat-app-info {
       display: block !important;
       margin: 1rem auto !important;
+
       &.aat-mobile-brand {
         display: none !important;
       }
@@ -330,16 +348,19 @@
     flex-direction: column !important;
     padding: 0;
   }
+
   .aat-main-navbar {
     border-bottom: 2px solid $uw-light-grey;
     max-width: 100% !important;
     position: relative !important;
     width: 100%;
   }
+
   .aat-nav-group {
     flex-direction: column !important;
     margin: 0.5rem 0 0;
     width: 100%;
+
     &.aat-assign-group {
       border-top: solid 1px $uw-light-grey;
       margin-top: 0;
@@ -354,9 +375,11 @@
       width: 16.56%;
     }
   }
+
   .aat-link {
     padding: 0.5rem 1rem !important;
   }
+
   .aat-button-override {
     background: none;
     border-color: $uw-light-grey;
@@ -366,26 +389,31 @@
     color: $text-color;
     margin: 0 -1rem;
     text-align: left;
+
     a:hover {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
       text-decoration: none;
     }
+
     a:focus {
       background-color: $nav-hover-bkgnd;
       color: $text-black;
       text-decoration: none;
     }
   }
+
   .aat-button-override .router-link-exact-active {
     background-color: $nav-active-bkgnd;
     color: $light-text;
   }
+
   .aat-button-override a {
     color: $text-color;
     display: block;
     padding: 1rem 0 1rem 2rem;
     width: 100%;
+
     &::after {
       border-style: solid;
       border-width: 0 2px 2px 0;
@@ -397,6 +425,7 @@
       transform: rotate(-45deg);
     }
   }
+
   .aat-external-link {
     border-top: solid 1px $uw-light-grey;
     padding-top: 1rem !important;
@@ -408,9 +437,11 @@
       position: relative !important;
       width: auto;
     }
+
     .aat-nav-container {
       display: block !important;
     }
+
     .aat-main-navbar {
       border-right: 1px solid $uw-light-grey;
       padding: 0 !important;
@@ -421,17 +452,21 @@
   html {
     background-color: $uw-purple;
   }
+
   .aat-cohort-manager {
     min-height: 70vh;
     overflow: hidden;
+
     .aat-content-area {
       background-color: $app-bkgnd;
     }
   }
+
   .aat-main-container {
     padding-bottom: 3rem;
     padding-left: 1.5rem;
   }
+
   .aat-adperiod-container {
     position: absolute;
     right: 2rem;
@@ -446,6 +481,7 @@
     min-height: 100px;
     min-width: 100%;
     text-align: center;
+
     .aat-footer-wordmark {
       background: url('/static/cohort_manager/img/uw-sprite.svg') no-repeat 0 -434px transparent;
       display: inline-block;
@@ -456,16 +492,20 @@
       text-indent: -9999px;
       width: 335px;
     }
+
     .aat-footer-copyright {
       margin-bottom: 1rem;
     }
+
     .aat-footer-links {
       font-size: 0.8725rem;
       padding: 0.5rem 0;
     }
   }
+
   .aat-footer a {
     color: $light-text;
+
     &:hover,
     &:focus {
       color: $uw-metallic;
@@ -474,11 +514,13 @@
   // Forms
   .aat-form-section {
     margin: 0 0 3rem;
+
     .aat-select-inline {
       border-color: $banner-border;
       width: max-content;
     }
   }
+
   .aat-checkbox {
     margin-top: 2rem;
   }
@@ -487,36 +529,46 @@
     border-bottom: 2px solid $table-border;
     font-size: 0.875rem;
     line-height: 1.3;
+
     .aat-table-header.aat-data-cell {
       color: $sub-header;
       font-size: 0.75rem !important;
     }
+
     .aat-data-cell.center {
       text-align: center;
     }
   }
+
   .aat-data-table .aat-data-cell {
     vertical-align: baseline;
+
     &.aat-data-nowrap {
       white-space: nowrap;
     }
   }
+
   .aat-data-split {
     padding-bottom: 0.5rem;
   }
+
   .table-hover tbody tr:focus-within {
     background-color: rgba(0, 0, 0, 0.075);
     color: #212529;
   }
+
   .row .aat-actions-cell {
     opacity: 0;
   }
+
   .aat-actions-cell:focus-within {
     opacity: 1;
   }
+
   tbody tr:hover .aat-actions-cell {
     opacity: 1;
   }
+
   .b-table[aria-busy='true'] .b-table-busy-slot .text-info {
     padding: 3rem 0;
   }
@@ -529,22 +581,27 @@
   .modal-body {
     margin: 2rem 0.5rem;
   }
+
   .aat-processing-message {
     margin: 2rem 1rem;
   }
+
   .aat-modal {
     border: 4px solid $uw-purple;
     box-shadow: 2px 3px 5px #777;
+
     .modal-title {
       color: $uw-purple;
     }
   }
+
   .aat-modal-box {
     background-color: rgba(255, 255, 255, 0.5);
   }
   // Collapse
   .card-header {
     background: $light-grey-bkgnd;
+
     a::after {
       border-style: solid;
       border-width: 0 2px 2px 0;
@@ -555,9 +612,11 @@
       transition: transform 0.5s;
       vertical-align: middle;
     }
+
     a:not(.collapsed)::after {
       transform: rotate(45deg);
     }
+
     .btn-block.collapsed::after {
       transform: rotate(-45deg) !important;
     }
