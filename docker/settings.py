@@ -1,7 +1,5 @@
 from .base_settings import *
 
-ALLOWED_HOSTS = ['*']
-
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
