@@ -99,6 +99,14 @@ environmentVariablesSecrets:
     name: API_TOKEN
     secretName: aat.axdd.s.uw.edu-secrets
     secretKey: bulk_api_key
+  samlSPCert:
+    name: SP_CERT
+    secretName: aat.axdd.s.uw.edu-ic-certs
+    secretKey: aat.axdd.s.uw.edu-ic.cert
+  samlIDPCert:
+    name: IDP_CERT
+    secretName: aat.axdd.s.uw.edu-uw-idp-cert
+    secretKey: uw-idp-cert
 
 metrics:
   enabled: false
