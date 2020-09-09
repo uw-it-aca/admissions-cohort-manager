@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   app:
@@ -8,6 +8,7 @@ services:
     container_name: app
     build:
       context: .
+      target: app-container
     volumes:
       - ./cohort_manager:/app/cohort_manager
     ports:
