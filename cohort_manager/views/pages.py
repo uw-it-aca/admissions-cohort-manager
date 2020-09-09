@@ -10,6 +10,7 @@ class PageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['netid'] = get_user(self.request)
+        context['aat_env'] = settings.AAT_ENV
         return context
 
 
