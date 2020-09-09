@@ -1,6 +1,6 @@
 <template>
   <div>
-    <env_banner />
+    <env_banner v-if="this.env === 'eval'"/>
     <iframe_base v-if="isFrame" />
     <full_base v-else />
   </div>
@@ -20,6 +20,7 @@
     },
     data(){
       return {
+        env: '',
       };
     },
     computed: {
@@ -30,6 +31,8 @@
     watch: {
     },
     mounted() {
+      /*global aat_env*/
+      this.env = aat_env;
     },
     methods: {
 

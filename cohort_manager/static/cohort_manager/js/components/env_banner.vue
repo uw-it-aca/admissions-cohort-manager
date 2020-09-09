@@ -1,6 +1,6 @@
 <template>
-  <div :class="env_class">
-    Welcome To {{ env_string }}
+  <div class="aat-env-test">
+    This is AAT Test.
   </div>
 </template>
 
@@ -11,31 +11,26 @@
     },
     data() {
       return {
-        env: '',
 
       };
     },
     computed: {
-      env_string() {
-        if(this.env === "localdev"){
-          return "Local Dev";
-        } else if(this.env === "eval") {
-          return "AAT Test";
-        } else if(this.env === "prod") {
-          return "AAT Production";
-        }
-        return "Unknown";
-      },
-      env_class(){
-        return "aat-env-" + this.env;
-      }
     },
     mounted() {
-      /*global aat_env*/
-      this.env = aat_env;
     },
   };
 </script>
 
 <style lang="scss">
+  @import '../../css/_variables.scss';
+
+  .aat-env-test {
+    background-color: $test-env-bkgnd;
+    border-bottom: solid 2px $test-env-border;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    text-align: center;
+  }
 </style>
