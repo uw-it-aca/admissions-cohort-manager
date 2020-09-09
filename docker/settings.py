@@ -61,3 +61,5 @@ if os.getenv("ENV") == "localdev":
     DEBUG = True
 
 API_TOKEN = os.getenv('API_TOKEN')
+
+AAT_ENV = os.getenv('ENV')
