@@ -75,7 +75,15 @@
             />
           </div>
           <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
-            Invalid systems keys.
+            Invalid system keys:
+            <ul>
+              <li
+                v-for="value in invalid_syskeys"
+                :key="value.id"
+              >
+                {{ value }}
+              </li>
+            </ul>
           </b-alert>
           <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
             CSV is invalid. {{ error_message }}
@@ -198,6 +206,7 @@
         is_reassign: false,
         is_reassign_protected: false,
         invalid_manual: false,
+        invalid_syskeys: [],
         invalid_csv: false,
         submitted: false,
         is_uploading: false,
@@ -315,6 +324,7 @@
             vue.handleReset();
           }else if(vue.syskey_list!==null){
             vue.invalid_manual = true;
+            vue.invalid_syskeys = err_resp.response.data.invalid_syskeys;
             vue.handleReset();
           }
         });

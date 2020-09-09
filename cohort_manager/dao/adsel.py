@@ -148,9 +148,13 @@ def get_application_by_qtr_syskey(qtr_id, syskey):
 
 def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
     app_list = []
+    invalid_syskeys = []
     for syskey in syskeys:
-        app_list += get_application_by_qtr_syskey(qtr_id, syskey)
-    return app_list
+        try:
+            app_list += get_application_by_qtr_syskey(qtr_id, syskey)
+        except DataFailureException:
+            invalid_syskeys.append(syskey)
+    return app_list, invalid_syskeys
 
 
 def _get_collection(assignment_import):
