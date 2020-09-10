@@ -75,8 +75,8 @@
             />
           </div>
           <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
-            Invalid system keys:
-            <ul>
+            The following system keys are invalid:
+            <ul class="att-error-list">
               <li
                 v-for="value in invalid_syskeys"
                 :key="value.id"
@@ -84,6 +84,7 @@
                 {{ value }}
               </li>
             </ul>
+            You will need to correct these before moving forward.
           </b-alert>
           <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
             CSV is invalid. {{ error_message }}
@@ -498,6 +499,10 @@
 
   .alert-danger {
     max-width: 650px;
+  }
+
+  .att-error-list {
+    margin-top: 1rem;
   }
 
   // action elements
