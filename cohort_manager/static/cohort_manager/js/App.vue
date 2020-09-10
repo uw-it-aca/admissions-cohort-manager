@@ -1,20 +1,26 @@
 <template>
-  <iframe_base v-if="isFrame" />
-  <full_base v-else />
+  <div>
+    <env_banner v-if="this.env === 'eval'"/>
+    <iframe_base v-if="isFrame" />
+    <full_base v-else />
+  </div>
 </template>
 
 <script>
   import FullBase from './full_base';
   import iFrameBase from "./iframe_base";
+  import EnvBanner from "./components/env_banner";
 
   export default {
     name: "Base",
     components: {
+      env_banner: EnvBanner,
       full_base: FullBase,
       iframe_base: iFrameBase
     },
     data(){
       return {
+        env: '',
       };
     },
     computed: {
@@ -25,6 +31,8 @@
     watch: {
     },
     mounted() {
+      /*global aat_env*/
+      this.env = aat_env;
     },
     methods: {
 
