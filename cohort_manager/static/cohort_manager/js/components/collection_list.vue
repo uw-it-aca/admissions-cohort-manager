@@ -320,10 +320,12 @@
           bvModalEvent.vueTarget.hide();
           vue.is_resetting = false;
           vue.$emit('showMessage', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
+          vue.$router.push({path: '/log'});
         }).catch(function () {
           bvModalEvent.vueTarget.hide();
           vue.is_resetting = false;
           vue.$emit('showMessage', "Reset of " + vue.collectionType + " " + vue.resetModal.itemId + " has been submitted. Check the Activity Log in a few minutes to verify.", "primary");
+          vue.$router.push({path: '/log'});
         });
 
       }

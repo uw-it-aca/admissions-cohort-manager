@@ -1,6 +1,6 @@
 <template>
-  <div v-bind:class="'aat-globalenv-' + env">
-    <env_banner v-if="this.env === 'eval'"/>
+  <div :class="'aat-globalenv-' + env">
+    <env_banner v-if="env === 'eval'" />
     <iframe_base v-if="isFrame" />
     <full_base v-else />
   </div>
