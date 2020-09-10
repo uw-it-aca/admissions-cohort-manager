@@ -232,7 +232,8 @@
   }
   
   // Test Environment styles
-  .aat-globalenv-eval .aat-app-banner, .aat-globalenv-eval .aat-footer {
+  .aat-globalenv-eval .aat-app-banner,
+  .aat-globalenv-eval .aat-footer {
     background-color: $test-env-bkgnd;
   }
   
