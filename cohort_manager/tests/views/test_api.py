@@ -111,6 +111,19 @@ class BulkUploadTest(TestViewApi):
             self.assertEqual(response['WWW-Authenticate'], "Bearer")
 
 
+class ListUploadTest(TestViewApi):
+    def test__invalid_syskey(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        body = {'syskey_list': "1,2,123",
+                'comment': "foo",
+                'qtr_id': 0,
+                'cohort_id': 1}
+        response = self.post_form_response("create_upload", body)
+        response_content = json.loads(response.content)
+        self.assertEqual(response_content['invalid_syskeys'][0], '1')
+        self.assertEqual(len(response_content['invalid_syskeys']), 2)
+
+
 class ModifyUploadViewTest(TestViewApi):
     def test_get_upload(self):
         upload = AssignmentImport(cohort=42, created_by="javerage", quarter=1)
