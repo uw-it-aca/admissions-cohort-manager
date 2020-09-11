@@ -79,6 +79,11 @@ class TestViewApi(TestCase):
                                 data=body,
                                 content_type="application/json")
 
+    def post_form_response(self, url_name, body, **kwargs):
+        url = reverse(url_name, **kwargs)
+        return self.client.post(url,
+                                data=body)
+
     def post_request_token(self, url, token):
         request = RequestFactory().post(url)
         request.session = self.client.session

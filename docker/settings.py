@@ -1,7 +1,5 @@
 from .base_settings import *
 
-ALLOWED_HOSTS = ['*']
-
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
@@ -63,3 +61,5 @@ if os.getenv("ENV") == "localdev":
     DEBUG = True
 
 API_TOKEN = os.getenv('API_TOKEN')
+
+AAT_ENV = os.getenv('ENV')

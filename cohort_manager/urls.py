@@ -11,7 +11,9 @@ urlpatterns = [
     re_path(r'api/upload/(?P<upload_id>.*)/',
             ModifyUploadView.as_view(),
             name="upload"),
-    path('api/upload', UploadView.as_view()),
+    path('api/upload',
+         UploadView.as_view(),
+         name="create_upload"),
     re_path(r'^api/collection/(?P<collection_type>.*)/'
             r'(?P<quarter>.*)/(?P<collection_id>.+)/',
             CollectionDetails.as_view()),

@@ -101,11 +101,13 @@ class UploadView(RESTDispatch):
                     Assignment.objects.bulk_create(assignments)
 
             if syskey_list:
-                try:
-                    applications = get_apps_by_qtr_id_syskey_list(qtr_id,
-                                                                  syskey_list)
-                except DataFailureException as ex:
-                    return self.error_response(status=404, message=ex)
+                applications, invalid_syskes = get_apps_by_qtr_id_syskey_list(
+                    qtr_id,
+                    syskey_list
+                )
+                if len(invalid_syskes) > 0:
+                    return self.error_response(status=403, content={
+                        "invalid_syskeys": invalid_syskes})
                 Assignment.create_from_applications(assignment_import,
                                                     applications)
                 assignment_import.is_file_upload = False
