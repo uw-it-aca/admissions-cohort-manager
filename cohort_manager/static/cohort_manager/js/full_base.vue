@@ -1,5 +1,26 @@
 <template>
   <b-container fluid>
+    <b-modal
+      ref="picker-modal"
+      :hide-header-close="!has_set_period"
+      :hide-footer="!has_set_period"
+      :no-close-on-backdrop="!has_set_period"
+      ok-only
+    >
+      <h2>Select Admission Period</h2>
+      <ul class="att-error-list">
+        <li
+          v-for="value in admission_periods"
+          :key="value.value"
+        >
+          <a href="#" @click="set_default_period(value.value)">
+            ({{ value.value }}) {{ value.text }}
+            <span v-if="value.current">(Open)</span>
+            <span v-if="value.value ===cur_period">(Current Set Period)</span>
+          </a>
+        </li>
+      </ul>
+    </b-modal>
     <b-row class="aat-app-banner">
       <h2 id="aat_navbar_header" class="sr-only">
         Main Navigation
@@ -27,6 +48,10 @@
             <span class="sr-only">Application Assignment Tool</span>
           </a>
         </b-navbar-brand>
+        <div>
+          <p>Admission Period</p>
+          {{ current_period_display }} <a href="#" @click="show_period_picker">change</a>
+        </div>
         <b-navbar class="aat-nav-container">
           <h3 id="aat_collection_assignment_header" class="sr-only">
             Assign Applications
@@ -85,16 +110,6 @@
             :alert-type="alertType"
           />
         </b-row>
-        <b-row v-if="show_period_picker" class="aat-adperiod-container">
-          <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
-          <b-form-select id="aat_adperiod_select"
-                         v-model="current_admission_period"
-                         class="aat-adperiod-select"
-                         :class="{disabled: admission_periods.length < 2}"
-                         :options="admission_periods"
-                         @change="set_default_period"
-          />
-        </b-row>
         <b-row class="aat-main-content-container">
           <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
             <router-view
@@ -141,17 +156,21 @@
         navCount: 0,
         cur_period: null,
         alertType: null,
-        show_period_picker: true
       };
     },
     computed: {
       period_set: function () {
         return this.cur_period !== null;
-      }
+      },
+      has_set_period: function() {
+        return this.get_saved_period() !== null;
+      },
+      current_period_display: function(){
+        return this.get_saved_period_display();
+      },
     },
     watch: {
       $route(){
-        this.set_period_picker_visibility();
         //Set focus for accessibility purposes
         this.$refs.main.focus();
         // Hide the message on the next route AFTER the post-upload one
@@ -170,17 +189,18 @@
     },
     mounted() {
       this.netid = window.user_netid;
-      this.get_periods();
-      this.set_period_picker_visibility();
+      if(!this.has_set_period){
+        this.show_period_picker();
+      } else {
+        this.current_admission_period = this.get_saved_period();
+      }
     },
     methods: {
-      set_period_picker_visibility() {
-        if(this.$router.currentRoute.path === "/log/"){
-          this.show_period_picker = false;
-        } else {
-          this.show_period_picker = true;
-        }
+      show_period_picker(){
+        this.get_periods();
+        this.$refs['picker-modal'].show();
       },
+
       show_message(msg, type) {
         var vue = this;
         this.message = msg;
@@ -196,27 +216,29 @@
           '/api/periods/',
         ).then(response => {
           vue.admission_periods = response.data;
-
-          var saved_period = this.get_saved_period();
-          if(saved_period === null){
-            $.each(response.data, function (idx, period) {
-              if(period.current === true){
-                vue.current_admission_period = period.value;
-                vue.set_default_period(period.value);
-              }
-            });
-          } else {
-            vue.current_admission_period = saved_period;
-          }
-
         });
       },
       set_default_period(period) {
-        $cookies.set('default_period', period, "1y");
+        this.$refs['picker-modal'].hide();
+        this.current_admission_period = period;
+        $cookies.set('default_period', period, 0);
+        var vue = this;
+        $(this.admission_periods).each(function(idx, val){
+          if(parseInt(val.value) === parseInt(vue.current_admission_period)){
+            $cookies.set('default_period_text',
+                         "(" + val.value + ") " + val.text, 0);
+          }
+        });
+
+        this.$router.go();
       },
       get_saved_period() {
         return $cookies.get('default_period');
+      },
+      get_saved_period_display() {
+        return $cookies.get('default_period_text');
       }
+
     }
   };
 </script>
