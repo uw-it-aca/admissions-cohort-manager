@@ -208,8 +208,13 @@ class Assignment(models.Model):
                 row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
             assignment.admission_selection_id = \
                 row.get(AssignmentImport.FIELD_ADSEL_ID)
-            assignment.sdb_app_status = \
-                row.get(AssignmentImport.FIELD_APPLICATION_STATUS)
+            # Fix STFE-139
+            try:
+                assignment.sdb_app_status = \
+                    int(row.get(AssignmentImport.FIELD_APPLICATION_STATUS))
+            except (ValueError, TypeError):
+                raise ValueError("Error with column %s" %
+                                 AssignmentImport.FIELD_APPLICATION_STATUS)
             cohort_data = row.get(AssignmentImport.FIELD_ASSIGNED_COHORT)
             try:
                 if len(cohort_data) > 0:
@@ -225,7 +230,6 @@ class Assignment(models.Model):
             except TypeError:
                 raise ValueError("%s column not present" %
                                  AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
-
             assignments.append(assignment)
         return assignments
 
