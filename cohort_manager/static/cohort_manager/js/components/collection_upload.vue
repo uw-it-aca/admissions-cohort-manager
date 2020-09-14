@@ -382,10 +382,10 @@
       navigate_after_submit() {
         if(this.collection_type == "Cohort"){
           this.$emit('showMessage', "Assignment to Cohort " + this.collection_id + " submitted");
-          this.$router.push({path: '/cohort_list'});
+          this.$router.push({path: '/log'});
         } else if(this.collection_type == "Major"){
           this.$emit('', "Assignment to " + this.collection_id + " submitted");
-          this.$router.push({path: '/major_list'});
+          this.$router.push({path: '/log'});
         }
       },
 
