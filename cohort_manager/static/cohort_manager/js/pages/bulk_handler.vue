@@ -103,7 +103,7 @@
       },
       current_period(){
         if(this.upload_data !== undefined){
-          return this.upload_data.quarter.toString();
+          return this.upload_data.quarter;
         }
         return undefined;
       },

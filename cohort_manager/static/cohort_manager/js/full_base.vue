@@ -1,5 +1,33 @@
 <template>
   <b-container fluid>
+    <b-modal
+      modal-class="aat-modal-box"
+      content-class="aat-modal"
+      ref="picker-modal"
+      title="Select Admission Period"
+      :hide-header-close="!has_set_period"
+      :hide-footer="!has_set_period"
+      :no-close-on-backdrop="!has_set_period"
+      ok-only
+    >
+      <ul class="att-period-list">
+        <li
+          v-for="value in admission_periods"
+          :key="value.value"
+        >
+          <span v-if="value.value ===cur_period">
+            {{ value.text }} - {{ value.value }}
+            <span v-if="value.current">(Open)</span> 
+          </span>
+          <span v-else >
+            <a href="#" @click="set_default_period(value.value)">
+              {{ value.text }} - {{ value.value }}
+              <span v-if="value.current">(Open)</span>
+            </a>
+          </span>
+        </li>
+      </ul>
+    </b-modal>
     <b-row class="aat-app-banner">
       <h2 id="aat_navbar_header" class="sr-only">
         Main Navigation
@@ -28,6 +56,13 @@
           </a>
         </b-navbar-brand>
         <b-navbar class="aat-nav-container">
+          <div class="aat-period-select-group">
+            <h2 id="aat_admission_period_header" class="aat-period-select-header">Admission Period</h2>
+            <div class="aat-period-select" aria-labelledby="aat_admission_period_header">
+              <span class="aat-period-select-text">{{ current_period_display }}</span>
+              <a href="#" @click="show_period_picker" title="Change to a different admission period.">change</a>
+            </div>
+          </div>
           <h3 id="aat_collection_assignment_header" class="sr-only">
             Assign Applications
           </h3>
@@ -85,16 +120,6 @@
             :alert-type="alertType"
           />
         </b-row>
-        <b-row v-if="show_period_picker" class="aat-adperiod-container">
-          <label class="sr-only" for="aat_adperiod_select">Select Admission Period</label>
-          <b-form-select id="aat_adperiod_select"
-                         v-model="current_admission_period"
-                         class="aat-adperiod-select"
-                         :class="{disabled: admission_periods.length < 2}"
-                         :options="admission_periods"
-                         @change="set_default_period"
-          />
-        </b-row>
         <b-row class="aat-main-content-container">
           <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
             <router-view
@@ -141,17 +166,21 @@
         navCount: 0,
         cur_period: null,
         alertType: null,
-        show_period_picker: true
       };
     },
     computed: {
       period_set: function () {
         return this.cur_period !== null;
-      }
+      },
+      has_set_period: function() {
+        return this.get_saved_period() !== null;
+      },
+      current_period_display: function(){
+        return this.get_saved_period_display();
+      },
     },
     watch: {
       $route(){
-        this.set_period_picker_visibility();
         //Set focus for accessibility purposes
         this.$refs.main.focus();
         // Hide the message on the next route AFTER the post-upload one
@@ -164,23 +193,24 @@
         }
       },
       current_admission_period: function(period){
-        this.cur_period = period;
+        this.cur_period = parseInt(period);
         EventBus.$emit('period_change', period);
       }
     },
     mounted() {
       this.netid = window.user_netid;
-      this.get_periods();
-      this.set_period_picker_visibility();
+      if(!this.has_set_period){
+        this.show_period_picker();
+      } else {
+        this.current_admission_period = this.get_saved_period();
+      }
     },
     methods: {
-      set_period_picker_visibility() {
-        if(this.$router.currentRoute.path === "/log/"){
-          this.show_period_picker = false;
-        } else {
-          this.show_period_picker = true;
-        }
+      show_period_picker(){
+        this.get_periods();
+        this.$refs['picker-modal'].show();
       },
+
       show_message(msg, type) {
         var vue = this;
         this.message = msg;
@@ -196,27 +226,29 @@
           '/api/periods/',
         ).then(response => {
           vue.admission_periods = response.data;
-
-          var saved_period = this.get_saved_period();
-          if(saved_period === null){
-            $.each(response.data, function (idx, period) {
-              if(period.current === true){
-                vue.current_admission_period = period.value;
-                vue.set_default_period(period.value);
-              }
-            });
-          } else {
-            vue.current_admission_period = saved_period;
-          }
-
         });
       },
       set_default_period(period) {
-        $cookies.set('default_period', period, "1y");
+        this.$refs['picker-modal'].hide();
+        this.current_admission_period = period;
+        $cookies.set('default_period', period, 0);
+        var vue = this;
+        $(this.admission_periods).each(function(idx, val){
+          if(parseInt(val.value) === parseInt(vue.current_admission_period)){
+            $cookies.set('default_period_text',
+            val.text + " - " + val.value, 0);
+          }
+        });
+
+        this.$router.go();
       },
       get_saved_period() {
         return $cookies.get('default_period');
+      },
+      get_saved_period_display() {
+        return $cookies.get('default_period_text');
       }
+
     }
   };
 </script>
@@ -348,6 +380,42 @@
       width: auto;
     }
   }
+
+  .att-period-list {
+    list-style: none;
+    margin: 0;
+
+    li {
+      padding: 0.5rem 0;
+    }
+  }
+
+  .aat-period-select-group {
+    padding: 0.5rem 0 1rem 1rem;
+
+    .aat-period-select-header {
+      color: $text-grey;
+      font-size: 80%;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    .aat-period-select {
+      line-height: 1.25;
+    }
+
+    .aat-period-select-text {
+      margin-right: 0.5rem;
+    }
+
+    a {
+      font-size: 0.85rem;
+      padding-right: 0.25rem;
+    }
+  }
+
+  
+
   // side-nav styles
   .aat-nav-container {
     align-items: start !important;
@@ -374,7 +442,7 @@
       width: 100%;
     }
   }
-  @media (min-height: 500px) and (min-width: 992px) {
+  @media (min-height: 730px) and (min-width: 992px) {
     .aat-nav-container {
       background-color: #fff;
       overflow-x: hidden;

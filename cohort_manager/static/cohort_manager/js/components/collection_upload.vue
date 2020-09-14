@@ -176,7 +176,7 @@
         default: function () {return[];}
       },
       currentPeriod: {
-        type: String,
+        type: Number,
         default: null
       },
       loadingCollection: {
