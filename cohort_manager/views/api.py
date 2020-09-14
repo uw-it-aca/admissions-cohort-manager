@@ -251,8 +251,8 @@ class PeriodList(RESTDispatch):
         resp = []
         for quarter in quarters:
             try:
-                quarter_string = quarter_strings[int(quarter.appl_qtr)]
-            except (TypeError, ValueError):
+                quarter_string = quarter_strings[int(quarter.appl_qtr)-1]
+            except (TypeError, ValueError, IndexError):
                 quarter_string = quarter.appl_qtr
             resp.append({'value': quarter.id,
                          'text': "{} {}".format(quarter_string,
