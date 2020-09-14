@@ -262,7 +262,11 @@
       display: none;
     }
   }
-  
+  //fix for django modal calculations
+  body {
+    padding-right: 0 !important;
+  }
+
   // Test Environment styles
   .aat-globalenv-eval .aat-app-banner,
   .aat-globalenv-eval .aat-footer {
