@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
     <b-modal
+      ref="picker-modal"
       modal-class="aat-modal-box"
       content-class="aat-modal"
-      ref="picker-modal"
       title="Select Admission Period"
       :hide-header-close="!has_set_period"
       :hide-footer="!has_set_period"
@@ -17,9 +17,9 @@
         >
           <span v-if="value.value ===cur_period">
             {{ value.text }} - {{ value.value }}
-            <span v-if="value.current">(Open)</span> 
+            <span v-if="value.current">(Open)</span>
           </span>
-          <span v-else >
+          <span v-else>
             <a href="#" @click="set_default_period(value.value)">
               {{ value.text }} - {{ value.value }}
               <span v-if="value.current">(Open)</span>
@@ -57,10 +57,12 @@
         </b-navbar-brand>
         <b-navbar class="aat-nav-container">
           <div class="aat-period-select-group">
-            <h2 id="aat_admission_period_header" class="aat-period-select-header">Admission Period</h2>
+            <h2 id="aat_admission_period_header" class="aat-period-select-header">
+              Admission Period
+            </h2>
             <div class="aat-period-select" aria-labelledby="aat_admission_period_header">
               <span class="aat-period-select-text">{{ current_period_display }}</span>
-              <a href="#" @click="show_period_picker" title="Change to a different admission period.">change</a>
+              <a href="#" title="Change to a different admission period." @click="show_period_picker">change</a>
             </div>
           </div>
           <h3 id="aat_collection_assignment_header" class="sr-only">
@@ -231,22 +233,22 @@
       set_default_period(period) {
         this.$refs['picker-modal'].hide();
         this.current_admission_period = period;
-        $cookies.set('default_period', period, 0);
+        $cookies.set('session_period', period, 0);
         var vue = this;
         $(this.admission_periods).each(function(idx, val){
           if(parseInt(val.value) === parseInt(vue.current_admission_period)){
-            $cookies.set('default_period_text',
-            val.text + " - " + val.value, 0);
+            $cookies.set('session_period_text',
+                         val.text + " - " + val.value, 0);
           }
         });
 
         this.$router.go();
       },
       get_saved_period() {
-        return $cookies.get('default_period');
+        return $cookies.get('session_period');
       },
       get_saved_period_display() {
-        return $cookies.get('default_period_text');
+        return $cookies.get('session_period_text');
       }
 
     }
@@ -272,7 +274,7 @@
   .aat-globalenv-eval .aat-footer {
     background-color: $test-env-bkgnd;
   }
-  
+
   // top banner styles
   .aat-app-banner {
     background-color: $uw-purple;
@@ -418,7 +420,7 @@
     }
   }
 
-  
+
 
   // side-nav styles
   .aat-nav-container {
