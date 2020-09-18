@@ -15,7 +15,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
         <b-table
           id="assignment_history_table"
           hover
@@ -47,6 +47,173 @@
             </div>
           </template>
         </b-table>
+      </b-col>
+
+      <b-col order-md="3" order="1">
+        <b-form class="aat-filter-form" @reset="onReset">
+          <b-row>
+            <b-col cols="12">
+              <h2 class="aat-filter-title">
+                Filter
+              </h2>
+              <span class="aat-filter-reset">
+                <b-button type="reset" variant="link" @click="getAllActivities">
+                  Reset
+                </b-button>
+              </span>
+            </b-col>
+            <b-col cols="6" md="12">
+              <b-form-group
+                label="Collection Type"
+                label-size="sm"
+                label-for="collection_filter"
+              >
+                <b-input-group size="sm">
+                  <b-form-select
+                    id="collection_filter"
+                    name="collectionType"
+                    v-model="collectionFilter"
+                    class="aat-filter-select"
+                    :options="collectionOptions"
+                    @change="getCollectionActivities"
+                  >
+                    <template v-slot:first>
+                      <option :value="null">
+                        All Collection Types
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" md="12">
+              <b-form-group
+                label="Assignment Type"
+                label-size="sm"
+                label-for="assignment_filter"
+              >
+                <b-input-group size="sm">
+                  <b-form-select
+                    id="assignment_filter"
+                    v-model="assignmentFilter"
+                    class="aat-filter-select"
+                    :options="assignmentOptions"
+                    @change="getAssignmentActivities"
+                  >
+                    <template v-slot:first>
+                      <option :value="null">
+                        All Assignments
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" md="12">
+              <b-form-group
+                label="Cohort"
+                label-size="sm"
+                label-for="cohort_filter"
+                v-if= "collectionFilter === 'cohort' || collectionFilter === null"
+              >
+                <b-input-group size="sm">
+                  <b-form-select
+                    id="cohort_filter"
+                    v-model="cohortFilter"
+                    class="aat-filter-select"
+                    :options="cohortOptions"
+                    @change="getCohortActivities"
+                  >
+                    <template v-slot:first>
+                      <option :value="null">
+                        All Cohorts
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" md="12">
+              <b-form-group
+                label="Major"
+                label-size="sm"
+                label-for="major_filter"
+                v-if= "collectionFilter === 'major' || collectionFilter === null"
+              >
+                <b-input-group size="sm">
+                  <b-form-select
+                    id="major_filter"
+                    v-model="majorFilter"
+                    class="aat-filter-select"
+                    :options="majorOptions"
+                    @change="getMajorActivities"
+                  >
+                    <template v-slot:first>
+                      <option :value="null">
+                        All Majors
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="System Key or AdSelect ID"
+                label-size="sm"
+                label-for="SysKeyInput"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="SysKeyInput"
+                    v-model="syskeyFilter"
+                    placeholder="Type to Search"
+                    @change="getSyskeyActivities"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="User"
+                label-size="sm"
+                label-for="user_filter"
+              >
+                <b-input-group size="sm">
+                  <b-form-select
+                    id="user_filter"
+                    v-model="userFilter"
+                    class="aat-filter-select"
+                    :options="userOptions"
+                    @change="getUserActivities"
+                  >
+                    <template v-slot:first>
+                      <option :value="null">
+                        All Users
+                      </option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group
+                label="Search Comment Text"
+                label-size="sm"
+                label-for="CommentInput"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="CommentInput"
+                    v-model="commentFilter"
+                    placeholder="Type to Search"
+                    @change="getCommentActivities"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-form>
       </b-col>
     </b-row>
   </b-container>
@@ -111,11 +278,40 @@
           },
         ],
         activities: [],
+        collectionFilter: null,
+        collectionOptions: [
+          { value: 'cohort', text: 'Cohort' },
+          { value: 'major', text: 'Major' },
+          { value: 'pg', text: 'P & G' }
+        ],
         cohortFilter: null,
-        cohortOptions: [],
+        cohortOptions: [
+          { value: '1', text: '1' },
+          { value: '2', text: '2' },
+          { value: '3', text: '3' },
+          { value: '99', text: '99' }
+        ],
         majorFilter: null,
-        majorOptions: [],
+        majorOptions: [
+          { value: 'astr', text: 'ASTR' },
+          { value: 'biol', text: 'BIOL' },
+          { value: 'cse', text: 'CSE' },
+          { value: 'hcde', text: 'HCDE' }
+        ],
         syskeyFilter: null,
+        commentFilter: null,
+        userFilter: null,
+        userOptions: [
+          { value: 'asmith', text: 'asmith' },
+          { value: 'bsmith', text: 'bsmith' },
+          { value: 'csmith', text: 'csmith' }
+        ],
+        assignmentFilter: null,
+        assignmentOptions: [
+          { value: 'file', text: 'File' },
+          { value: 'manual', text: 'Manual' },
+          { value: 'Tableau', text: 'Tableau' }
+        ],
         totalRows: 1,
         currentPage: 1,
         perPage: 20,
@@ -139,6 +335,7 @@
       onReset(evt) {
         evt.preventDefault();
         // Reset our form values
+        this.collectionFilter = null;
         this.cohortFilter = null;
         this.majorFilter = null;
         this.syskeyFilter = '';
