@@ -15,7 +15,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" order="2" class="aat-col-nopad aat-activity-table">
         <b-table
           id="assignment_history_table"
           hover
@@ -49,7 +49,7 @@
         </b-table>
       </b-col>
 
-      <b-col order-md="3" order="1">
+      <b-col order="1">
         <b-form class="aat-filter-form" @reset="onReset">
           <b-row>
             <b-col cols="12">
@@ -62,7 +62,7 @@
                 </b-button>
               </span>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6">
               <b-form-group
                 label="Collection Type"
                 label-size="sm"
@@ -86,7 +86,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6">
               <b-form-group
                 label="Assignment Type"
                 label-size="sm"
@@ -109,7 +109,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6">
               <b-form-group
                 label="Cohort"
                 label-size="sm"
@@ -133,7 +133,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6">
               <b-form-group
                 label="Major"
                 label-size="sm"
@@ -157,7 +157,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="12">
+            <b-col cols="12" sm="6">
               <b-form-group
                 label="System Key or AdSelect ID"
                 label-size="sm"
@@ -173,7 +173,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="12">
+            <b-col cols="12" sm="6">
               <b-form-group
                 label="User"
                 label-size="sm"
