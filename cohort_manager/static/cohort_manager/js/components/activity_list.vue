@@ -446,7 +446,6 @@
     font-size: 0.875rem;
     height: 1rem;
     line-height: 1.7;
-    margin-right: -5px;
     margin-top: 0.3rem;
     padding: 0 0 0 0.5rem;
     text-transform: lowercase;
@@ -459,7 +458,7 @@
     content: '';
     padding: 2px;
     position: absolute;
-    right: 15px;
+    right: 20px;
     top: 0.6rem;
     transform: rotate(-45deg);
     transition: transform 0.5s;
