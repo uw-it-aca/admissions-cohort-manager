@@ -63,7 +63,9 @@
               </span>
               <span class="aat-filter-toggle">
                 <b-button variant="link" v-b-toggle.aat_collapse_filter>
-                    Show
+                    <span class="aat-filter-toggle-label sr-only">
+                      Show Filters
+                    </span>
                 </b-button>
               </span>
             </b-col>
@@ -444,9 +446,29 @@
   .aat-filter-toggle button {
     float: right;
     font-size: 0.875rem;
+    height: 1rem;
     line-height: 1.7;
+    margin-right: -5px;
+    margin-top: 0.3rem;
     padding: 0 0 0 0.5rem;
     text-transform: lowercase;
+    width: 1rem;
+  }
+
+  .aat-filter-toggle button::after {
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    content: '';
+    padding: 2px;
+    position: absolute;
+    right: 15px;
+    top: 0.6rem;
+    transform: rotate(-45deg);
+    transition: transform 0.5s;
+  }
+
+  .aat-filter-toggle .btn.not-collapsed::after {
+    transform: rotate(45deg);
   }
 
   //table
