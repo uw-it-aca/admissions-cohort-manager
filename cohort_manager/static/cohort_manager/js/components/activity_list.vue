@@ -49,7 +49,7 @@
         </b-table>
       </b-col>
 
-      <b-col order="1">
+      <b-col order="1" class="aat-filter-container">
         <b-form class="aat-filter-form" @reset="onReset">
           <b-row>
             <b-col cols="12">
@@ -61,7 +61,14 @@
                   Reset
                 </b-button>
               </span>
+              <span class="aat-filter-toggle">
+                <b-button variant="link" v-b-toggle.aat_collapse_filter>
+                    Show
+                </b-button>
+              </span>
             </b-col>
+            <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12"> 
+              <b-row>
             <b-col cols="6">
               <b-form-group
                 label="Collection Type"
@@ -212,6 +219,8 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+              </b-row>
+          </b-collapse>
           </b-row>
         </b-form>
       </b-col>
@@ -404,13 +413,17 @@
   }
 
   // filters and pagination
+  .aat-filter-collapse {
+    padding: 0 15px;
+  }
+
   .aat-activity-pagination {
     float: right;
   }
 
   .aat-filter-form {
     border-top: 1px solid $table-border;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
 
   .aat-filter-title {
@@ -421,6 +434,14 @@
   }
 
   .aat-filter-reset button {
+    float: left;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    padding: 0 0 0 0.5rem;
+    text-transform: lowercase;
+  }
+
+  .aat-filter-toggle button {
     float: right;
     font-size: 0.875rem;
     line-height: 1.7;
