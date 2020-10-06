@@ -15,7 +15,7 @@
     </b-row>
 
     <b-row>
-      <b-col cols="12" md="10" lg="9" order-lg="1" order="2" class="aat-col-nopad aat-activity-table">
+      <b-col cols="12" order="2" class="aat-col-nopad aat-activity-table">
         <b-table
           id="assignment_history_table"
           hover
@@ -49,7 +49,7 @@
         </b-table>
       </b-col>
 
-      <b-col order-md="3" order="1">
+      <b-col order="1" class="aat-filter-container">
         <b-form class="aat-filter-form" @reset="onReset">
           <b-row>
             <b-col cols="12">
@@ -61,8 +61,17 @@
                   Reset
                 </b-button>
               </span>
+              <span class="aat-filter-toggle">
+                <b-button variant="link" v-b-toggle.aat_collapse_filter>
+                    <span class="aat-filter-toggle-label sr-only">
+                      Show Filters
+                    </span>
+                </b-button>
+              </span>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12"> 
+              <b-row>
+            <b-col cols="6">
               <b-form-group
                 label="Collection Type"
                 label-size="sm"
@@ -86,7 +95,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6">
               <b-form-group
                 label="Assignment Type"
                 label-size="sm"
@@ -109,12 +118,11 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6" v-if= "collectionFilter === 'cohort' || collectionFilter === null">
               <b-form-group
                 label="Cohort"
                 label-size="sm"
                 label-for="cohort_filter"
-                v-if= "collectionFilter === 'cohort' || collectionFilter === null"
               >
                 <b-input-group size="sm">
                   <b-form-select
@@ -133,12 +141,11 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6" md="12">
+            <b-col cols="6" v-if= "collectionFilter === 'major' || collectionFilter === null">
               <b-form-group
                 label="Major"
                 label-size="sm"
                 label-for="major_filter"
-                v-if= "collectionFilter === 'major' || collectionFilter === null"
               >
                 <b-input-group size="sm">
                   <b-form-select
@@ -157,23 +164,7 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="12">
-              <b-form-group
-                label="System Key or AdSelect ID"
-                label-size="sm"
-                label-for="SysKeyInput"
-              >
-                <b-input-group size="sm">
-                  <b-form-input
-                    id="SysKeyInput"
-                    v-model="syskeyFilter"
-                    placeholder="Type to Search"
-                    @change="getSyskeyActivities"
-                  />
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12">
+            <b-col cols="12" sm="6">
               <b-form-group
                 label="User"
                 label-size="sm"
@@ -196,6 +187,22 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+            <b-col cols="12" sm="6">
+              <b-form-group
+                label="System Key or AdSelect ID"
+                label-size="sm"
+                label-for="SysKeyInput"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="SysKeyInput"
+                    v-model="syskeyFilter"
+                    placeholder="Type to Search"
+                    @change="getSyskeyActivities"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
             <b-col cols="12">
               <b-form-group
                 label="Search Comment Text"
@@ -212,6 +219,8 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
+              </b-row>
+          </b-collapse>
           </b-row>
         </b-form>
       </b-col>
@@ -404,13 +413,17 @@
   }
 
   // filters and pagination
+  .aat-filter-collapse {
+    padding: 0 15px;
+  }
+
   .aat-activity-pagination {
     float: right;
   }
 
   .aat-filter-form {
     border-top: 1px solid $table-border;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
 
   .aat-filter-title {
@@ -421,11 +434,39 @@
   }
 
   .aat-filter-reset button {
-    float: right;
+    float: left;
     font-size: 0.875rem;
     line-height: 1.7;
     padding: 0 0 0 0.5rem;
     text-transform: lowercase;
+  }
+
+  .aat-filter-toggle button {
+    float: right;
+    font-size: 0.875rem;
+    height: 1rem;
+    line-height: 1.7;
+    margin-right: -5px;
+    margin-top: 0.3rem;
+    padding: 0 0 0 0.5rem;
+    text-transform: lowercase;
+    width: 1rem;
+  }
+
+  .aat-filter-toggle button::after {
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    content: '';
+    padding: 2px;
+    position: absolute;
+    right: 15px;
+    top: 0.6rem;
+    transform: rotate(-45deg);
+    transition: transform 0.5s;
+  }
+
+  .aat-filter-toggle .btn.not-collapsed::after {
+    transform: rotate(45deg);
   }
 
   //table
