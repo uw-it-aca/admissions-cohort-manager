@@ -118,12 +118,11 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6">
+            <b-col cols="6" v-if= "collectionFilter === 'cohort' || collectionFilter === null">
               <b-form-group
                 label="Cohort"
                 label-size="sm"
                 label-for="cohort_filter"
-                v-if= "collectionFilter === 'cohort' || collectionFilter === null"
               >
                 <b-input-group size="sm">
                   <b-form-select
@@ -142,12 +141,11 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col cols="6">
+            <b-col cols="6" v-if= "collectionFilter === 'major' || collectionFilter === null">
               <b-form-group
                 label="Major"
                 label-size="sm"
                 label-for="major_filter"
-                v-if= "collectionFilter === 'major' || collectionFilter === null"
               >
                 <b-input-group size="sm">
                   <b-form-select
@@ -163,22 +161,6 @@
                       </option>
                     </template>
                   </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" sm="6">
-              <b-form-group
-                label="System Key or AdSelect ID"
-                label-size="sm"
-                label-for="SysKeyInput"
-              >
-                <b-input-group size="sm">
-                  <b-form-input
-                    id="SysKeyInput"
-                    v-model="syskeyFilter"
-                    placeholder="Type to Search"
-                    @change="getSyskeyActivities"
-                  />
                 </b-input-group>
               </b-form-group>
             </b-col>
@@ -202,6 +184,22 @@
                       </option>
                     </template>
                   </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12" sm="6">
+              <b-form-group
+                label="System Key or AdSelect ID"
+                label-size="sm"
+                label-for="SysKeyInput"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="SysKeyInput"
+                    v-model="syskeyFilter"
+                    placeholder="Type to Search"
+                    @change="getSyskeyActivities"
+                  />
                 </b-input-group>
               </b-form-group>
             </b-col>
