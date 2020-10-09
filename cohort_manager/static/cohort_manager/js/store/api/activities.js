@@ -11,6 +11,9 @@ const getters = {
   },
   is_loading: state => {
     return state.is_loading;
+  },
+  request_status: state => {
+    return state.request_status;
   }
 };
 
@@ -18,13 +21,23 @@ const getters = {
 const actions = {
   get_activities ({ commit }, filters) {
     commit('set_loading', true);
-    this.$axios.get(`/api/activity/`)
+    var vuex = this;
+    this.$axios({
+      method: 'get',
+      url: '/api/activity/',
+      paramsSerializer: function (params) {
+        return vuex.$qs.stringify(params, {arrayFormat: 'repeat'});
+      },
+      params: filters,
+    })
       .then(response => response.data)
-      .catch(function (error) {
-        console.log(error);
+      .catch(err =>  {
+        commit('set_status', err.response.status);
       })
       .then(items => {
-        commit('set_activities', items.activities);
+        if(items !== undefined){
+          commit('set_activities', items.activities);
+        }
         commit('set_loading', false);
       });
   }
@@ -37,6 +50,9 @@ const mutations = {
   },
   set_loading (state, is_loading) {
     state.is_loading = is_loading;
+  },
+  set_status  (state, request_status) {
+    state.request_status = request_status;
   }
 };
 

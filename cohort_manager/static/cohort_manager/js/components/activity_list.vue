@@ -29,7 +29,6 @@
           :fields="activityFields"
           :current-page="currentPage"
           :per-page="perPage"
-          :filter="filter"
         >
           <template #cell(activity_date)="row">
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
@@ -57,7 +56,7 @@
                 Filter
               </h2>
               <span class="aat-filter-reset">
-                <b-button type="reset" variant="link" @click="getAllActivities">
+                <b-button type="reset" variant="link">
                   Reset
                 </b-button>
               </span>
@@ -83,6 +82,7 @@
                         name="collectionType"
                         class="aat-filter-select"
                         :options="collectionOptions"
+                        @change="getFilteredActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -105,6 +105,7 @@
                         v-model="assignmentFilter"
                         class="aat-filter-select"
                         :options="assignmentOptions"
+                        @change="getFilteredActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -115,7 +116,7 @@
                     </b-input-group>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="collectionFilter === 'cohort' || collectionFilter === null" cols="6">
+                <b-col v-if="collectionFilter === 'Cohort' || collectionFilter === null" cols="6">
                   <b-form-group
                     label="Cohort"
                     label-size="sm"
@@ -127,6 +128,7 @@
                         v-model="cohortFilter"
                         class="aat-filter-select"
                         :options="cohortOptions"
+                        @change="getFilteredActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -137,7 +139,7 @@
                     </b-input-group>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="collectionFilter === 'major' || collectionFilter === null" cols="6">
+                <b-col v-if="collectionFilter === 'Major' || collectionFilter === null" cols="6">
                   <b-form-group
                     label="Major"
                     label-size="sm"
@@ -149,6 +151,7 @@
                         v-model="majorFilter"
                         class="aat-filter-select"
                         :options="majorOptions"
+                        @change="getFilteredActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -171,6 +174,7 @@
                         v-model="userFilter"
                         class="aat-filter-select"
                         :options="userOptions"
+                        @change="getFilteredActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -192,6 +196,7 @@
                         id="SysKeyInput"
                         v-model="syskeyFilter"
                         placeholder="Type to Search"
+                        @change="getFilteredActivities"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -207,6 +212,7 @@
                         id="CommentInput"
                         v-model="commentFilter"
                         placeholder="Type to Search"
+                        @change="getFilteredActivities"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -281,9 +287,9 @@
         ],
         collectionFilter: null,
         collectionOptions: [
-          { value: 'cohort', text: 'Cohort' },
-          { value: 'major', text: 'Major' },
-          { value: 'pg', text: 'P & G' }
+          { value: 'Cohort', text: 'Cohort' },
+          { value: 'Major', text: 'Major' },
+          { value: 'Pg', text: 'P & G' }
         ],
         cohortFilter: null,
         majorFilter: null,
@@ -299,7 +305,7 @@
         assignmentOptions: [
           { value: 'file', text: 'File' },
           { value: 'manual', text: 'Manual' },
-          { value: 'Tableau', text: 'Tableau' }
+          { value: 'tableau', text: 'Tableau' }
         ],
         totalRows: 1,
         currentPage: 1,
@@ -319,7 +325,6 @@
     mounted() {
       // Set the initial number of items
       this.totalRows = this.activities.length;
-      this.getAllActivities();
       this.selectCollection(this.$route.params.id);
       this.getInitialData();
     },
@@ -330,46 +335,48 @@
         this.$store.dispatch('cohortlist/get_cohorts', 0);
         this.$store.dispatch('activities/get_activities');
       },
-      onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length;
-        this.currentPage = 1;
-      },
       onReset(evt) {
         evt.preventDefault();
         // Reset our form values
         this.collectionFilter = null;
+        this.assignmentFilter = null;
         this.cohortFilter = null;
         this.majorFilter = null;
-        this.syskeyFilter = '';
+        this.userFilter = null;
+        this.syskeyFilter = null;
+        this.commentFilter = null;
+        this.getFilteredActivities();
         // Trick to reset/clear native browser form validation state
         this.show = false;
         this.$nextTick(() => {
           this.show = true;
         });
       },
-      getMajorActivities(major_id){
-        this.getActivities("?major_id=" + major_id);
-      },
-      getCohortActivities(cohort_id){
-        this.getActivities("?cohort_id=" + cohort_id);
-      },
-      getSyskeyActivities(syskey){
-        this.getActivities("?system_key=" + syskey);
-      },
-      getAllActivities() {
-        this.getActivities("");
-      },
-      getActivities(){
-        // axios.get(
-        //   '/api/activity/' + filter_string,
-        // ).then(response => {
-        //   if(response.status === 200){
-        //     this.activities = response.data.activities;
-        //     this.totalRows = this.activities.length;
-        //   }
-        //   this.is_loading = false;
-        // });
+      getFilteredActivities() {
+        var filters = {};
+        if(this.collectionFilter !== null){
+          filters["collection_type"] = this.collectionFilter;
+        }
+        if(this.assignmentFilter !== null){
+          filters["assignment_type"] = this.assignmentFilter;
+        }
+        if(this.cohortFilter !== null){
+          filters["cohort"] = this.cohortFilter;
+        }
+        if(this.majorFilter !== null){
+          filters["major"] = this.majorFilter;
+        }
+        if(this.userFilter !== null){
+          filters["netid"] = this.userFilter;
+        }
+        if(this.syskeyFilter !== null){
+          filters["system_key"] = this.syskeyFilter;
+        }
+        if(this.commentFilter !== null){
+          filters["comment"] = this.commentFilter;
+        }
+        this.$store.dispatch('activities/get_activities', filters);
+
       },
       selectCollection(id){
         var id_to_set;

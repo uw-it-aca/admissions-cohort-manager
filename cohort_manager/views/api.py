@@ -234,7 +234,10 @@ class ActivityLog(RESTDispatch):
                    "system_key": request.GET.get('system_key', None),
                    "comment": request.GET.get('comment', None)}
         activities = get_activity_log(**filters)
-        return self.json_response(content={"activities": activities})
+        if(len(activities) > 0):
+            return self.json_response(content={"activities": activities})
+        else:
+            return self.error_response(status=404)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
