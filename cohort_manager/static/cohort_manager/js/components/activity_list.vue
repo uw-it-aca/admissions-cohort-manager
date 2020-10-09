@@ -223,7 +223,7 @@
 
 
 <script>
-  const axios = require("axios");
+  import Vuex from 'vuex';
 
   export default {
     name: "ActivityList",
@@ -279,7 +279,6 @@
             sortable: true,
           },
         ],
-        activities: [],
         collectionFilter: null,
         collectionOptions: [
           { value: 'cohort', text: 'Cohort' },
@@ -287,19 +286,7 @@
           { value: 'pg', text: 'P & G' }
         ],
         cohortFilter: null,
-        cohortOptions: [
-          { value: '1', text: '1' },
-          { value: '2', text: '2' },
-          { value: '3', text: '3' },
-          { value: '99', text: '99' }
-        ],
         majorFilter: null,
-        majorOptions: [
-          { value: 'astr', text: 'ASTR' },
-          { value: 'biol', text: 'BIOL' },
-          { value: 'cse', text: 'CSE' },
-          { value: 'hcde', text: 'HCDE' }
-        ],
         syskeyFilter: null,
         commentFilter: null,
         userFilter: null,
@@ -319,8 +306,15 @@
         perPage: 20,
         filter: null,
         filterOn: [],
-        is_loading: true
       };
+    },
+    computed: {
+      ...Vuex.mapState({
+        majorOptions: state => state.majorlist.majors,
+        cohortOptions: state => state.cohortlist.cohorts,
+        activities: state => state.activities.activities,
+        is_loading: state => state.activities.is_loading,
+      })
     },
     mounted() {
       // Set the initial number of items
@@ -366,17 +360,16 @@
       getAllActivities() {
         this.getActivities("");
       },
-      getActivities(filter_string){
-        this.is_loading = true;
-        axios.get(
-          '/api/activity/' + filter_string,
-        ).then(response => {
-          if(response.status === 200){
-            this.activities = response.data.activities;
-            this.totalRows = this.activities.length;
-          }
-          this.is_loading = false;
-        });
+      getActivities(){
+        // axios.get(
+        //   '/api/activity/' + filter_string,
+        // ).then(response => {
+        //   if(response.status === 200){
+        //     this.activities = response.data.activities;
+        //     this.totalRows = this.activities.length;
+        //   }
+        //   this.is_loading = false;
+        // });
       },
       selectCollection(id){
         var id_to_set;
