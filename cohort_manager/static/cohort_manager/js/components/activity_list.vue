@@ -62,7 +62,7 @@
                 </b-button>
               </span>
               <span class="aat-filter-toggle">
-                <b-button variant="link" v-b-toggle.aat_collapse_filter>
+                <b-button v-b-toggle.aat_collapse_filter variant="link">
                   <span class="when-open sr-only">Hide Filters</span>
                   <span class="when-closed sr-only">Show Filters</span>
                 </b-button>
@@ -70,156 +70,156 @@
             </b-col>
             <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12"> 
               <b-row>
-            <b-col cols="6">
-              <b-form-group
-                label="Collection Type"
-                label-size="sm"
-                label-for="collection_filter"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="collection_filter"
-                    name="collectionType"
-                    v-model="collectionFilter"
-                    class="aat-filter-select"
-                    :options="collectionOptions"
-                    @change="getCollectionActivities"
+                <b-col cols="6">
+                  <b-form-group
+                    label="Collection Type"
+                    label-size="sm"
+                    label-for="collection_filter"
                   >
-                    <template v-slot:first>
-                      <option :value="null">
-                        All Collection Types
-                      </option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6">
-              <b-form-group
-                label="Assignment Type"
-                label-size="sm"
-                label-for="assignment_filter"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="assignment_filter"
-                    v-model="assignmentFilter"
-                    class="aat-filter-select"
-                    :options="assignmentOptions"
-                    @change="getAssignmentActivities"
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="collection_filter"
+                        v-model="collectionFilter"
+                        name="collectionType"
+                        class="aat-filter-select"
+                        :options="collectionOptions"
+                        @change="getCollectionActivities"
+                      >
+                        <template v-slot:first>
+                          <option :value="null">
+                            All Collection Types
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="6">
+                  <b-form-group
+                    label="Assignment Type"
+                    label-size="sm"
+                    label-for="assignment_filter"
                   >
-                    <template v-slot:first>
-                      <option :value="null">
-                        All Assignments
-                      </option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6" v-if= "collectionFilter === 'cohort' || collectionFilter === null">
-              <b-form-group
-                label="Cohort"
-                label-size="sm"
-                label-for="cohort_filter"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="cohort_filter"
-                    v-model="cohortFilter"
-                    class="aat-filter-select"
-                    :options="cohortOptions"
-                    @change="getCohortActivities"
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="assignment_filter"
+                        v-model="assignmentFilter"
+                        class="aat-filter-select"
+                        :options="assignmentOptions"
+                        @change="getAssignmentActivities"
+                      >
+                        <template v-slot:first>
+                          <option :value="null">
+                            All Assignments
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col v-if="collectionFilter === 'cohort' || collectionFilter === null" cols="6">
+                  <b-form-group
+                    label="Cohort"
+                    label-size="sm"
+                    label-for="cohort_filter"
                   >
-                    <template v-slot:first>
-                      <option :value="null">
-                        All Cohorts
-                      </option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6" v-if= "collectionFilter === 'major' || collectionFilter === null">
-              <b-form-group
-                label="Major"
-                label-size="sm"
-                label-for="major_filter"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="major_filter"
-                    v-model="majorFilter"
-                    class="aat-filter-select"
-                    :options="majorOptions"
-                    @change="getMajorActivities"
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="cohort_filter"
+                        v-model="cohortFilter"
+                        class="aat-filter-select"
+                        :options="cohortOptions"
+                        @change="getCohortActivities"
+                      >
+                        <template v-slot:first>
+                          <option :value="null">
+                            All Cohorts
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col v-if="collectionFilter === 'major' || collectionFilter === null" cols="6">
+                  <b-form-group
+                    label="Major"
+                    label-size="sm"
+                    label-for="major_filter"
                   >
-                    <template v-slot:first>
-                      <option :value="null">
-                        All Majors
-                      </option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" sm="6">
-              <b-form-group
-                label="User"
-                label-size="sm"
-                label-for="user_filter"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="user_filter"
-                    v-model="userFilter"
-                    class="aat-filter-select"
-                    :options="userOptions"
-                    @change="getUserActivities"
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="major_filter"
+                        v-model="majorFilter"
+                        class="aat-filter-select"
+                        :options="majorOptions"
+                        @change="getMajorActivities"
+                      >
+                        <template v-slot:first>
+                          <option :value="null">
+                            All Majors
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-group
+                    label="User"
+                    label-size="sm"
+                    label-for="user_filter"
                   >
-                    <template v-slot:first>
-                      <option :value="null">
-                        All Users
-                      </option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" sm="6">
-              <b-form-group
-                label="System Key or AdSelect ID"
-                label-size="sm"
-                label-for="SysKeyInput"
-              >
-                <b-input-group size="sm">
-                  <b-form-input
-                    id="SysKeyInput"
-                    v-model="syskeyFilter"
-                    placeholder="Type to Search"
-                    @change="getSyskeyActivities"
-                  />
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12">
-              <b-form-group
-                label="Search Comment Text"
-                label-size="sm"
-                label-for="CommentInput"
-              >
-                <b-input-group size="sm">
-                  <b-form-input
-                    id="CommentInput"
-                    v-model="commentFilter"
-                    placeholder="Type to Search"
-                    @change="getCommentActivities"
-                  />
-                </b-input-group>
-              </b-form-group>
-            </b-col>
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="user_filter"
+                        v-model="userFilter"
+                        class="aat-filter-select"
+                        :options="userOptions"
+                        @change="getUserActivities"
+                      >
+                        <template v-slot:first>
+                          <option :value="null">
+                            All Users
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-group
+                    label="System Key or AdSelect ID"
+                    label-size="sm"
+                    label-for="SysKeyInput"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-input
+                        id="SysKeyInput"
+                        v-model="syskeyFilter"
+                        placeholder="Type to Search"
+                        @change="getSyskeyActivities"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12">
+                  <b-form-group
+                    label="Search Comment Text"
+                    label-size="sm"
+                    label-for="CommentInput"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-input
+                        id="CommentInput"
+                        v-model="commentFilter"
+                        placeholder="Type to Search"
+                        @change="getCommentActivities"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
               </b-row>
-          </b-collapse>
+            </b-collapse>
           </b-row>
         </b-form>
       </b-col>
