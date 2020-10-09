@@ -296,11 +296,6 @@
         syskeyFilter: null,
         commentFilter: null,
         userFilter: null,
-        userOptions: [
-          { value: 'asmith', text: 'asmith' },
-          { value: 'bsmith', text: 'bsmith' },
-          { value: 'csmith', text: 'csmith' }
-        ],
         assignmentFilter: null,
         assignmentOptions: [
           { value: 'file', text: 'File' },
@@ -320,7 +315,19 @@
         cohortOptions: state => state.cohortlist.cohorts,
         activities: state => state.activities.activities,
         is_loading: state => state.activities.is_loading,
-      })
+      }),
+      userOptions: function () {
+        var unique_users = [],
+        user_options = [];
+        $(this.activities).each(function(idx, val){
+          var user = val.user;
+          if(!unique_users.includes(user)){
+            unique_users.push(user);
+            user_options.push({value: user, text: user});
+          }
+        });
+        return user_options;
+      }
     },
     mounted() {
       // Set the initial number of items
