@@ -22,8 +22,8 @@
     "bootstrap-vue": "^2.0.3",
     "clean-webpack-plugin": "^2.0.1",
     "css-loader": "^2.1.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.2",
+    "eslint": "^7.10.0",
+    "eslint-plugin-vue": "^7.0.1",
     "file-loader": "^4.2.0",
     "mini-css-extract-plugin": "^0.6.0",
     "moment-timezone": "~0.5.27",
@@ -44,6 +44,7 @@
     "vue-router": "^3.0.2",
     "vue-template-compiler": "^2.6.7",
     "vue-underscore": "^0.1.4",
+    "vuex": "^3.5.1",
     "webpack": "^4.42.1",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.3.11"

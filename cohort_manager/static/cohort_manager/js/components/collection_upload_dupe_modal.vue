@@ -21,7 +21,7 @@
           application-return="Duplicate"
           :collection-type="collectionType"
           :applications="duplicates"
-          @dupeToRemove="dupeManager"
+          @dupe-to-remove="dupeManager"
         />
       </b-card-text>
     </div>
@@ -63,7 +63,7 @@
         return;
       },
       removeDupes(){
-        this.$emit('removeDupes', this.to_remove);
+        this.$emit('remove-dupes', this.to_remove);
       }
     }
   };

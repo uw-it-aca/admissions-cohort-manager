@@ -31,16 +31,16 @@
           :per-page="perPage"
           :filter="filter"
         >
-          <template v-slot:cell(activity_date)="row">
+          <template #cell(activity_date)="row">
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
           </template>
-          <template v-slot:cell(assigned_msg)="row">
+          <template #cell(assigned_msg)="row">
             {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
           </template>
-          <template v-slot:cell(submitted_msg)="row">
+          <template #cell(submitted_msg)="row">
             Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
           </template>
-          <template v-slot:table-busy>
+          <template #table-busy>
             <div class="text-center text-info">
               <b-spinner class="align-middle" />
               <strong>Loading...</strong>
@@ -85,7 +85,7 @@
                         :options="collectionOptions"
                         @change="getCollectionActivities"
                       >
-                        <template v-slot:first>
+                        <template #first>
                           <option :value="null">
                             All Collection Types
                           </option>
@@ -108,7 +108,7 @@
                         :options="assignmentOptions"
                         @change="getAssignmentActivities"
                       >
-                        <template v-slot:first>
+                        <template #first>
                           <option :value="null">
                             All Assignments
                           </option>
@@ -131,7 +131,7 @@
                         :options="cohortOptions"
                         @change="getCohortActivities"
                       >
-                        <template v-slot:first>
+                        <template #first>
                           <option :value="null">
                             All Cohorts
                           </option>
@@ -154,7 +154,7 @@
                         :options="majorOptions"
                         @change="getMajorActivities"
                       >
-                        <template v-slot:first>
+                        <template #first>
                           <option :value="null">
                             All Majors
                           </option>
@@ -177,7 +177,7 @@
                         :options="userOptions"
                         @change="getUserActivities"
                       >
-                        <template v-slot:first>
+                        <template #first>
                           <option :value="null">
                             All Users
                           </option>
