@@ -227,7 +227,13 @@ class CollectionDetails(RESTDispatch):
                   name='dispatch')
 class ActivityLog(RESTDispatch):
     def get(self, request, *args, **kwargs):
-        activities = get_activity_log()
+        filters = {"collection_type": request.GET.get('collection_type', None),
+                   "assignment_type": request.GET.get('assignment_type', None),
+                   "cohort": request.GET.get('cohort', None),
+                   "major": request.GET.get('major', None),
+                   "system_key": request.GET.get('system_key', None),
+                   "comment": request.GET.get('comment', None)}
+        activities = get_activity_log(**filters)
         return self.json_response(content={"activities": activities})
 
 
