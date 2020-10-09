@@ -68,7 +68,7 @@
                 </b-button>
               </span>
             </b-col>
-            <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12"> 
+            <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12">
               <b-row>
                 <b-col cols="6">
                   <b-form-group
@@ -83,7 +83,6 @@
                         name="collectionType"
                         class="aat-filter-select"
                         :options="collectionOptions"
-                        @change="getCollectionActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -106,7 +105,6 @@
                         v-model="assignmentFilter"
                         class="aat-filter-select"
                         :options="assignmentOptions"
-                        @change="getAssignmentActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -129,7 +127,6 @@
                         v-model="cohortFilter"
                         class="aat-filter-select"
                         :options="cohortOptions"
-                        @change="getCohortActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -152,7 +149,6 @@
                         v-model="majorFilter"
                         class="aat-filter-select"
                         :options="majorOptions"
-                        @change="getMajorActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -175,7 +171,6 @@
                         v-model="userFilter"
                         class="aat-filter-select"
                         :options="userOptions"
-                        @change="getUserActivities"
                       >
                         <template #first>
                           <option :value="null">
@@ -197,7 +192,6 @@
                         id="SysKeyInput"
                         v-model="syskeyFilter"
                         placeholder="Type to Search"
-                        @change="getSyskeyActivities"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -213,7 +207,6 @@
                         id="CommentInput"
                         v-model="commentFilter"
                         placeholder="Type to Search"
-                        @change="getCommentActivities"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -231,6 +224,7 @@
 
 <script>
   const axios = require("axios");
+
   export default {
     name: "ActivityList",
     components: {
@@ -333,8 +327,15 @@
       this.totalRows = this.activities.length;
       this.getAllActivities();
       this.selectCollection(this.$route.params.id);
+      this.getInitialData();
     },
     methods: {
+      getInitialData(){
+        // TODO: Wire up period id to collection lists
+        this.$store.dispatch('majorlist/get_majors', 0);
+        this.$store.dispatch('cohortlist/get_cohorts', 0);
+        this.$store.dispatch('activities/get_activities');
+      },
       onFiltered(filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length;
