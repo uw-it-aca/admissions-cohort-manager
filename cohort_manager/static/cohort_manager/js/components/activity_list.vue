@@ -318,7 +318,7 @@
       }),
       userOptions: function () {
         var unique_users = [],
-        user_options = [];
+            user_options = [];
         $(this.activities).each(function(idx, val){
           var user = val.user;
           if(!unique_users.includes(user)){
