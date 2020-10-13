@@ -52,7 +52,7 @@
       this.current_period = this.$attrs.cur_period;
       this.periods = this.$attrs.periods;
       this.get_majors_for_period();
-      EventBus.$on('period_change', period => {
+      EventBus.$on('period-change', period => {
         this.current_period = period;
         this.get_majors_for_period();
       });

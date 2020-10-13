@@ -251,7 +251,7 @@
     created(){
       this.admissions_period = this.$attrs.admissions_period;
       this.load_data();
-      EventBus.$on('period_change', period => {
+      EventBus.$on('period-change', period => {
         this.admissions_period = period;
         this.load_data();
       });

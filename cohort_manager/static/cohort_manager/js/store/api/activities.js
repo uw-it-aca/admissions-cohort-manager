@@ -1,7 +1,6 @@
 const state = {
   activities: [],
   is_loading: false,
-  request_status: undefined
 };
 
 // getters
@@ -12,9 +11,6 @@ const getters = {
   is_loading: state => {
     return state.is_loading;
   },
-  request_status: state => {
-    return state.request_status;
-  }
 };
 
 // actions
@@ -31,8 +27,8 @@ const actions = {
       params: filters,
     })
       .then(response => response.data)
-      .catch(err =>  {
-        commit('set_status', err.response.status);
+      .catch(function(){
+        commit('set_activities', []);
       })
       .then(items => {
         if(items !== undefined){
@@ -51,9 +47,6 @@ const mutations = {
   set_loading (state, is_loading) {
     state.is_loading = is_loading;
   },
-  set_status  (state, request_status) {
-    state.request_status = request_status;
-  }
 };
 
 export default {

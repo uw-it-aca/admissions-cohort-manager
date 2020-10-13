@@ -30,6 +30,9 @@
           :current-page="currentPage"
           :per-page="perPage"
         >
+          <template #empty>
+            <h4>No activities matching filter</h4>
+          </template>
           <template #cell(activity_date)="row">
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
           </template>
@@ -187,7 +190,7 @@
                 </b-col>
                 <b-col cols="12" sm="6">
                   <b-form-group
-                    label="System Key or AdSelect ID"
+                    label="System Key or -AdSelect ID-"
                     label-size="sm"
                     label-for="SysKeyInput"
                   >
@@ -239,6 +242,10 @@
       collectionType: {
         type: String,
         default: ""
+      },
+      currentPeriod: {
+        type: Number,
+        default: null
       },
     },
     data(){
@@ -315,6 +322,7 @@
         cohortOptions: state => state.cohortlist.cohorts,
         activities: state => state.activities.activities,
         is_loading: state => state.activities.is_loading,
+        current_period: state => state.period.current_period
       }),
       userOptions: function () {
         var unique_users = [],
@@ -337,9 +345,8 @@
     },
     methods: {
       getInitialData(){
-        // TODO: Wire up period id to collection lists
-        this.$store.dispatch('majorlist/get_majors', 0);
-        this.$store.dispatch('cohortlist/get_cohorts', 0);
+        this.$store.dispatch('majorlist/get_majors', this.current_period);
+        this.$store.dispatch('cohortlist/get_cohorts', this.current_period);
         this.$store.dispatch('activities/get_activities');
       },
       onReset(evt) {
@@ -376,10 +383,10 @@
         if(this.userFilter !== null){
           filters["netid"] = this.userFilter;
         }
-        if(this.syskeyFilter !== null){
+        if(this.syskeyFilter !== null &&  this.syskeyFilter.length > 0){
           filters["system_key"] = this.syskeyFilter;
         }
-        if(this.commentFilter !== null){
+        if(this.commentFilter !== null &&  this.commentFilter.length > 0){
           filters["comment"] = this.commentFilter;
         }
         this.$store.dispatch('activities/get_activities', filters);

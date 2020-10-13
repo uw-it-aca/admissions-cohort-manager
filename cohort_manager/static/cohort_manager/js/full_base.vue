@@ -196,7 +196,8 @@
       },
       current_admission_period: function(period){
         this.cur_period = parseInt(period);
-        EventBus.$emit('period_change', period);
+        this.$store.dispatch("period/set_current_period", period);
+        EventBus.$emit('period-change', period);
       }
     },
     mounted() {
