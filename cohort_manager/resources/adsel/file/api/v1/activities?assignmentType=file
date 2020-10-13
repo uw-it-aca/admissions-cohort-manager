@@ -1,21 +1,21 @@
 {
   "decisions": [
     {
-      "assignmentMadeOn": "2019-12-04T23:44:49.494Z",
-      "comment": "Making some assignments",
+      "assignmentMadeOn": "2019-11-04T23:44:49.494Z",
+      "comment": "Trying some assignments",
       "assignmentMadeBy": "javerage",
       "assignmentType": "file",
-      "cohortNbr": 0,
-      "majorAbbr": "FOO",
+      "cohortNbr": 42,
+      "majorAbbr": null,
       "majorProgramCode": "",
       "totalSubmitted": 20,
       "totalAssigned": 19
     },
     {
-      "assignmentMadeOn": "2019-02-24T03:44:49.494Z",
-      "comment": "Making some assignments",
+      "assignmentMadeOn": "2019-05-24T03:44:49.494Z",
+      "comment": "Testing some assignments",
       "assignmentMadeBy": "javerage",
-      "assignmentType": "manual",
+      "assignmentType": "file",
       "cohortNbr": 0,
       "majorAbbr": "CHEM",
       "majorProgramCode": "CHEM",

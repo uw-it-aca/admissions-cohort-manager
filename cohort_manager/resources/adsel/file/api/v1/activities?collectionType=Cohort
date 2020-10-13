@@ -6,7 +6,7 @@
       "assignmentMadeBy": "javerage",
       "assignmentType": "file",
       "cohortNbr": 1,
-      "majorAbbr": "",
+      "majorAbbr": null,
       "majorProgramCode": "",
       "totalSubmitted": 20044,
       "totalAssigned": 1547
@@ -17,7 +17,7 @@
       "assignmentMadeBy": "javerage",
       "assignmentType": "file",
       "cohortNbr": 42,
-      "majorAbbr": "",
+      "majorAbbr": null,
       "majorProgramCode": "",
       "totalSubmitted": 20,
       "totalAssigned": 19
@@ -28,7 +28,7 @@
       "assignmentMadeBy": "javerage",
       "assignmentType": "manual",
       "cohortNbr": 0,
-      "majorAbbr": "",
+      "majorAbbr": null,
       "majorProgramCode": "",
       "totalSubmitted": 20044,
       "totalAssigned": 1547
