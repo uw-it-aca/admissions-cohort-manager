@@ -13,6 +13,7 @@ import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
 import BulkHandler from './pages/bulk_handler.vue';
+import store from './store';
 
 // import the bootstrap / bootstrap-vue base css
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -63,5 +64,6 @@ Vue.use(VueAnalytics, {
 // vue app will be rendered inside of #main div found in index.html using webpack_loader
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount("#main");

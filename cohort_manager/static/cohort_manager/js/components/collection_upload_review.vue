@@ -193,16 +193,16 @@
       },
       is_reassign: function(value){
         if(typeof value === "string"){
-          this.$emit("is_reassign", true);
+          this.$emit("is-reassign", true);
         } else {
-          this.$emit("is_reassign", false);
+          this.$emit("is-reassign", false);
         }
       },
       is_reassign_protected: function(value){
         if(typeof value === "string"){
-          this.$emit("is_reassign_protected", true);
+          this.$emit("is-reassign-protected", true);
         } else {
-          this.$emit("is_reassign_protected", false);
+          this.$emit("is-reassign-protected", false);
         }
       }
     },
@@ -215,10 +215,10 @@
     },
     methods: {
       proc: function(list){
-        this.$emit("dupeToRemove", list);
+        this.$emit("dupe-to-remove", list);
       },
       reset_upload: function(){
-        this.$emit('upload_reset');
+        this.$emit('upload-reset');
       },
       get_duplicates: function(assignments){
         var syskeys = {},
