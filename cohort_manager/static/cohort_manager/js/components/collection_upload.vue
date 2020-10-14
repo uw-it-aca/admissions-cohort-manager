@@ -63,15 +63,15 @@
                            :upload-type="manual_upload ? 'list' : 'file'"
                            :collection-options="collectionOptions"
                            :collection-id="collection_id"
-                           @upload_reset="handleReset"
-                           @is_reassign="handle_reassign"
-                           @is_reassign_protected="handle_reassign_protected"
+                           @upload-reset="handleReset"
+                           @is-reassign="handle_reassign"
+                           @is-reassign_protected="handle_reassign_protected"
             />
             <collection-upload-dupe-modal
               v-if="has_dupes"
               :duplicates="dupes"
               :collection-type="collectionType"
-              @removeDupes="remove_applications"
+              @remove-dupes="remove_applications"
             />
           </div>
           <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
@@ -381,7 +381,7 @@
 
       navigate_after_submit() {
         if(this.collection_type == "Cohort"){
-          this.$emit('showMessage', "Assignment to Cohort " + this.collection_id + " submitted");
+          this.$emit('show-message', "Assignment to Cohort " + this.collection_id + " submitted");
           this.$router.push({path: '/log'});
         } else if(this.collection_type == "Major"){
           this.$emit('', "Assignment to " + this.collection_id + " submitted");

@@ -16,13 +16,13 @@
         :fields="cohortFields"
         sort-by="value"
       >
-        <template v-slot:cell(actions)="row">
+        <template #cell(actions)="row">
           <a :href="'/cohort/' + row.item.value" :title="'Assign applications to cohort ' + row.item.value">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to cohort ' + row.item.value" @click="handle_reset_button(row.item, row.index, $event.target)">
             Reset
           </b-button>
         </template>
-        <template v-slot:table-busy>
+        <template #table-busy>
           <div class="text-center text-info">
             <b-spinner class="align-middle" />
             <strong>Loading...</strong>
@@ -44,13 +44,13 @@
         :fields="majorFields"
         sort-by="value"
       >
-        <template v-slot:cell(actions)="row">
+        <template #cell(actions)="row">
           <a :href="'/major/' + row.item.value" :title="'Assign applications to major ' + row.item.value">Assign</a>
           <b-button size="sm" :title="'Remove all assignments to major' + row.item.value" @click="handle_reset_button(row.item, row.index, $event.target)">
             Reset
           </b-button>
         </template>
-        <template v-slot:table-busy>
+        <template #table-busy>
           <div class="text-center text-info">
             <b-spinner class="align-middle" />
             <strong>Loading...</strong>
@@ -251,7 +251,7 @@
     created(){
       this.admissions_period = this.$attrs.admissions_period;
       this.load_data();
-      EventBus.$on('period_change', period => {
+      EventBus.$on('period-change', period => {
         this.admissions_period = period;
         this.load_data();
       });
@@ -286,6 +286,7 @@
         this.resetModal.title = `Reset ${this.collectionType}`;
         this.resetModal.itemId = `${item.value}`;
         this.resetModal.protect = `${item.protect}`;
+        // eslint-disable-next-line vue/custom-event-name-casing
         this.$root.$emit('bv::show::modal', this.resetModal.id, button);
       },
       resetResetModal() {
@@ -319,12 +320,12 @@
         ).then(function() {
           bvModalEvent.vueTarget.hide();
           vue.is_resetting = false;
-          vue.$emit('showMessage', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
+          vue.$emit('show-message', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
           vue.$router.push({path: '/log'});
         }).catch(function () {
           bvModalEvent.vueTarget.hide();
           vue.is_resetting = false;
-          vue.$emit('showMessage', "Reset of " + vue.collectionType + " " + vue.resetModal.itemId + " has been submitted. Check the Activity Log in a few minutes to verify.", "primary");
+          vue.$emit('show-message', "Reset of " + vue.collectionType + " " + vue.resetModal.itemId + " has been submitted. Check the Activity Log in a few minutes to verify.", "primary");
           vue.$router.push({path: '/log'});
         });
 
