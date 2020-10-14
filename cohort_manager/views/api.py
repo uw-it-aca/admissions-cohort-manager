@@ -273,6 +273,14 @@ class BulkUpload(RESTDispatch):
             return self.error_response(status=403, content=error)
         try:
             req = json.loads(request.body)
+        except json.decoder.JSONDecodeError as ex:
+            msg = {
+                'description': "Issue parsing JSON body",
+                'details': ex
+            }
+            return self.error_response(status=500,
+                                       message=msg)
+        try:
             applications = req['applications']
             cohort_id = req['cohort_id']
             major_id = req['major_id']
@@ -295,7 +303,11 @@ class BulkUpload(RESTDispatch):
             content = {"aat_url": request.build_absolute_uri(uri)}
             return self.json_response(status=200, content=content)
         except Exception as ex:
-            return self.error_response(status=500, message=ex)
+            msg = {
+                'description': "Issue creating bulk assignment",
+                'details': ex
+            }
+            return self.error_response(status=500, message=msg)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
