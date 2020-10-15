@@ -31,7 +31,7 @@
           :per-page="perPage"
         >
           <template #empty>
-            <h4>No activities matching filter</h4>
+            <span>No activity found within the filtered range.</span>
           </template>
           <template #cell(activity_date)="row">
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
