@@ -54,21 +54,17 @@
       <b-col order="1" class="aat-filter-container">
         <b-form class="aat-filter-form" @reset="onReset">
           <b-row>
-            <b-col cols="12">
-              <h2 class="aat-filter-title">
-                Filter
-              </h2>
+            <b-col cols="12" class="aat-filter-toggle">
+              <b-button v-b-toggle.aat_collapse_filter class="aat-toggle-control" variant="link">
+                <h2 class="aat-filter-title">
+                  <span class="when-open sr-only">Hide </span><span class="when-closed sr-only">Show </span>Filters
+                </h2>
+              </b-button>
               <span class="aat-filter-reset">
-                <b-button type="reset" variant="link">
-                  Reset
-                </b-button>
-              </span>
-              <span class="aat-filter-toggle">
-                <b-button v-b-toggle.aat_collapse_filter variant="link">
-                  <span class="when-open sr-only">Hide Filters</span>
-                  <span class="when-closed sr-only">Show Filters</span>
-                </b-button>
-              </span>
+                  <b-button type="reset" variant="link">
+                    Reset
+                  </b-button>
+                </span>
             </b-col>
             <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12">
               <b-row>
@@ -444,34 +440,37 @@
     float: left;
     font-size: 1rem;
     font-weight: bold;
-    line-height: inherit;
+    line-height: 1;
+  }
+
+  .aat-filter-reset {
+    left: 5rem;
+    position: absolute;
   }
 
   .aat-filter-reset button {
     float: left;
     font-size: 0.875rem;
-    line-height: 1.7;
-    padding: 0 0 0 0.5rem;
+    height: 30px;
+    line-height: 1;
+    padding: 0;
     text-transform: lowercase;
   }
 
-  .aat-filter-toggle button {
-    float: right;
-    font-size: 0.875rem;
-    height: 1rem;
-    line-height: 1.7;
-    margin-top: 0.3rem;
-    padding: 0 0 0 0.5rem;
-    text-transform: lowercase;
-    width: 1rem;
+  .aat-filter-toggle .aat-toggle-control {
+    color: inherit;
+    height: 30px;
+    width: 100%;
   }
 
   .collapsed > .when-open,
-  .not-collapsed > .when-closed {
+  .not-collapsed > .when-closed,
+  .collapsed + .aat-filter-reset .when-open,
+  .not-collapsed + .aat-filter-reset .when-closed, {
     display: none;
   }
 
-  .aat-filter-toggle button::after {
+  .aat-filter-toggle .aat-toggle-control::after {
     border-style: solid;
     border-width: 0 2px 2px 0;
     content: '';
@@ -483,7 +482,7 @@
     transition: transform 0.5s;
   }
 
-  .aat-filter-toggle .btn.not-collapsed::after {
+  .aat-filter-toggle .aat-toggle-control.not-collapsed::after {
     transform: rotate(45deg);
   }
 
