@@ -58,7 +58,6 @@ class RESTDispatch(View):
         return response
 
 
-
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
 class UploadView(RESTDispatch):
