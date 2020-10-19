@@ -233,8 +233,18 @@ class CollectionDetails(RESTDispatch):
                   name='dispatch')
 class ActivityLog(RESTDispatch):
     def get(self, request, *args, **kwargs):
-        activities = get_activity_log()
-        return self.json_response(content={"activities": activities})
+        filters = {"collection_type": request.GET.get('collection_type', None),
+                   "assignment_type": request.GET.get('assignment_type', None),
+                   "cohort": request.GET.get('cohort', None),
+                   "major": request.GET.get('major', None),
+                   "system_key": request.GET.get('system_key', None),
+                   "comment": request.GET.get('comment', None),
+                   "netid": request.GET.get('netid', None)}
+        activities = get_activity_log(**filters)
+        if(len(activities) > 0):
+            return self.json_response(content={"activities": activities})
+        else:
+            return self.error_response(status=404)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
@@ -279,6 +289,14 @@ class BulkUpload(RESTDispatch):
             return self.error_response(status=403, content=error)
         try:
             req = json.loads(request.body)
+        except json.decoder.JSONDecodeError as ex:
+            msg = {
+                'description': "Issue parsing JSON body",
+                'details': ex
+            }
+            return self.error_response(status=500,
+                                       message=msg)
+        try:
             applications = req['applications']
             cohort_id = req['cohort_id']
             major_id = req['major_id']
@@ -305,7 +323,11 @@ class BulkUpload(RESTDispatch):
             else:
                 return self.json_response(status=200, content=content)
         except Exception as ex:
-            return self.error_response(status=500, message=ex)
+            msg = {
+                'description': "Issue creating bulk assignment",
+                'details': ex
+            }
+            return self.error_response(status=500, message=msg)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),

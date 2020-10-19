@@ -85,9 +85,8 @@ def get_applications_by_major_qtr(major_id, quarter):
     return matching_apps
 
 
-def get_activity_log():
-    # filtering removed for V1 release
-    activities = AdSel().get_activities()
+def get_activity_log(**kwargs):
+    activities = AdSel().get_filtered_activities(**kwargs)
     activity_json = []
     for activity in activities:
         try:
