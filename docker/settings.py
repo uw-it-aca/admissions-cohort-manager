@@ -53,9 +53,11 @@ if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
 
 if os.getenv('ENV') == 'prod':
     RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
+    RESTCLIENTS_ADSEL_CORS_ORIGIN = 'https://adselapi.uw.edu'
 
 if os.getenv('ENV') == 'eval':
     RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
+    RESTCLIENTS_ADSEL_CORS_ORIGIN = 'https://dev.adselapi.uw.edu'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True

@@ -51,6 +51,12 @@ class RESTDispatch(View):
         response['WWW-Authenticate'] = "Bearer"
         return response
 
+    @staticmethod
+    def cors_response(origin, content={}, status=200):
+        response = RESTDispatch().json_response(content, status)
+        response['Access-Control-Allow-Origin'] = origin
+        return response
+
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
@@ -311,7 +317,11 @@ class BulkUpload(RESTDispatch):
             assignment_import.save()
             uri = '/iframe/bulk_view/{}'.format(assignment_import.id)
             content = {"aat_url": request.build_absolute_uri(uri)}
-            return self.json_response(status=200, content=content)
+            origin = getattr(settings, "RESTCLIENTS_ADSEL_CORS_ORIGIN", None)
+            if origin:
+                return self.cors_response(origin, status=200, content=content)
+            else:
+                return self.json_response(status=200, content=content)
         except Exception as ex:
             msg = {
                 'description': "Issue creating bulk assignment",
