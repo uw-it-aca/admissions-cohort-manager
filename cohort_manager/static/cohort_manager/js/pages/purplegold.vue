@@ -12,6 +12,7 @@
     <reset-modal
       v-if="display_reset"
       collection-type="purplegold"
+      item-id="0"
       v-on="$listeners"
     />
     <!--    <upload v-bind="currentProperties" v-on="$listeners" />-->

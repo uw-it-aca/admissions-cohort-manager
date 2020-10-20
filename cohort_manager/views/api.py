@@ -206,27 +206,32 @@ class CollectionDetails(RESTDispatch):
         params = json.loads(request.body)
         comment = params.get('comment')
         user = UserService().get_original_user()
-        try:
-            apps = get_applications_by_type_id_qtr(collection_type,
-                                                   collection_id, quarter)
-
-            import_args = {'quarter': quarter,
-                           'campus': 0,
-                           'comment': comment,
-                           'created_by': user}
-            if collection_type == "cohort":
-                import_args['cohort'] = 0
-            if collection_type == "major":
-                import_args['major'] = "none"
-
-            assignment_import = AssignmentImport.objects.create(**import_args)
-            Assignment.create_from_applications(assignment_import, apps)
-
-            reset_collection(assignment_import, collection_type)
-
+        if collection_type == "purplegold":
+            # TODO: handle png reset
             return self.json_response()
-        except Exception:
-            return self.error_response(status=400)
+        else:
+            try:
+                apps = get_applications_by_type_id_qtr(collection_type,
+                                                       collection_id, quarter)
+
+                import_args = {'quarter': quarter,
+                               'campus': 0,
+                               'comment': comment,
+                               'created_by': user}
+                if collection_type == "cohort":
+                    import_args['cohort'] = 0
+                if collection_type == "major":
+                    import_args['major'] = "none"
+
+                assignment_import = \
+                    AssignmentImport.objects.create(**import_args)
+                Assignment.create_from_applications(assignment_import, apps)
+
+                reset_collection(assignment_import, collection_type)
+
+                return self.json_response()
+            except Exception:
+                return self.error_response(status=400)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
