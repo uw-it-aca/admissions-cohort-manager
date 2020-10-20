@@ -111,18 +111,20 @@
         this.csrfToken = $cookies.get("csrftoken");
       },
       handleReset(bvModalEvent) {
-        var vue = this;
+        var vue = this,
+            url = '/api/collection/'
+              + this.collectionType.toLowerCase()
+              + "/"
+              + this.current_period
+              + "/";
         // disable submit after click
         bvModalEvent.preventDefault();
         this.is_resetting = true;
+        if(this.collectionType !== "purplegold"){
+          url += this.itemId + "/";
+        }
         axios.delete(
-          '/api/collection/'
-            + this.collectionType.toLowerCase()
-            + "/"
-            + this.current_period
-            + "/"
-            + this.itemId
-            + "/",
+          url,
           {
             headers: {
               'Content-Type': 'multipart/form-data',
