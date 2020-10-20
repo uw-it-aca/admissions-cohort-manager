@@ -9,7 +9,11 @@
     <b-button @click="init_reset">
       Reset All
     </b-button>
-    <reset-modal v-if="display_reset" collection-type="purplegold" />
+    <reset-modal
+      v-if="display_reset"
+      collection-type="purplegold"
+      v-on="$listeners"
+    />
     <!--    <upload v-bind="currentProperties" v-on="$listeners" />-->
   </div>
 </template>
