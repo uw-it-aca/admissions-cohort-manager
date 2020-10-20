@@ -13,6 +13,7 @@ import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
 import BulkHandler from './pages/bulk_handler.vue';
+import PurpleGold from './pages/purplegold.vue';
 import store from './store';
 
 // import the bootstrap / bootstrap-vue base css
@@ -45,6 +46,7 @@ var router = new VueRouter({
     { path: '/log/:id', component: Log },
     { path: '/iframe/bulk_view/:id', component: BulkHandler},
     { path: '/iframe/log/', component: Log },
+    { path: '/purplegold/', component: PurpleGold },
   ]
 });
 
