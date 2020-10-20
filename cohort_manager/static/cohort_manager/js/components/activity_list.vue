@@ -61,10 +61,10 @@
                 </h2>
               </b-button>
               <span class="aat-filter-reset">
-                  <b-button type="reset" variant="link">
-                    Reset
-                  </b-button>
-                </span>
+                <b-button type="reset" variant="link">
+                  Reset
+                </b-button>
+              </span>
             </b-col>
             <b-collapse id="aat_collapse_filter" class="aat-filter-collapse" cols="12">
               <b-row>

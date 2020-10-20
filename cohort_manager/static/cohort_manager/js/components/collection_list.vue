@@ -64,64 +64,25 @@
     </div>
 
     <!-- Reset Collection modal -->
-    <template>
-      <div>
-        <b-modal
-          :id="resetModal.id"
-          modal-class="aat-modal-box"
-          content-class="aat-modal"
-          hide-backdrop
-          :title="resetModal.title"
-          ok-only
-          :ok-title="'Reset ' + collectionType"
-          :ok-disabled="resetModal.ok_disabled"
-          @ok="submit_reset"
-        >
-          <form @submit.prevent="handleUpload">
-            <div>
-              <fieldset class="aat-form-section">
-                <legend class="aat-sub-header">
-                  Confirm Reset
-                </legend>
-                <div id="reset_col_option">
-                  <b-form-checkbox
-                    id="col_reset_checkbox"
-                    v-model="checked"
-                    name="col_reset_checkbox"
-                    value=""
-                  >
-                    Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ resetModal.itemId }}" to <em>unassigned</em>.
-                  </b-form-checkbox>
-                </div>
-              </fieldset>
-              <fieldset class="aat-form-section">
-                <legend class="aat-sub-header">
-                  Add Comment
-                </legend>
-                <label for="reassignment_comment">Enter comment for this assignment.</label>
-                <textarea id="reassignment_comment" v-model="comment" class="aat-comment-field" />
-              </fieldset>
-              <p v-if="resetModal.protect === 'Yes'">
-                <b>Note:</b> This is a protected cohort.
-              </p>
-            </div>
-          </form>
-          <div v-if="is_resetting" class="text-center text-info aat-processing-text">
-            <b-spinner class="align-middle" />
-            <strong>Resetting...</strong>
-          </div>
-        </b-modal>
-      </div>
-    </template>
+    <reset-modal
+      v-if="show_reset_modal"
+      :key="modal_key"
+      :collection-type="collectionType"
+      :item-id="resetModal.itemId"
+      :protected-cohort="resetModal.protect"
+      v-on="$listeners"
+    />
   </div>
 </template>
 
 <script>
   const axios = require("axios");
   import { EventBus } from "../main";
+  import ResetModal from "../components/reset_modal";
   export default {
     name: "CollectionList",
     components: {
+      ResetModal
     },
     props: {
       collectionType: {
@@ -222,11 +183,14 @@
           }
         ],
         majors: [],
+        show_reset_modal: false,
         resetModal: {
           id: 'reset-modal',
           title: '',
           itemId: '',
-          ok_disabled: true
+          ok_disabled: true,
+          protect: false,
+          timestamp: 0
         },
         checked: false,
         comment: '',
@@ -235,6 +199,11 @@
         show_error: false,
         is_resetting: false
       };
+    },
+    computed: {
+      modal_key: function () {
+        return this.resetModal.itemId + this.resetModal.timestamp;
+      }
     },
     watch: {
       checked: function(val){
@@ -281,54 +250,11 @@
           vue.show_error = true;
         });
       },
-      handle_reset_button(item, index, button) {
-        this.resetResetModal();
-        this.resetModal.title = `Reset ${this.collectionType}`;
+      handle_reset_button(item) {
         this.resetModal.itemId = `${item.value}`;
-        this.resetModal.protect = `${item.protect}`;
-        // eslint-disable-next-line vue/custom-event-name-casing
-        this.$root.$emit('bv::show::modal', this.resetModal.id, button);
-      },
-      resetResetModal() {
-        this.resetModal.title = '';
-        this.resetModal.content = '';
-        this.checked = false;
-        this.resetModal.ok_disabled = true;
-        this.load_data();
-      },
-      submit_reset(bvModalEvent){
-        var vue = this;
-        // disable submit after click
-        this.resetModal.ok_disabled = true;
-        bvModalEvent.preventDefault();
-        this.is_resetting = true;
-        axios.delete(
-          '/api/collection/'
-            + this.collectionType.toLowerCase()
-            + "/"
-            + this.admissions_period
-            + "/"
-            + this.resetModal.itemId
-            + "/",
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'X-CSRFToken': this.csrfToken
-            },
-            data: {comment: this.comment}
-          },
-        ).then(function() {
-          bvModalEvent.vueTarget.hide();
-          vue.is_resetting = false;
-          vue.$emit('show-message', vue.collectionType + " " + vue.resetModal.itemId + " has been reset.", "success");
-          vue.$router.push({path: '/log'});
-        }).catch(function () {
-          bvModalEvent.vueTarget.hide();
-          vue.is_resetting = false;
-          vue.$emit('show-message', "Reset of " + vue.collectionType + " " + vue.resetModal.itemId + " has been submitted. Check the Activity Log in a few minutes to verify.", "primary");
-          vue.$router.push({path: '/log'});
-        });
-
+        this.resetModal.protect = (`${item.protected}` === 'true');
+        this.resetModal.timestamp = Date.now();
+        this.show_reset_modal = true;
       }
     }
   };
