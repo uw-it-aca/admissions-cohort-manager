@@ -31,7 +31,7 @@ setup(
         'pytz==2019.3'
     ],
     license='Apache License, Version 2.0',
-    description='A tool for managing cohorts',
+    description='A tool for managing admissions',
     long_description=README,
     url=url,
     classifiers=[
