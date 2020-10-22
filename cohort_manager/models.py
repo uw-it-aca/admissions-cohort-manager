@@ -139,8 +139,10 @@ class AssignmentImport(models.Model):
         }
 
     def remove_assignments(self, ids_to_remove):
-        self.assignment_set.\
-            filter(admission_selection_id__in=ids_to_remove).delete()
+        assignments = self.assignment_set.all()
+        if len(assignments) == 0:
+            assignments = self.purplegoldassignment_set.all()
+        assignments.filter(admission_selection_id__in=ids_to_remove).delete()
 
 
 class Assignment(models.Model):
