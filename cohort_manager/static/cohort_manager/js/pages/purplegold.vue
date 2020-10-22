@@ -3,30 +3,35 @@
     <h1 id="aat_page_header" class="aat-page-header">
       Assign Purple & Gold Scholarships
     </h1>
-    <b-button @click="init_upload">
-      Assign Scholarships
-    </b-button>
-    <b-button @click="init_reset">
-      Reset All
-    </b-button>
+    <div v-if="!display_upload">
+      <b-button @click="init_upload">
+        Assign Scholarships
+      </b-button>
+      <b-button @click="init_reset">
+        Reset All
+      </b-button>
+    </div>
     <reset-modal
       v-if="display_reset"
       collection-type="purplegold"
       item-id="0"
       v-on="$listeners"
     />
-    <!--    <upload v-bind="currentProperties" v-on="$listeners" />-->
+    <purple-gold-upload
+      v-if="display_upload"
+    />
   </div>
 </template>
 
 <script>
   import ResetModal from "../components/reset_modal";
+  import PurpleGoldUpload from "../components/purplegold_upload";
 
   export default {
     name: "PurpleGold",
     components: {
       ResetModal,
-      // upload: Upload,
+      PurpleGoldUpload
     },
     data(){
       return {

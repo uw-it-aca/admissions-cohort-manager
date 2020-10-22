@@ -1,24 +1,27 @@
 import json
+
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.management import call_command
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.utils import IntegrityError
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.serializers.json import DjangoJSONEncoder
-from django.core.management import call_command
-from django.db.utils import IntegrityError
+from restclients_core.exceptions import DataFailureException
+from userservice.user import UserService
 from uw_saml.decorators import group_required
-from cohort_manager.models import AssignmentImport, Assignment
+
+from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
-    submit_collection, get_applications_by_type_id_qtr, reset_collection,\
+    submit_collection, get_applications_by_type_id_qtr, reset_collection, \
     _get_collection, get_application_from_bulk_upload
-from cohort_manager.dao import InvalidCollectionException
+from cohort_manager.models import AssignmentImport, Assignment, \
+    PurpleGoldAssignment
 from cohort_manager.utils import is_valid_auth_key
-from userservice.user import UserService
-from restclients_core.exceptions import DataFailureException
 
 
 class RESTDispatch(View):
@@ -69,6 +72,7 @@ class UploadView(RESTDispatch):
             syskey_list = None
         cohort_id = request.POST.get('cohort_id')
         major_id = request.POST.get('major_id')
+        purplegold = request.POST.get('purplegold')
         comment = request.POST.get('comment', "")
         qtr_id = request.POST.get('qtr_id', "")
         user = UserService().get_original_user()
@@ -96,16 +100,29 @@ class UploadView(RESTDispatch):
                                                message="Invalid document")
                 assignment_import.document = document
                 assignment_import.upload_filename = uploaded_file.name
-                assignments = Assignment.create_from_file(assignment_import)
-                if len(assignments) > 0:
-                    Assignment.objects.bulk_create(assignments)
+                if purplegold:
+                    assignments = \
+                        PurpleGoldAssignment().create_from_file(
+                            assignment_import)
+                    if len(assignments) > 0:
+                        PurpleGoldAssignment.objects.bulk_create(assignments)
+                    else:
+                        document = file.decode('ascii')
+                        assignment_import.document = document
+                        assignments = PurpleGoldAssignment.create_from_file(
+                            assignment_import)
+                        PurpleGoldAssignment.objects.bulk_create(assignments)
                 else:
-                    document = file.decode('ascii')
-                    assignment_import.document = document
-                    assignments = Assignment.create_from_file(
+                    assignments = Assignment().create_from_file(
                         assignment_import)
-                    Assignment.objects.bulk_create(assignments)
-
+                    if len(assignments) > 0:
+                        Assignment.objects.bulk_create(assignments)
+                    else:
+                        document = file.decode('ascii')
+                        assignment_import.document = document
+                        assignments = Assignment.create_from_file(
+                            assignment_import)
+                        Assignment.objects.bulk_create(assignments)
             if syskey_list:
                 applications, invalid_syskes = get_apps_by_qtr_id_syskey_list(
                     qtr_id,
