@@ -292,7 +292,7 @@ class PurpleGoldAssignment(models.Model):
                                 delimiter='\t')
         try:
             assignments = \
-                PurpleGoldAssignment._create_from_reader(reader,assign_import)
+                PurpleGoldAssignment._create_from_reader(reader, assign_import)
         except ValueError:
             reader = csv.DictReader(StringIO(assign_import.document),
                                     delimiter=',')
