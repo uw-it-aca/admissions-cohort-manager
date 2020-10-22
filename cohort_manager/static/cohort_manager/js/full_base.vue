@@ -276,6 +276,11 @@
     background-color: $test-env-bkgnd;
   }
 
+  .aat-globalenv-eval {
+    background-color: $test-env-bkgnd;
+    min-height: 100vh;
+  }
+
   // top banner styles
   .aat-app-banner {
     background-color: $uw-purple;
