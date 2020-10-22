@@ -113,6 +113,8 @@ class AssignmentImport(models.Model):
 
     def json_data(self):
         assignments = self.assignment_set.all()
+        if len(assignments) == 0:
+            assignments = self.purplegoldassignment_set.all()
         return {
             'id': self.pk,
             'comment': self.comment,
@@ -240,3 +242,110 @@ class Assignment(models.Model):
         app.application_number = self.application_number
 
         return app
+
+
+class PurpleGoldAssignment(models.Model):
+    CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
+    FIELD_PURPLEGOLD_CURRENT = "CurrentPurpleGoldAmount"
+    FIELD_PURPLEGOLD_NEW = "NewPurpleGoldAmount"
+    FIELD_INTERNATIONAL = "InterationalResident"
+    FIELD_WA = "WAResident"
+
+    assignment_import = models.ForeignKey(AssignmentImport,
+                                          on_delete=models.PROTECT)
+    system_key = models.CharField(
+        max_length=30, validators=[validate_system_key])
+    application_number = models.PositiveIntegerField(
+        validators=[validate_application_number])
+    admission_selection_id = models.CharField(max_length=30)
+    assigned_cohort = models.IntegerField(null=True)
+    assigned_major = models.CharField(max_length=30, null=True)
+    campus = models.PositiveSmallIntegerField(
+        default=1, choices=CAMPUS_CHOICES)
+    sdb_app_status = models.IntegerField(null=True)
+    purple_gold_assigned = models.IntegerField(null=True)
+    purple_gold_new = models.IntegerField(null=True)
+    is_international = models.BooleanField(null=True)
+    is_wa = models.BooleanField(null=True)
+
+    def validate(self):
+        self.full_clean()
+
+    def json_data(self):
+        return {
+            'system_key': self.system_key,
+            'application_number': self.application_number,
+            'admission_selection_id': self.admission_selection_id,
+            'assigned_cohort': self.assigned_cohort,
+            'assigned_major': self.assigned_major,
+            'campus': self.get_campus_display(),
+            'sdb_app_status': self.sdb_app_status,
+            'purple_gold_assigned': self.purple_gold_assigned,
+            'purple_gold_new': self.purple_gold_new,
+            'is_international': self.is_international,
+            'is_wa': self.is_wa,
+        }
+
+    @staticmethod
+    def create_from_file(assign_import):
+        reader = csv.DictReader(StringIO(assign_import.document),
+                                delimiter='\t')
+        try:
+            assignments = \
+                PurpleGoldAssignment._create_from_reader(reader,assign_import)
+        except ValueError:
+            reader = csv.DictReader(StringIO(assign_import.document),
+                                    delimiter=',')
+            assignments = \
+                PurpleGoldAssignment._create_from_reader(reader, assign_import)
+        return assignments
+
+    @staticmethod
+    def _create_from_reader(reader, assign_import):
+        assignments = []
+        for idx, row in enumerate(reader):
+            assignment = PurpleGoldAssignment()
+            assignment.assignment_import = assign_import
+            assignment.system_key = \
+                row.get(AssignmentImport.FIELD_SYSTEM_KEY)
+            assignment.application_number = \
+                row.get(AssignmentImport.FIELD_APPLICATION_NUMBER)
+            assignment.admission_selection_id = \
+                row.get(AssignmentImport.FIELD_ADSEL_ID)
+
+            current_assigned = row.get(
+                PurpleGoldAssignment.FIELD_PURPLEGOLD_CURRENT)
+            if len(current_assigned) > 0:
+                assignment.purple_gold_assigned = current_assigned
+            new_assigned = row.get(PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
+            if len(new_assigned) > 0:
+                assignment.purple_gold_new = new_assigned
+            if row.get(PurpleGoldAssignment.FIELD_INTERNATIONAL) == "Yes":
+                assignment.is_international = True
+            if row.get(PurpleGoldAssignment.FIELD_WA) == "Yes":
+                assignment.is_wa = True
+
+            # Fix STFE-139
+            try:
+                assignment.sdb_app_status = \
+                    int(row.get(AssignmentImport.FIELD_APPLICATION_STATUS))
+            except (ValueError, TypeError):
+                raise ValueError("Error with column %s" %
+                                 AssignmentImport.FIELD_APPLICATION_STATUS)
+            cohort_data = row.get(AssignmentImport.FIELD_ASSIGNED_COHORT)
+            try:
+                if len(cohort_data) > 0:
+                    assignment.assigned_cohort = cohort_data
+            except TypeError:
+                raise ValueError("%s column not present" %
+                                 AssignmentImport.FIELD_ASSIGNED_COHORT)
+            major_data = row.get(
+                AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
+            try:
+                if len(major_data) > 0:
+                    assignment.assigned_major = major_data
+            except TypeError:
+                raise ValueError("%s column not present" %
+                                 AssignmentImport.FIELD_ASSIGNED_MAJOR_CODE)
+            assignments.append(assignment)
+        return assignments
