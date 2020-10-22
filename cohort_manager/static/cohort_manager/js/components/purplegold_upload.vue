@@ -14,13 +14,13 @@
       :upload-response="upload_response"
       collection-type="purplegold"
       upload-type="file"
-
     />
   </div>
 </template>
 
 <script>
-  import CollectionUploadFileInput from '../components/collection_upload_file_input';
+  import CollectionUploadFileInput
+    from '../components/collection_upload_file_input';
   import Vuex from "vuex";
   import CollectionUploadDupeModal from "./collection_upload_dupe_modal";
   import UploadReview from "../components/collection_upload_review.vue";
@@ -50,11 +50,58 @@
     },
     computed: {
       ...Vuex.mapState({
-        current_period: state => state.period.current_period
+        current_period: state => state.period.current_period,
+        cohortOptions: state => state.cohortlist.cohorts
       }),
+      assignments: function () {
+        if(this.upload_response !== undefined) {
+          return this.upload_response.assignments;
+        }
+        return [];
+      },
+      ineligibleResidency: function () {
+        var ineligible = [];
+        $(this.assignments).each(function (idx, value) {
+          if(value.is_wa === true || value.is_international === true){
+            ineligible.push(value);
+          }
+        });
+        return ineligible;
+      },
+      alreadyAssigned: function () {
+        var assigned = [];
+        $(this.assignments).each(function (idx, value) {
+          if(value.purple_gold_assigned !== null){
+            assigned.push(value);
+          }
+        });
+        return assigned;
+      },
+      assignedDenied: function() {
+        var denied = [],
+            vue = this;
+        $(this.assignments).each(function (idx, value) {
+          if(vue.denied_cohorts.includes(value.assigned_cohort)){
+            denied.push(value);
+          }
+        });
+        return denied;
+      },
+      denied_cohorts: function() {
+        var denied_cohorts = [];
+        $(this.cohortOptions).each(function (idx, val) {
+          if(val.admit_decision === "Deny" || val.admit_decision === "Waitlist"){
+            denied_cohorts.push(val.value);
+          }
+        });
+        return denied_cohorts;
+      }
+
     },
     created (){
       this.setCSRF();
+      // prefetch cohort list for denied detection
+      this.$store.dispatch('cohortlist/get_cohorts', this.current_period);
     },
     mounted() {
     },
@@ -101,7 +148,7 @@
             vue.has_uploaded = true;
           }
         }).catch(function (err_resp) {
-          console.log(err_resp)
+          console.log(err_resp);
           vue.invalid_csv = true;
           try {
             vue.error_message = err_resp.data.error;
