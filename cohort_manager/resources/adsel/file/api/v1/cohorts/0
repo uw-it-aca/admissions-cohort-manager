@@ -1,0 +1,66 @@
+{
+	"cohorts": [{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 1,
+			"cohortDescription": "This is a Cohort",
+			"cohortResidency": "WA",
+			"admitDecision": "Deny",
+			"protectedGroupInd": true,
+			"activeCohortInd": true,
+			"assignedCount": 120
+		},
+		{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 91,
+			"cohortDescription": "This is another cohort",
+			"cohortResidency": "INTL",
+			"admitDecision": "Admit",
+			"protectedGroupInd": false,
+			"activeCohortInd": true,
+			"assignedCount": 0
+		},
+		{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 81,
+			"cohortDescription": "This is yet another cohort",
+			"cohortResidency": "INTL",
+			"admitDecision": "Waitlist",
+			"protectedGroupInd": false,
+			"activeCohortInd": true,
+			"assignedCount": 0
+		},
+		{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 4,
+			"cohortDescription": "This is a different cohort",
+			"cohortResidency": "INTL",
+			"admitDecision": "",
+			"protectedGroupInd": false,
+			"activeCohortInd": true,
+			"assignedCount": 0
+		},
+		{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 5,
+			"cohortDescription": "This is another different cohort",
+			"cohortResidency": "INTL",
+			"admitDecision": "Deny",
+			"protectedGroupInd": false,
+			"activeCohortInd": true,
+			"assignedCount": 0
+		},
+		{
+			"academicQtrKeyId": 0,
+			"cohortNbr": 6,
+			"cohortDescription": "This is yet another different cohort",
+			"cohortResidency": "INTL",
+			"admitDecision": "Deny",
+			"protectedGroupInd": false,
+			"activeCohortInd": true,
+			"assignedCount": 0
+		}
+	],
+	"nextPage": "2",
+	"previousPage": "1",
+	"totalCount": 2
+}
