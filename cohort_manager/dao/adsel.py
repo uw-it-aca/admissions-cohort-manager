@@ -165,6 +165,9 @@ def _get_collection(assignment_import):
     elif assignment_import.major and len(assignment_import.major) > 0:
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
+    else:
+        # TODO: handle P&G
+        assignment = CohortAssignment()
 
     assignment.assignment_type = "file" if \
         assignment_import.is_file_upload else "manual"
