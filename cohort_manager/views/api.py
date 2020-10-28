@@ -91,9 +91,9 @@ class UploadView(RESTDispatch):
                 document = None
                 file = uploaded_file.read()
                 try:
-                    document = file.decode('utf-16')
-                except UnicodeDecodeError as ex:
                     document = file.decode('utf-8')
+                except UnicodeDecodeError as ex:
+                    document = file.decode('utf-16')
 
                 if document is None:
                     return self.error_response(status=400,
