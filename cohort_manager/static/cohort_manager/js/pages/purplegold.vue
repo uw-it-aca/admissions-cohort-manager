@@ -10,6 +10,9 @@
       <b-button @click="init_reset">
         Reset All
       </b-button>
+      <h2> Tableau Embedded Report</h2>
+      <p>You must be on the UW network or VPN to access view embedded report</p>
+      <iframe src="../purplegold_embed/" width="100%" height="600"></iframe>
     </div>
     <reset-modal
       v-if="display_reset"

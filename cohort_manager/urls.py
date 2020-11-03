@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-
+from cohort_manager.views import PurpleGoldEmbed
 from cohort_manager.views.api import UploadView, CollectionDetails, \
     ActivityLog, CollectionList, ModifyUploadView, PeriodList, BulkUpload, \
     MockDataView
@@ -24,6 +24,8 @@ urlpatterns = [
             ActivityLog.as_view()),
     re_path(r'^api/periods/',
             PeriodList.as_view()),
+    re_path(r'^purplegold_embed/',
+            PurpleGoldEmbed.as_view()),
     re_path(r'^.*$', LandingView.as_view()),
 ]
 if settings.DEBUG:
