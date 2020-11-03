@@ -16,6 +16,7 @@
       upload-type="file"
     />
     <div v-if="has_issues" class="aat-collapse">
+      <!--      Functionality disabled until we switch to doing lookups-->
       <b-card v-if="invalid_residency.length < 100" no-body class="mb-1">
         <b-card-header v-if="invalid_residency" header-tag="header" class="p-1">
           <b-button v-b-toggle.collapse-resident block variant="info" href="#">
@@ -71,7 +72,7 @@
             </b-card-text>
           </b-card-body>
         </b-collapse>
-      </b-card>
+      </b-card>-->
     </div>
     <collection-comment
       @comment="update_comment"
@@ -148,7 +149,8 @@
     },
     watch: {
       applications: function () {
-        this.get_invalid();
+        // Disabled till we get data
+        // this.get_invalid();
       }
     },
     created (){
@@ -219,13 +221,15 @@
           vue.is_uploading = false;
           vue.upload_response = response.data;
           vue.applications = this.upload_response.assignments;
-          var dupes = vue.get_duplicates(vue.applications);
-          if(dupes.length > 1){
-            vue.has_dupes = true;
-            vue.dupes = dupes;
-          } else{
-            vue.has_uploaded = true;
-          }
+          vue.has_uploaded = true;
+          // Functionality disabled until we switch to doing lookups
+          // var dupes = vue.get_duplicates(vue.applications);
+          // if(dupes.length > 1){
+          //   vue.has_dupes = true;
+          //   vue.dupes = dupes;
+          // } else{
+          //   vue.has_uploaded = true;
+          // }
         }).catch(function (err_resp) {
           vue.invalid_csv = true;
           try {
@@ -280,7 +284,8 @@
                        'is_reassign': this.is_reassign,
                        'is_reassign_protected': this.is_reassign_protected,
                        'to_delete': this.to_remove,
-                       'comment': this.comment};
+                       'comment': this.comment,
+                       'purplegold': true};
         this.submitted = true;
         this.is_submitting = true;
         vue.show_submitting_modal = true;

@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from cohort_manager.utils import to_csv, dict_to_csv, get_headers
 from uw_adsel.models import Application
+from uw_adsel.models import PurpleGoldApplication
 from io import StringIO
 import csv
 import json
@@ -324,3 +325,9 @@ class PurpleGoldAssignment(models.Model):
             # Fix STFE-139
             assignments.append(assignment)
         return assignments
+
+    def get_application(self):
+        app = PurpleGoldApplication()
+        app.adsel_id = self.admission_selection_id
+
+        return app
