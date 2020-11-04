@@ -18,7 +18,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
     get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection, \
-    _get_collection, get_application_from_bulk_upload
+    _get_collection, get_application_from_bulk_upload, reset_purplegold
 from cohort_manager.models import AssignmentImport, Assignment, \
     PurpleGoldAssignment
 from cohort_manager.utils import is_valid_auth_key
@@ -223,18 +223,18 @@ class CollectionDetails(RESTDispatch):
         params = json.loads(request.body)
         comment = params.get('comment')
         user = UserService().get_original_user()
-        if collection_type == "purplegold":
-            # TODO: handle png reset
-            return self.json_response()
-        else:
-            try:
-                apps = get_applications_by_type_id_qtr(collection_type,
-                                                       collection_id, quarter)
+        try:
+            apps = get_applications_by_type_id_qtr(collection_type,
+                                                   collection_id, quarter)
 
-                import_args = {'quarter': quarter,
-                               'campus': 0,
-                               'comment': comment,
-                               'created_by': user}
+            import_args = {'quarter': quarter,
+                           'campus': 0,
+                           'comment': comment,
+                           'created_by': user}
+            if collection_type == "purplegold":
+                reset_purplegold(import_args, apps)
+
+            else:
                 if collection_type == "cohort":
                     import_args['cohort'] = 0
                 if collection_type == "major":
@@ -246,9 +246,9 @@ class CollectionDetails(RESTDispatch):
 
                 reset_collection(assignment_import, collection_type)
 
-                return self.json_response()
-            except Exception:
-                return self.error_response(status=400)
+            return self.json_response()
+        except Exception:
+            return self.error_response(status=400)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
