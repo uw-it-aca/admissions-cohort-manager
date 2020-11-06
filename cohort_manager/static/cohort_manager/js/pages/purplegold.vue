@@ -12,7 +12,7 @@
       </b-button>
       <h2> Tableau Embedded Report</h2>
       <p>You must be on the UW network or VPN to access view embedded report</p>
-      <iframe src="../purplegold_embed/" width="100%" height="600" />
+      <iframe src="../purplegold_embed/" class="aat-pugo-iframe" width="100%" height="800" />
     </div>
     <reset-modal
       v-if="display_reset"
@@ -58,4 +58,9 @@
 </script>
 
 <style lang="scss">
+  .aat-pugo-iframe {
+    border-style: none;
+  
+  }
+
 </style>
