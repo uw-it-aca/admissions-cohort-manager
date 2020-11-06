@@ -604,7 +604,8 @@
     }
   }
   // Forms
-  .aat-form-section {
+  .aat-form-section,
+  .aat-page-section {
     margin: 0 0 3rem;
 
     .aat-select-inline {
