@@ -240,7 +240,7 @@ class Assignment(models.Model):
 
     def get_application(self):
         app = Application()
-        app.adsel_id = self.admission_selection_id
+        app.adsel_id = int(self.admission_selection_id)
         app.system_key = self.system_key
         app.application_number = self.application_number
 
