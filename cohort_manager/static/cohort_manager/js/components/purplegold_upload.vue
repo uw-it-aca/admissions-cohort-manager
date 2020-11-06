@@ -3,6 +3,7 @@
     <div class="aat-form-section">
       <collection-upload-file-input
         @fileselected="file_selected"
+        v-if="!has_uploaded"
       />
     </div>
     <collection-upload-dupe-modal
@@ -17,6 +18,7 @@
         :upload-response="upload_response"
         collection-type="purplegold"
         upload-type="file"
+        @upload-reset="handleReset"
       />
     </div>
     <div v-if="has_issues" class="aat-collapse">
@@ -163,6 +165,14 @@
       this.$store.dispatch('cohortlist/get_cohorts', this.current_period);
     },
     methods: {
+      handleReset() {
+        this.has_uploaded = false;
+        this.upload_response = undefined;
+        this.file = null;
+        this.upload_response = null;
+        this.has_dupes = false;
+        this.dupes = null;
+      },
       update_comment(comment){
         this.comment = comment;
       },
