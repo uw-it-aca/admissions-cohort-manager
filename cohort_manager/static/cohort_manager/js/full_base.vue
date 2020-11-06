@@ -546,7 +546,7 @@
   }
 
   .aat-cohort-manager {
-    min-height: 75vh;
+    min-height: 80vh;
     overflow: hidden;
 
     .aat-content-area {

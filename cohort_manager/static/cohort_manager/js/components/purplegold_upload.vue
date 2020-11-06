@@ -11,12 +11,14 @@
       collection-type="purplegold"
       @remove-dupes="remove_applications"
     />
-    <upload-review
-      v-if="has_uploaded"
-      :upload-response="upload_response"
-      collection-type="purplegold"
-      upload-type="file"
-    />
+    <div class="aat-form-section">
+      <upload-review
+        v-if="has_uploaded"
+        :upload-response="upload_response"
+        collection-type="purplegold"
+        upload-type="file"
+      />
+    </div>
     <div v-if="has_issues" class="aat-collapse">
       <!--      Functionality disabled until we switch to doing lookups-->
       <b-card v-if="invalid_residency.length < 100" no-body class="mb-1">
