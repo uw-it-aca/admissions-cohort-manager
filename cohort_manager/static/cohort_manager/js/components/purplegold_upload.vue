@@ -1,8 +1,10 @@
 <template>
   <div>
-    <collection-upload-file-input
-      @fileselected="file_selected"
-    />
+    <div class="aat-form-section">
+      <collection-upload-file-input
+        @fileselected="file_selected"
+      />
+    </div>
     <collection-upload-dupe-modal
       v-if="has_dupes"
       :duplicates="dupes"
