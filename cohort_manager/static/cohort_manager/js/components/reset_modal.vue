@@ -25,7 +25,12 @@
                 name="col_reset_checkbox"
                 :value="true"
               >
-                Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ itemId }}" to <em>unassigned</em>.
+                <span v-if="collectionType === 'purplegold'"> 
+                  Reset all Purple & Gold scholarship assignments.
+                </span>
+                <span v-else>                
+                  Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ itemId }}" to <em>unassigned</em>.
+                </span>
               </b-form-checkbox>
             </div>
           </fieldset>
