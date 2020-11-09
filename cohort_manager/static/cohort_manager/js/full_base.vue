@@ -90,13 +90,13 @@
               </b-link>
             </li>
             <li>
-              <b-link to="/purplegold/" tabindex="1" class="nav-link aat-link" title="Manage Purple and Gold scholarships">
-                P&G Scholarships
+              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
+                Majors
               </b-link>
             </li>
             <li>
-              <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
-                Majors
+              <b-link to="/purplegold/" tabindex="1" class="nav-link aat-link" title="Manage Purple and Gold scholarships">
+                P&G Scholarships
               </b-link>
             </li>
             <li>
