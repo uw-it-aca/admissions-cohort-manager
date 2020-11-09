@@ -22,7 +22,7 @@
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
           <div v-else>
-            <p>No {{ collectionType }}s found for selected period.</p>
+            <div class="alert alert-danger" role="alert">No {{ collectionType }}s found for selected period.</div>
           </div>
         </fieldset>
         <div class="aat-collection-note">

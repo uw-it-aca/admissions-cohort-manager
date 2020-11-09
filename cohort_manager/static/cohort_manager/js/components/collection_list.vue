@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="show_error">
-      No collections found for selected admissions period.
+    <div v-if="show_error" class="alert alert-danger" role="alert">
+      No {{ collectionType + 's' }} found for selected admissions period.
     </div>
     <div v-if="collectionType === 'Cohort'">
       <b-table
