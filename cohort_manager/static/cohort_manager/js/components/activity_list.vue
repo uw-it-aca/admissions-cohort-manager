@@ -457,10 +457,17 @@
     text-transform: lowercase;
   }
 
-  .aat-filter-toggle .aat-toggle-control {
-    color: inherit;
-    height: 30px;
-    width: 100%;
+  .aat-filter-toggle {
+    .aat-toggle-control {
+      color: inherit;
+      height: 30px;
+      width: 100%;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background-color: $nav-hover-bkgnd;
+    }
   }
 
   .collapsed > .when-open,
