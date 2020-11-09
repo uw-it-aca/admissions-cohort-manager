@@ -149,6 +149,13 @@ legend {
   text-transform: uppercase;
 }
 
+.btn-link {
+  &.btn:hover,
+  &.btn:focus {
+    background: $nav-hover-bkgnd;
+  }
+}
+
 .custom-file-input.is-invalid ~ .custom-file-label {
   color: $alert-red !important;
 }
