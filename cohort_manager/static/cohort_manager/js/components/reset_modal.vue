@@ -26,7 +26,7 @@
                 :value="true"
               >
                 <span v-if="collectionType === 'purplegold'"> 
-                  Reset all Purple & Gold scholarship assignments.
+                  Reset all Purple &#38; Gold scholarship assignments.
                 </span>
                 <span v-else>                
                   Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ itemId }}" to <em>unassigned</em>.

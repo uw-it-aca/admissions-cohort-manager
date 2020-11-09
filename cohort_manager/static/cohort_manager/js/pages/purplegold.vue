@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="aat_page_header" class="aat-page-header">
-      Assign Purple & Gold Scholarships
+      Assign Purple &#38; Gold Scholarships
     </h1>
     <div v-if="!display_upload">
       <div class="aat-page-section">
