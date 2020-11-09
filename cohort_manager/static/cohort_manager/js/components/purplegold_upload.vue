@@ -1,9 +1,8 @@
 <template>
   <div>
-    <div class="aat-form-section">
+    <div class="aat-form-section" v-if="!has_uploaded">
       <collection-upload-file-input
         @fileselected="file_selected"
-        v-if="!has_uploaded"
       />
     </div>
     <collection-upload-dupe-modal
