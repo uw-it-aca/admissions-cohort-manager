@@ -1,5 +1,5 @@
 <template>
-  <div class="aat-app-add-review">
+  <div class="aat-app-add-review aat-form-section">
     <div id="upload_app_count">
       <span v-if="uploadType === 'file'">
         <i class="fas fa-file-csv" />
