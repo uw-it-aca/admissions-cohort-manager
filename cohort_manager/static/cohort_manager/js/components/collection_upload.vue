@@ -7,7 +7,7 @@
             Select {{ collectionType }}
           </legend>
           <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
-          <div class="aat-select-inline">
+          <div v-if="hasCollections" class="aat-select-inline">
             <b-form-input id="input-with-list"
                           v-model="collection_id"
                           autocomplete="off"
@@ -20,6 +20,11 @@
               Please select an option.
             </b-form-invalid-feedback>
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
+          </div>
+          <div v-else>
+            <div class="alert alert-danger" role="alert">
+              No {{ collectionType }}s found for selected period.
+            </div>
           </div>
         </fieldset>
         <div class="aat-collection-note">
@@ -96,49 +101,10 @@
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
-        <b-modal
-          ref="submitting_modal"
-          modal-class="aat-modal-box"
-          content-class="aat-modal"
-          hide-backdrop
-          :hide-footer="true"
-          :hide-header="true"
-          :hide-header-close="true"
-          :no-close-on-backdrop="true"
-          :no-close-on-esc="true"
-        >
-          <div class="text-center text-info aat-processing-text">
-            <b-spinner class="align-middle" />
-            <strong>Processing...</strong>
-          </div>
-          <p class="text-center aat-processing-message">
-            Please wait while your submission is processed.
-          </p>
-        </b-modal>
-        <b-modal
-          ref="submitting_timeout_modal"
-          modal-class="aat-modal-box"
-          content-class="aat-modal"
-          hide-backdrop
-          :hide-header="true"
-          :ok-only="true"
-          ok-title="Close"
-          :no-close-on-backdrop="true"
-          :no-close-on-esc="true"
-          @ok="navigate_after_submit"
-        >
-          <h1 class="aat-sub-header">
-            The AdSel Database is not responding
-          </h1>
-          <div class="aat-processing-message">
-            <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
-            <p>
-              Please check the <b-link to="/log/">
-                Activity Log
-              </b-link> in a few minutes to ensure your submission was completed.
-            </p>
-          </div>
-        </b-modal>
+        <collection-submit-modal
+          :show-submitting="show_submitting_modal"
+          :show-timeout="show_timeout_modal"
+        />
         <p>{{ submit_msg }}</p>
       </div>
     </form>
@@ -153,6 +119,7 @@
   import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import CollectionComment from "../components/collection_comment.vue";
+  import CollectionSubmitModal from "../components/collection_submit_modal";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
@@ -164,7 +131,8 @@
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
       CollectionUploadFileInput: CollectionUploadFileInput,
-      CollectionComment: CollectionComment
+      CollectionComment: CollectionComment,
+      CollectionSubmitModal
     },
     props: {
       collectionType: {
@@ -213,7 +181,9 @@
         is_uploading: false,
         is_submitting: false,
         submit_msg: "",
-        error_message: ""
+        error_message: "",
+        show_submitting_modal: false,
+        show_timeout_modal: false
       };
     },
     computed: {
@@ -245,6 +215,9 @@
       },
       invalid_upload: function() {
         return this.invalid_csv || this.invalid_manual;
+      },
+      hasCollections: function () {
+        return this.collectionOptions.length > 0;
       }
     },
     watch: {
@@ -345,7 +318,7 @@
                        'comment': this.comment};
         this.submitted = true;
         this.is_submitting = true;
-        this.$refs['submitting_modal'].show();
+        vue.show_submitting_modal = true;
         if (this.collectionType == "Cohort") {
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -362,11 +335,11 @@
           }
         ).then(function(response) {
           console.log(JSON.stringify(response.data.request)); // eslint-disable-line
-          vue.$refs['submitting_modal'].hide();
+          vue.show_submitting_modal = false;
           if(response.status === 200) {
             vue.navigate_after_submit();
           }else if(response.status === 202){
-            vue.$refs['submitting_timeout_modal'].show();
+            vue.show_timeout_modal = true;
           }
           vue.is_submitting = false;
 

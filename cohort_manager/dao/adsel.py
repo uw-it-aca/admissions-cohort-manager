@@ -1,6 +1,7 @@
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
-from uw_adsel.models import CohortAssignment, MajorAssignment, Application
+from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
+    PurpleGoldAssignment, PurpleGoldApplication
 from restclients_core.exceptions import DataFailureException
 from datetime import datetime
 import pytz
@@ -8,6 +9,7 @@ import pytz
 
 MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
+PURPLEGOLD_COLLECTION_TYPE = "purplegold"
 
 
 def get_quarters_with_current():
@@ -55,6 +57,9 @@ def get_applications_by_type_id_qtr(type, id, quarter):
         apps = get_applications_by_cohort_qtr(id, quarter)
     if type == MAJOR_COLLECTION_TYPE:
         apps = get_applications_by_major_qtr(id, quarter)
+    if type == PURPLEGOLD_COLLECTION_TYPE:
+        client = AdSel()
+        apps = client.get_all_applications_by_qtr(quarter)
     return apps
 
 
@@ -157,14 +162,20 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 
 
 def _get_collection(assignment_import):
+    assignment_set = []
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
         assignment = CohortAssignment()
         assignment.override_previous = assignment_import.is_reassign
         assignment.override_protected = assignment_import.is_reassign_protected
         assignment.cohort_number = assignment_import.cohort
+        assignment_set = assignment_import.assignment_set.all()
     elif assignment_import.major and len(assignment_import.major) > 0:
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
+        assignment_set = assignment_import.assignment_set.all()
+    else:
+        assignment = PurpleGoldAssignment()
+        assignment_set = assignment_import.purplegoldassignment_set.all()
 
     assignment.assignment_type = "file" if \
         assignment_import.is_file_upload else "manual"
@@ -174,14 +185,13 @@ def _get_collection(assignment_import):
     assignment.user = assignment_import.created_by
 
     applicants_to_assign = []
-    for imp_assignment in assignment_import.assignment_set.all():
+    for imp_assignment in assignment_set:
         app = imp_assignment.get_application()
         applicants_to_assign.append(app)
         assignment.quarter = assignment_import.quarter
         assignment.campus = assignment_import.campus
 
     assignment.applicants = applicants_to_assign
-
     return assignment_import, assignment
 
 
@@ -196,6 +206,8 @@ def submit_collection(assignment_import):
             return client.assign_cohorts_manual(assignment)
     elif assignment_import.major and len(assignment_import.major) > 0:
         return client.assign_majors(assignment)
+    else:
+        return client.assign_purple_gold(assignment)
 
 
 def reset_collection(assignment_import, collection_type):
@@ -228,6 +240,25 @@ def reset_collection(assignment_import, collection_type):
         client.assign_cohorts_bulk(assignment)
     elif collection_type == MAJOR_COLLECTION_TYPE:
         client.assign_majors(assignment)
+
+
+def reset_purplegold(import_args, apps):
+    assignment = PurpleGoldAssignment()
+    assignment.assignment_type = "file"
+    assignment.quarter = import_args['quarter']
+    assignment.campus = import_args['campus']
+    assignment.user = import_args['created_by']
+    assignment.comments = import_args['comment']
+
+    applicants_to_assign = []
+    for app in apps:
+        applicants_to_assign.append(
+            PurpleGoldApplication(adsel_id=app.adsel_id,
+                                  award_amount=0))
+    assignment.applicants = applicants_to_assign
+
+    client = AdSel()
+    client.assign_purple_gold(assignment)
 
 
 def get_application_from_bulk_upload(upload_json):

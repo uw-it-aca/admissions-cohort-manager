@@ -95,6 +95,11 @@
               </b-link>
             </li>
             <li>
+              <b-link to="/purplegold/" tabindex="1" class="nav-link aat-link" title="Manage Purple and Gold scholarships">
+                P &#38; G Scholarships
+              </b-link>
+            </li>
+            <li>
               <b-link to="/log/" tabindex="1" class="nav-link aat-link" title="View all activity">
                 Activity Log
               </b-link>
@@ -541,7 +546,7 @@
   }
 
   .aat-cohort-manager {
-    min-height: 70vh;
+    min-height: 80vh;
     overflow: hidden;
 
     .aat-content-area {
@@ -599,7 +604,8 @@
     }
   }
   // Forms
-  .aat-form-section {
+  .aat-form-section,
+  .aat-page-section {
     margin: 0 0 3rem;
 
     .aat-select-inline {

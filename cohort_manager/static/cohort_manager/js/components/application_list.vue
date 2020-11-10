@@ -223,6 +223,17 @@
       },
     },
     mounted() {
+      if(this.collectionType === "purplegold"){
+        var field = {
+          key: 'purple_gold_assigned',
+          label: "P&G Award",
+          class: "aat-data-cell",
+          thClass: "aat-table-header",
+          sortable: false
+        };
+
+        this.applicationFields.push(field);
+      }
     },
     methods: {
       mark_to_delete: function() {

@@ -116,23 +116,29 @@ legend {
   clear: both;
 }
 
-.btn.btn-primary {
-  background-color: $uw-purple;
-  border-color: $uw-purple;
-  border-radius: 0;
-  font-size: 1rem;
-  font-weight: bold;
-  height: 2.5rem;
-  min-width: 7rem;
-  text-transform: uppercase;
+.btn {
+  &.btn-primary {
+    background-color: $uw-purple;
+    border-color: $uw-purple;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 2.5rem;
+    min-width: 7rem;
+    text-transform: uppercase;
+  }
 
-  &:focus {
-    background-color: $blue;
-    border-color: $blue;
+  &:focus,
+  &:hover {
+    background-color: $nav-active-bkgnd;
+  }
+
+  &.disabled {
+    background-color: $uw-purple !important;
   }
 }
 
-.btn.btn-secondary {
+.btn-secondary {
   background-color: #fff;
   border: solid $uw-purple 1px;
   border-radius: 0;
@@ -141,6 +147,13 @@ legend {
   height: 2.5rem;
   min-width: 7rem;
   text-transform: uppercase;
+}
+
+.btn-link {
+  &.btn:hover,
+  &.btn:focus {
+    background: $nav-hover-bkgnd;
+  }
 }
 
 .custom-file-input.is-invalid ~ .custom-file-label {

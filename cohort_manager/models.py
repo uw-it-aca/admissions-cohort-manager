@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from cohort_manager.utils import to_csv, dict_to_csv, get_headers
 from uw_adsel.models import Application
+from uw_adsel.models import PurpleGoldApplication
 from io import StringIO
 import csv
 import json
@@ -113,6 +114,8 @@ class AssignmentImport(models.Model):
 
     def json_data(self):
         assignments = self.assignment_set.all()
+        if len(assignments) == 0:
+            assignments = self.purplegoldassignment_set.all()
         return {
             'id': self.pk,
             'comment': self.comment,
@@ -137,8 +140,10 @@ class AssignmentImport(models.Model):
         }
 
     def remove_assignments(self, ids_to_remove):
-        self.assignment_set.\
-            filter(admission_selection_id__in=ids_to_remove).delete()
+        assignments = self.assignment_set.all()
+        if len(assignments) == 0:
+            assignments = self.purplegoldassignment_set.all()
+        assignments.filter(admission_selection_id__in=ids_to_remove).delete()
 
 
 class Assignment(models.Model):
@@ -238,5 +243,91 @@ class Assignment(models.Model):
         app.adsel_id = int(self.admission_selection_id)
         app.system_key = self.system_key
         app.application_number = self.application_number
+
+        return app
+
+
+class PurpleGoldAssignment(models.Model):
+    # Todo: Re-implement additional fields when syskey list API is utilized
+
+    # CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
+    # FIELD_PURPLEGOLD_CURRENT = "CurrentPurpleGoldAmount"
+    FIELD_PURPLEGOLD_NEW = "PuGoAward"
+    FIELD_ADSEL_ID = "admissionSelectionID"
+    # FIELD_INTERNATIONAL = "InterationalResident"
+    # FIELD_WA = "WAResident"
+
+    assignment_import = models.ForeignKey(AssignmentImport,
+                                          on_delete=models.PROTECT)
+    # system_key = models.CharField(
+    #     max_length=30, validators=[validate_system_key])
+    # application_number = models.PositiveIntegerField(
+    #     validators=[validate_application_number])
+    admission_selection_id = models.CharField(max_length=30)
+    # assigned_cohort = models.IntegerField(null=True)
+    # assigned_major = models.CharField(max_length=30, null=True)
+    # campus = models.PositiveSmallIntegerField(
+    #     default=1, choices=CAMPUS_CHOICES)
+    # sdb_app_status = models.IntegerField(null=True)
+    # purple_gold_assigned = models.IntegerField(null=True)
+    purple_gold_new = models.IntegerField(null=True)
+    # is_international = models.BooleanField(null=True)
+    # is_wa = models.BooleanField(null=True)
+
+    def validate(self):
+        self.full_clean()
+
+    def json_data(self):
+        return {
+            # 'system_key': self.system_key,
+            # 'application_number': self.application_number,
+            'admission_selection_id': self.admission_selection_id,
+            # 'assigned_cohort': self.assigned_cohort,
+            # 'assigned_major': self.assigned_major,
+            # 'campus': self.get_campus_display(),
+            # 'sdb_app_status': self.sdb_app_status,
+            # 'purple_gold_assigned': self.purple_gold_assigned,
+            'purple_gold_new': self.purple_gold_new,
+            # 'is_international': self.is_international,
+            # 'is_wa': self.is_wa,
+        }
+
+    @staticmethod
+    def create_from_file(assign_import):
+        reader = csv.DictReader(StringIO(assign_import.document),
+                                delimiter='\t')
+        try:
+            assignments = \
+                PurpleGoldAssignment._create_from_reader(reader, assign_import)
+        except ValueError:
+            reader = csv.DictReader(StringIO(assign_import.document),
+                                    delimiter=',')
+            assignments = \
+                PurpleGoldAssignment._create_from_reader(reader, assign_import)
+        return assignments
+
+    @staticmethod
+    def _create_from_reader(reader, assign_import):
+        assignments = []
+        for idx, row in enumerate(reader):
+            assignment = PurpleGoldAssignment()
+            assignment.assignment_import = assign_import
+            assignment.admission_selection_id = \
+                row.get(PurpleGoldAssignment.FIELD_ADSEL_ID)
+
+            new_assigned = row.get(PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
+            if new_assigned is None:
+                raise ValueError("%s column not present" %
+                                 PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
+
+            assignment.purple_gold_new = new_assigned
+
+            # Fix STFE-139
+            assignments.append(assignment)
+        return assignments
+
+    def get_application(self):
+        app = PurpleGoldApplication()
+        app.adsel_id = self.admission_selection_id
 
         return app
