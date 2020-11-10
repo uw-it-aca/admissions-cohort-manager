@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="aat-form-section" v-if="!has_uploaded">
+    <div v-if="!has_uploaded" class="aat-form-section">
       <collection-upload-file-input
         @fileselected="file_selected"
       />

@@ -25,10 +25,10 @@
                 name="col_reset_checkbox"
                 :value="true"
               >
-                <span v-if="collectionType === 'purplegold'"> 
-                  Reset all Purple &#38; Gold scholarship assignments.
+                <span v-if="collectionType === 'purplegold'">
+                  Reset all Purple &#38; Gold scholarship assignments for {{ periodText }}.
                 </span>
-                <span v-else>                
+                <span v-else>
                   Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ itemId }}" to <em>unassigned</em>.
                 </span>
               </b-form-checkbox>
@@ -106,7 +106,9 @@
       ...Vuex.mapState({
         current_period: state => state.period.current_period
       }),
-
+      periodText: function() {
+        return $cookies.get('session_period_text');
+      }
     },
     mounted() {
       this.setCSRF();

@@ -13,7 +13,9 @@
         </b-button>
       </div>
       <div class="aat-page-section">
-        <h2 class="aat-sub-header"> Tableau Embedded Report</h2>
+        <h2 class="aat-sub-header">
+          Tableau Embedded Report
+        </h2>
         <p>You must be on the UW network or VPN to access view embedded report</p>
         <iframe src="../purplegold_embed/" class="aat-pugo-iframe" width="100%" height="800" />
       </div>
