@@ -26,7 +26,7 @@
                 :value="true"
               >
                 <span v-if="collectionType === 'purplegold'">
-                  Reset all Purple &#38; Gold scholarship assignments for {{ periodText }}.
+                  Reset all Purple &#38; Gold scholarship assignments for <strong>{{ periodText }}</strong>.
                 </span>
                 <span v-else>
                   Reassign all applications from "<span v-if="collectionType === 'Cohort'">Cohort </span>{{ itemId }}" to <em>unassigned</em>.
@@ -145,7 +145,7 @@
         }).catch(function () {
           bvModalEvent.vueTarget.hide();
           vue.is_resetting = false;
-          vue.$emit('show-message', "Reset of " + vue.collectionType + " " + vue.itemId + " has been submitted. Check the Activity Log in a few minutes to verify.", "primary");
+          vue.$emit('show-message', "Reset of " + vue.collectionType + " " + vue.itemId + " has been submitted. Changes may take a few minutes to update in the Activity Log.", "primary");
           vue.$router.push({path: '/log'});
         });
 
