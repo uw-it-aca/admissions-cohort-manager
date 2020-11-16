@@ -65,3 +65,7 @@ if os.getenv("ENV") == "localdev":
 API_TOKEN = os.getenv('API_TOKEN')
 
 AAT_ENV = os.getenv('ENV')
+
+# Session cookie settings for iFrame Embed in Tableau
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = True
