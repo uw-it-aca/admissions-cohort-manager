@@ -292,7 +292,7 @@
         collectionOptions: [
           { value: 'Cohort', text: 'Cohort' },
           { value: 'Major', text: 'Major' },
-          { value: 'Pg', text: 'P & G' }
+          { value: 'Pg', text: 'P&G' }
         ],
         cohortFilter: null,
         majorFilter: null,
@@ -429,7 +429,12 @@
 
   // filters and pagination
   .aat-filter-collapse {
-    padding: 0 15px;
+    padding: 0 28px;
+
+    label {
+      margin-bottom: 0.3rem;
+      padding-bottom: 0;
+    }
   }
 
   .aat-activity-pagination {
@@ -466,6 +471,7 @@
     .aat-toggle-control {
       color: inherit;
       height: 30px;
+      padding-left: 12px;
       width: 100%;
     }
 
@@ -478,7 +484,7 @@
   .collapsed > .when-open,
   .not-collapsed > .when-closed,
   .collapsed + .aat-filter-reset .when-open,
-  .not-collapsed + .aat-filter-reset .when-closed, {
+  .not-collapsed + .aat-filter-reset .when-closed {
     display: none;
   }
 
