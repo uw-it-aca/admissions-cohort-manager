@@ -96,7 +96,7 @@
             </li>
             <li>
               <b-link to="/purplegold/" tabindex="1" class="nav-link aat-link" title="Manage Purple and Gold scholarships">
-                P &#38; G Scholarships
+                P&#38;G Scholarships
               </b-link>
             </li>
             <li>
