@@ -428,6 +428,7 @@
 
     label {
       margin-bottom: 0.3rem;
+      padding-bottom: 0;
     }
   }
 
