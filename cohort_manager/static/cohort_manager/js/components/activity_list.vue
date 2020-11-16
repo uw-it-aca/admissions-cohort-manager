@@ -339,6 +339,11 @@
       this.selectCollection(this.$route.params.id);
       this.getInitialData();
     },
+    watch: {
+      activities: function(val) {
+        this.totalRows = val.length;
+      }
+    },
     methods: {
       getInitialData(){
         this.$store.dispatch('majorlist/get_majors', this.current_period);
