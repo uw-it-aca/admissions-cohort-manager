@@ -424,7 +424,11 @@
 
   // filters and pagination
   .aat-filter-collapse {
-    padding: 0 15px;
+    padding: 0 28px;
+
+    label {
+      margin-bottom: 0.3rem;
+    }
   }
 
   .aat-activity-pagination {
@@ -461,6 +465,7 @@
     .aat-toggle-control {
       color: inherit;
       height: 30px;
+      padding-left: 12px;
       width: 100%;
     }
 
