@@ -292,7 +292,7 @@
         collectionOptions: [
           { value: 'Cohort', text: 'Cohort' },
           { value: 'Major', text: 'Major' },
-          { value: 'Pg', text: 'P & G' }
+          { value: 'Pg', text: 'P&G' }
         ],
         cohortFilter: null,
         majorFilter: null,
@@ -479,7 +479,7 @@
   .collapsed > .when-open,
   .not-collapsed > .when-closed,
   .collapsed + .aat-filter-reset .when-open,
-  .not-collapsed + .aat-filter-reset .when-closed, {
+  .not-collapsed + .aat-filter-reset .when-closed {
     display: none;
   }
 
