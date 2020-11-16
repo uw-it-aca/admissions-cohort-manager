@@ -42,12 +42,15 @@
     data(){
       return {
         display_upload: false,
-        display_reset: false
+        display_reset: false,
+        env: ''
       };
     },
     computed: {},
     created (){},
     mounted() {
+      /*global aat_env*/
+      this.env = aat_env;
     },
     methods: {
       init_upload () {
