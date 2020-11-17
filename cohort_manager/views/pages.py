@@ -7,6 +7,8 @@ from uw_saml.decorators import group_required
 from uw_saml.utils import get_user
 
 FRAME_ANCESTORS = "*.uw.edu *.azurewebsites.net"
+
+
 class PageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
