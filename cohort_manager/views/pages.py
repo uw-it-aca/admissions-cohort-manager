@@ -2,6 +2,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.clickjacking import xframe_options_exempt
 from uw_saml.decorators import group_required
 from uw_saml.utils import get_user
 
@@ -18,8 +19,14 @@ class PageView(TemplateView):
                   name='dispatch')
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
+@method_decorator(xframe_options_exempt, name='dispatch')
 class LandingView(PageView):
     template_name = "landing.html"
+
+    def dispatch(self, *args, **kwargs):
+        response = super(LandingView, self).dispatch(*args, **kwargs)
+        response['Content-Security-Policy'] = "frame-ancestors *.uw.edu"
+        return response
 
 
 @method_decorator(login_required(),
