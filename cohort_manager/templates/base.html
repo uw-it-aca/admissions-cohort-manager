@@ -30,6 +30,7 @@
 <body class="cohortman" data-django-debug="{{ django_debug|lower}}">
     <script type="text/javascript">
       window.user_netid = '{{ netid }}';
+      window.csrf_token = '{{  csrf_token }}';
     </script>
     <div class="cohortman-content">
         {% block content %}{% endblock %}

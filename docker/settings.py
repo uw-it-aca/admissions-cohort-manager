@@ -69,7 +69,5 @@ AAT_ENV = os.getenv('ENV')
 # Session cookie settings for iFrame Embed in Tableau
 SESSION_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = None
-CSRF_COOKIE_SECURE = True
 # Must come before session middleware
 MIDDLEWARE.insert(0, 'cohort_manager.middleware.same_site_middleware.SameSiteMiddleware')

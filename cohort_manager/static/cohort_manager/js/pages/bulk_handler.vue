@@ -132,7 +132,7 @@
     },
     methods: {
       setCSRF() {
-        this.csrfToken = $cookies.get("csrftoken");
+        this.csrfToken = window.csrf_token;
       },
       handle_reassign(is_reassign){
         this.is_reassign = is_reassign;
