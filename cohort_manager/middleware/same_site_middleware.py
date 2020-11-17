@@ -14,7 +14,8 @@ def SameSiteMiddleware(get_response):
         # in order to have a cookie set cross-domain. The old behavior of
         # SameSite
         # being 'None' by default is no more. The new default is 'Lax'.
-        # The issue is that we can't just set SameSite=None and be done with it,
+        # The issue is that we can't just set SameSite=None and be
+        # done with it,
         # because some older browsers will break with this. Therefore we devise
         # a two-cookie approach: one that does the new behavior of setting
         # SameSite=None, and the second is the "legacy" cookie which relies on
@@ -38,7 +39,7 @@ def SameSiteMiddleware(get_response):
             response.cookies[legacy].update(response.cookies[cookie])
             response.cookies[cookie]['samesite'] = 'None'
             if settings.SESSION_COOKIE_SECURE and not \
-                response.cookies[cookie].get('secure', False):
+                    response.cookies[cookie].get('secure', False):
                 # Fix Django's silly `delete_cookie()` behavior which doesn't
                 # set `secure` correctly.
                 response.cookies[cookie]['secure'] = True
