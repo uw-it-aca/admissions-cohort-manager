@@ -185,11 +185,14 @@ def _get_collection(assignment_import):
     assignment.user = assignment_import.created_by
 
     applicants_to_assign = []
+    campus_lookup = {"Seattle": 1,
+                     "Tacoma": 2,
+                     "Bothell": 3}
     for imp_assignment in assignment_set:
         app = imp_assignment.get_application()
         applicants_to_assign.append(app)
         assignment.quarter = assignment_import.quarter
-        assignment.campus = assignment_import.campus
+        assignment.campus = campus_lookup.get(assignment_import.campus, 0)
 
     assignment.applicants = applicants_to_assign
     return assignment_import, assignment
