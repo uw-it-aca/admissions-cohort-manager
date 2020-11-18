@@ -186,7 +186,7 @@
                 </b-col>
                 <b-col cols="12" sm="6">
                   <b-form-group
-                    label="System Key or -AdSelect ID-"
+                    label="System Key"
                     label-size="sm"
                     label-for="SysKeyInput"
                   >
@@ -194,6 +194,22 @@
                       <b-form-input
                         id="SysKeyInput"
                         v-model="syskeyFilter"
+                        placeholder="Type to Search"
+                        @change="getFilteredActivities"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-group
+                    label="Admissions Selection ID"
+                    label-size="sm"
+                    label-for="AdselIDInput"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-input
+                        id="AdselIDInput"
+                        v-model="adselIDFilter"
                         placeholder="Type to Search"
                         @change="getFilteredActivities"
                       />
@@ -297,6 +313,7 @@
         cohortFilter: null,
         majorFilter: null,
         syskeyFilter: null,
+        adselIDFilter: null,
         commentFilter: null,
         userFilter: null,
         assignmentFilter: null,
@@ -359,6 +376,7 @@
         this.majorFilter = null;
         this.userFilter = null;
         this.syskeyFilter = null;
+        this.adselIDFilter = null;
         this.commentFilter = null;
         this.getFilteredActivities();
         // Trick to reset/clear native browser form validation state
@@ -386,6 +404,9 @@
         }
         if(this.syskeyFilter !== null &&  this.syskeyFilter.length > 0){
           filters["system_key"] = this.syskeyFilter;
+        }
+        if(this.adselIDFilter !== null &&  this.adselIDFilter.length > 0){
+          filters["adsel_id"] = this.adselIDFilter;
         }
         if(this.commentFilter !== null &&  this.commentFilter.length > 0){
           filters["comment"] = this.commentFilter;

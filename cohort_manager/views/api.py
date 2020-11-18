@@ -260,6 +260,7 @@ class ActivityLog(RESTDispatch):
                    "cohort": request.GET.get('cohort', None),
                    "major": request.GET.get('major', None),
                    "system_key": request.GET.get('system_key', None),
+                   "adsel_id": request.GET.get('adsel_id', None),
                    "comment": request.GET.get('comment', None),
                    "netid": request.GET.get('netid', None)}
         activities = get_activity_log(**filters)
