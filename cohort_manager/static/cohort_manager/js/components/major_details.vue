@@ -3,19 +3,19 @@
     <b-row>
       <b-col class="aat-group-info-primary">
         <b-row class="aat-info-spacing">
-          <b-col cols="3" class="aat-data-primary">
+          <b-col cols="2" class="aat-data-primary">
             Major
             <div class="aat-group-data aat-data-primary">
               {{ majorData.abbr }}
             </div>
           </b-col>
-          <b-col cols="9" class="aat-group-info-secondary">
+          <b-col cols="6" class="aat-group-info-secondary">
             Description
             <div class="aat-group-data aat-data-baseline">
               {{ majorData.text }}
             </div>
           </b-col>
-          <b-col cols="9" class="aat-group-info-secondary">
+          <b-col cols="4" class="aat-group-info-secondary">
             Major Program Code
             <div class="aat-group-data aat-data-baseline">
               {{ majorData.major_id }}
