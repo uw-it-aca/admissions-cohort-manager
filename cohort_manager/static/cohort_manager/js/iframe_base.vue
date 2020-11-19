@@ -1,6 +1,5 @@
 <template>
   <div class="aat-iframe-base">
-    <p>IFRAME BASE</p>
     <main ref="main" aria-labelledby="aat_page_header" class="col aat-main-container">
       <router-view />
     </main>
@@ -30,9 +29,15 @@
 </script>
 
 <style lang="scss">
+  .aat-globalenv-eval,
+  .aat-globalenv-prod {
+    background-color: #fff;
+  }
 
   .aat-iframe-base {
     // Display of cohort and major details in iframe
+    background-color: #fff;
+
     .aat-form-section.aat-details-container {
       padding: 0.5rem 1rem !important;
     }
