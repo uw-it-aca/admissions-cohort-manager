@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>Bulk handler</p>
     <p v-if="fetch_err_msg">
       {{ fetch_err_msg }}
     </p>
