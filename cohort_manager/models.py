@@ -320,7 +320,7 @@ class PurpleGoldAssignment(models.Model):
                 raise ValueError("%s column not present" %
                                  PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
 
-            assignment.purple_gold_new = new_assigned
+            assignment.purple_gold_new = int(new_assigned)
 
             # Fix STFE-139
             assignments.append(assignment)
@@ -329,5 +329,6 @@ class PurpleGoldAssignment(models.Model):
     def get_application(self):
         app = PurpleGoldApplication()
         app.adsel_id = self.admission_selection_id
+        app.award_amount = self.purple_gold_new
 
         return app
