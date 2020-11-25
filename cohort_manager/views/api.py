@@ -227,7 +227,7 @@ class CollectionDetails(RESTDispatch):
             apps = get_applications_by_type_id_qtr(collection_type,
                                                    collection_id, quarter)
 
-            import_args = {'quarter': quarter,
+            import_args = {'quarter': int(quarter),
                            'campus': 0,
                            'comment': comment,
                            'created_by': user}
