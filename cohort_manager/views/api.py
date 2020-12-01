@@ -159,6 +159,7 @@ class ModifyUploadView(RESTDispatch):
         comment = request_params.get('comment', '')
         major_id = request_params.get('major_id')
         cohort_id = request_params.get('cohort_id')
+        user = UserService().get_original_user()
 
         try:
             upload = AssignmentImport.objects.get(id=upload_id)
@@ -166,6 +167,8 @@ class ModifyUploadView(RESTDispatch):
                 upload.cohort = cohort_id
             if major_id:
                 upload.major = major_id
+            # Using logged in user for bulk upload
+            upload.created_by = user
             upload.is_submitted = is_submitted
             upload.is_reassign = is_reassign
             upload.is_reassign_protected = is_reassign_protected
@@ -324,9 +327,10 @@ class BulkUpload(RESTDispatch):
             cohort_id = req['cohort_id']
             major_id = req['major_id']
 
+            # created_by will be set to netid when user submits in AAT
             import_args = {'quarter': req['admissions_period'],
                            'campus': applications[0]['campus'],
-                           'created_by': req['created_by']}
+                           'created_by': "tableau"}
             if cohort_id:
                 import_args['cohort'] = cohort_id
             if major_id:
