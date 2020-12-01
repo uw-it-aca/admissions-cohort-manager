@@ -20,8 +20,8 @@
         upload-type="bulk"
         :collection-options="collection_options"
         :collection-id="collection_id"
-        @is_reassign="handle_reassign"
-        @is_reassign_protected="handle_reassign_protected"
+        @is-reassign="handle_reassign"
+        @is-reassign_protected="handle_reassign_protected"
       />
       <collection-comment
         @comment="update_comment"
