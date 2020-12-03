@@ -331,9 +331,9 @@ class BulkUpload(RESTDispatch):
             import_args = {'quarter': req['admissions_period'],
                            'campus': applications[0]['campus'],
                            'created_by': "tableau"}
-            if cohort_id:
+            if cohort_id is not None:
                 import_args['cohort'] = cohort_id
-            if major_id:
+            if major_id is not None:
                 import_args['major'] = major_id
 
             assignment_import = AssignmentImport.objects.create(**import_args)
