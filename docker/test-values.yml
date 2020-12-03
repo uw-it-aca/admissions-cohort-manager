@@ -55,8 +55,6 @@ environmentVariables:
     value: https://aat-test.axdd.s.uw.edu/saml
   - name: CLUSTER_CNAME
     value: aat-test.axdd.s.uw.edu
-  -name: HELM_APP_VERSION
-    value: 3.0.0
 
 externalSecrets:
   enabled: true
