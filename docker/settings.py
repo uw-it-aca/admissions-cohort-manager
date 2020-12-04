@@ -70,10 +70,11 @@ API_TOKEN = os.getenv('API_TOKEN')
 
 AAT_ENV = os.getenv('ENV')
 
-# Session cookie settings for iFrame Embed in Tableau
-SESSION_COOKIE_SAMESITE = None
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = None
-CSRF_COOKIE_SECURE = True
-# Must come before session middleware
-MIDDLEWARE.insert(0, 'cohort_manager.middleware.same_site_middleware.SameSiteMiddleware')
+if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
+    # Session cookie settings for iFrame Embed in Tableau
+    MIDDLEWARE.insert(0, 'django_cookies_samesite.middleware.CookiesSameSite')
+    SESSION_COOKIE_SAMESITE = None
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = None
+    CSRF_COOKIE_SECURE = True
+    DCS_SESSION_COOKIE_SAMESITE = "None"
