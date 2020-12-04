@@ -32,7 +32,7 @@
         </div>
         <div role="region" aria-live="polite">
           <collectionDetails
-            v-if="collectionType === 'Cohort'"
+            v-if="show_details"
             :collection-id="collection_id"
             :collection-type="collectionType"
             :current-period="currentPeriod"
@@ -218,6 +218,9 @@
       },
       hasCollections: function () {
         return this.collectionOptions.length > 0;
+      },
+      show_details: function () {
+        return this.collectionType === 'Cohort' && this.collection_id != null && this.collection_id.length > 0;
       }
     },
     watch: {
