@@ -1,5 +1,5 @@
 <template>
-  <b-container v-if="collection_id" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
+  <b-container class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
       <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collection_id }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
