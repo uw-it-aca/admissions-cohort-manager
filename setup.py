@@ -28,7 +28,8 @@ setup(
         'django-webpack-loader',
         'UW-RestClients-AdSel>=1.7.4,<2.0',
         'django-userservice<4.0,>3.1'
-        'pytz==2019.3'
+        'pytz==2019.3',
+        'django-cookies-samesite'
     ],
     license='Apache License, Version 2.0',
     description='A tool for managing cohorts',
