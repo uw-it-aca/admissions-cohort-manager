@@ -217,12 +217,10 @@
   @media screen and (max-width: 767px) {
     .aat-group-info-primary {
       margin-bottom: 2rem;
-      text-align: center;
     }
 
     .aat-group-info-secondary {
       margin-bottom: 1rem;
-      text-align: center;
     }
 
   }
