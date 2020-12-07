@@ -65,7 +65,7 @@
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
-        <span v-else-if="has_protected" id="reassign_collection_protected">
+        <span v-else-if="has_protected && uploadType !== 'bulk'" id="reassign_collection_protected">
           <b-form-checkbox
             id="app_unprotect_checkbox"
             v-model="is_reassign_protected"
