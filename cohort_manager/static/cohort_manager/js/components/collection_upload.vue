@@ -220,7 +220,8 @@
         return this.collectionOptions.length > 0;
       },
       show_details: function () {
-        return this.collectionType === 'Cohort' && this.collection_id != null && this.collection_id.length > 0;
+        return (this.collectionType === 'Cohort' || this.collectionType === 'Major')
+          && this.collection_id != null && this.collection_id.length > 0;
       }
     },
     watch: {

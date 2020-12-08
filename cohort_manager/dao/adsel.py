@@ -46,7 +46,7 @@ def _get_major_by_id(major_id, quarter):
     client = AdSel()
     majors = client.get_majors_by_qtr(quarter)
     for major in majors:
-        if major.major_abbr == major_id:
+        if major.program_code == major_id:
             return {"collection_id": major.major_abbr,
                     "applications_assigned": major.assigned_count}
 
