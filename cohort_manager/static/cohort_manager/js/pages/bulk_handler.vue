@@ -7,11 +7,7 @@
       <collection-details
         :collection-type="collection_type"
         :current-period="current_period"
-        :collection-data="cohort_data"
-      />
-      <major-details
-        v-if="major_data"
-        :major-data="major_data"
+        :collection-data="collection_data"
       />
       <upload-review
         v-if="collection_options"
@@ -61,13 +57,11 @@
 
   const axios = require("axios");
   import CollectionDetails from "../components/collection_details.vue";
-  import MajorDetails from "../components/major_details.vue";
   import UploadReview from "../components/collection_upload_review.vue";
   import CollectionComment from "../components/collection_comment.vue";
   export default {
     name: "BulkHandler",
     components: {
-      MajorDetails,
       CollectionDetails,
       UploadReview,
       CollectionComment
@@ -116,6 +110,15 @@
         }
         return undefined;
       },
+      collection_data() {
+        if(this.collection_type == "Cohort"){
+          return this.cohort_data;
+        }
+        if(this.collection_type == "Major"){
+          return this.major_data;
+        }
+        return null;
+      }
     },
     watch: {
       upload_id: function(){
@@ -164,12 +167,12 @@
               };
             } else if (vue.collection_type === "Major"){
               vue.major_data = {
-                abbr : val.abbr,
+                collection_id : val.abbr,
                 applications_assigned : val.assigned_count,
-                text : val.text,
+                display_name : val.text,
                 college : val.college,
                 division : val.division,
-                major_id : val.value,
+                program_code : val.value,
                 dtx: val.dtx
               };
             }

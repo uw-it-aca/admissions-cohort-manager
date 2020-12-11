@@ -3,7 +3,7 @@
     <div v-if="invalid_collection">
       <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collection_id }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
-    
+
     <div v-else>
       <div v-if="collectionType === 'Cohort'">
         <b-row>
@@ -50,25 +50,25 @@
       </div>
 
       <div v-else-if="collectionType === 'Major'">
-        <b-row >
+        <b-row>
           <b-col class="aat-group-info-primary">
             <b-row class="aat-info-spacing">
               <b-col cols="2" class="aat-data-primary">
                 Major
                 <div class="aat-group-data aat-data-primary">
-                  {{ major_abbr }}
+                  {{ collection_data.collection_id }}
                 </div>
               </b-col>
               <b-col cols="6" class="aat-group-info-secondary">
                 Description
                 <div class="aat-group-data aat-data-baseline">
-                  {{ text }}
+                  {{ collection_data.display_name }}
                 </div>
               </b-col>
               <b-col cols="4" class="aat-group-info-secondary">
                 Major Program Code
                 <div class="aat-group-data aat-data-baseline">
-                  {{ collection_id }}
+                  {{ collection_data.program_code }}
                 </div>
               </b-col>
             </b-row>
@@ -77,31 +77,29 @@
         <b-row class="aat-group-info-secondary">
           <b-col class="aat-info-spacing">
             College <div class="aat-group-data">
-              {{ college }}
+              {{ collection_data.college }}
             </div>
           </b-col>
           <b-col class="aat-info-spacing">
             Division <div class="aat-group-data">
-              {{ division }}
+              {{ collection_data.division }}
             </div>
           </b-col>
           <b-col class="aat-info-spacing">
             DTX<div class="aat-group-data">
-              {{ dtx }}
+              {{ collection_data.dtx }}
             </div>
           </b-col>
           <b-col class="aat-info-spacing">
             Assigned
             <div class="aat-group-data">
-              {{ applications_assigned }}
+              {{ collection_data.applications_assigned }}
             </div>
           </b-col>
         </b-row>
       </div>
-
     </div>
   </b-container>
-
 </template>
 
 <script>
