@@ -3,48 +3,101 @@
     <div v-if="invalid_collection">
       <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collection_id }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
+
     <div v-else>
-      <b-row>
-        <b-col class="aat-group-info-primary">
-          <b-row class="aat-info-spacing">
-            <b-col cols="3" class="aat-data-primary">
-              {{ collectionType }}
-              <div class="aat-group-data aat-data-primary">
-                #{{ collection_id }}
-              </div>
-            </b-col>
-            <b-col cols="9" class="aat-group-info-secondary">
-              Description
-              <div class="aat-group-data aat-data-baseline">
-                {{ description }}
-              </div>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row class="aat-group-info-secondary">
-        <b-col class="aat-info-spacing">
-          Residency <div class="aat-group-data">
-            {{ residency }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Protected <div class="aat-group-data">
-            {{ protected_group }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Admit Status<div class="aat-group-data">
-            {{ admit_decision }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Assigned
-          <div class="aat-group-data">
-            {{ applications_assigned }}
-          </div>
-        </b-col>
-      </b-row>
+      <div v-if="collectionType === 'Cohort'">
+        <b-row>
+          <b-col class="aat-group-info-primary">
+            <b-row class="aat-info-spacing">
+              <b-col cols="3" class="aat-data-primary">
+                {{ collectionType }}
+                <div class="aat-group-data aat-data-primary">
+                  #{{ collection_id }}
+                </div>
+              </b-col>
+              <b-col cols="9" class="aat-group-info-secondary">
+                Description
+                <div class="aat-group-data aat-data-baseline">
+                  {{ description }}
+                </div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="aat-group-info-secondary">
+          <b-col class="aat-info-spacing">
+            Residency <div class="aat-group-data">
+              {{ residency }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Protected <div class="aat-group-data">
+              {{ protected_group }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Admit Status<div class="aat-group-data">
+              {{ admit_decision }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Assigned
+            <div class="aat-group-data">
+              {{ applications_assigned }}
+            </div>
+          </b-col>
+        </b-row>
+      </div>
+
+      <div v-else-if="collectionType === 'Major'">
+        <b-row>
+          <b-col class="aat-group-info-primary">
+            <b-row class="aat-info-spacing">
+              <b-col class="aat-data-primary">
+                Major
+                <div class="aat-group-data aat-data-primary">
+                  {{ collection_data.collection_id }}
+                </div>
+              </b-col>
+              <b-col class="aat-group-info-secondary">
+                Description
+                <div class="aat-group-data aat-data-baseline">
+                  {{ collection_data.display_name }}
+                </div>
+              </b-col>
+              <b-col class="aat-group-info-secondary">
+                Major Program Code
+                <div class="aat-group-data aat-data-baseline">
+                  {{ collection_data.program_code }}
+                </div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="aat-group-info-secondary">
+          <b-col class="aat-info-spacing">
+            College <div class="aat-group-data">
+              {{ collection_data.college }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Division <div class="aat-group-data">
+              {{ collection_data.division }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            DTX<div class="aat-group-data">
+              {{ collection_data.dtx }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Assigned
+            <div class="aat-group-data">
+              {{ collection_data.applications_assigned }}
+            </div>
+          </b-col>
+        </b-row>
+      </div>
     </div>
   </b-container>
 </template>
