@@ -27,6 +27,7 @@ function run_test {
 
 run_test "pycodestyle ${DJANGO_APP}/ --exclude='migrations,resources,static'"
 
+nvm use node
 node -v
 
 run_test "eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/components/"
