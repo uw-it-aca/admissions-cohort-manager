@@ -12,7 +12,7 @@ source bin/activate
 
 # install test tooling
 pip install pycodestyle coverage
-#apt-get install -y nodejs npm
+apt-get install -y npm
 npm install -g npm@latest
 hash -r
 
