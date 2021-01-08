@@ -1,5 +1,5 @@
 <template>
-  <div class="aat-app-add-review">
+  <div class="aat-app-add-review aat-form-section">
     <div id="upload_app_count">
       <span v-if="uploadType === 'file'">
         <i class="fas fa-file-csv" />
@@ -58,14 +58,14 @@
           value=""
           class="aat-checkbox"
         >
-          Reassign applications that already have a cohort.
+          Reassign applications that already have a non-protected cohort.
         </b-form-checkbox>
         <span v-if="uploadType === 'file'">
           <b-form-text>
             Note: Applications with a protected cohort will not be reassigned.
           </b-form-text>
         </span>
-        <span v-else-if="has_protected" id="reassign_collection_protected">
+        <span v-else-if="has_protected && uploadType !== 'bulk'" id="reassign_collection_protected">
           <b-form-checkbox
             id="app_unprotect_checkbox"
             v-model="is_reassign_protected"
@@ -105,11 +105,11 @@
       },
       collectionType: {
         type: String,
-        default: function() {return [];}
+        default: function() {return "";}
       },
       uploadType: {
         type: String,
-        default: function() {return [];}
+        default: function() {return "";}
       },
       collectionOptions: {
         type: Array,
@@ -193,16 +193,16 @@
       },
       is_reassign: function(value){
         if(typeof value === "string"){
-          this.$emit("is_reassign", true);
+          this.$emit("is-reassign", true);
         } else {
-          this.$emit("is_reassign", false);
+          this.$emit("is-reassign", false);
         }
       },
       is_reassign_protected: function(value){
         if(typeof value === "string"){
-          this.$emit("is_reassign_protected", true);
+          this.$emit("is-reassign-protected", true);
         } else {
-          this.$emit("is_reassign_protected", false);
+          this.$emit("is-reassign-protected", false);
         }
       }
     },
@@ -215,10 +215,10 @@
     },
     methods: {
       proc: function(list){
-        this.$emit("dupeToRemove", list);
+        this.$emit("dupe-to-remove", list);
       },
       reset_upload: function(){
-        this.$emit('upload_reset');
+        this.$emit('upload-reset');
       },
       get_duplicates: function(assignments){
         var syskeys = {},

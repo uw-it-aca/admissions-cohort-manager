@@ -7,10 +7,10 @@
             Select {{ collectionType }}
           </legend>
           <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
-          <div class="aat-select-inline">
+          <div v-if="hasCollections" class="aat-select-inline">
             <b-form-input id="input-with-list"
-                          autocomplete="off"
                           v-model="collection_id"
+                          autocomplete="off"
                           list="input-list"
                           required
                           :disabled="loadingCollection || has_uploaded"
@@ -21,11 +21,18 @@
             </b-form-invalid-feedback>
             <b-form-datalist id="input-list" :options="computedCollectionOptions" />
           </div>
+          <div v-else>
+            <div class="alert alert-danger" role="alert">
+              No {{ collectionType }}s found for selected period.
+            </div>
+          </div>
         </fieldset>
-        <div class="aat-collection-note">Please confirm {{collectionType.toLowerCase()}} information is correct before entering applications.</div>
+        <div class="aat-collection-note">
+          Please confirm {{ collectionType.toLowerCase() }} information is correct before entering applications.
+        </div>
         <div role="region" aria-live="polite">
           <collectionDetails
-            v-if="collectionType === 'Cohort'"
+            v-if="show_details"
             :collection-id="collection_id"
             :collection-type="collectionType"
             :current-period="currentPeriod"
@@ -61,77 +68,43 @@
                            :upload-type="manual_upload ? 'list' : 'file'"
                            :collection-options="collectionOptions"
                            :collection-id="collection_id"
-                           @upload_reset="handleReset"
-                           @is_reassign="handle_reassign"
-                           @is_reassign_protected="handle_reassign_protected"
+                           @upload-reset="handleReset"
+                           @is-reassign="handle_reassign"
+                           @is-reassign_protected="handle_reassign_protected"
             />
             <collection-upload-dupe-modal
               v-if="has_dupes"
               :duplicates="dupes"
               :collection-type="collectionType"
-              @removeDupes="remove_applications"
+              @remove-dupes="remove_applications"
             />
           </div>
           <b-alert id="add_app_fail_manual" :show="invalid_manual" variant="danger">
-            Invalid systems keys.
+            The following system keys are invalid:
+            <ul class="att-error-list">
+              <li
+                v-for="value in invalid_syskeys"
+                :key="value.id"
+              >
+                {{ value }}
+              </li>
+            </ul>
+            You will need to correct these before moving forward.
           </b-alert>
           <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
             CSV is invalid. {{ error_message }}
           </b-alert>
         </fieldset>
-        <fieldset class="aat-form-section">
-          <legend class="aat-sub-header">
-            Add Comment
-          </legend>
-          <label for="assignment_comment">Enter comment for this assignment</label>
-          <textarea id="assignment_comment" v-model="comment" class="aat-comment-field" />
-        </fieldset>
+        <collection-comment
+          @comment="update_comment"
+        />
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
-        <b-modal
-          ref="submitting_modal"
-          modal-class="aat-modal-box"
-          content-class="aat-modal"
-          hide-backdrop
-          :hide-footer="true"
-          :hide-header="true"
-          :hide-header-close="true"
-          :no-close-on-backdrop="true"
-          :no-close-on-esc="true"
-        >
-          <div class="text-center text-info aat-processing-text">
-            <b-spinner class="align-middle" />
-            <strong>Processing...</strong>
-          </div>
-          <p class="text-center aat-processing-message">
-            Please wait while your submission is processed.
-          </p>
-        </b-modal>
-        <b-modal
-          ref="submitting_timeout_modal"
-          modal-class="aat-modal-box"
-          content-class="aat-modal"
-          hide-backdrop
-          :hide-header="true"
-          :ok-only="true"
-          ok-title="Close"
-          :no-close-on-backdrop="true"
-          :no-close-on-esc="true"
-          @ok="navigate_after_submit"
-        >
-          <h1 class="aat-sub-header">
-            The AdSel Database is not responding
-          </h1>
-          <div class="aat-processing-message">
-            <p>If assigning a large number of applications, the AdSel Db could still be processing your submission.</p>
-            <p>
-              Please check the <b-link to="/log/">
-                Activity Log
-              </b-link> in a few minutes to ensure your submission was completed.
-            </p>
-          </div>
-        </b-modal>
+        <collection-submit-modal
+          :show-submitting="show_submitting_modal"
+          :show-timeout="show_timeout_modal"
+        />
         <p>{{ submit_msg }}</p>
       </div>
     </form>
@@ -145,6 +118,8 @@
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
   import CollectionUploadDupeModal from "../components/collection_upload_dupe_modal.vue";
   import UploadReview from "../components/collection_upload_review.vue";
+  import CollectionComment from "../components/collection_comment.vue";
+  import CollectionSubmitModal from "../components/collection_submit_modal";
   import Vue from "vue/dist/vue.esm.js";
   import VueCookies from "vue-cookies";
   Vue.use(VueCookies);
@@ -156,6 +131,8 @@
       uploadReview: UploadReview,
       CollectionUploadListInput: CollectionUploadListInput,
       CollectionUploadFileInput: CollectionUploadFileInput,
+      CollectionComment: CollectionComment,
+      CollectionSubmitModal
     },
     props: {
       collectionType: {
@@ -167,7 +144,7 @@
         default: function () {return[];}
       },
       currentPeriod: {
-        type: String,
+        type: Number,
         default: null
       },
       loadingCollection: {
@@ -198,12 +175,15 @@
         is_reassign: false,
         is_reassign_protected: false,
         invalid_manual: false,
+        invalid_syskeys: [],
         invalid_csv: false,
         submitted: false,
         is_uploading: false,
         is_submitting: false,
         submit_msg: "",
-        error_message: ""
+        error_message: "",
+        show_submitting_modal: false,
+        show_timeout_modal: false
       };
     },
     computed: {
@@ -235,6 +215,13 @@
       },
       invalid_upload: function() {
         return this.invalid_csv || this.invalid_manual;
+      },
+      hasCollections: function () {
+        return this.collectionOptions.length > 0;
+      },
+      show_details: function () {
+        return (this.collectionType === 'Cohort' || this.collectionType === 'Major')
+          && this.collection_id != null && this.collection_id.length > 0;
       }
     },
     watch: {
@@ -315,6 +302,7 @@
             vue.handleReset();
           }else if(vue.syskey_list!==null){
             vue.invalid_manual = true;
+            vue.invalid_syskeys = err_resp.response.data.invalid_syskeys;
             vue.handleReset();
           }
         });
@@ -334,7 +322,7 @@
                        'comment': this.comment};
         this.submitted = true;
         this.is_submitting = true;
-        this.$refs['submitting_modal'].show();
+        vue.show_submitting_modal = true;
         if (this.collectionType == "Cohort") {
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -351,11 +339,11 @@
           }
         ).then(function(response) {
           console.log(JSON.stringify(response.data.request)); // eslint-disable-line
-          vue.$refs['submitting_modal'].hide();
+          vue.show_submitting_modal = false;
           if(response.status === 200) {
             vue.navigate_after_submit();
           }else if(response.status === 202){
-            vue.$refs['submitting_timeout_modal'].show();
+            vue.show_timeout_modal = true;
           }
           vue.is_submitting = false;
 
@@ -370,11 +358,11 @@
 
       navigate_after_submit() {
         if(this.collection_type == "Cohort"){
-          this.$emit('showMessage', "Assignment to Cohort " + this.collection_id + " submitted");
-          this.$router.push({path: '/cohort_list'});
+          this.$emit('show-message', "Assignment to Cohort " + this.collection_id + " submitted");
+          this.$router.push({path: '/log'});
         } else if(this.collection_type == "Major"){
           this.$emit('', "Assignment to " + this.collection_id + " submitted");
-          this.$router.push({path: '/major_list'});
+          this.$router.push({path: '/log'});
         }
       },
 
@@ -436,6 +424,9 @@
         if (id_to_set !== undefined){
           this.collection_id = id_to_set;
         }
+      },
+      update_comment(comment){
+        this.comment = comment;
       }
     }
   };
@@ -447,15 +438,6 @@
   // form fields
   .aat-file-input {
     padding: 1rem 0;
-  }
-
-  .aat-comment-field {
-    display: block;
-    height: 144px;
-    max-width: 650px;
-    min-width: 250px;
-    padding: 0.5rem;
-    width: 100%;
   }
 
   .aat-collection-select {
@@ -494,6 +476,10 @@
 
   .alert-danger {
     max-width: 650px;
+  }
+
+  .att-error-list {
+    margin-top: 1rem;
   }
 
   // action elements

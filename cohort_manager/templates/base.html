@@ -21,11 +21,16 @@
 {#  {% render_bundle 'base' %} #}
     {% render_bundle 'vendor' %}
 
+  <script type="text/javascript">
+    var aat_env = "{{ aat_env }}";
+  </script>
+
 </head>
 
 <body class="cohortman" data-django-debug="{{ django_debug|lower}}">
     <script type="text/javascript">
       window.user_netid = '{{ netid }}';
+      window.csrf_token = '{{  csrf_token }}';
     </script>
     <div class="cohortman-content">
         {% block content %}{% endblock %}

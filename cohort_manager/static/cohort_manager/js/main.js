@@ -12,6 +12,9 @@ import Major from './pages/major.vue';
 import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
+import BulkHandler from './pages/bulk_handler.vue';
+import PurpleGold from './pages/purplegold.vue';
+import store from './store';
 
 // import the bootstrap / bootstrap-vue base css
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -41,6 +44,9 @@ var router = new VueRouter({
     { path: '/major_list/', component: MajorList },
     { path: '/log/', component: Log },
     { path: '/log/:id', component: Log },
+    { path: '/iframe/bulk_view/:id', component: BulkHandler},
+    { path: '/iframe/log/', component: Log },
+    { path: '/purplegold/', component: PurpleGold },
   ]
 });
 
@@ -60,5 +66,6 @@ Vue.use(VueAnalytics, {
 // vue app will be rendered inside of #main div found in index.html using webpack_loader
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount("#main");

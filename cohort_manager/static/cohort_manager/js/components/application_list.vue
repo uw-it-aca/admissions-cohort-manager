@@ -11,10 +11,10 @@
         :items="applications"
         :fields="applicationFields"
       >
-        <template v-slot:cell(Class)="row">
+        <template #cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
         </template>
-        <template v-slot:table-busy>
+        <template #table-busy>
           <div class="text-center text-info">
             <b-spinner class="align-middle" />
             <strong>Loading...</strong>
@@ -34,7 +34,7 @@
         :items="applications"
         :fields="applicationFields"
       >
-        <template v-slot:cell(actions)="row">
+        <template #cell(actions)="row">
           <b-form-checkbox
             :id="'app_select_' + row.item.Key + '_' + row.item.Number"
             v-model="selected"
@@ -45,10 +45,10 @@
             <span class="sr-only">Select application {{ row.item.Key }}</span>
           </b-form-checkbox>
         </template>
-        <template v-slot:cell(Class)="row">
+        <template #cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
         </template>
-        <template v-slot:table-busy>
+        <template #table-busy>
           <div class="text-center text-info">
             <b-spinner class="align-middle" />
             <strong>Loading...</strong>
@@ -69,7 +69,7 @@
         :items="applications"
         :fields="appDupeFields"
       >
-        <template v-slot:cell(actions)="row">
+        <template #cell(actions)="row">
           <b-form-group>
             <b-form-checkbox
               :id="'app_select_' + row.item.admission_selection_id + '_' + row.item.application_number"
@@ -83,10 +83,10 @@
             </b-form-checkbox>
           </b-form-group>
         </template>
-        <template v-slot:cell(Class)="row">
+        <template #cell(Class)="row">
           <div>{{ row.value.quarter }} {{ row.value.year }}</div>
         </template>
-        <template v-slot:table-busy>
+        <template #table-busy>
           <div class="text-center text-info">
             <b-spinner class="align-middle" />
             <strong>Loading...</strong>
@@ -223,6 +223,17 @@
       },
     },
     mounted() {
+      if(this.collectionType === "purplegold"){
+        var field = {
+          key: 'purple_gold_assigned',
+          label: "P&G Award",
+          class: "aat-data-cell",
+          thClass: "aat-table-header",
+          sortable: false
+        };
+
+        this.applicationFields.push(field);
+      }
     },
     methods: {
       mark_to_delete: function() {
@@ -239,7 +250,7 @@
             keys_to_remove.push(app.admission_selection_id);
           }
         });
-        this.$emit("dupeToRemove", keys_to_remove);
+        this.$emit("dupe-to-remove", keys_to_remove);
       }
 
     }

@@ -1,50 +1,103 @@
 <template>
-  <b-container v-if="collectionId" class="aat-details-container aat-form-section" fluid :hidden="hide_details">
+  <b-container class="aat-details-container aat-form-section" fluid :hidden="hide_details">
     <div v-if="invalid_collection">
-      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collectionId }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
+      <p>No {{ collectionType.toLowerCase() }} information available for <strong>{{ collectionType.toLowerCase() }} {{ collection_id }}</strong> in <strong>{{ currentPeriodName }}</strong> admission period.</p>
     </div>
+
     <div v-else>
-      <b-row>
-        <b-col class="aat-group-info-primary">
-          <b-row class="aat-info-spacing">
-            <b-col cols="3" class="aat-data-primary">
-              {{ collectionType }}
-              <div class="aat-group-data aat-data-primary">
-                #{{ collectionId }}
-              </div>
-            </b-col>
-            <b-col cols="9" class="aat-group-info-secondary">
-              Description
-              <div class="aat-group-data aat-data-baseline">
-                {{ description }}
-              </div>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row class="aat-group-info-secondary">
-        <b-col class="aat-info-spacing">
-          Residency <div class="aat-group-data">
-            {{ residency }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Protected <div class="aat-group-data">
-            {{ protected_group }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Admit Status<div class="aat-group-data">
-            {{ admit_decision }}
-          </div>
-        </b-col>
-        <b-col class="aat-info-spacing">
-          Assigned
-          <div class="aat-group-data">
-            {{ applications_assigned }}
-          </div>
-        </b-col>
-      </b-row>
+      <div v-if="collectionType === 'Cohort'">
+        <b-row>
+          <b-col class="aat-group-info-primary">
+            <b-row class="aat-info-spacing">
+              <b-col cols="3" class="aat-data-primary">
+                {{ collectionType }}
+                <div class="aat-group-data aat-data-primary">
+                  #{{ collection_id }}
+                </div>
+              </b-col>
+              <b-col cols="9" class="aat-group-info-secondary">
+                Description
+                <div class="aat-group-data aat-data-baseline">
+                  {{ description }}
+                </div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="aat-group-info-secondary">
+          <b-col class="aat-info-spacing">
+            Residency <div class="aat-group-data">
+              {{ residency }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Protected <div class="aat-group-data">
+              {{ protected_group }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Admit Status<div class="aat-group-data">
+              {{ admit_decision }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Assigned
+            <div class="aat-group-data">
+              {{ applications_assigned }}
+            </div>
+          </b-col>
+        </b-row>
+      </div>
+
+      <div v-else-if="collectionType === 'Major'">
+        <b-row>
+          <b-col class="aat-group-info-primary">
+            <b-row class="aat-info-spacing">
+              <b-col class="aat-data-primary">
+                Major
+                <div class="aat-group-data aat-data-primary">
+                  {{ collection_data.collection_id }}
+                </div>
+              </b-col>
+              <b-col class="aat-group-info-secondary">
+                Description
+                <div class="aat-group-data aat-data-baseline">
+                  {{ collection_data.display_name }}
+                </div>
+              </b-col>
+              <b-col class="aat-group-info-secondary">
+                Major Program Code
+                <div class="aat-group-data aat-data-baseline">
+                  {{ collection_data.program_code }}
+                </div>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="aat-group-info-secondary">
+          <b-col class="aat-info-spacing">
+            College <div class="aat-group-data">
+              {{ collection_data.college }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Division <div class="aat-group-data">
+              {{ collection_data.division }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            DTX<div class="aat-group-data">
+              {{ collection_data.dtx }}
+            </div>
+          </b-col>
+          <b-col class="aat-info-spacing">
+            Assigned
+            <div class="aat-group-data">
+              {{ collection_data.applications_assigned }}
+            </div>
+          </b-col>
+        </b-row>
+      </div>
     </div>
   </b-container>
 </template>
@@ -65,8 +118,14 @@
         default: ""
       },
       currentPeriod: {
-        type: String,
+        type: Number,
         default: null
+      },
+      collectionData: {
+        type: Object,
+        default() {
+          return {};
+        }
       }
     },
     data(){
@@ -78,16 +137,10 @@
         residency: "",
         invalid_collection: false,
         hide_details: true,
-        periods: []
+        periods: [],
+        collection_id: "",
+        collection_data: {}
       };
-    },
-    created () {
-      this.periods = this.$attrs.periods;
-    },
-    watch: {
-      collectionId: function() {
-        this.get_collection();
-      }
     },
     computed: {
       currentPeriodName: function () {
@@ -101,6 +154,37 @@
         return value;
       }
     },
+    watch: {
+      collectionId: function() {
+        this.collection_id = this.collectionId;
+        this.get_collection();
+      },
+      collectionData: {
+        handler: function(){
+          this.collection_data = this.collectionData;
+          this.process_collection_data();
+        },
+        deep: true
+      },
+      collection_data: {
+        handler: function(){
+          this.process_collection_data();
+        },
+        deep: true
+      }
+    },
+    created () {
+      this.periods = this.$attrs.periods;
+      if(Object.keys(this.collection_data).length === 0){
+        if(this.collectionId !== null && this.collectionId.length > 0
+          && this.collectionType.length > 0
+          && this.cur_period !== null){
+          this.get_collection();
+        }
+      } else {
+        this.process_collection_data();
+      }
+    },
 
     methods: {
       get_collection(){
@@ -109,17 +193,21 @@
         axios.get(
           '/api/collection/' + this.collectionType.toLowerCase() + "/" + this.currentPeriod + "/" + this.collectionId + "/",
         ).then(response => {
-          this.admit_decision = response.data.admit_decision;
-          this.applications_assigned = response.data.applications_assigned;
-          this.description = response.data.description;
-          this.protected_group = response.data.protected_group;
-          this.residency = response.data.residency;
-          this.invalid_collection = false;
-          this.hide_details = false;
+          this.collection_data = response.data;
         }).catch(function () {
           vue.invalid_collection = true;
           vue.hide_details = false;
         });
+      },
+      process_collection_data(){
+        this.admit_decision = this.collection_data.admit_decision;
+        this.applications_assigned = this.collection_data.applications_assigned;
+        this.description = this.collection_data.description;
+        this.protected_group = this.collection_data.protected_group;
+        this.residency = this.collection_data.residency;
+        this.invalid_collection = false;
+        this.hide_details = false;
+        this.collection_id = this.collection_data.collection_id;
       }
     },
   };
@@ -182,12 +270,10 @@
   @media screen and (max-width: 767px) {
     .aat-group-info-primary {
       margin-bottom: 2rem;
-      text-align: center;
     }
 
     .aat-group-info-secondary {
       margin-bottom: 1rem;
-      text-align: center;
     }
 
   }

@@ -8,13 +8,13 @@ class RestDispatchTest(TestCase):
     def test_cohort(self):
         resp = get_collection_by_id_type(1, "cohort", 0)
         self.assertEqual(resp['applications_assigned'], 120)
-        self.assertIsNotNone(get_collection_by_id_type(2, "cohort", 0))
+        self.assertIsNotNone(get_collection_by_id_type(81, "cohort", 0))
         self.assertIsNone(get_collection_by_id_type(1234, "cohort", 0))
 
     def test_major(self):
-        resp = get_collection_by_id_type("BIOL", "major", 0)
+        resp = get_collection_by_id_type("0_BIOL_1", "major", 0)
         self.assertEqual(resp['applications_assigned'], 32)
-        self.assertIsNotNone(get_collection_by_id_type("CHEM", "major", 0))
+        self.assertIsNotNone(get_collection_by_id_type("0_CHEM_1", "major", 0))
         self.assertIsNone(get_collection_by_id_type("FOOBAR", "major", 0))
 
     def test_invalid_collection(self):

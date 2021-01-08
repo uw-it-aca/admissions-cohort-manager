@@ -1,4 +1,4 @@
-FROM acait/django-container:1.0.30 as django
+FROM acait/django-container:1.1.20 as app-container
 
 USER root
 RUN apt-get update
@@ -25,8 +25,7 @@ WORKDIR /app/
 RUN npm install .
 RUN npx webpack --mode=production
 
-FROM django
-
+FROM app-container
 
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/cohort_manager/bundles/* /app/cohort_manager/static/cohort_manager/bundles/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/ /static/

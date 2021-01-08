@@ -1,7 +1,5 @@
 from .base_settings import *
 
-ALLOWED_HOSTS = ['*']
-
 INSTALLED_APPS += [
     'webpack_loader',
     'cohort_manager',
@@ -55,9 +53,28 @@ if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
 
 if os.getenv('ENV') == 'prod':
     RESTCLIENTS_ADSEL_HOST = 'https://adselapi.uw.edu'
+    RESTCLIENTS_ADSEL_CORS_ORIGIN = 'https://adselapi.uw.edu'
 
 if os.getenv('ENV') == 'eval':
     RESTCLIENTS_ADSEL_HOST = 'https://test.adselapi.uw.edu'
+    RESTCLIENTS_ADSEL_CORS_ORIGIN = 'https://dev.adselapi.uw.edu'
 
 if os.getenv("ENV") == "localdev":
     DEBUG = True
+
+# For testing only
+if os.getenv("ENV") == "eval":
+    DEBUG = True
+
+API_TOKEN = os.getenv('API_TOKEN')
+
+AAT_ENV = os.getenv('ENV')
+
+if os.getenv('ENV') == 'prod' or os.getenv('ENV') == 'eval':
+    # Session cookie settings for iFrame Embed in Tableau
+    MIDDLEWARE.insert(0, 'django_cookies_samesite.middleware.CookiesSameSite')
+    SESSION_COOKIE_SAMESITE = None
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = None
+    CSRF_COOKIE_SECURE = True
+    DCS_SESSION_COOKIE_SAMESITE = "None"
