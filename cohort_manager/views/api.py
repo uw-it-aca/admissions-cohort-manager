@@ -20,7 +20,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection, \
     _get_collection, get_application_from_bulk_upload, reset_purplegold
 from cohort_manager.models import AssignmentImport, Assignment, \
-    PurpleGoldAssignment
+    PurpleGoldAssignment, SyskeyImport
 from cohort_manager.utils import is_valid_auth_key
 
 
@@ -59,6 +59,14 @@ class RESTDispatch(View):
         response = RESTDispatch().json_response(content, status)
         response['Access-Control-Allow-Origin'] = origin
         return response
+
+
+@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
+                  name='dispatch')
+class SyskeyUploadView(RESTDispatch):
+    def post(self, request, *args, **kwargs):
+        user = UserService().get_acting_user()
+        syskey_import = SyskeyImport.create_from_json(request.body, user)
 
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),

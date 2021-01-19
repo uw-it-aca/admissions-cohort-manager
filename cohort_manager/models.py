@@ -2,8 +2,8 @@ from django.db import models
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
 from cohort_manager.utils import to_csv, dict_to_csv, get_headers
-from uw_adsel.models import Application
-from uw_adsel.models import PurpleGoldApplication
+from uw_adsel.models import Application, PurpleGoldApplication
+from uw_adsel import AdSel
 from io import StringIO
 import csv
 import json
@@ -27,6 +27,74 @@ def validate_cohort(val):
 
 def validate_major(val):
     pass
+
+
+class SyskeyImport(models.Model):
+    comment = models.TextField()
+    is_override = models.NullBooleanField(default=False)
+    upload_filename = models.CharField(max_length=100, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=30)
+    imported_date = models.DateTimeField(null=True)
+    imported_status = models.SmallIntegerField(null=True)
+    imported_message = models.TextField(null=True)
+    quarter = models.IntegerField()
+    campus = models.CharField(max_length=30)
+    cohort = models.CharField(
+        max_length=30, blank=True, null=True, validators=[validate_cohort])
+    major = models.CharField(
+        max_length=128, blank=True, null=True, validators=[validate_major])
+    is_purplegold = models.BooleanField(default=False)
+    is_submitted = models.BooleanField(default=False)
+    is_reassign = models.BooleanField(default=False)
+    is_reassign_protected = models.BooleanField(default=False)
+
+    @staticmethod
+    def create_from_json(upload_body, user):
+
+        sys_import = SyskeyImport()
+        sys_import.comment = upload_body.get('comment', "")
+        sys_import.quarter = upload_body.get('qtr_id')
+        sys_import.created_by = user
+
+        cohort_id = upload_body.get('cohort_id')
+        major_id = upload_body.get('major_id')
+        purplegold = upload_body.get('purplegold')
+        if cohort_id:
+            sys_import.cohort = cohort_id
+        if major_id:
+            sys_import.major = major_id
+        if purplegold:
+            sys_import.is_purplegold = purplegold
+
+        syskey_list = upload_body.get('syskey_list')
+
+        return sys_import
+
+    class SyskeyAssignment(models.Model):
+        CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
+
+        assignment_import = models.ForeignKey('SyskeyImport',
+                                              on_delete=models.PROTECT)
+        system_key = models.CharField(
+            max_length=30, validators=[validate_system_key])
+        application_number = models.PositiveIntegerField(
+            validators=[validate_application_number])
+        admission_selection_id = models.CharField(max_length=30)
+        assigned_cohort = models.IntegerField(null=True)
+        assigned_major = models.CharField(max_length=30, null=True)
+        major_program_code = models.TextField(null=True)
+        campus = models.PositiveSmallIntegerField(
+            default=1, choices=CAMPUS_CHOICES)
+
+
+        @staticmethod
+        def create_from_syskey_list(syskeys, quarter):
+            adsel = AdSel()
+            applications = adsel.get_applications_by_qtr_syskey_list(quarter,
+                                                                     syskeys)
+            # TODO: process applications and return
+
 
 
 class AssignmentImport(models.Model):

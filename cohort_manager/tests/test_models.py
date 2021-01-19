@@ -1,10 +1,27 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from cohort_manager.models import AssignmentImport, Assignment
+from cohort_manager.models import AssignmentImport, Assignment, SyskeyImport
 from uw_adsel.models import Application
 from cohort_manager.utils import to_csv
 from datetime import datetime
 import os
+
+
+class SyskeyImportTest(TestCase):
+    def test_create_from_list(self):
+        upload_body = {
+            'comment': "This is a comment",
+            'qtr_id': 0,
+            'cohort_id': 52,
+            'syskey_list': [656340, 456340, 97508]
+        }
+
+        import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
+        self.assertEqual(import_object.comment, upload_body['comment'])
+        self.assertEqual(import_object.quarter, upload_body['qtr_id'])
+        self.assertEqual(import_object.cohort, upload_body['cohort_id'])
+        self.assertIsNone(import_object.major)
+        self.assertFalse(import_object.is_purplegold)
 
 
 class AssignmentTest(TestCase):
