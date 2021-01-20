@@ -87,14 +87,12 @@ class SyskeyImport(models.Model):
         campus = models.PositiveSmallIntegerField(
             default=1, choices=CAMPUS_CHOICES)
 
-
         @staticmethod
         def create_from_syskey_list(syskeys, quarter):
             adsel = AdSel()
             applications = adsel.get_applications_by_qtr_syskey_list(quarter,
                                                                      syskeys)
             # TODO: process applications and return
-
 
 
 class AssignmentImport(models.Model):
