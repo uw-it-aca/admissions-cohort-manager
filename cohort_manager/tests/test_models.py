@@ -1,10 +1,6 @@
 from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
 from cohort_manager.models import AssignmentImport, Assignment, SyskeyImport
 from uw_adsel.models import Application
-from cohort_manager.utils import to_csv
-from datetime import datetime
-import os
 
 
 class SyskeyImportTest(TestCase):
@@ -22,6 +18,14 @@ class SyskeyImportTest(TestCase):
         self.assertEqual(import_object.cohort, upload_body['cohort_id'])
         self.assertIsNone(import_object.major)
         self.assertFalse(import_object.is_purplegold)
+
+        apps = import_object.syskeyassignment_set.all()
+        self.assertEqual(len(apps), 4)
+        self.assertEqual(apps[0].assignment_import, import_object)
+        self.assertEqual(apps[0].system_key, 456340)
+        self.assertEqual(apps[0].application_number, 1)
+        self.assertEqual(apps[0].assigned_cohort, 1)
+        self.assertEqual(apps[0].assigned_major, None)
 
 
 class AssignmentTest(TestCase):

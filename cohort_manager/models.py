@@ -1,12 +1,8 @@
 from django.db import models
-from django.db.utils import IntegrityError
-from django.core.exceptions import ValidationError
-from cohort_manager.utils import to_csv, dict_to_csv, get_headers
 from uw_adsel.models import Application, PurpleGoldApplication
 from uw_adsel import AdSel
 from io import StringIO
 import csv
-import json
 
 
 def validate_system_key(val):
@@ -27,6 +23,47 @@ def validate_cohort(val):
 
 def validate_major(val):
     pass
+
+
+class SyskeyAssignment(models.Model):
+    CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
+
+    assignment_import = models.ForeignKey('SyskeyImport',
+                                          on_delete=models.PROTECT)
+    system_key = models.PositiveIntegerField()
+    application_number = models.PositiveIntegerField(
+        validators=[validate_application_number])
+    admission_selection_id = models.PositiveIntegerField()
+    assigned_cohort = models.IntegerField(null=True)
+    assigned_major = models.CharField(max_length=30, null=True)
+    major_program_code = models.TextField(null=True)
+    campus = models.PositiveSmallIntegerField(
+        default=1, choices=CAMPUS_CHOICES)
+
+    @staticmethod
+    def create_from_adsel_appliction(application, assignment_import):
+        syskey_app = SyskeyAssignment()
+        syskey_app.assignment_import = assignment_import
+        syskey_app.system_key = application.system_key
+        syskey_app.application_number = application.application_number
+        syskey_app.admission_selection_id = application.adsel_id
+        syskey_app.assigned_cohort = application.assigned_cohort
+        syskey_app.assigned_major = application.assigned_major
+        syskey_app.major_program_code = application.major_program_code
+        syskey_app.campus = application.campus
+        syskey_app.save()
+
+    @staticmethod
+    def create_from_syskey_list(assignment_import, syskeys):
+        adsel = AdSel()
+        applications = \
+            adsel.get_applications_by_qtr_syskey_list(
+                assignment_import.quarter,
+                syskeys
+            )
+        for app in applications:
+            SyskeyAssignment.create_from_adsel_appliction(app,
+                                                          assignment_import)
 
 
 class SyskeyImport(models.Model):
@@ -67,32 +104,13 @@ class SyskeyImport(models.Model):
         if purplegold:
             sys_import.is_purplegold = purplegold
 
+        # Saving import before creating FK relationships
+        sys_import.save()
+
         syskey_list = upload_body.get('syskey_list')
+        SyskeyAssignment.create_from_syskey_list(sys_import, syskey_list)
 
         return sys_import
-
-    class SyskeyAssignment(models.Model):
-        CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
-
-        assignment_import = models.ForeignKey('SyskeyImport',
-                                              on_delete=models.PROTECT)
-        system_key = models.CharField(
-            max_length=30, validators=[validate_system_key])
-        application_number = models.PositiveIntegerField(
-            validators=[validate_application_number])
-        admission_selection_id = models.CharField(max_length=30)
-        assigned_cohort = models.IntegerField(null=True)
-        assigned_major = models.CharField(max_length=30, null=True)
-        major_program_code = models.TextField(null=True)
-        campus = models.PositiveSmallIntegerField(
-            default=1, choices=CAMPUS_CHOICES)
-
-        @staticmethod
-        def create_from_syskey_list(syskeys, quarter):
-            adsel = AdSel()
-            applications = adsel.get_applications_by_qtr_syskey_list(quarter,
-                                                                     syskeys)
-            # TODO: process applications and return
 
 
 class AssignmentImport(models.Model):
