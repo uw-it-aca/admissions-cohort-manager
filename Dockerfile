@@ -1,4 +1,4 @@
-FROM acait/django-container:1.1.20 as app-container
+FROM acait/django-container:1.2.7 as app-container
 
 USER root
 RUN apt-get update
