@@ -1,0 +1,8 @@
+[run]
+source = cohort_manager
+parallel = True
+
+[paths]
+source =
+  cohort_manager/
+  /app/cohort_manager/
