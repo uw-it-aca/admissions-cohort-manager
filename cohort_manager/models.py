@@ -65,6 +65,16 @@ class SyskeyAssignment(models.Model):
             SyskeyAssignment.create_from_adsel_appliction(app,
                                                           assignment_import)
 
+    def json_data(self):
+        return {
+            'system_key': self.system_key,
+            'application_number': self.application_number,
+            'admission_selection_id': self.admission_selection_id,
+            'assigned_cohort': self.assigned_cohort,
+            'assigned_major': self.assigned_major,
+            'campus': self.get_campus_display()
+        }
+
 
 class SyskeyImport(models.Model):
     comment = models.TextField()
@@ -111,6 +121,33 @@ class SyskeyImport(models.Model):
         SyskeyAssignment.create_from_syskey_list(sys_import, syskey_list)
 
         return sys_import
+
+    def json_data(self):
+        assignments = self.syskeyassignment_set.all()
+        # TODO: Implement P&G side of this
+        # if len(assignments) == 0:
+        #     assignments = self.purplegoldassignment_set.all()
+        return {
+            'id': self.pk,
+            'comment': self.comment,
+            'cohort': self.cohort,
+            'major': self.major,
+            'is_override': True if self.is_override else False,
+            'upload_filename': self.upload_filename,
+            'created_date': self.created_date.isoformat() if (
+                self.created_date is not None) else None,
+            'created_by': self.created_by,
+            'imported_date': self.imported_date.isoformat() if (
+                self.imported_date is not None) else None,
+            'imported_status': self.imported_status,
+            'imported_message': self.imported_message,
+            'assignments': [a.json_data() for a in assignments],
+            'is_submitted': True if self.is_submitted else False,
+            'is_reassign': True if self.is_reassign else False,
+            'is_reassign_protected':
+                True if self.is_reassign_protected else False,
+            'quarter': self.quarter
+        }
 
 
 class AssignmentImport(models.Model):

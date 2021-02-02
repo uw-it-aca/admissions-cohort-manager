@@ -1,6 +1,9 @@
 from django.test import TestCase
 from cohort_manager.models import AssignmentImport, Assignment, SyskeyImport
 from uw_adsel.models import Application
+from unittest import mock
+import pytz
+import datetime
 
 
 class SyskeyImportTest(TestCase):
@@ -26,6 +29,46 @@ class SyskeyImportTest(TestCase):
         self.assertEqual(apps[0].application_number, 1)
         self.assertEqual(apps[0].assigned_cohort, 1)
         self.assertEqual(apps[0].assigned_major, None)
+
+    def test_json_data(self):
+        upload_body = {
+            'comment': "This is a comment",
+            'qtr_id': 0,
+            'cohort_id': 52,
+            'syskey_list': [656340]
+        }
+        mocked = datetime.datetime(2021, 2, 2, 0, 24, 21, tzinfo=pytz.utc)
+        with mock.patch('django.utils.timezone.now',
+                        mock.Mock(return_value=mocked)):
+            import_object = SyskeyImport.create_from_json(upload_body,
+                                                          'javerage')
+            json_data = import_object.json_data()
+            expected_data = {
+                'id': 1,
+                'comment': 'This is a comment',
+                'cohort': 52,
+                'major': None,
+                'is_override': False,
+                'upload_filename': None,
+                'created_date': '2021-02-02T00:24:21+00:00',
+                'created_by': 'javerage',
+                'imported_date': None,
+                'imported_status': None,
+                'imported_message': None,
+                'assignments': [
+                    {'system_key': 656340,
+                     'application_number': 1,
+                     'admission_selection_id': 73445,
+                     'assigned_cohort': None,
+                     'assigned_major': 'CSE', 'campus': 'Seattle'}
+                ],
+                'is_submitted': False,
+                'is_reassign': False,
+                'is_reassign_protected': False,
+                'quarter': 0
+            }
+
+        self.assertDictEqual(json_data, expected_data)
 
 
 class AssignmentTest(TestCase):
