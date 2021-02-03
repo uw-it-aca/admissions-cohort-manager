@@ -3,7 +3,7 @@ name: Build, Test and Deploy
 
 env:
   # Release name must match "repo" value in docker/*-values.yml
-  RELEASE_NAME: aat
+  RELEASE_NAME: admissions-cohort-manager
   DJANGO_APP: cohort_manager
 
 # Be sure that branches defined here have corresponding steps

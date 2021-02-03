@@ -26,7 +26,7 @@ externalService:
   type: ClusterIP
   serviceAddress: 172.18.1.24
   servicePort: 5432
-repo: aat
+repo: admissions-cohort-manager
 instance: test
 branch: develop
 certs:
