@@ -33,3 +33,5 @@ COPY --from=app-container /app/ /app/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/cohort_manager/bundles/* /app/cohort_manager/static/cohort_manager/bundles/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/ /static/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/webpack-stats.json /app/cohort_manager/static/webpack-stats.json
+
+#test
