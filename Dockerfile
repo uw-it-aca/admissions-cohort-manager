@@ -1,4 +1,4 @@
-FROM acait/django-container:1.2.5 as app-prewebpack-container
+FROM acait/django-container:1.2.7 as app-prewebpack-container
 
 USER root
 RUN apt-get update
@@ -31,7 +31,7 @@ COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/cohort_manager/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/ /static/
 COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/webpack-stats.json /app/cohort_manager/static/webpack-stats.json
 
-FROM acait/django-test-container:1.2.5 as app-test-container
+FROM acait/django-test-container:1.2.7 as app-test-container
 
 COPY --from=app-container /app/ /app/
 COPY --from=app-container /static/ /static/
