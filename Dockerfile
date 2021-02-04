@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y libpq-dev
 USER acait
 
-ADD --chown=acait:acait cohort_manager/VERSION /app/cohort_manager/
+ADD --chown=acait:acait cohort_manager/VERAXZSION /app/cohort_manager/
 ADD --chown=acait:acait setup.py /app/
 ADD --chown=acait:acait requirements.txt /app/
 
@@ -25,11 +25,12 @@ WORKDIR /app/
 RUN npm install .
 RUN npx webpack --mode=production
 
+COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/cohort_manager/bundles/* /app/cohort_manager/static/cohort_manager/bundles/
+COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/ /static/
+COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/webpack-stats.json /app/cohort_manager/static/webpack-stats.json
+
+
 FROM acait/django-test-container:1.2.5 as app-test-container
 
 COPY --from=app-container /app/ /app/
 COPY --from=app-container /static/ /static/
-
-COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/cohort_manager/bundles/* /app/cohort_manager/static/cohort_manager/bundles/
-COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/ /static/
-COPY --chown=acait:acait --from=wpack /app/cohort_manager/static/webpack-stats.json /app/cohort_manager/static/webpack-stats.json
