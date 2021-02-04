@@ -34,3 +34,4 @@ FROM acait/django-test-container:1.2.5 as app-test-container
 COPY --from=app-container /app/ /app/
 COPY --from=app-container /static/ /static/
 
+# no-op
