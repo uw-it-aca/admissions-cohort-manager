@@ -35,7 +35,7 @@ certs:
   keyPath: /certs/aat-test.axdd.s.uw.edu-uwca.key
   secretName: aat-test.axdd.s.uw.edu-uwca-certs
 image:
-  repository: registry.hub.docker.com/acait/aat
+  repository: gcr.io/uwit-mci-axdd/admissions-cohort-manager
   tag: IMAGE_TAG
 lifecycle:
   enabled: true
