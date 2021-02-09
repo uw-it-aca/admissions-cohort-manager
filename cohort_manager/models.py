@@ -32,13 +32,14 @@ class SyskeyAssignment(models.Model):
                                           on_delete=models.PROTECT)
     system_key = models.PositiveIntegerField()
     application_number = models.PositiveIntegerField(
-        validators=[validate_application_number])
-    admission_selection_id = models.PositiveIntegerField()
+        validators=[validate_application_number], null=True)
+    admission_selection_id = models.PositiveIntegerField(null=True)
     assigned_cohort = models.IntegerField(null=True)
     assigned_major = models.CharField(max_length=30, null=True)
     major_program_code = models.TextField(null=True)
     campus = models.PositiveSmallIntegerField(
         default=1, choices=CAMPUS_CHOICES)
+    application_not_found = models.BooleanField(default=False)
 
     @staticmethod
     def create_from_adsel_appliction(application, assignment_import):
@@ -54,6 +55,14 @@ class SyskeyAssignment(models.Model):
         syskey_app.save()
 
     @staticmethod
+    def create_missing(system_key, assignment_import):
+        syskey_app = SyskeyAssignment()
+        syskey_app.assignment_import = assignment_import
+        syskey_app.system_key = system_key
+        syskey_app.application_not_found = True
+        syskey_app.save()
+
+    @staticmethod
     def create_from_syskey_list(assignment_import, syskeys):
         adsel = AdSel()
         applications = \
@@ -61,9 +70,15 @@ class SyskeyAssignment(models.Model):
                 assignment_import.quarter,
                 syskeys
             )
+        found_syskeys = dict.fromkeys(syskeys, False)
         for app in applications:
+            found_syskeys[app.system_key] = True
             SyskeyAssignment.create_from_adsel_appliction(app,
                                                           assignment_import)
+        missing_syskeys = [key for key, value
+                           in found_syskeys.items() if not value]
+        for key in missing_syskeys:
+            SyskeyAssignment.create_missing(key, assignment_import)
 
     def json_data(self):
         return {
@@ -72,7 +87,8 @@ class SyskeyAssignment(models.Model):
             'admission_selection_id': self.admission_selection_id,
             'assigned_cohort': self.assigned_cohort,
             'assigned_major': self.assigned_major,
-            'campus': self.get_campus_display()
+            'campus': self.get_campus_display(),
+            "application_not_found": self.application_not_found
         }
 
 
@@ -98,7 +114,6 @@ class SyskeyImport(models.Model):
 
     @staticmethod
     def create_from_json(upload_body, user):
-
         sys_import = SyskeyImport()
         sys_import.comment = upload_body.get('comment', "")
         sys_import.quarter = upload_body.get('qtr_id')

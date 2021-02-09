@@ -35,7 +35,7 @@ class SyskeyImportTest(TestCase):
             'comment': "This is a comment",
             'qtr_id': 0,
             'cohort_id': 52,
-            'syskey_list': [656340]
+            'syskey_list': [656340, 1]
         }
         mocked = datetime.datetime(2021, 2, 2, 0, 24, 21, tzinfo=pytz.utc)
         with mock.patch('django.utils.timezone.now',
@@ -60,7 +60,16 @@ class SyskeyImportTest(TestCase):
                      'application_number': 1,
                      'admission_selection_id': 73445,
                      'assigned_cohort': None,
-                     'assigned_major': 'CSE', 'campus': 'Seattle'}
+                     'assigned_major': 'CSE',
+                     'campus': 'Seattle',
+                     'application_not_found': False},
+                    {'system_key': 1,
+                     'application_number': None,
+                     'admission_selection_id': None,
+                     'assigned_cohort': None,
+                     'assigned_major': None,
+                     'campus': 'Seattle',
+                     'application_not_found': True}
                 ],
                 'is_submitted': False,
                 'is_reassign': False,
