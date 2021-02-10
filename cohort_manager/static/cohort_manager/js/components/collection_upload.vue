@@ -91,8 +91,8 @@
             </ul>
             You will need to correct these before moving forward.
           </b-alert>
-          <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
-            CSV is invalid. {{ error_message }}
+          <b-alert id="add_app_fail_csv" :show="file_invalid" variant="danger">
+            CSV is invalid. {{ file_invalid_msg }}
           </b-alert>
         </fieldset>
         <collection-comment
@@ -101,7 +101,7 @@
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
-        <collection-submit-modal
+        <collection-submit-modal 
           :show-submitting="show_submitting_modal"
           :show-timeout="show_timeout_modal"
         />
@@ -226,6 +226,9 @@
       show_details: function () {
         return (this.collectionType === 'Cohort' || this.collectionType === 'Major')
           && this.collection_id != null && this.collection_id.length > 0;
+      },
+      syskeyList: function() {
+        return this.file_data.map(a => a.SDBSrcSystemKey);
       }
     },
     watch: {
@@ -236,6 +239,9 @@
       },
       file_data: function(val){
         this.file_invalid = this.validateFileData(val);
+        if(!this.file_invalid){
+          this.handleSyskeyUpload();
+        }
       }
     },
     mounted() {
@@ -257,6 +263,11 @@
         this.has_dupes = false;
         this.dupes = null;
         this.manual_upload = false;
+      },
+      handleSyskeyUpload() {
+        let syskeys = this.syskeyList;
+        // TODO: Wire up to syskey List API
+
       },
       handleUpload() {
         var vue = this;
