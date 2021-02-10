@@ -350,16 +350,16 @@
         return user_options;
       }
     },
+    watch: {
+      activities: function(val) {
+        this.totalRows = val.length;
+      }
+    },
     mounted() {
       // Set the initial number of items
       this.totalRows = this.activities.length;
       this.selectCollection(this.$route.params.id);
       this.getInitialData();
-    },
-    watch: {
-      activities: function(val) {
-        this.totalRows = val.length;
-      }
     },
     methods: {
       getInitialData(){

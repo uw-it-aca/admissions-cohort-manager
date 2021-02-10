@@ -113,6 +113,7 @@
 
 <script>
   const axios = require("axios");
+  const parse = require("csv-parse/lib/sync");
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
@@ -159,6 +160,9 @@
     data(){
       return {
         file: null,
+        file_data: null,
+        file_invalid: false,
+        file_invalid_msg: "",
         syskey_list: null,
         collection_id: null,
         comment: '',
@@ -230,6 +234,9 @@
           this.selectCollection(this.$route.params.id);
         }
       },
+      file_data: function(val){
+        this.file_invalid = this.validateFileData(val);
+      }
     },
     mounted() {
       if (this.$route.params.id !== undefined) {
@@ -406,7 +413,40 @@
       },
       selectedFile(file) {
         this.file = file;
-        this.handleUpload();
+        var contents;
+        const reader = new FileReader();
+        reader.addEventListener('load', (event) => {
+          contents = event.target.result;
+          this.file_data = this.parseCSV(contents);
+        });
+        reader.readAsText(file);
+      },
+      parseCSV(csv_data) {
+        const results = parse(csv_data, {
+          columns: true,
+          skip_empty_lines: true
+        });
+        return results;
+      },
+      validateFileData(data) {
+        var row_missing_key = false,
+            row_missing_value = false,
+            missing_data = false;
+
+        if(data.length === 0){
+          missing_data = true;
+          this.file_invalid_msg = "File does not contain data";
+        }
+        for (const row of data){
+          if (!('SDBSrcSystemKey' in row)){
+            row_missing_key = true;
+            this.file_invalid_msg = "File missing column: SDBSrcSystemKey";
+          }else if(row['SDBSrcSystemKey'].length === 0){
+            row_missing_value = true;
+            this.file_invalid_msg = "One or more rows are missing an SDBSrcSystemKey";
+          }
+        }
+        return row_missing_key || row_missing_value || missing_data;
       },
       selectedList(list) {
         this.syskey_list = list;
