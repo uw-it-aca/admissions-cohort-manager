@@ -63,7 +63,7 @@
               />
             </div>
             <upload-review v-else
-                           :upload-response="upload_response"
+                           :upload-response="syskey_upload_response"
                            :collection-type="collection_type"
                            :upload-type="manual_upload ? 'list' : 'file'"
                            :collection-options="collectionOptions"
@@ -101,7 +101,7 @@
         <b-button type="submit" variant="primary" :disabled="is_disabled_submit_button" @click="mark_for_submission">
           Submit
         </b-button>
-        <collection-submit-modal 
+        <collection-submit-modal
           :show-submitting="show_submitting_modal"
           :show-timeout="show_timeout_modal"
         />
@@ -164,6 +164,7 @@
         file_invalid: false,
         file_invalid_msg: "",
         syskey_list: null,
+        syskey_upload_response: null,
         collection_id: null,
         comment: '',
         csrfToken: '',
@@ -228,7 +229,18 @@
           && this.collection_id != null && this.collection_id.length > 0;
       },
       syskeyList: function() {
-        return this.file_data.map(a => a.SDBSrcSystemKey);
+        return this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
+      },
+      invalidSyskeys: function() {
+        var invalid_syskeys = [];
+        if (this.syskey_upload_response){
+          for (let app of this.syskey_upload_response.assignments) {
+            if(app.application_not_found){
+              invalid_syskeys.push(app.system_key);
+            }
+          }
+        }
+        return invalid_syskeys;
       }
     },
     watch: {
@@ -241,6 +253,13 @@
         this.file_invalid = this.validateFileData(val);
         if(!this.file_invalid){
           this.handleSyskeyUpload();
+        }
+      },
+      syskey_upload_response: function(val){
+        var dupes = this.get_duplicates(val.assignments);
+        if(dupes.length > 1){
+          this.has_dupes = true;
+          this.dupes = dupes;
         }
       }
     },
@@ -265,8 +284,31 @@
         this.manual_upload = false;
       },
       handleSyskeyUpload() {
-        let syskeys = this.syskeyList;
-        // TODO: Wire up to syskey List API
+        const vue = this;
+        let request = {
+          'comment': this.comment,
+          'qtr_id': this.currentPeriod,
+          'syskey_list': this.syskeyList,
+          'file_name': this.file.name
+        };
+        if (this.collectionType == "Cohort") {
+          request['cohort_id'] = this.collection_id;
+        } else if (this.collectionType == "Major") {
+          request['major_id'] = this.collection_id;
+        }
+        axios.post(
+          '/api/syskeyupload',
+          request,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': this.csrfToken
+            }
+          }
+        ).then(function(response) {
+          vue.syskey_upload_response = response.data;
+          vue.has_uploaded = true;
+        });
 
       },
       handleUpload() {
@@ -347,7 +389,7 @@
           request.major_id = this.collection_id;
         }
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.syskey_upload_response.id + "/",
           request,
           {
             headers: {
@@ -391,7 +433,7 @@
                        'is_reassign_protected': false,
                        'to_delete': list};
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.syskey_upload_response.id + "/",
           request,
           {
             headers: {
@@ -400,7 +442,7 @@
             }
           }
         ).then(function(response) {
-          vue.upload_response = response.data;
+          vue.syskey_upload_response = response.data;
           vue.has_uploaded = true;
         });
       },

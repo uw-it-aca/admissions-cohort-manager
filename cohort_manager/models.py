@@ -91,6 +91,14 @@ class SyskeyAssignment(models.Model):
             "application_not_found": self.application_not_found
         }
 
+    def get_application(self):
+        app = Application()
+        app.adsel_id = int(self.admission_selection_id)
+        app.system_key = self.system_key
+        app.application_number = self.application_number
+
+        return app
+
 
 class SyskeyImport(models.Model):
     comment = models.TextField()
@@ -117,6 +125,7 @@ class SyskeyImport(models.Model):
         sys_import = SyskeyImport()
         sys_import.comment = upload_body.get('comment', "")
         sys_import.quarter = upload_body.get('qtr_id')
+        sys_import.upload_filename = upload_body.get('file_name')
         sys_import.created_by = user
 
         cohort_id = upload_body.get('cohort_id')
@@ -163,6 +172,16 @@ class SyskeyImport(models.Model):
                 True if self.is_reassign_protected else False,
             'quarter': self.quarter
         }
+
+    def get_assignments(self):
+        return self.syskeyassignment_set.all()
+
+    def remove_assignments(self, ids_to_remove):
+        assignments = self.syskeyassignment_set.all()
+        # TODO: Implement P&G side of this
+        # if len(assignments) == 0:
+        #     assignments = self.purplegoldassignment_set.all()
+        assignments.filter(admission_selection_id__in=ids_to_remove).delete()
 
 
 class AssignmentImport(models.Model):
@@ -280,6 +299,9 @@ class AssignmentImport(models.Model):
         if len(assignments) == 0:
             assignments = self.purplegoldassignment_set.all()
         assignments.filter(admission_selection_id__in=ids_to_remove).delete()
+
+    def get_assignments(self):
+        return self.assignment_set.all()
 
 
 class Assignment(models.Model):

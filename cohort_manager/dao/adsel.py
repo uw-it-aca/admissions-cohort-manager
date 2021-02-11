@@ -174,17 +174,18 @@ def _get_collection(assignment_import):
         assignment.override_previous = assignment_import.is_reassign
         assignment.override_protected = assignment_import.is_reassign_protected
         assignment.cohort_number = assignment_import.cohort
-        assignment_set = assignment_import.assignment_set.all()
+        assignment_set = assignment_import.get_assignments()
     elif assignment_import.major and len(assignment_import.major) > 0:
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
-        assignment_set = assignment_import.assignment_set.all()
+        assignment_set = assignment_import.get_assignments()
     else:
+        # TODO: add support for syskey PnG
         assignment = PurpleGoldAssignment()
         assignment_set = assignment_import.purplegoldassignment_set.all()
 
     assignment.assignment_type = "file" if \
-        assignment_import.is_file_upload else "manual"
+        assignment_import.upload_filename is not None else "manual"
     assignment.comments = assignment_import.comment
     if assignment_import.upload_filename:
         assignment.comments += "\nFile: " + assignment_import.upload_filename
@@ -195,6 +196,9 @@ def _get_collection(assignment_import):
                      "Tacoma": 2,
                      "Bothell": 3}
     for imp_assignment in assignment_set:
+        # Omit apps we couldn't find in Adsel
+        if imp_assignment.admission_selection_id is None:
+            continue
         app = imp_assignment.get_application()
         applicants_to_assign.append(app)
         assignment.quarter = assignment_import.quarter
@@ -209,7 +213,7 @@ def submit_collection(assignment_import):
     client = AdSel()
     client.get_quarters()
     if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        if assignment_import.is_file_upload:
+        if assignment_import.upload_filename is not None:
             return client.assign_cohorts_bulk(assignment)
         else:
             return client.assign_cohorts_manual(assignment)
@@ -237,7 +241,7 @@ def reset_collection(assignment_import, collection_type):
     assignment.quarter = assignment_import.quarter
 
     applicants_to_assign = []
-    for imp_assignment in assignment_import.assignment_set.all():
+    for imp_assignment in assignment_import.get_assignments():
         app = imp_assignment.get_application()
         applicants_to_assign.append(app)
         assignment.quarter = assignment_import.quarter

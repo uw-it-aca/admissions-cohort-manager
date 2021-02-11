@@ -2,7 +2,7 @@ from django.urls import path, re_path
 from cohort_manager.views import PurpleGoldEmbed
 from cohort_manager.views.api import UploadView, CollectionDetails, \
     ActivityLog, CollectionList, ModifyUploadView, PeriodList, BulkUpload, \
-    MockDataView, SyskeyUploadView
+    MockDataView, SyskeyUploadView, ModifySyskeyUploadView
 from cohort_manager.views.pages import LandingView, AdminView
 from django.conf import settings
 
@@ -17,6 +17,9 @@ urlpatterns = [
     path('api/syskeyupload',
          SyskeyUploadView.as_view(),
          name="create_syskey_upload"),
+    re_path(r'api/syskeyupload/(?P<upload_id>.*)/',
+            ModifySyskeyUploadView.as_view(),
+            name="upload"),
     re_path(r'^api/collection/(?P<collection_type>.*)/'
             r'(?P<quarter>.*)/(?P<collection_id>.+)/',
             CollectionDetails.as_view()),
