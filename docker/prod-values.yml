@@ -1,8 +1,9 @@
 ingress:
   enabled: true
+  type: nginx
   tls:
     aat:
-      secretName: aat.axdd.s.uw.edu
+      secretName: aat.axdd.s.uw.edu-ingress-cert
       hosts:
         - aat.axdd.s.uw.edu
   hosts:
