@@ -70,7 +70,7 @@
                            :collection-id="collection_id"
                            @upload-reset="handleReset"
                            @is-reassign="handle_reassign"
-                           @is-reassign_protected="handle_reassign_protected"
+                           @is-reassign-protected="handle_reassign_protected"
             />
             <collection-upload-dupe-modal
               v-if="has_dupes"

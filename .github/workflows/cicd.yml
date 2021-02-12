@@ -1,0 +1,119 @@
+---
+name: Build, Test and Deploy
+
+env:
+  # Release name must match "repo" value in docker/*-values.yml
+  RELEASE_NAME: admissions-cohort-manager
+  DJANGO_APP: cohort_manager
+
+# Be sure that branches defined here have corresponding steps
+# defined in the "deploy" job
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+    types: [opened, reopened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Set up Context
+        id: cicd
+        uses: uw-it-aca/actions/cicd-context@v1.2
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-$(echo ${{ hashFiles('Dockerfile') }} | head -c 16)
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build App Image
+        uses: docker/build-push-action@v2
+        with:
+          target: app-container
+          tags: ${{ steps.cicd.outputs.image_tag }}
+          push: false
+          load: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Build Test Image
+        uses: docker/build-push-action@v2
+        with:
+          target: app-test-container
+          tags: app-test-container
+          push: false
+          load: true
+
+      - name: Run Tests in Image
+        id: tests
+        shell: bash
+        run: >-
+          docker run -u root -t
+          -v ${PWD}:/coverage
+          -e DJANGO_APP="$DJANGO_APP"
+          -e "ENV=localdev" -e "AUTH=SAML_MOCK"
+          app-test-container
+          bash -c ". ./docker/test.sh"
+
+      - name: Set up Python Test Dependency
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+
+      - name: Record Test Results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip coverage coveralls==2.2.0
+          coverage combine
+          coveralls
+
+      - name: Push Image to Repository
+        if: github.event_name == 'push'
+        uses: uw-it-aca/actions/gcr-push@v1.3
+        with:
+          image_tag: ${{ steps.cicd.outputs.image_tag }}
+          gcp_json_key: ${{ secrets.GCP_JSON_KEY }}
+
+  deploy:
+    if: github.event_name == 'push'
+
+    needs: build
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Set up Context
+        id: cicd
+        uses: uw-it-aca/actions/cicd-context@v1.2
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+
+      - name: Deployment Pipeline
+        if: >-
+          contains(fromJSON('["main", "master", "develop"]'),
+            steps.cicd.outputs.git_repo_branch)
+        uses: uw-it-aca/actions/cicd-deploy@v1.2
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+          commit_hash: ${{ steps.cicd.outputs.commit_hash }}
+          git_repo_branch: ${{ steps.cicd.outputs.git_repo_branch }}
+          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}

@@ -16,7 +16,7 @@ apt-get install -y npm
 npm install -g npm@latest
 hash -r
 
-npm install -g eslint@5.0.0 stylelint@13.3.3 eslint-plugin-vue
+npm install -g eslint@7.0.0 stylelint@13.3.3 eslint-plugin-vue
 npm install
 
 function run_test {
@@ -42,8 +42,7 @@ run_test "eslint --ext .js,.vue cohort_manager/static/cohort_manager/js/pages/"
 run_test "stylelint 'cohort_manager/**/*.vue' 'cohort_manager/**/*.scss' "
 run_test "coverage run --source=${DJANGO_APP} '--omit=*/migrations/*' manage.py test ${DJANGO_APP}"
 
-ls -lah
 # put generaged coverage result where it will get processed
-cp .coverage /coverage
+cp .coverage.* /coverage
 
 exit 0
