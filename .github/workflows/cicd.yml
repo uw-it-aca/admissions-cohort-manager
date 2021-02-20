@@ -84,7 +84,7 @@ jobs:
           coveralls
 
       - name: Push Image to Repository
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && contains(develop, github.ref) || contains(master, github.ref)
         uses: uw-it-aca/actions/gcr-push@v1.3
         with:
           image_tag: ${{ steps.cicd.outputs.image_tag }}
