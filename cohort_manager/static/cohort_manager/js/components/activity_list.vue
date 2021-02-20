@@ -126,7 +126,7 @@
                         id="cohort_filter"
                         v-model="cohortFilter"
                         class="aat-filter-select"
-                        :options="cohortOptions"
+                        :options="processedCohortOptions"
                         @change="getFilteredActivities"
                       >
                         <template #first>
@@ -348,6 +348,13 @@
           }
         });
         return user_options;
+      },
+      processedCohortOptions: function () {
+        var processed = [];
+        $(this.cohortOptions).each(function(idx, val){
+          processed.push({value: val.value, text: val.value + ": " + val.text});
+        });
+        return processed;
       }
     },
     watch: {
