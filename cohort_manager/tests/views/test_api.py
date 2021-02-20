@@ -127,7 +127,7 @@ class BulkUploadTest(TestViewApi):
 # class ModifyUploadViewTest(TestViewApi):
 #     def test_get_upload(self):
 #         upload = AssignmentImport(cohort=42,\
-#                                   created_by="javerage", 
+#                                   created_by="javerage",
 #                                   quarter=1)
 #         upload.save()
 #         request = self.get_request('/', 'javerage', 'u_test_group')
