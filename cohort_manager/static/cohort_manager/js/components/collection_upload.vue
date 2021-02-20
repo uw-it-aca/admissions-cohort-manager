@@ -59,7 +59,7 @@
               </div>
               <component
                 :is="uploadComponent"
-                @fileselected="selectedFile"
+                @fileuploaded="selectedFile"
               />
             </div>
             <upload-review v-else
@@ -113,7 +113,6 @@
 
 <script>
   const axios = require("axios");
-  const parse = require("csv-parse/lib/sync");
   import CollectionDetails from "../components/collection_details.vue";
   import CollectionUploadListInput from "../components/collection_upload_list_input.vue";
   import CollectionUploadFileInput from "../components/collection_upload_file_input.vue";
@@ -229,7 +228,10 @@
           && this.collection_id != null && this.collection_id.length > 0;
       },
       syskeyList: function() {
-        return this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
+        if(this.file_data){
+          return this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
+        }
+        return [];
       },
       invalidSyskeys: function() {
         var invalid_syskeys = [];
@@ -288,9 +290,10 @@
         let request = {
           'comment': this.comment,
           'qtr_id': this.currentPeriod,
-          'syskey_list': this.syskeyList,
-          'file_name': this.file.name
+          'syskey_list': this.syskey_list,
+          // 'file_name': this.file.name
         };
+        console.log(request);
         if (this.collectionType == "Cohort") {
           request['cohort_id'] = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -310,62 +313,6 @@
           vue.has_uploaded = true;
         });
 
-      },
-      handleUpload() {
-        var vue = this;
-        let formData = new FormData();
-        // Reset error modals
-        this.invalid_csv = false;
-        this.invalid_manual = false;
-        this.is_uploading = true;
-
-        if (this.file !== null){
-          this.manual_upload = false;
-          formData.append('file', this.file);
-        } else  if (this.syskey_list !== null){
-          this.manual_upload = true;
-          formData.append('syskey_list', this.syskey_list);
-        }
-        formData.append('comment', this.comment);
-        formData.append('qtr_id', this.currentPeriod);
-        if (this.collectionType == "Cohort") {
-          formData.append('cohort_id', this.collection_id);
-        } else if (this.collectionType == "Major") {
-          formData.append('major_id', this.collection_id);
-        } else {
-          this.uploadResponse = "THERE WAS AN ERROR";
-          return;
-        }
-        axios.post(
-          '/api/upload',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              'X-CSRFToken': this.csrfToken
-            }
-          }
-        ).then(response => {
-          vue.is_uploading = false;
-          vue.upload_response = response.data;
-          var dupes = vue.get_duplicates(this.upload_response.assignments);
-          if(dupes.length > 1){
-            vue.has_dupes = true;
-            vue.dupes = dupes;
-          } else{
-            vue.has_uploaded = true;
-          }
-        }).catch(function (err_resp) {
-          if(vue.file !== null){
-            vue.invalid_csv = true;
-            vue.error_message = err_resp.response.data.error;
-            vue.handleReset();
-          }else if(vue.syskey_list!==null){
-            vue.invalid_manual = true;
-            vue.invalid_syskeys = err_resp.response.data.invalid_syskeys;
-            vue.handleReset();
-          }
-        });
       },
       handle_reassign(is_reassign){
         this.is_reassign = is_reassign;
@@ -464,23 +411,7 @@
         });
         return dupe_assignments;
       },
-      selectedFile(file) {
-        this.file = file;
-        var contents;
-        const reader = new FileReader();
-        reader.addEventListener('load', (event) => {
-          contents = event.target.result;
-          this.file_data = this.parseCSV(contents);
-        });
-        reader.readAsText(file);
-      },
-      parseCSV(csv_data) {
-        const results = parse(csv_data, {
-          columns: true,
-          skip_empty_lines: true
-        });
-        return results;
-      },
+
       validateFileData(data) {
         var row_missing_key = false,
             row_missing_value = false,
@@ -503,7 +434,12 @@
       },
       selectedList(list) {
         this.syskey_list = list;
-        this.handleUpload();
+        this.manual_upload = true;
+        this.handleSyskeyUpload();
+      },
+      selectedFile(list) {
+        this.syskey_list = list;
+        this.handleSyskeyUpload();
       },
       selectCollection(id){
         // Only allow options that are in list

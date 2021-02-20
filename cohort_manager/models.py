@@ -3,6 +3,7 @@ from uw_adsel.models import Application, PurpleGoldApplication
 from uw_adsel import AdSel
 from io import StringIO
 import csv
+from restclients_core.exceptions import DataFailureException
 
 
 def validate_system_key(val):
@@ -64,12 +65,16 @@ class SyskeyAssignment(models.Model):
 
     @staticmethod
     def create_from_syskey_list(assignment_import, syskeys):
+        applications = []
         adsel = AdSel()
-        applications = \
-            adsel.get_applications_by_qtr_syskey_list(
-                assignment_import.quarter,
-                syskeys
-            )
+        try:
+            applications = \
+                adsel.get_applications_by_qtr_syskey_list(
+                    assignment_import.quarter,
+                    syskeys
+                )
+        except DataFailureException as ex:
+            pass
         found_syskeys = dict.fromkeys(syskeys, False)
         for app in applications:
             found_syskeys[app.system_key] = True
