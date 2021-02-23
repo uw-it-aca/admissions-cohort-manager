@@ -60,6 +60,7 @@
               <component
                 :is="uploadComponent"
                 @fileuploaded="selectedFile"
+                @fileerror="fileError"
               />
             </div>
             <upload-review v-else
@@ -178,7 +179,6 @@
         to_remove: [],
         is_reassign: false,
         is_reassign_protected: false,
-        invalid_manual: false,
         invalid_syskeys: [],
         invalid_csv: false,
         submitted: false,
@@ -227,12 +227,6 @@
         return (this.collectionType === 'Cohort' || this.collectionType === 'Major')
           && this.collection_id != null && this.collection_id.length > 0;
       },
-      syskeyList: function() {
-        if(this.file_data){
-          return this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
-        }
-        return [];
-      },
       invalidSyskeys: function() {
         var invalid_syskeys = [];
         if (this.syskey_upload_response){
@@ -243,6 +237,9 @@
           }
         }
         return invalid_syskeys;
+      },
+      invalid_manual: function(){
+        return this.manual_upload && this.invalidSyskeys.length > 0;
       }
     },
     watch: {
@@ -259,9 +256,13 @@
       },
       syskey_upload_response: function(val){
         var dupes = this.get_duplicates(val.assignments);
-        if(dupes.length > 1){
+        if(dupes.length > 0) {
           this.has_dupes = true;
           this.dupes = dupes;
+        }
+        var invalid_syskeys = this.invalidSyskeys;
+        if(invalid_syskeys.length > 0){
+          this.invalid_syskeys = invalid_syskeys;
         }
       }
     },
@@ -281,6 +282,7 @@
         this.file = null;
         this.syskey_list = null;
         this.upload_response = null;
+        this.syskey_upload_response = null;
         this.has_dupes = false;
         this.dupes = null;
         this.manual_upload = false;
@@ -293,7 +295,6 @@
           'syskey_list': this.syskey_list,
           // 'file_name': this.file.name
         };
-        console.log(request);
         if (this.collectionType == "Cohort") {
           request['cohort_id'] = this.collection_id;
         } else if (this.collectionType == "Major") {
@@ -411,27 +412,6 @@
         });
         return dupe_assignments;
       },
-
-      validateFileData(data) {
-        var row_missing_key = false,
-            row_missing_value = false,
-            missing_data = false;
-
-        if(data.length === 0){
-          missing_data = true;
-          this.file_invalid_msg = "File does not contain data";
-        }
-        for (const row of data){
-          if (!('SDBSrcSystemKey' in row)){
-            row_missing_key = true;
-            this.file_invalid_msg = "File missing column: SDBSrcSystemKey";
-          }else if(row['SDBSrcSystemKey'].length === 0){
-            row_missing_value = true;
-            this.file_invalid_msg = "One or more rows are missing an SDBSrcSystemKey";
-          }
-        }
-        return row_missing_key || row_missing_value || missing_data;
-      },
       selectedList(list) {
         this.syskey_list = list;
         this.manual_upload = true;
@@ -440,6 +420,10 @@
       selectedFile(list) {
         this.syskey_list = list;
         this.handleSyskeyUpload();
+      },
+      fileError(error){
+        this.file_invalid = true;
+        this.file_invalid_msg = error;
       },
       selectCollection(id){
         // Only allow options that are in list

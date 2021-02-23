@@ -24,8 +24,11 @@
       },
       processList() {
         var parsed = this.syskey_input.replace(new RegExp(',', 'g'), " ");
-        this.syskey_list = parsed.match(/[^\s]+/g).map(Number);
-        this.$emit('listupdated', this.syskey_list);
+        if(parsed){
+          this.syskey_list = parsed.match(/[^\s]+/g).map(Number);
+          this.$emit('listupdated', this.syskey_list);
+        }
+
       }
     },
   };
