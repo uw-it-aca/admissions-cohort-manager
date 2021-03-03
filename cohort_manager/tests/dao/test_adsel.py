@@ -14,6 +14,10 @@ class RestDispatchTest(TestCase):
     def test_major(self):
         resp = get_collection_by_id_type("0_BIOL_1", "major", 0)
         self.assertEqual(resp['applications_assigned'], 32)
+        self.assertEqual(resp['assigned_resident'], 12412)
+        self.assertEqual(resp['assigned_nonresident'], 6)
+        self.assertEqual(resp['assigned_international'], 0)
+
         self.assertIsNotNone(get_collection_by_id_type("0_CHEM_1", "major", 0))
         self.assertIsNone(get_collection_by_id_type("FOOBAR", "major", 0))
 

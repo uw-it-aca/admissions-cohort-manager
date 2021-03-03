@@ -53,7 +53,10 @@ def _get_major_by_id(major_id, quarter):
                 "display_name": major.display_name,
                 "college": major.college,
                 "division": major.division,
-                "dtx": major.dtx}
+                "dtx": major.dtx,
+                "assigned_resident": major.assigned_resident,
+                "assigned_nonresident": major.assigned_nonresident,
+                "assigned_international": major.assigned_international}
     except DataFailureException:
         return None
 
