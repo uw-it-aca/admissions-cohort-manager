@@ -39,6 +39,7 @@
     background-color: #fff;
 
     .aat-form-section.aat-details-container {
+      margin-top: 0;
       padding: 0.5rem 1rem !important;
     }
 

@@ -287,7 +287,8 @@
     background-color: $test-env-bkgnd;
   }
 
-  .aat-globalenv-eval {
+  .aat-globalenv-eval,
+  .aat-globalenv-prod {
     background-color: $test-env-bkgnd;
     min-height: 100vh;
   }
