@@ -252,7 +252,7 @@ class PurpleGoldAssignment(models.Model):
 
     # CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
     # FIELD_PURPLEGOLD_CURRENT = "CurrentPurpleGoldAmount"
-    FIELD_PURPLEGOLD_NEW = "PuGoAward"
+    FIELD_PURPLEGOLD_NEW = "awardAmount"
     FIELD_ADSEL_ID = "admissionSelectionID"
     # FIELD_INTERNATIONAL = "InterationalResident"
     # FIELD_WA = "WAResident"
@@ -319,9 +319,7 @@ class PurpleGoldAssignment(models.Model):
             if new_assigned is None:
                 raise ValueError("%s column not present" %
                                  PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
-
-            assignment.purple_gold_new = int(new_assigned)
-
+            assignment.purple_gold_new = int(float(new_assigned))
             # Fix STFE-139
             assignments.append(assignment)
         return assignments
