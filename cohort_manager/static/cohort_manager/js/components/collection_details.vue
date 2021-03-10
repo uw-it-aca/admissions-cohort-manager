@@ -75,22 +75,22 @@
           </b-col>
         </b-row>
         <b-row class="aat-group-info-secondary">
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-4">
             College <div class="aat-group-data">
               {{ collection_data.college }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-2">
             Division <div class="aat-group-data">
               {{ collection_data.division }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-2">
             DTX<div class="aat-group-data">
               {{ collection_data.dtx }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-4">
             Assigned
             <div class="aat-group-data">
               {{ collection_data.assigned_resident }} Resident
