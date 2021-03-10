@@ -44,17 +44,21 @@ def _get_cohort_by_id(cohort_id, quarter):
 
 def _get_major_by_id(major_id, quarter):
     client = AdSel()
-    majors = client.get_majors_by_qtr(quarter)
-    for major in majors:
-        if major.program_code == major_id:
-            return {"collection_id": major.major_abbr,
-                    "applications_assigned": major.assigned_count,
-                    "program_code": major.program_code,
-                    "major_pathway": major.major_pathway,
-                    "display_name": major.display_name,
-                    "college": major.college,
-                    "division": major.division,
-                    "dtx": major.dtx}
+    try:
+        major = client.get_major_details_by_qtr_major(quarter, major_id)
+        return {"collection_id": major.major_abbr,
+                "applications_assigned": major.assigned_count,
+                "program_code": major.program_code,
+                "major_pathway": major.major_pathway,
+                "display_name": major.display_name,
+                "college": major.college,
+                "division": major.division,
+                "dtx": major.dtx,
+                "assigned_resident": major.assigned_resident,
+                "assigned_nonresident": major.assigned_nonresident,
+                "assigned_international": major.assigned_international}
+    except DataFailureException:
+        return None
 
 
 def get_applications_by_type_id_qtr(type, id, quarter):

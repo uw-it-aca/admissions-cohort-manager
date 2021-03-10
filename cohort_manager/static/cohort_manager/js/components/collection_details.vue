@@ -75,25 +75,34 @@
           </b-col>
         </b-row>
         <b-row class="aat-group-info-secondary">
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-4">
             College <div class="aat-group-data">
               {{ collection_data.college }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-2">
             Division <div class="aat-group-data">
               {{ collection_data.division }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-2">
             DTX<div class="aat-group-data">
               {{ collection_data.dtx }}
             </div>
           </b-col>
-          <b-col class="aat-info-spacing">
+          <b-col class="aat-info-spacing col-4">
             Assigned
             <div class="aat-group-data">
-              {{ collection_data.applications_assigned }}
+              {{ collection_data.assigned_resident }} Resident
+            </div>
+            <div class="aat-group-data">
+              {{ collection_data.assigned_nonresident }} Non-resident
+            </div>
+            <div class="aat-group-data">
+              {{ collection_data.assigned_international }} International
+            </div>
+            <div class="aat-group-data">
+              {{ collection_data.applications_assigned }} Total
             </div>
           </b-col>
         </b-row>
@@ -132,6 +141,9 @@
       return {
         admit_decision: "",
         applications_assigned: 0,
+        assigned_resident: 0,
+        assigned_nonresident: 0,
+        assigned_international: 0,
         description: "",
         protected_group: false,
         residency: "",
@@ -208,6 +220,9 @@
         this.invalid_collection = false;
         this.hide_details = false;
         this.collection_id = this.collection_data.collection_id;
+        this.assigned_international = this.collection_data.assigned_international;
+        this.assigned_resident = this.collection_data.assigned_resident;
+        this.assigned_nonresident = this.collection_data.assigned_nonresident;
       }
     },
   };
