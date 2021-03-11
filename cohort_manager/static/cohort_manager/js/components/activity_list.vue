@@ -186,6 +186,29 @@
                 </b-col>
                 <b-col cols="12" sm="6">
                   <b-form-group
+                    label="Year"
+                    label-size="sm"
+                    label-for="user_filter"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="user_filter"
+                        v-model="userFilter"
+                        class="aat-filter-select"
+                        :options="yearOptions"
+                        @change="getFilteredActivities"
+                      >
+                        <template #first>
+                          <option :value="null">
+                            All Quarters
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-group
                     label="System Key"
                     label-size="sm"
                     label-for="SysKeyInput"
@@ -296,6 +319,12 @@
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: false,
+          },
+          {
+            key: 'year',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: true,
           },
           {
             key: 'user',
