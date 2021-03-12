@@ -188,11 +188,11 @@
                   <b-form-group
                     label="Admission Period"
                     label-size="sm"
-                    label-for="user_filter"
+                    label-for="admissionperiod_filter"
                   >
                     <b-input-group size="sm">
                       <b-form-select
-                        id="user_filter"
+                        id="admissionperiod_filter"
                         v-model="periodFilter"
                         class="aat-filter-select"
                         :options="periodOptions"
@@ -321,7 +321,7 @@
             sortable: false,
           },
           {
-            key: 'year',
+            key: 'Admission Period',
             class: "aat-data-cell",
             thClass: "aat-table-header",
             sortable: true,
