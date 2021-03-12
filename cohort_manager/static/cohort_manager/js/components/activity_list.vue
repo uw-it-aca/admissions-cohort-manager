@@ -186,6 +186,29 @@
                 </b-col>
                 <b-col cols="12" sm="6">
                   <b-form-group
+                    label="Admission Period"
+                    label-size="sm"
+                    label-for="admissionperiod_filter"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="admissionperiod_filter"
+                        v-model="periodFilter"
+                        class="aat-filter-select"
+                        :options="periodOptions"
+                        @change="getFilteredActivities"
+                      >
+                        <template #first>
+                          <option :value="null">
+                            All Quarters
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" sm="6">
+                  <b-form-group
                     label="System Key"
                     label-size="sm"
                     label-for="SysKeyInput"
@@ -322,6 +345,7 @@
           { value: 'manual', text: 'Manual' },
           { value: 'tableau', text: 'Tableau' }
         ],
+        periodFilter: null,
         totalRows: 1,
         currentPage: 1,
         perPage: 20,
@@ -333,6 +357,7 @@
       ...Vuex.mapState({
         majorOptions: state => state.majorlist.majors,
         cohortOptions: state => state.cohortlist.cohorts,
+        periodOptions: state => state.periodlist.periods,
         activities: state => state.activities.activities,
         is_loading: state => state.activities.is_loading,
         current_period: state => state.period.current_period
@@ -372,6 +397,7 @@
       getInitialData(){
         this.$store.dispatch('majorlist/get_majors', this.current_period);
         this.$store.dispatch('cohortlist/get_cohorts', this.current_period);
+        this.$store.dispatch('periodlist/get_periods');
         this.$store.dispatch('activities/get_activities');
       },
       onReset(evt) {
@@ -385,6 +411,7 @@
         this.syskeyFilter = null;
         this.adselIDFilter = null;
         this.commentFilter = null;
+        this.periodFilter = null;
         this.getFilteredActivities();
         // Trick to reset/clear native browser form validation state
         this.show = false;
@@ -417,6 +444,9 @@
         }
         if(this.commentFilter !== null &&  this.commentFilter.length > 0){
           filters["comment"] = this.commentFilter;
+        }
+        if(this.periodFilter !== null){
+          filters["assignment_period"] = this.periodFilter;
         }
         this.$store.dispatch('activities/get_activities', filters);
 

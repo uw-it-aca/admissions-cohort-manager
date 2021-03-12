@@ -6,6 +6,7 @@ import qs from 'qs';
 import majorlist from './api/majorlist';
 import cohortlist from './api/cohortlist';
 import activities from './api/activities';
+import periodlist from "./api/periodlist";
 import period from './models/period';
 
 Vue.use(Vuex);
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
   modules: {
     majorlist,
     cohortlist,
+    periodlist,
     activities,
     period
   },
