@@ -321,12 +321,6 @@
             sortable: false,
           },
           {
-            key: 'Admission Period',
-            class: "aat-data-cell",
-            thClass: "aat-table-header",
-            sortable: true,
-          },
-          {
             key: 'user',
             class: "aat-data-cell",
             thClass: "aat-table-header",
