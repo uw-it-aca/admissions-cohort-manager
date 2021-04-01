@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from cohort_manager.models import AssignmentImport, Assignment
