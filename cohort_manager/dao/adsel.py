@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
