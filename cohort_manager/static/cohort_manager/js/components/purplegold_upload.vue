@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="!has_uploaded" class="aat-form-section">
-      <collection-upload-file-input
-        @fileselected="file_selected"
+      <purple-gold-upload-file-input
+        @fileuploaded="file_selected"
       />
     </div>
     <collection-upload-dupe-modal
@@ -93,8 +93,7 @@
 </template>
 
 <script>
-  import CollectionUploadFileInput
-    from '../components/collection_upload_file_input';
+  import PurpleGoldUploadFileInput from "./purplegold_upload_file_input"
   import Vuex from "vuex";
   import CollectionUploadDupeModal from "./collection_upload_dupe_modal";
   import UploadReview from "../components/collection_upload_review.vue";
@@ -108,8 +107,9 @@
   export default {
     name: "PurpleGoldUpload",
     components: {
+      PurpleGoldUploadFileInput,
       CollectionUploadDupeModal,
-      CollectionUploadFileInput,
+      PurpleGoldUploadFileInput,
       UploadReview,
       ApplicationList,
       CollectionComment,
