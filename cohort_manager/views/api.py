@@ -67,9 +67,16 @@ class SyskeyUploadView(RESTDispatch):
     def post(self, request, *args, **kwargs):
         user = UserService().get_acting_user()
         try:
+            imp = None
             request_body = json.loads(request.body)
-            syskey_import = SyskeyImport.create_from_json(request_body, user)
-            content = syskey_import.json_data()
+            is_purplegold = request_body.get("is_purplegold", False)
+            if is_purplegold:
+                # TODO: Handle pg import
+                # imp = SyskeyImport.create_from_json(request_body, user)
+                pass
+            else:
+                imp = SyskeyImport.create_from_json(request_body, user)
+            content = imp.json_data()
             return self.json_response(status=200, content=content)
         except AttributeError as ex:
             return self.error_response(status=400, message=ex)

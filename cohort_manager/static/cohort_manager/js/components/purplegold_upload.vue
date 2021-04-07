@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import PurpleGoldUploadFileInput from "./purplegold_upload_file_input"
+  import PurpleGoldUploadFileInput from "./purplegold_upload_file_input";
   import Vuex from "vuex";
   import CollectionUploadDupeModal from "./collection_upload_dupe_modal";
   import UploadReview from "../components/collection_upload_review.vue";
@@ -109,7 +109,6 @@
     components: {
       PurpleGoldUploadFileInput,
       CollectionUploadDupeModal,
-      PurpleGoldUploadFileInput,
       UploadReview,
       ApplicationList,
       CollectionComment,
@@ -167,7 +166,7 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
-        this.file = null;
+        this.file_data = null;
         this.upload_response = null;
         this.has_dupes = false;
         this.dupes = null;
@@ -203,30 +202,24 @@
       setCSRF() {
         this.csrfToken = $cookies.get("csrftoken");
       },
-      file_selected (file) {
-        this.file = file;
+      file_selected (file_data) {
+        this.file_data = file_data;
         this.handleUpload();
       },
       handleUpload() {
-        var vue = this;
-        let formData = new FormData();
-        // Reset error modals
-        this.invalid_csv = false;
+        var vue = this,
+            request = {
+              "assignments": this.file_data,
+              "is_purplegold": true
+            };
         this.is_uploading = true;
 
-        if (this.file !== null){
-          this.manual_upload = false;
-          formData.append('file', this.file);
-        }
-        formData.append('comment', this.comment);
-        formData.append('qtr_id', this.current_period);
-        formData.append('purplegold', true);
         axios.post(
-          '/api/upload',
-          formData,
+          '/api/syskeyupload',
+          request,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'application/json',
               'X-CSRFToken': this.csrfToken
             }
           }
@@ -235,14 +228,6 @@
           vue.upload_response = response.data;
           vue.applications = this.upload_response.assignments;
           vue.has_uploaded = true;
-          // Functionality disabled until we switch to doing lookups
-          // var dupes = vue.get_duplicates(vue.applications);
-          // if(dupes.length > 1){
-          //   vue.has_dupes = true;
-          //   vue.dupes = dupes;
-          // } else{
-          //   vue.has_uploaded = true;
-          // }
         }).catch(function (err_resp) {
           vue.invalid_csv = true;
           try {

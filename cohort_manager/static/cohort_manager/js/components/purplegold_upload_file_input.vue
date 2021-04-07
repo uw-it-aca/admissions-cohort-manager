@@ -30,7 +30,7 @@
         this.selectedFile(file);
       },
       file_data: function(){
-        this.emitSyskeys();
+        this.emitAwards();
       }
     },
     mounted() {
@@ -67,9 +67,8 @@
       emitError(err){
         this.$emit('fileerror', err);
       },
-      emitSyskeys(){
-        var syskeys = this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
-        this.$emit('fileuploaded', syskeys);
+      emitAwards(){
+        this.$emit('fileuploaded', this.file_data);
       },
 
       validateFileData(data) {
@@ -91,7 +90,6 @@
 
       missingValue(data, value){
         var missingValue = false;
-        console.log(value, data)
         if (!(value in data)){
           missingValue = true;
           this.file_invalid_msg = "File missing column: " + value;
