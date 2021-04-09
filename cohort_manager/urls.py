@@ -17,7 +17,7 @@ urlpatterns = [
     path('api/syskeyupload',
          SyskeyUploadView.as_view(),
          name="create_syskey_upload"),
-    re_path(r'api/sykeyupload/(?P<upload_id>.*)/',
+    re_path(r'api/syskeyupload/(?P<upload_id>.*)/',
             ModifySyskeyUploadView.as_view(),
             name="upload"),
     re_path(r'^api/collection/(?P<collection_type>.*)/'

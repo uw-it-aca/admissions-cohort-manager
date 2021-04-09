@@ -210,7 +210,8 @@
         var vue = this,
             request = {
               "assignments": this.file_data,
-              "is_purplegold": true
+              "is_purplegold": true,
+              "qtr_id": this.current_period
             };
         this.is_uploading = true;
 
@@ -255,27 +256,6 @@
         });
         return dupe_assignments;
       },
-      remove_applications(list){
-        var vue = this,
-            request = {'submit': false,
-                       'is_reassign': false,
-                       'is_reassign_protected': false,
-                       'to_delete': list};
-        axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
-          request,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': this.csrfToken
-            }
-          }
-        ).then(function(response) {
-          vue.upload_response = response.data;
-          vue.applications = vue.upload_response.assignments;
-          vue.has_uploaded = true;
-        });
-      },
       mark_for_submission(){
         var vue = this,
             request = {'is_submitted': true,
@@ -288,7 +268,7 @@
         this.is_submitting = true;
         vue.show_submitting_modal = true;
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.upload_response.id + "/",
           request,
           {
             headers: {

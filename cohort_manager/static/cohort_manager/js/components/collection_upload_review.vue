@@ -159,7 +159,6 @@
         var valid_count = 0,
             assignments = this.$props.uploadResponse.assignments;
         for(var assign in assignments){
-          console.log('a');
           if(!assignments[assign].application_not_found){
             valid_count += 1;
           }

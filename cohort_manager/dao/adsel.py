@@ -3,7 +3,7 @@ from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
     PurpleGoldAssignment, PurpleGoldApplication
 from restclients_core.exceptions import DataFailureException
-from datetime import datetime
+from cohort_manager.models import SyskeyImport
 import pytz
 
 
@@ -173,20 +173,21 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 
 def _get_collection(assignment_import):
     assignment_set = []
-    if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        assignment = CohortAssignment()
-        assignment.override_previous = assignment_import.is_reassign
-        assignment.override_protected = assignment_import.is_reassign_protected
-        assignment.cohort_number = assignment_import.cohort
-        assignment_set = assignment_import.get_assignments()
-    elif assignment_import.major and len(assignment_import.major) > 0:
-        assignment = MajorAssignment()
-        assignment.major_code = assignment_import.major
-        assignment_set = assignment_import.get_assignments()
+    if isinstance(assignment_import, SyskeyImport):
+        if assignment_import.cohort and len(assignment_import.cohort) > 0:
+            assignment = CohortAssignment()
+            assignment.override_previous = assignment_import.is_reassign
+            assignment.override_protected = \
+                assignment_import.is_reassign_protected
+            assignment.cohort_number = assignment_import.cohort
+            assignment_set = assignment_import.get_assignments()
+        elif assignment_import.major and len(assignment_import.major) > 0:
+            assignment = MajorAssignment()
+            assignment.major_code = assignment_import.major
+            assignment_set = assignment_import.get_assignments()
     else:
-        # TODO: add support for syskey PnG
         assignment = PurpleGoldAssignment()
-        assignment_set = assignment_import.purplegoldassignment_set.all()
+        assignment_set = assignment_import.purplegoldlistassignment_set.all()
 
     assignment.assignment_type = "file" if \
         assignment_import.upload_filename is not None else "manual"
@@ -216,13 +217,14 @@ def submit_collection(assignment_import):
     (assignment_import, assignment) = _get_collection(assignment_import)
     client = AdSel()
     client.get_quarters()
-    if assignment_import.cohort and len(assignment_import.cohort) > 0:
-        if assignment_import.upload_filename is not None:
-            return client.assign_cohorts_bulk(assignment)
-        else:
-            return client.assign_cohorts_manual(assignment)
-    elif assignment_import.major and len(assignment_import.major) > 0:
-        return client.assign_majors(assignment)
+    if isinstance(assignment_import, SyskeyImport):
+        if assignment_import.cohort and len(assignment_import.cohort) > 0:
+            if assignment_import.upload_filename is not None:
+                return client.assign_cohorts_bulk(assignment)
+            else:
+                return client.assign_cohorts_manual(assignment)
+        elif assignment_import.major and len(assignment_import.major) > 0:
+            return client.assign_majors(assignment)
     else:
         return client.assign_purple_gold(assignment)
 

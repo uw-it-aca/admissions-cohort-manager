@@ -20,7 +20,6 @@ class SyskeyImportTest(TestCase):
         self.assertEqual(import_object.quarter, upload_body['qtr_id'])
         self.assertEqual(import_object.cohort, upload_body['cohort_id'])
         self.assertIsNone(import_object.major)
-        self.assertFalse(import_object.is_purplegold)
 
         apps = import_object.syskeyassignment_set.all()
         self.assertEqual(len(apps), 4)

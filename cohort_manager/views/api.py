@@ -20,7 +20,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection, \
     _get_collection, get_application_from_bulk_upload, reset_purplegold
 from cohort_manager.models import AssignmentImport, Assignment, \
-    PurpleGoldAssignment, SyskeyImport
+    PurpleGoldImport, SyskeyImport
 from cohort_manager.utils import is_valid_auth_key
 
 
@@ -71,8 +71,7 @@ class SyskeyUploadView(RESTDispatch):
             request_body = json.loads(request.body)
             is_purplegold = request_body.get("is_purplegold", False)
             if is_purplegold:
-                # TODO: Handle pg import
-                # imp = SyskeyImport.create_from_json(request_body, user)
+                imp = PurpleGoldImport.create_from_json(request_body, user)
                 pass
             else:
                 imp = SyskeyImport.create_from_json(request_body, user)
@@ -99,19 +98,25 @@ class ModifySyskeyUploadView(RESTDispatch):
         major_id = request_params.get('major_id')
         cohort_id = request_params.get('cohort_id')
         user = UserService().get_original_user()
+        is_purplegold = request_params.get('purplegold')
 
         try:
-            upload = SyskeyImport.objects.get(id=upload_id)
-            if cohort_id:
-                upload.cohort = cohort_id
-            if major_id:
-                upload.major = major_id
+            upload = None
+            if is_purplegold:
+                upload = PurpleGoldImport.objects.get(id=upload_id)
+            else:
+                upload = SyskeyImport.objects.get(id=upload_id)
+                if cohort_id:
+                    upload.cohort = cohort_id
+                if major_id:
+                    upload.major = major_id
+                upload.is_reassign = is_reassign
+                upload.is_reassign_protected = is_reassign_protected
+                upload.remove_assignments(ids_to_delete)
+
             # Using logged in user for bulk upload
             upload.created_by = user
             upload.is_submitted = is_submitted
-            upload.is_reassign = is_reassign
-            upload.is_reassign_protected = is_reassign_protected
-            upload.remove_assignments(ids_to_delete)
             upload.comment = comment
             upload.save()
             response = upload.json_data()
@@ -184,29 +189,16 @@ class UploadView(RESTDispatch):
                                                message="Invalid document")
                 assignment_import.document = document
                 assignment_import.upload_filename = uploaded_file.name
-                if purplegold:
-                    assignments = \
-                        PurpleGoldAssignment().create_from_file(
-                            assignment_import)
-                    if len(assignments) > 0:
-                        PurpleGoldAssignment.objects.bulk_create(assignments)
-                    else:
-                        document = file.decode('ascii')
-                        assignment_import.document = document
-                        assignments = PurpleGoldAssignment.create_from_file(
-                            assignment_import)
-                        PurpleGoldAssignment.objects.bulk_create(assignments)
+                assignments = Assignment().create_from_file(
+                    assignment_import)
+                if len(assignments) > 0:
+                    Assignment.objects.bulk_create(assignments)
                 else:
-                    assignments = Assignment().create_from_file(
+                    document = file.decode('ascii')
+                    assignment_import.document = document
+                    assignments = Assignment.create_from_file(
                         assignment_import)
-                    if len(assignments) > 0:
-                        Assignment.objects.bulk_create(assignments)
-                    else:
-                        document = file.decode('ascii')
-                        assignment_import.document = document
-                        assignments = Assignment.create_from_file(
-                            assignment_import)
-                        Assignment.objects.bulk_create(assignments)
+                    Assignment.objects.bulk_create(assignments)
             if syskey_list:
                 applications, invalid_syskes = get_apps_by_qtr_id_syskey_list(
                     qtr_id,

@@ -105,23 +105,68 @@ class SyskeyAssignment(models.Model):
         return app
 
 
-class SyskeyImport(models.Model):
+class Import(models.Model):
     comment = models.TextField()
-    is_override = models.NullBooleanField(default=False)
-    upload_filename = models.CharField(max_length=100, null=True)
+    campus = models.CharField(max_length=30)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=30)
     imported_date = models.DateTimeField(null=True)
     imported_status = models.SmallIntegerField(null=True)
     imported_message = models.TextField(null=True)
     quarter = models.IntegerField()
-    campus = models.CharField(max_length=30)
+    upload_filename = models.CharField(max_length=100, null=True)
+    is_submitted = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+    def json_data(self):
+        return {
+            'id': self.pk,
+            'comment': self.comment,
+            'upload_filename': self.upload_filename,
+            'created_date': self.created_date.isoformat() if (
+                self.created_date is not None) else None,
+            'created_by': self.created_by,
+            'imported_date': self.imported_date.isoformat() if (
+                self.imported_date is not None) else None,
+            'imported_status': self.imported_status,
+            'imported_message': self.imported_message,
+            'is_submitted': True if self.is_submitted else False,
+            'quarter': self.quarter
+        }
+
+
+class PurpleGoldImport(Import):
+    @staticmethod
+    def create_from_json(upload_body, user):
+        pg_import = PurpleGoldImport()
+        pg_import.comment = upload_body.get('comment', "")
+        pg_import.quarter = upload_body.get('qtr_id')
+        pg_import.upload_filename = upload_body.get('file_name')
+        pg_import.created_by = user
+
+        # Saving import before creating FK relationships
+        pg_import.save()
+
+        assignments = upload_body.get('assignments')
+        PurpleGoldListAssignment.create_from_json(pg_import, assignments)
+
+        return pg_import
+
+    def json_data(self):
+        assignments = self.purplegoldlistassignment_set.all()
+        data = super().json_data()
+        data['assignments'] = [a.json_data() for a in assignments]
+        return data
+
+
+class SyskeyImport(Import):
+    is_override = models.NullBooleanField(default=False)
     cohort = models.CharField(
         max_length=30, blank=True, null=True, validators=[validate_cohort])
     major = models.CharField(
         max_length=128, blank=True, null=True, validators=[validate_major])
-    is_purplegold = models.BooleanField(default=False)
-    is_submitted = models.BooleanField(default=False)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
 
@@ -135,13 +180,10 @@ class SyskeyImport(models.Model):
 
         cohort_id = upload_body.get('cohort_id')
         major_id = upload_body.get('major_id')
-        purplegold = upload_body.get('purplegold')
         if cohort_id:
             sys_import.cohort = cohort_id
         if major_id:
             sys_import.major = major_id
-        if purplegold:
-            sys_import.is_purplegold = purplegold
 
         # Saving import before creating FK relationships
         sys_import.save()
@@ -153,30 +195,19 @@ class SyskeyImport(models.Model):
 
     def json_data(self):
         assignments = self.syskeyassignment_set.all()
-        # TODO: Implement P&G side of this
-        # if len(assignments) == 0:
-        #     assignments = self.purplegoldassignment_set.all()
-        return {
-            'id': self.pk,
-            'comment': self.comment,
+        data = super().json_data()
+
+        extra_data = {
             'cohort': self.cohort,
             'major': self.major,
             'is_override': True if self.is_override else False,
-            'upload_filename': self.upload_filename,
-            'created_date': self.created_date.isoformat() if (
-                self.created_date is not None) else None,
-            'created_by': self.created_by,
-            'imported_date': self.imported_date.isoformat() if (
-                self.imported_date is not None) else None,
-            'imported_status': self.imported_status,
-            'imported_message': self.imported_message,
-            'assignments': [a.json_data() for a in assignments],
-            'is_submitted': True if self.is_submitted else False,
             'is_reassign': True if self.is_reassign else False,
             'is_reassign_protected':
                 True if self.is_reassign_protected else False,
-            'quarter': self.quarter
+            'assignments': [a.json_data() for a in assignments]
         }
+        data.update(extra_data)
+        return data
 
     def get_assignments(self):
         return self.syskeyassignment_set.all()
@@ -410,50 +441,37 @@ class Assignment(models.Model):
         return app
 
 
-class PurpleGoldAssignment(models.Model):
-    # Todo: Re-implement additional fields when syskey list API is utilized
-
-    # CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
-    # FIELD_PURPLEGOLD_CURRENT = "CurrentPurpleGoldAmount"
+class PurpleGoldListAssignment(models.Model):
     FIELD_PURPLEGOLD_NEW = "awardAmount"
     FIELD_ADSEL_ID = "admissionSelectionID"
-    # FIELD_INTERNATIONAL = "InterationalResident"
-    # FIELD_WA = "WAResident"
 
-    assignment_import = models.ForeignKey(AssignmentImport,
-                                          on_delete=models.PROTECT)
-    # system_key = models.CharField(
-    #     max_length=30, validators=[validate_system_key])
-    # application_number = models.PositiveIntegerField(
-    #     validators=[validate_application_number])
+    pg_import = models.ForeignKey(PurpleGoldImport,
+                                  on_delete=models.PROTECT)
     admission_selection_id = models.CharField(max_length=30)
-    # assigned_cohort = models.IntegerField(null=True)
-    # assigned_major = models.CharField(max_length=30, null=True)
-    # campus = models.PositiveSmallIntegerField(
-    #     default=1, choices=CAMPUS_CHOICES)
-    # sdb_app_status = models.IntegerField(null=True)
-    # purple_gold_assigned = models.IntegerField(null=True)
-    purple_gold_new = models.IntegerField(null=True)
-    # is_international = models.BooleanField(null=True)
-    # is_wa = models.BooleanField(null=True)
+    purple_gold_new = models.FloatField(null=True)
 
     def validate(self):
         self.full_clean()
 
     def json_data(self):
         return {
-            # 'system_key': self.system_key,
-            # 'application_number': self.application_number,
             'admission_selection_id': self.admission_selection_id,
-            # 'assigned_cohort': self.assigned_cohort,
-            # 'assigned_major': self.assigned_major,
-            # 'campus': self.get_campus_display(),
-            # 'sdb_app_status': self.sdb_app_status,
-            # 'purple_gold_assigned': self.purple_gold_assigned,
             'purple_gold_new': self.purple_gold_new,
-            # 'is_international': self.is_international,
-            # 'is_wa': self.is_wa,
         }
+
+    @staticmethod
+    def create_from_json(pg_import, assignments):
+        pg_assignments = []
+        for assignment in assignments:
+            assign_args = {
+                'pg_import': pg_import,
+                'admission_selection_id': assignment['admissionSelectionID'],
+                'purple_gold_new': assignment['awardAmount']
+
+            }
+            pg_assign = PurpleGoldListAssignment(**assign_args)
+            pg_assignments.append(pg_assign)
+        PurpleGoldListAssignment.objects.bulk_create(pg_assignments)
 
     @staticmethod
     def create_from_file(assign_import):

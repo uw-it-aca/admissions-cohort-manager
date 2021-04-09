@@ -159,10 +159,10 @@
     },
     data(){
       return {
-        file: null,
         file_data: null,
         file_invalid: false,
         file_invalid_msg: "",
+        filename: undefined,
         syskey_list: null,
         syskey_upload_response: null,
         collection_id: null,
@@ -180,12 +180,10 @@
         is_reassign: false,
         is_reassign_protected: false,
         invalid_syskeys: [],
-        invalid_csv: false,
         submitted: false,
         is_uploading: false,
         is_submitting: false,
         submit_msg: "",
-        error_message: "",
         show_submitting_modal: false,
         show_timeout_modal: false
       };
@@ -218,7 +216,7 @@
         return this.submitted === false && this.has_uploaded === false;
       },
       invalid_upload: function() {
-        return this.invalid_csv || this.invalid_manual;
+        return this.invalid_manual;
       },
       hasCollections: function () {
         return this.collectionOptions.length > 0;
@@ -255,14 +253,16 @@
         }
       },
       syskey_upload_response: function(val){
-        var dupes = this.get_duplicates(val.assignments);
-        if(dupes.length > 0) {
-          this.has_dupes = true;
-          this.dupes = dupes;
-        }
-        var invalid_syskeys = this.invalidSyskeys;
-        if(invalid_syskeys.length > 0){
-          this.invalid_syskeys = invalid_syskeys;
+        if(val !== undefined){
+          var dupes = this.get_duplicates(val.assignments);
+          if(dupes.length > 0) {
+            this.has_dupes = true;
+            this.dupes = dupes;
+          }
+          var invalid_syskeys = this.invalidSyskeys;
+          if(invalid_syskeys.length > 0){
+            this.invalid_syskeys = invalid_syskeys;
+          }
         }
       }
     },
@@ -279,13 +279,14 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
-        this.file = null;
         this.syskey_list = null;
         this.upload_response = null;
-        this.syskey_upload_response = null;
         this.has_dupes = false;
         this.dupes = null;
         this.manual_upload = false;
+        this.file_invalid = false;
+        this.filename = undefined;
+        this.is_uploading = false;
       },
       handleSyskeyUpload() {
         const vue = this;
@@ -293,13 +294,14 @@
           'comment': this.comment,
           'qtr_id': this.currentPeriod,
           'syskey_list': this.syskey_list,
-          // 'file_name': this.file.name
+          'file_name': this.filename
         };
         if (this.collectionType == "Cohort") {
           request['cohort_id'] = this.collection_id;
         } else if (this.collectionType == "Major") {
           request['major_id'] = this.collection_id;
         }
+        this.is_uploading = true;
         axios.post(
           '/api/syskeyupload',
           request,
@@ -312,6 +314,7 @@
         ).then(function(response) {
           vue.syskey_upload_response = response.data;
           vue.has_uploaded = true;
+          this.is_uploading = false;
         });
 
       },
@@ -417,8 +420,10 @@
         this.manual_upload = true;
         this.handleSyskeyUpload();
       },
-      selectedFile(list) {
-        this.syskey_list = list;
+      selectedFile(file_data) {
+        this.handleReset();
+        this.syskey_list = file_data.syskeys;
+        this.filename = file_data.filename;
         this.handleSyskeyUpload();
       },
       fileError(error){

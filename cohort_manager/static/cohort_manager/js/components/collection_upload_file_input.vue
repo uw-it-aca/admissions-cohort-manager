@@ -22,7 +22,8 @@
         file_upload: undefined,
         file: undefined,
         file_data: undefined,
-        file_invalid_msg: undefined
+        file_invalid_msg: undefined,
+        file_name: undefined
       };
     },
     watch: {
@@ -38,6 +39,7 @@
     methods: {
       selectedFile(file) {
         this.file = file;
+        this.file_name = file.name;
         var contents,
             parsed_contents;
         const reader = new FileReader();
@@ -69,7 +71,8 @@
       },
       emitSyskeys(){
         var syskeys = this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
-        this.$emit('fileuploaded', syskeys);
+        this.$emit('fileuploaded', {'syskeys': syskeys,
+                                    'filename': this.file_name});
       },
 
       validateFileData(data) {
