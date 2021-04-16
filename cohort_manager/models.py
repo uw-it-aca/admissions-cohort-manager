@@ -6,34 +6,13 @@ import csv
 from restclients_core.exceptions import DataFailureException
 
 
-def validate_system_key(val):
-    pass
-
-
-def validate_year(val):
-    pass
-
-
-def validate_application_number(val):
-    pass
-
-
-def validate_cohort(val):
-    pass
-
-
-def validate_major(val):
-    pass
-
-
 class SyskeyAssignment(models.Model):
     CAMPUS_CHOICES = ((1, 'Seattle'), (2, 'Tacoma'), (3, 'Bothell'))
 
     assignment_import = models.ForeignKey('SyskeyImport',
                                           on_delete=models.PROTECT)
     system_key = models.PositiveIntegerField()
-    application_number = models.PositiveIntegerField(
-        validators=[validate_application_number], null=True)
+    application_number = models.PositiveIntegerField(null=True)
     admission_selection_id = models.PositiveIntegerField(null=True)
     assigned_cohort = models.IntegerField(null=True)
     assigned_major = models.CharField(max_length=30, null=True)
@@ -163,10 +142,8 @@ class PurpleGoldImport(Import):
 
 class SyskeyImport(Import):
     is_override = models.NullBooleanField(default=False)
-    cohort = models.CharField(
-        max_length=30, blank=True, null=True, validators=[validate_cohort])
-    major = models.CharField(
-        max_length=128, blank=True, null=True, validators=[validate_major])
+    cohort = models.CharField(max_length=30, blank=True, null=True)
+    major = models.CharField(max_length=128, blank=True, null=True)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
 
@@ -213,10 +190,7 @@ class SyskeyImport(Import):
         return self.syskeyassignment_set.all()
 
     def remove_assignments(self, ids_to_remove):
-        assignments = self.syskeyassignment_set.all()
-        # TODO: Implement P&G side of this
-        # if len(assignments) == 0:
-        #     assignments = self.purplegoldassignment_set.all()
+        assignments = self.get_assignments()
         assignments.filter(admission_selection_id__in=ids_to_remove).delete()
 
 
@@ -295,10 +269,8 @@ class AssignmentImport(models.Model):
     imported_message = models.TextField(null=True)
     quarter = models.IntegerField()
     campus = models.CharField(max_length=30)
-    cohort = models.CharField(
-        max_length=30, blank=True, null=True, validators=[validate_cohort])
-    major = models.CharField(
-        max_length=128, blank=True, null=True, validators=[validate_major])
+    cohort = models.CharField(max_length=30, blank=True, null=True)
+    major = models.CharField(max_length=128, blank=True, null=True)
     is_submitted = models.BooleanField(default=False)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
@@ -345,19 +317,14 @@ class Assignment(models.Model):
 
     assignment_import = models.ForeignKey(AssignmentImport,
                                           on_delete=models.PROTECT)
-    system_key = models.CharField(
-        max_length=30, validators=[validate_system_key])
-    application_number = models.PositiveIntegerField(
-        validators=[validate_application_number])
+    system_key = models.CharField(max_length=30)
+    application_number = models.PositiveIntegerField()
     admission_selection_id = models.CharField(max_length=30)
     assigned_cohort = models.IntegerField(null=True)
     assigned_major = models.CharField(max_length=30, null=True)
     campus = models.PositiveSmallIntegerField(
         default=1, choices=CAMPUS_CHOICES)
     sdb_app_status = models.IntegerField(null=True)
-
-    def validate(self):
-        self.full_clean()
 
     def json_data(self):
         return {
@@ -450,9 +417,6 @@ class PurpleGoldListAssignment(models.Model):
     admission_selection_id = models.CharField(max_length=30)
     purple_gold_new = models.FloatField(null=True)
 
-    def validate(self):
-        self.full_clean()
-
     def json_data(self):
         return {
             'admission_selection_id': self.admission_selection_id,
@@ -472,38 +436,6 @@ class PurpleGoldListAssignment(models.Model):
             pg_assign = PurpleGoldListAssignment(**assign_args)
             pg_assignments.append(pg_assign)
         PurpleGoldListAssignment.objects.bulk_create(pg_assignments)
-
-    @staticmethod
-    def create_from_file(assign_import):
-        reader = csv.DictReader(StringIO(assign_import.document),
-                                delimiter='\t')
-        try:
-            assignments = \
-                PurpleGoldAssignment._create_from_reader(reader, assign_import)
-        except ValueError:
-            reader = csv.DictReader(StringIO(assign_import.document),
-                                    delimiter=',')
-            assignments = \
-                PurpleGoldAssignment._create_from_reader(reader, assign_import)
-        return assignments
-
-    @staticmethod
-    def _create_from_reader(reader, assign_import):
-        assignments = []
-        for idx, row in enumerate(reader):
-            assignment = PurpleGoldAssignment()
-            assignment.assignment_import = assign_import
-            assignment.admission_selection_id = \
-                row.get(PurpleGoldAssignment.FIELD_ADSEL_ID)
-
-            new_assigned = row.get(PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
-            if new_assigned is None:
-                raise ValueError("%s column not present" %
-                                 PurpleGoldAssignment.FIELD_PURPLEGOLD_NEW)
-            assignment.purple_gold_new = int(float(new_assigned))
-            # Fix STFE-139
-            assignments.append(assignment)
-        return assignments
 
     def get_application(self):
         app = PurpleGoldApplication()

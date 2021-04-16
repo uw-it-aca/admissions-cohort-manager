@@ -1,5 +1,6 @@
 from django.test import TestCase
-from cohort_manager.models import AssignmentImport, Assignment, SyskeyImport
+from cohort_manager.models import AssignmentImport, Assignment, SyskeyImport,\
+    PurpleGoldImport
 from uw_adsel.models import Application
 from unittest import mock
 import pytz
@@ -7,7 +8,7 @@ import datetime
 
 
 class SyskeyImportTest(TestCase):
-    def test_create_from_list(self):
+    def test_create_cohort_from_list(self):
         upload_body = {
             'comment': "This is a comment",
             'qtr_id': 0,
@@ -28,6 +29,37 @@ class SyskeyImportTest(TestCase):
         self.assertEqual(apps[0].application_number, 1)
         self.assertEqual(apps[0].assigned_cohort, 1)
         self.assertEqual(apps[0].assigned_major, None)
+
+        app = import_object.get_assignments()[0].get_application()
+        self.assertEqual(app.system_key, 456340)
+
+    def test_create_major_from_list(self):
+        upload_body = {
+            'comment': "This is a comment",
+            'qtr_id': 0,
+            'major_id': '0_BIOL_392',
+            'syskey_list': [656340, 456340, 97508]
+        }
+
+        import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
+        self.assertEqual(import_object.comment, upload_body['comment'])
+        self.assertEqual(import_object.quarter, upload_body['qtr_id'])
+        self.assertEqual(import_object.major, upload_body['major_id'])
+        self.assertIsNone(import_object.cohort)
+
+    def test_remove_assignments(self):
+        upload_body = {
+            'comment': "This is a comment",
+            'qtr_id': 0,
+            'cohort_id': 52,
+            'syskey_list': [656340, 456340, 97508]
+        }
+
+        import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
+        self.assertEqual(len(import_object.get_assignments()), 4)
+
+        import_object.remove_assignments([73445])
+        self.assertEqual(len(import_object.get_assignments()), 3)
 
     def test_json_data(self):
         upload_body = {
@@ -77,6 +109,38 @@ class SyskeyImportTest(TestCase):
             }
 
         self.assertDictEqual(json_data, expected_data)
+
+
+class PurpleGoldImportTest(TestCase):
+    def test_create_from_list(self):
+        upload_body = {
+            'comment': "This is a comment",
+            'qtr_id': 0,
+            'cohort_id': 52,
+            'assignments': [
+                {'admissionSelectionID': 20154,
+                 'awardAmount': 2123.12},
+                {'admissionSelectionID': 12341,
+                 'awardAmount': 24362.12},
+                {'admissionSelectionID': 31521,
+                 'awardAmount': 622.12},
+                {'admissionSelectionID': 34567,
+                 'awardAmount': 552.12},
+                {'admissionSelectionID': 87532,
+                 'awardAmount': 324.12},
+            ]
+        }
+        pg_import = PurpleGoldImport().create_from_json(upload_body,
+                                                        'javerage')
+        self.assertEqual(len(pg_import.purplegoldlistassignment_set.all()), 5)
+        json_data = pg_import.json_data()
+        self.assertEqual(len(json_data['assignments']), 5)
+        self.assertEqual(json_data['assignments'][4]['purple_gold_new'],
+                         324.12)
+        self.assertEqual(json_data['created_by'], 'javerage')
+
+        app = pg_import.purplegoldlistassignment_set.first().get_application()
+        self.assertEqual(app.award_amount, 2123.12)
 
 
 class AssignmentTest(TestCase):

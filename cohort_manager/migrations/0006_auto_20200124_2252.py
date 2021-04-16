@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='assignmentimport',
             name='major',
-            field=models.CharField(blank=True, max_length=128, null=True, validators=[cohort_manager.models.validate_major]),
+            field=models.CharField(blank=True, max_length=128, null=True),
         ),
     ]

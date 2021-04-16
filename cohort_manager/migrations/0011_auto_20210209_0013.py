@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='syskeyassignment',
             name='application_number',
-            field=models.PositiveIntegerField(null=True, validators=[cohort_manager.models.validate_application_number]),
+            field=models.PositiveIntegerField(null=True),
         ),
     ]

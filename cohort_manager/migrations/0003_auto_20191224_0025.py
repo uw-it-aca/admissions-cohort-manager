@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='assignmentimport',
             name='cohort',
-            field=models.CharField(blank=True, max_length=30, null=True, validators=[cohort_manager.models.validate_cohort]),
+            field=models.CharField(blank=True, max_length=30, null=True),
         ),
         migrations.AlterField(
             model_name='assignmentimport',
             name='major',
-            field=models.CharField(blank=True, max_length=30, null=True, validators=[cohort_manager.models.validate_major]),
+            field=models.CharField(blank=True, max_length=30, null=True),
         ),
     ]

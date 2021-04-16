@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             name='SyskeyAssignment',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('system_key', models.CharField(max_length=30, validators=[cohort_manager.models.validate_system_key])),
-                ('application_number', models.PositiveIntegerField(validators=[cohort_manager.models.validate_application_number])),
+                ('system_key', models.CharField(max_length=30)),
+                ('application_number', models.PositiveIntegerField()),
                 ('admission_selection_id', models.CharField(max_length=30)),
                 ('assigned_cohort', models.IntegerField(null=True)),
                 ('assigned_major', models.CharField(max_length=30, null=True)),
