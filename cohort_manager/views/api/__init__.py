@@ -60,6 +60,7 @@ class RESTDispatch(View):
         response['Access-Control-Allow-Origin'] = origin
         return response
 
+
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
 class UploadView(RESTDispatch):
