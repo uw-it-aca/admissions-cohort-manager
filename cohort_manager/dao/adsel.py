@@ -174,7 +174,7 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 def _get_collection(assignment_import):
     assignment_set = []
     if isinstance(assignment_import, SyskeyImport):
-        if assignment_import.cohort and len(assignment_import.cohort) > 0:
+        if assignment_import.cohort:
             assignment = CohortAssignment()
             assignment.override_previous = assignment_import.is_reassign
             assignment.override_protected = \
@@ -218,7 +218,7 @@ def submit_collection(assignment_import):
     client = AdSel()
     client.get_quarters()
     if isinstance(assignment_import, SyskeyImport):
-        if assignment_import.cohort and len(assignment_import.cohort) > 0:
+        if assignment_import.cohort:
             if assignment_import.upload_filename is not None:
                 return client.assign_cohorts_bulk(assignment)
             else:

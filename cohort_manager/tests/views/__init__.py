@@ -79,6 +79,12 @@ class TestViewApi(TestCase):
                                 data=body,
                                 content_type="application/json")
 
+    def put_response(self, url_name, body, **kwargs):
+        url = reverse(url_name, **kwargs)
+        return self.client.put(url,
+                               data=body,
+                               content_type="application/json")
+
     def post_form_response(self, url_name, body, **kwargs):
         url = reverse(url_name, **kwargs)
         return self.client.post(url,

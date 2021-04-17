@@ -1,7 +1,6 @@
 import json
 from django.test import TestCase, Client
-from django.core.exceptions import ImproperlyConfigured
-from cohort_manager.views.api import RESTDispatch, UploadView, CollectionList
+from cohort_manager.views.api import RESTDispatch
 from cohort_manager.tests.views import TestViewApi
 from cohort_manager.models import AssignmentImport
 
@@ -109,29 +108,3 @@ class BulkUploadTest(TestViewApi):
                                           json.dumps(self.cohort_assignment))
             self.assertEqual(response.status_code, 401)
             self.assertEqual(response['WWW-Authenticate'], "Bearer")
-
-# TODO: Update to use syskey list views
-# class ListUploadTest(TestViewApi):
-#     def test__invalid_syskey(self):
-#         request = self.get_request('/', 'javerage', 'u_test_group')
-#         body = {'syskey_list': "2,123,123123123",
-#                 'comment': "foo",
-#                 'qtr_id': 0,
-#                 'cohort_id': 1}
-#         response = self.post_form_response("create_upload", body)
-#         response_content = json.loads(response.content)
-#         self.assertEqual(response_content['invalid_syskeys'][0], '2')
-#         self.assertEqual(len(response_content['invalid_syskeys']), 2)
-#
-#
-# class ModifyUploadViewTest(TestViewApi):
-#     def test_get_upload(self):
-#         upload = AssignmentImport(cohort=42,\
-#                                   created_by="javerage",
-#                                   quarter=1)
-#         upload.save()
-#         request = self.get_request('/', 'javerage', 'u_test_group')
-#         response = self.get_response("upload", kwargs={"upload_id": 1})
-#         response_content = json.loads(response.content)
-#         self.assertEqual(response_content['created_by'], "javerage")
-#         self.assertEqual(response_content['cohort'], "42")

@@ -142,7 +142,7 @@ class PurpleGoldImport(Import):
 
 class SyskeyImport(Import):
     is_override = models.NullBooleanField(default=False)
-    cohort = models.CharField(max_length=30, blank=True, null=True)
+    cohort = models.IntegerField(blank=True, null=True)
     major = models.CharField(max_length=128, blank=True, null=True)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
