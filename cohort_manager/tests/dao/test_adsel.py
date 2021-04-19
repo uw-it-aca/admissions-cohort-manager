@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.test import TestCase
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_applications_by_cohort_qtr, get_applications_by_major_qtr
