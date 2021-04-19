@@ -19,7 +19,7 @@ from uw_saml.decorators import group_required
 from cohort_manager.dao import InvalidCollectionException
 from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_activity_log, get_collection_list_by_type, \
-    get_apps_by_qtr_id_syskey_list, get_quarters_with_current, \
+    get_apps_by_qtr_id_syskey_list, get_current_quarters, \
     submit_collection, get_applications_by_type_id_qtr, reset_collection, \
     _get_collection, get_application_from_bulk_upload, reset_purplegold
 from cohort_manager.models import AssignmentImport, Assignment, \
@@ -280,7 +280,7 @@ class CollectionList(RESTDispatch):
                   name='dispatch')
 class PeriodList(RESTDispatch):
     def get(self, request):
-        quarters = get_quarters_with_current()
+        quarters = get_current_quarters()
         quarter_strings = ["Winter", "Spring", "Summer", "Autumn"]
         resp = []
         for quarter in quarters:

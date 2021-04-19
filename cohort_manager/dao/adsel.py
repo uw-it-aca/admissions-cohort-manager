@@ -15,7 +15,7 @@ COHORT_COLLECTION_TYPE = "cohort"
 PURPLEGOLD_COLLECTION_TYPE = "purplegold"
 
 
-def get_quarters_with_current():
+def get_current_quarters():
     client = AdSel()
     quarters = client.get_quarters()
     return quarters
@@ -99,7 +99,7 @@ def get_applications_by_major_qtr(major_id, quarter):
             if application.major_program_code == major_id:
                 matching_apps.append(application)
     except DataFailureException:
-        pass
+        return None
     return matching_apps
 
 
@@ -176,6 +176,7 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 
 def _get_collection(assignment_import):
     assignment_set = []
+    assignment = None
     if isinstance(assignment_import, SyskeyImport):
         if assignment_import.cohort:
             assignment = CohortAssignment()
@@ -191,6 +192,9 @@ def _get_collection(assignment_import):
     else:
         assignment = PurpleGoldAssignment()
         assignment_set = assignment_import.purplegoldlistassignment_set.all()
+
+    if assignment is None:
+        raise InvalidCollectionException
 
     assignment.assignment_type = "file" if \
         assignment_import.upload_filename is not None else "manual"
