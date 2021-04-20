@@ -126,9 +126,7 @@ class BulkUploadTest(TestViewApi):
                                           json.dumps(bad_body))
             self.assertEqual(response.status_code, 500)
             err = json.loads(response.content)
-            self.assertEqual(err['error'],
-                             "{'description': 'Issue creating bulk assignment'"
-                             ", 'details': KeyError('applications')}")
+            self.assertTrue("KeyError('applications')" in err['error'])
 
             no_apps = dict(self.cohort_assignment)
             no_apps['applications'] = []
