@@ -6,8 +6,10 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_applications_by_cohort_qtr, get_applications_by_major_qtr, \
     get_current_quarters, get_applications_by_type_id_qtr, get_activity_log, \
     get_collection_list_by_type, get_application_by_qtr_syskey, \
-    get_apps_by_qtr_id_syskey_list, _get_collection, submit_collection
-from cohort_manager.models import SyskeyImport, PurpleGoldImport
+    get_apps_by_qtr_id_syskey_list, _get_collection, submit_collection, \
+    reset_purplegold, reset_collection, get_application_from_bulk_upload
+from cohort_manager.models import SyskeyImport, PurpleGoldImport, \
+    AssignmentImport, Assignment
 
 from cohort_manager.dao import InvalidCollectionException
 
@@ -18,7 +20,7 @@ class RestDispatchTest(TestCase):
             'comment': "This is a comment",
             'qtr_id': 0,
             'cohort_id': 52,
-            'syskey_list': [656340, 456340, 97508]
+            'syskey_list': [656340, 456340, 97508],
         }
         return SyskeyImport.create_from_json(upload_body, 'javerage')
 
@@ -152,3 +154,50 @@ class RestDispatchTest(TestCase):
         self.assertEqual(cohort['response']['summaryPostStatus'], 'string')
         self.assertEqual(major['response']['summaryPostStatus'], 'string')
         self.assertEqual(pg['response']['summaryPostStatus'], 'string')
+
+    def test_reset_collection(self):
+        apps = get_applications_by_type_id_qtr("major", None, 0)
+        import_args = {'quarter': int(1),
+                       'campus': 0,
+                       'comment': 'comment',
+                       'created_by': 'user'}
+        assignment_import = \
+            AssignmentImport.objects.create(**import_args)
+        Assignment.create_from_applications(assignment_import, apps)
+        major = reset_collection(assignment_import, "major")
+        self.assertEqual(major['response']['summaryPostStatus'], 'string')
+
+        apps = get_applications_by_type_id_qtr("cohort", 1, 0)
+        import_args = {'quarter': 1,
+                       'campus': 0,
+                       'comment': 'comment',
+                       'created_by': 'user',
+                       'cohort': 0}
+        assignment_import = \
+            AssignmentImport.objects.create(**import_args)
+        Assignment.create_from_applications(assignment_import, apps)
+        cohort = reset_collection(assignment_import, "cohort")
+        self.assertEqual(cohort['response']['summaryPostStatus'], 'string')
+
+    def test_reset_purplegold(self):
+        import_args = {'quarter': 1,
+                       'campus': 0,
+                       'comment': 'comment',
+                       'created_by': 'user',
+                       }
+        apps = get_applications_by_type_id_qtr("purplegold", None, 0)
+        reset = reset_purplegold(import_args, apps)
+        self.assertEqual(reset['response']['summaryPostStatus'], 'string')
+
+    def test_get_application_from_bulk_upload(self):
+        upload = [{
+            'admission_selection_id': 4221344,
+            'application_number': 1,
+            'assigned_cohort': 23,
+            'assigned_major': None,
+            'campus': 'Seattle',
+            'system_key': 312
+        }]
+        apps = get_application_from_bulk_upload(upload)
+        self.assertEqual(len(apps), 1)
+        self.assertEqual(apps[0].adsel_id, 4221344)

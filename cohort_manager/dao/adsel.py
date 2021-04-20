@@ -246,8 +246,7 @@ def reset_collection(assignment_import, collection_type):
         assignment = MajorAssignment()
         assignment.major_code = assignment_import.major
 
-    assignment.assignment_type = "file" if \
-        assignment_import.is_file_upload else "manual"
+    assignment.assignment_type = "file"
     assignment.comments = assignment_import.comment
     assignment.user = assignment_import.created_by
     assignment.campus = assignment_import.campus
@@ -263,9 +262,9 @@ def reset_collection(assignment_import, collection_type):
 
     client = AdSel()
     if collection_type == COHORT_COLLECTION_TYPE:
-        client.assign_cohorts_bulk(assignment)
+        return client.assign_cohorts_bulk(assignment)
     elif collection_type == MAJOR_COLLECTION_TYPE:
-        client.assign_majors(assignment)
+        return client.assign_majors(assignment)
 
 
 def reset_purplegold(import_args, apps):
@@ -284,7 +283,7 @@ def reset_purplegold(import_args, apps):
     assignment.applicants = applicants_to_assign
 
     client = AdSel()
-    client.assign_purple_gold(assignment)
+    return client.assign_purple_gold(assignment)
 
 
 def get_application_from_bulk_upload(upload_json):
