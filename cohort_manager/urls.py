@@ -3,7 +3,7 @@
 
 from django.urls import path, re_path
 from cohort_manager.views import PurpleGoldEmbed
-from cohort_manager.views.api import UploadView, CollectionDetails, \
+from cohort_manager.views.api import CollectionDetails, \
     ActivityLog, CollectionList, ModifyUploadView, PeriodList, BulkUpload, \
     MockDataView
 from cohort_manager.views.api.syskey_upload import SyskeyUploadView, \
@@ -16,9 +16,6 @@ urlpatterns = [
     re_path(r'api/upload/(?P<upload_id>.*)/',
             ModifyUploadView.as_view(),
             name="upload"),
-    path('api/upload',
-         UploadView.as_view(),
-         name="create_upload"),
     path('api/syskeyupload',
          SyskeyUploadView.as_view(),
          name="create_syskey_upload"),
@@ -32,9 +29,11 @@ urlpatterns = [
             CollectionList.as_view(),
             name="collection_list"),
     re_path(r'^api/activity/',
-            ActivityLog.as_view()),
+            ActivityLog.as_view(),
+            name="activity_log"),
     re_path(r'^api/periods/',
-            PeriodList.as_view()),
+            PeriodList.as_view(),
+            name='period_list'),
     re_path(r'^purplegold_embed/',
             PurpleGoldEmbed.as_view()),
     re_path(r'^.*$', LandingView.as_view()),

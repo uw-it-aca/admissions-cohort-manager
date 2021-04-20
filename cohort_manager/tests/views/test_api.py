@@ -28,10 +28,6 @@ class RestDispatchTest(TestCase):
         self.assertEqual(response.status_code, 500)
 
 
-class UploadViewTest(TestCase):
-    pass
-
-
 class CollectionListTest(TestViewApi):
     def test_get_major_list(self):
         request = self.get_request('/', 'javerage', 'u_test_group')
@@ -52,6 +48,13 @@ class CollectionListTest(TestViewApi):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response_content), 6)
         self.assertEqual(response_content[0]['value'], 1)
+
+    def test_invalid(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        response = self.get_response('collection_list',
+                                     kwargs={'collection_type': 'foobar',
+                                             'quarter': 0})
+        self.assertEqual(response.status_code, 400)
 
 
 class BulkUploadTest(TestViewApi):
@@ -111,3 +114,50 @@ class BulkUploadTest(TestViewApi):
                                           json.dumps(self.cohort_assignment))
             self.assertEqual(response.status_code, 401)
             self.assertEqual(response['WWW-Authenticate'], "Bearer")
+
+    def test_other_failures(self):
+        with self.settings(API_TOKEN=self.FAKE_API_TOKEN):
+            token_str = "Bearer %s" % self.FAKE_API_TOKEN
+            self.client = Client(HTTP_USER_AGENT='Mozilla/5.0',
+                                 HTTP_AUTHORIZATION=token_str)
+            bad_body = dict(self.cohort_assignment)
+            bad_body.pop('applications', None)
+            response = self.post_response('bulk_upload',
+                                          json.dumps(bad_body))
+            self.assertEqual(response.status_code, 500)
+            err = json.loads(response.content)
+            self.assertEqual(err['error'],
+                             "{'description': 'Issue creating bulk assignment'"
+                             ", 'details': KeyError('applications')}")
+
+            no_apps = dict(self.cohort_assignment)
+            no_apps['applications'] = []
+            response = self.post_response('bulk_upload',
+                                          json.dumps(no_apps))
+            self.assertEqual(response.status_code, 500)
+            err = json.loads(response.content)
+            error_str = "{'description': 'Issue creating bulk assignment', " \
+                        "'details': IndexError('list index out of range')}"
+            self.assertEqual(err['error'], error_str)
+
+
+class PeriodListTest(TestViewApi):
+    def test_get_period_list(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        response = json.loads(self.get_response('period_list').content)
+        self.assertEqual(len(response), 3)
+        self.assertEqual(response[0]['text'], "Summer 2019")
+
+
+class ActivityLogTest(TestViewApi):
+    def test_get_activity_log(self):
+        request = self.get_request('/', 'javerage', 'u_test_group')
+        response = self.get_response('activity_log',
+                                     {'assignment_type': 'major'})
+        self.assertEqual(response.status_code, 200)
+        activities = json.loads(response.content)
+        self.assertEqual(len(activities), 1)
+
+        response = self.get_response('activity_log',
+                                     {'adsel_id': 123})
+        self.assertEqual(response.status_code, 404)

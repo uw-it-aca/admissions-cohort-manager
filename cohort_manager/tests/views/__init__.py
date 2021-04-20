@@ -72,9 +72,9 @@ class TestViewApi(TestCase):
         request.session = self.client.session
         return request
 
-    def get_response(self, url_name, **kwargs):
+    def get_response(self, url_name, get_args=None, **kwargs):
         url = reverse(url_name, **kwargs)
-        return self.client.get(url, **kwargs)
+        return self.client.get(url, get_args, **kwargs)
 
     def post_response(self, url_name, body, **kwargs):
         url = reverse(url_name, **kwargs)

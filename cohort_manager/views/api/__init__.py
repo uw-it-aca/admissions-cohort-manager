@@ -66,76 +66,8 @@ class RESTDispatch(View):
 
 @method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
                   name='dispatch')
-class UploadView(RESTDispatch):
-    def post(self, request, *args, **kwargs):
-        uploaded_file = request.FILES.get('file')
-        try:
-            syskey_list = request.POST.get('syskey_list').split(",")
-        except AttributeError:
-            syskey_list = None
-        cohort_id = request.POST.get('cohort_id')
-        major_id = request.POST.get('major_id')
-        purplegold = request.POST.get('purplegold')
-        comment = request.POST.get('comment', "")
-        qtr_id = request.POST.get('qtr_id', "")
-        user = UserService().get_original_user()
-        import_args = {'quarter': qtr_id,
-                       'campus': 0,
-                       'comment': comment,
-                       'created_by': user}
-        if cohort_id:
-            import_args['cohort'] = cohort_id
-        if major_id:
-            import_args['major'] = major_id
-
-        try:
-            assignment_import = AssignmentImport.objects.create(**import_args)
-            if uploaded_file:
-                document = None
-                file = uploaded_file.read()
-                try:
-                    document = file.decode('utf-8')
-                except UnicodeDecodeError as ex:
-                    document = file.decode('utf-16')
-
-                if document is None:
-                    return self.error_response(status=400,
-                                               message="Invalid document")
-                assignment_import.document = document
-                assignment_import.upload_filename = uploaded_file.name
-                assignments = Assignment().create_from_file(
-                    assignment_import)
-                if len(assignments) > 0:
-                    Assignment.objects.bulk_create(assignments)
-                else:
-                    document = file.decode('ascii')
-                    assignment_import.document = document
-                    assignments = Assignment.create_from_file(
-                        assignment_import)
-                    Assignment.objects.bulk_create(assignments)
-            if syskey_list:
-                applications, invalid_syskes = get_apps_by_qtr_id_syskey_list(
-                    qtr_id,
-                    syskey_list
-                )
-                if len(invalid_syskes) > 0:
-                    return self.error_response(status=403, content={
-                        "invalid_syskeys": invalid_syskes})
-                Assignment.create_from_applications(assignment_import,
-                                                    applications)
-                assignment_import.is_file_upload = False
-
-            assignment_import.save()
-            content = assignment_import.json_data()
-            return self.json_response(status=200, content=content)
-
-        except (ValueError, IntegrityError) as ex:
-            return self.error_response(status=400, message=ex)
-
-
-@method_decorator(group_required(settings.ALLOWED_USERS_GROUP),
-                  name='dispatch')
 class ModifyUploadView(RESTDispatch):
+    # Legacy upload view used in direct from Tableau bulk upload
     def put(self, request, upload_id, *args, **kwargs):
         request_params = json.loads(request.body)
         is_reassign = request_params.get('is_reassign', False)
