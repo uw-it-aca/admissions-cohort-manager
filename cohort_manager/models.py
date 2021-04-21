@@ -443,6 +443,6 @@ class PurpleGoldListAssignment(models.Model):
     def get_application(self):
         app = PurpleGoldApplication()
         app.adsel_id = self.admission_selection_id
-        app.award_amount = self.purple_gold_new
+        app.award_amount = int(self.purple_gold_new)
 
         return app

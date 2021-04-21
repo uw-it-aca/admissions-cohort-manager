@@ -314,7 +314,7 @@
         ).then(function(response) {
           vue.syskey_upload_response = response.data;
           vue.has_uploaded = true;
-          this.is_uploading = false;
+          vue.is_uploading = false;
         });
 
       },
