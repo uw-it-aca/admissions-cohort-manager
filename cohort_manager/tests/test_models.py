@@ -143,7 +143,7 @@ class PurpleGoldImportTest(TestCase):
         self.assertEqual(json_data['created_by'], 'javerage')
 
         app = pg_import.purplegoldlistassignment_set.first().get_application()
-        self.assertEqual(app.award_amount, 2123.12)
+        self.assertEqual(app.award_amount, 2123)
 
 
 class AssignmentTest(TestCase):
