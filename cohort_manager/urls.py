@@ -3,9 +3,11 @@
 
 from django.urls import path, re_path
 from cohort_manager.views import PurpleGoldEmbed
-from cohort_manager.views.api import UploadView, CollectionDetails, \
+from cohort_manager.views.api import CollectionDetails, \
     ActivityLog, CollectionList, ModifyUploadView, PeriodList, BulkUpload, \
     MockDataView
+from cohort_manager.views.api.syskey_upload import SyskeyUploadView, \
+    ModifySyskeyUploadView
 from cohort_manager.views.pages import LandingView, AdminView
 from django.conf import settings
 
@@ -14,9 +16,12 @@ urlpatterns = [
     re_path(r'api/upload/(?P<upload_id>.*)/',
             ModifyUploadView.as_view(),
             name="upload"),
-    path('api/upload',
-         UploadView.as_view(),
-         name="create_upload"),
+    path('api/syskeyupload',
+         SyskeyUploadView.as_view(),
+         name="create_syskey_upload"),
+    re_path(r'api/syskeyupload/(?P<upload_id>.*)/',
+            ModifySyskeyUploadView.as_view(),
+            name="modify_syskey_upload"),
     re_path(r'^api/collection/(?P<collection_type>.*)/'
             r'(?P<quarter>.*)/(?P<collection_id>.+)/',
             CollectionDetails.as_view()),
@@ -24,9 +29,11 @@ urlpatterns = [
             CollectionList.as_view(),
             name="collection_list"),
     re_path(r'^api/activity/',
-            ActivityLog.as_view()),
+            ActivityLog.as_view(),
+            name="activity_log"),
     re_path(r'^api/periods/',
-            PeriodList.as_view()),
+            PeriodList.as_view(),
+            name='period_list'),
     re_path(r'^purplegold_embed/',
             PurpleGoldEmbed.as_view()),
     re_path(r'^.*$', LandingView.as_view()),

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="!has_uploaded" class="aat-form-section">
-      <collection-upload-file-input
-        @fileselected="file_selected"
+      <purple-gold-upload-file-input
+        @fileuploaded="file_selected"
       />
     </div>
     <collection-upload-dupe-modal
@@ -93,8 +93,7 @@
 </template>
 
 <script>
-  import CollectionUploadFileInput
-    from '../components/collection_upload_file_input';
+  import PurpleGoldUploadFileInput from "./purplegold_upload_file_input";
   import Vuex from "vuex";
   import CollectionUploadDupeModal from "./collection_upload_dupe_modal";
   import UploadReview from "../components/collection_upload_review.vue";
@@ -108,8 +107,8 @@
   export default {
     name: "PurpleGoldUpload",
     components: {
+      PurpleGoldUploadFileInput,
       CollectionUploadDupeModal,
-      CollectionUploadFileInput,
       UploadReview,
       ApplicationList,
       CollectionComment,
@@ -167,7 +166,7 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
-        this.file = null;
+        this.file_data = null;
         this.upload_response = null;
         this.has_dupes = false;
         this.dupes = null;
@@ -203,30 +202,25 @@
       setCSRF() {
         this.csrfToken = $cookies.get("csrftoken");
       },
-      file_selected (file) {
-        this.file = file;
+      file_selected (file_data) {
+        this.file_data = file_data;
         this.handleUpload();
       },
       handleUpload() {
-        var vue = this;
-        let formData = new FormData();
-        // Reset error modals
-        this.invalid_csv = false;
+        var vue = this,
+            request = {
+              "assignments": this.file_data,
+              "is_purplegold": true,
+              "qtr_id": this.current_period
+            };
         this.is_uploading = true;
 
-        if (this.file !== null){
-          this.manual_upload = false;
-          formData.append('file', this.file);
-        }
-        formData.append('comment', this.comment);
-        formData.append('qtr_id', this.current_period);
-        formData.append('purplegold', true);
         axios.post(
-          '/api/upload',
-          formData,
+          '/api/syskeyupload',
+          request,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'application/json',
               'X-CSRFToken': this.csrfToken
             }
           }
@@ -235,14 +229,6 @@
           vue.upload_response = response.data;
           vue.applications = this.upload_response.assignments;
           vue.has_uploaded = true;
-          // Functionality disabled until we switch to doing lookups
-          // var dupes = vue.get_duplicates(vue.applications);
-          // if(dupes.length > 1){
-          //   vue.has_dupes = true;
-          //   vue.dupes = dupes;
-          // } else{
-          //   vue.has_uploaded = true;
-          // }
         }).catch(function (err_resp) {
           vue.invalid_csv = true;
           try {
@@ -270,27 +256,6 @@
         });
         return dupe_assignments;
       },
-      remove_applications(list){
-        var vue = this,
-            request = {'submit': false,
-                       'is_reassign': false,
-                       'is_reassign_protected': false,
-                       'to_delete': list};
-        axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
-          request,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': this.csrfToken
-            }
-          }
-        ).then(function(response) {
-          vue.upload_response = response.data;
-          vue.applications = vue.upload_response.assignments;
-          vue.has_uploaded = true;
-        });
-      },
       mark_for_submission(){
         var vue = this,
             request = {'is_submitted': true,
@@ -303,7 +268,7 @@
         this.is_submitting = true;
         vue.show_submitting_modal = true;
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.upload_response.id + "/",
           request,
           {
             headers: {

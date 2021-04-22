@@ -59,11 +59,12 @@
               </div>
               <component
                 :is="uploadComponent"
-                @fileselected="selectedFile"
+                @fileuploaded="selectedFile"
+                @fileerror="fileError"
               />
             </div>
             <upload-review v-else
-                           :upload-response="upload_response"
+                           :upload-response="syskey_upload_response"
                            :collection-type="collection_type"
                            :upload-type="manual_upload ? 'list' : 'file'"
                            :collection-options="collectionOptions"
@@ -91,8 +92,8 @@
             </ul>
             You will need to correct these before moving forward.
           </b-alert>
-          <b-alert id="add_app_fail_csv" :show="invalid_csv" variant="danger">
-            CSV is invalid. {{ error_message }}
+          <b-alert id="add_app_fail_csv" :show="file_invalid" variant="danger">
+            CSV is invalid. {{ file_invalid_msg }}
           </b-alert>
         </fieldset>
         <collection-comment
@@ -158,8 +159,12 @@
     },
     data(){
       return {
-        file: null,
+        file_data: null,
+        file_invalid: false,
+        file_invalid_msg: "",
+        filename: undefined,
         syskey_list: null,
+        syskey_upload_response: null,
         collection_id: null,
         comment: '',
         csrfToken: '',
@@ -174,14 +179,11 @@
         to_remove: [],
         is_reassign: false,
         is_reassign_protected: false,
-        invalid_manual: false,
         invalid_syskeys: [],
-        invalid_csv: false,
         submitted: false,
         is_uploading: false,
         is_submitting: false,
         submit_msg: "",
-        error_message: "",
         show_submitting_modal: false,
         show_timeout_modal: false
       };
@@ -214,7 +216,7 @@
         return this.submitted === false && this.has_uploaded === false;
       },
       invalid_upload: function() {
-        return this.invalid_csv || this.invalid_manual;
+        return this.invalid_manual;
       },
       hasCollections: function () {
         return this.collectionOptions.length > 0;
@@ -222,6 +224,20 @@
       show_details: function () {
         return (this.collectionType === 'Cohort' || this.collectionType === 'Major')
           && this.collection_id != null && this.collection_id.length > 0;
+      },
+      invalidSyskeys: function() {
+        var invalid_syskeys = [];
+        if (this.syskey_upload_response){
+          for (let app of this.syskey_upload_response.assignments) {
+            if(app.application_not_found){
+              invalid_syskeys.push(app.system_key);
+            }
+          }
+        }
+        return invalid_syskeys;
+      },
+      invalid_manual: function(){
+        return this.manual_upload && this.invalidSyskeys.length > 0;
       }
     },
     watch: {
@@ -230,6 +246,25 @@
           this.selectCollection(this.$route.params.id);
         }
       },
+      file_data: function(val){
+        this.file_invalid = this.validateFileData(val);
+        if(!this.file_invalid){
+          this.handleSyskeyUpload();
+        }
+      },
+      syskey_upload_response: function(val){
+        if(val !== undefined){
+          var dupes = this.get_duplicates(val.assignments);
+          if(dupes.length > 0) {
+            this.has_dupes = true;
+            this.dupes = dupes;
+          }
+          var invalid_syskeys = this.invalidSyskeys;
+          if(invalid_syskeys.length > 0){
+            this.invalid_syskeys = invalid_syskeys;
+          }
+        }
+      }
     },
     mounted() {
       if (this.$route.params.id !== undefined) {
@@ -244,68 +279,44 @@
       handleReset() {
         this.has_uploaded = false;
         this.upload_response = undefined;
-        this.file = null;
         this.syskey_list = null;
         this.upload_response = null;
         this.has_dupes = false;
         this.dupes = null;
         this.manual_upload = false;
+        this.file_invalid = false;
+        this.filename = undefined;
+        this.is_uploading = false;
       },
-      handleUpload() {
-        var vue = this;
-        let formData = new FormData();
-        // Reset error modals
-        this.invalid_csv = false;
-        this.invalid_manual = false;
-        this.is_uploading = true;
-
-        if (this.file !== null){
-          this.manual_upload = false;
-          formData.append('file', this.file);
-        } else  if (this.syskey_list !== null){
-          this.manual_upload = true;
-          formData.append('syskey_list', this.syskey_list);
-        }
-        formData.append('comment', this.comment);
-        formData.append('qtr_id', this.currentPeriod);
+      handleSyskeyUpload() {
+        const vue = this;
+        let request = {
+          'comment': this.comment,
+          'qtr_id': this.currentPeriod,
+          'syskey_list': this.syskey_list,
+          'file_name': this.filename
+        };
         if (this.collectionType == "Cohort") {
-          formData.append('cohort_id', this.collection_id);
+          request['cohort_id'] = this.collection_id;
         } else if (this.collectionType == "Major") {
-          formData.append('major_id', this.collection_id);
-        } else {
-          this.uploadResponse = "THERE WAS AN ERROR";
-          return;
+          request['major_id'] = this.collection_id;
         }
+        this.is_uploading = true;
         axios.post(
-          '/api/upload',
-          formData,
+          '/api/syskeyupload',
+          request,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'application/json',
               'X-CSRFToken': this.csrfToken
             }
           }
-        ).then(response => {
+        ).then(function(response) {
+          vue.syskey_upload_response = response.data;
+          vue.has_uploaded = true;
           vue.is_uploading = false;
-          vue.upload_response = response.data;
-          var dupes = vue.get_duplicates(this.upload_response.assignments);
-          if(dupes.length > 1){
-            vue.has_dupes = true;
-            vue.dupes = dupes;
-          } else{
-            vue.has_uploaded = true;
-          }
-        }).catch(function (err_resp) {
-          if(vue.file !== null){
-            vue.invalid_csv = true;
-            vue.error_message = err_resp.response.data.error;
-            vue.handleReset();
-          }else if(vue.syskey_list!==null){
-            vue.invalid_manual = true;
-            vue.invalid_syskeys = err_resp.response.data.invalid_syskeys;
-            vue.handleReset();
-          }
         });
+
       },
       handle_reassign(is_reassign){
         this.is_reassign = is_reassign;
@@ -329,7 +340,7 @@
           request.major_id = this.collection_id;
         }
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.syskey_upload_response.id + "/",
           request,
           {
             headers: {
@@ -373,7 +384,7 @@
                        'is_reassign_protected': false,
                        'to_delete': list};
         axios.put(
-          '/api/upload/' + this.upload_response.id + "/",
+          '/api/syskeyupload/' + this.syskey_upload_response.id + "/",
           request,
           {
             headers: {
@@ -382,7 +393,7 @@
             }
           }
         ).then(function(response) {
-          vue.upload_response = response.data;
+          vue.syskey_upload_response = response.data;
           vue.has_uploaded = true;
         });
       },
@@ -404,13 +415,20 @@
         });
         return dupe_assignments;
       },
-      selectedFile(file) {
-        this.file = file;
-        this.handleUpload();
-      },
       selectedList(list) {
         this.syskey_list = list;
-        this.handleUpload();
+        this.manual_upload = true;
+        this.handleSyskeyUpload();
+      },
+      selectedFile(file_data) {
+        this.handleReset();
+        this.syskey_list = file_data.syskeys;
+        this.filename = file_data.filename;
+        this.handleSyskeyUpload();
+      },
+      fileError(error){
+        this.file_invalid = true;
+        this.file_invalid_msg = error;
       },
       selectCollection(id){
         // Only allow options that are in list
