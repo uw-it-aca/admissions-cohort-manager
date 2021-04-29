@@ -152,33 +152,41 @@
           vue.fetch_err_msg = err_resp.response.data.error;
         });
       },
-      set_collection_data(){
+      set_collection_data(data){
         var vue = this;
-        $(this.collection_options).each(function(idx, val){
-          if(val.value.toString() === vue.collection_id){
-            if(vue.collection_type === "Cohort"){
-              vue.cohort_data = {
-                admit_decision : val.admit_decision,
-                applications_assigned : val.assigned_count,
-                description : val.description,
-                protected_group : val.protected,
-                residency : val.residency,
-                collection_id : val.value
-              };
-            } else if (vue.collection_type === "Major"){
-              vue.major_data = {
-                collection_id : val.abbr,
-                applications_assigned : val.assigned_count,
-                display_name : val.text,
-                college : val.college,
-                division : val.division,
-                program_code : val.value,
-                dtx: val.dtx
-              };
-            }
+        if(this.collection_type === 'Major') {
+          this.collection_options = [];
+          this.major_data = {
+            collection_id : data.abbr,
+            applications_assigned : data.applications_assigned,
+            display_name : data.text,
+            college : data.college,
+            division : data.division,
+            program_code : data.value,
+            dtx: data.dtx,
+            assigned_nonresident: data.assigned_nonresident,
+            assigned_resident: data.assigned_resident,
+            assigned_international: data.assigned_international
 
-          }
-        });
+          };
+        } else {
+          $(this.collection_options).each(function(idx, val){
+            if(val.value.toString() === vue.collection_id){
+              if(vue.collection_type === "Cohort"){
+                vue.cohort_data = {
+                  admit_decision : val.admit_decision,
+                  applications_assigned : val.assigned_count,
+                  description : val.description,
+                  protected_group : val.protected,
+                  residency : val.residency,
+                  collection_id : val.value
+                };
+              }
+
+            }
+          });
+        }
+
       },
       get_collection_options(){
         var vue = this,
@@ -187,14 +195,14 @@
           url ='/api/collection/cohort/' + this.current_period + "/";
         }
         if(this.collection_type === 'Major'){
-          url = '/api/collection/major/' + this.current_period + "/";
+          url = '/api/collection/major/' + this.current_period + "/" + vue.collection_id + "/";
         }
         if(url !== undefined){
           axios.get(
             url
           ).then(response => {
             vue.collection_options = response.data;
-            vue.set_collection_data();
+            vue.set_collection_data(response.data);
           });
         }
       },

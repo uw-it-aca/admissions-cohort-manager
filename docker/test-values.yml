@@ -15,6 +15,7 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "500"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "16K"
 database:
   engine: postgres
   secretName: aat-test.axdd.s.uw.edu-sql-secrets
@@ -45,7 +46,8 @@ affinity:
    podsSpanNodes: true
 readiness:
   enabled: true
-
+securityPolicy:
+  enabled: true
 environmentVariables:
   - name: ENV
     value: eval

@@ -13,7 +13,7 @@
         </b-button>
       </div>
       <div class="aat-page-section">
-        <p>You must be on the UW network or VPN to view this report. <a href="https://bitools.uw.edu/#/site/Production/views/PuGo/Awards?:iid=3" v-if="env === 'prod'">View in Tableau</a><a href="https://bitools.uw.edu/#/site/Transitional/views/PuGo/Awards?:iid=3" title="View in Tableau test environment" v-else>View in Tableau</a>.</p>
+        <p>You must be on the UW network or VPN to view this report. <a v-if="env === 'prod'" href="https://bitools.uw.edu/#/site/Production/views/PuGo/Awards?:iid=3">View in Tableau</a><a v-else href="https://bitools.uw.edu/#/site/Transitional/views/PuGo/Awards?:iid=3" title="View in Tableau test environment">View in Tableau</a>.</p>
         <iframe src="../purplegold_embed/" class="aat-pugo-iframe" width="100%" height="800" />
       </div>
     </div>

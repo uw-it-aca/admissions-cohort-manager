@@ -14,7 +14,7 @@
 <script>
   const parse = require("csv-parse/lib/sync");
   export default {
-    name: "CollectionUploadFileInput",
+    name: "PurpleGoldUploadFileInput",
     components: {},
     props: {},
     data(){
@@ -22,8 +22,7 @@
         file_upload: undefined,
         file: undefined,
         file_data: undefined,
-        file_invalid_msg: undefined,
-        file_name: undefined
+        file_invalid_msg: undefined
       };
     },
     watch: {
@@ -31,7 +30,7 @@
         this.selectedFile(file);
       },
       file_data: function(){
-        this.emitSyskeys();
+        this.emitAwards();
       }
     },
     mounted() {
@@ -39,7 +38,6 @@
     methods: {
       selectedFile(file) {
         this.file = file;
-        this.file_name = file.name;
         var contents,
             parsed_contents;
         const reader = new FileReader();
@@ -59,7 +57,7 @@
           const results = parse(csv_data, {
             columns: true,
             skip_empty_lines: true,
-            delimiter: "\t"
+            delimiter: ","
           });
           return results;
         } catch(err){
@@ -69,32 +67,38 @@
       emitError(err){
         this.$emit('fileerror', err);
       },
-      emitSyskeys(){
-        var syskeys = this.file_data.map(a => parseInt(a.SDBSrcSystemKey));
-        this.$emit('fileuploaded', {'syskeys': syskeys,
-                                    'filename': this.file_name});
+      emitAwards(){
+        this.$emit('fileuploaded', this.file_data);
       },
 
       validateFileData(data) {
-        var row_missing_key = false,
-            row_missing_value = false,
-            missing_data = false;
-
+        var has_error = false;
         if(data.length === 0){
-          missing_data = true;
           this.file_invalid_msg = "File does not contain data";
+          has_error = true;
         }
         for (const row of data){
-          if (!('SDBSrcSystemKey' in row)){
-            row_missing_key = true;
-            this.file_invalid_msg = "File missing column: SDBSrcSystemKey";
-          }else if(row['SDBSrcSystemKey'].length === 0){
-            row_missing_value = true;
-            this.file_invalid_msg = "One or more rows are missing an SDBSrcSystemKey";
+          if(this.missingValue(row, "admissionSelectionID") ||
+            this.missingValue(row, "awardAmount")
+          ){
+            has_error = true;
           }
+
         }
-        return row_missing_key || row_missing_value || missing_data;
+        return has_error;
       },
+
+      missingValue(data, value){
+        var missingValue = false;
+        if (!(value in data)){
+          missingValue = true;
+          this.file_invalid_msg = "File missing column: " + value;
+        }else if(data['admissionSelectionID'].length === 0){
+          missingValue = true;
+          this.file_invalid_msg = "One or more rows are missing an " + value;
+        }
+        return missingValue;
+      }
     },
   };
 </script>

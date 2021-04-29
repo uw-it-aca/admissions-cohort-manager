@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
@@ -69,15 +72,21 @@ class TestViewApi(TestCase):
         request.session = self.client.session
         return request
 
-    def get_response(self, url_name, **kwargs):
+    def get_response(self, url_name, get_args=None, **kwargs):
         url = reverse(url_name, **kwargs)
-        return self.client.get(url, **kwargs)
+        return self.client.get(url, get_args, **kwargs)
 
     def post_response(self, url_name, body, **kwargs):
         url = reverse(url_name, **kwargs)
         return self.client.post(url,
                                 data=body,
                                 content_type="application/json")
+
+    def put_response(self, url_name, body, **kwargs):
+        url = reverse(url_name, **kwargs)
+        return self.client.put(url,
+                               data=body,
+                               content_type="application/json")
 
     def post_form_response(self, url_name, body, **kwargs):
         url = reverse(url_name, **kwargs)

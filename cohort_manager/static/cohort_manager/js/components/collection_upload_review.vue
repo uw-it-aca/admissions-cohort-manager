@@ -122,7 +122,6 @@
     },
     data(){
       return {
-        upload_count: 0,
         uploaded_filename: '',
         text: "This is some text.",
         upload_response: {},
@@ -155,6 +154,16 @@
           }
         });
         return protected_ids;
+      },
+      upload_count: function(){
+        var valid_count = 0,
+            assignments = this.$props.uploadResponse.assignments;
+        for(var assign in assignments){
+          if(!assignments[assign].application_not_found){
+            valid_count += 1;
+          }
+        }
+        return valid_count;
       }
     },
     watch: {
@@ -209,7 +218,6 @@
     mounted() {
       this.csrfToken = $cookies.get("csrftoken");
       this.collection_type = this.$props.collectionType;
-      this.upload_count = this.$props.uploadResponse.assignments.length;
       this.uploaded_filename = this.$props.uploadResponse.upload_filename;
       this.upload_response = this.$props.uploadResponse;
     },

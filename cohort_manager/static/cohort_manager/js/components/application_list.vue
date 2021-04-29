@@ -242,7 +242,7 @@
             vue = this;
         $.each(vue.selected, function(key, value){
           if (value === true){
-            keys_to_keep.push(key);
+            keys_to_keep.push(parseInt(key));
           }
         });
         $.each(vue.applications, function(idx, app){
