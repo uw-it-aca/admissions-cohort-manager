@@ -124,7 +124,6 @@
       return {
         uploaded_filename: '',
         text: "This is some text.",
-        upload_response: {},
         already_assigned: [],
         already_assigned_protected: [],
         duplicates: [],
@@ -167,9 +166,11 @@
       }
     },
     watch: {
-      upload_response: function(){
+      uploadResponse: function(){
         var vue = this;
-        $.each(this.upload_response.assignments, function(idx, assignment){
+        this.already_assigned = [];
+        this.already_assigned_protected = [];
+        $.each(this.uploadResponse.assignments, function(idx, assignment){
           if(vue.collectionType === "Major"){
             if(assignment.assigned_major !== null){
               $.each(vue.collectionOptions, function (idx, collection) {
@@ -198,7 +199,7 @@
             }
           }
         });
-        this.duplicates = this.get_duplicates(this.upload_response.assignments);
+        this.duplicates = this.get_duplicates(this.uploadResponse.assignments);
       },
       is_reassign: function(value){
         if(typeof value === "string"){
@@ -219,7 +220,6 @@
       this.csrfToken = $cookies.get("csrftoken");
       this.collection_type = this.$props.collectionType;
       this.uploaded_filename = this.$props.uploadResponse.upload_filename;
-      this.upload_response = this.$props.uploadResponse;
     },
     methods: {
       proc: function(list){
