@@ -25,7 +25,7 @@ setup(
     install_requires=[
         'django>=2.2,<2.3',
         'UW-Django-SAML2>=1.4,<2.0',
-        'django-webpack-loader',
+        'django-webpack-loader<1.0',
         'UW-RestClients-AdSel>=1.7.8,<2.0',
         'django-userservice<4.0,>3.1'
         'pytz==2019.3',
