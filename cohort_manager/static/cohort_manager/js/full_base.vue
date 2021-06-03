@@ -70,9 +70,18 @@
           </h3>
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
             <li class="aat-button-override">
-              <b-link to="/cohort/" tabindex="1">
-                Assign Cohort
-              </b-link>
+              <b-dropdown text="Assign Cohort">
+                <b-dropdown-item>
+                  <b-link to="/cohort/" tabindex="1">
+                    Assign Freshman Cohort
+                  </b-link>
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <b-link to="/tpbcohort/" tabindex="1">
+                    Assign TPB Cohort
+                  </b-link>
+                </b-dropdown-item>
+              </b-dropdown>
             </li>
             <li class="aat-button-override">
               <b-link to="/major/" tabindex="1">
