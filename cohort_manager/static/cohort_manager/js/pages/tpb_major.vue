@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="aat_page_header" class="aat-page-header">
-      Assign to Major (Freshman)
+      Assign to Major (Transfer/Post-Bac)
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
@@ -13,7 +13,7 @@
   const axios = require("axios");
 
   export default {
-    name: "Major",
+    name: "TPBMajor",
     components: {
       upload: Upload,
     },
@@ -45,7 +45,7 @@
         properties['currentPeriod'] = this.current_period;
         properties['loadingCollection'] = this.loading_collection;
         properties['periods'] = this.periods;
-        properties['isTpb'] = false;
+        properties['isTpb'] = true;
         return properties;
       }
     },
