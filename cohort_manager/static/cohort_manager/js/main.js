@@ -11,6 +11,7 @@ import Cohort from './pages/cohort.vue';
 import Major from './pages/major.vue';
 import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
+import DDList from './pages/dd_list.vue';
 import Log from './pages/log.vue';
 import BulkHandler from './pages/bulk_handler.vue';
 import PurpleGold from './pages/purplegold.vue';
@@ -43,6 +44,7 @@ var router = new VueRouter({
     { path: '/major/:id', component: Major },
     { path: '/cohort_list/', component: CohortList },
     { path: '/major_list/', component: MajorList },
+    { path: '/dd_list/', component: DDList },
     { path: '/log/', component: Log },
     { path: '/log/:id', component: Log },
     { path: '/iframe/bulk_view/:id', component: BulkHandler},

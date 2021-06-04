@@ -109,6 +109,11 @@
               </b-link>
             </li>
             <li>
+              <b-link to="/dd_list/" tabindex="1" class="nav-link aat-link" title="View all departmental decisions">
+                Departmental Decisions
+              </b-link>
+            </li>
+            <li>
               <b-link to="/purplegold/" tabindex="1" class="nav-link aat-link" title="Manage Purple and Gold scholarships">
                 P&#38;G Scholarships
               </b-link>
