@@ -13,6 +13,7 @@ import pytz
 MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
 PURPLEGOLD_COLLECTION_TYPE = "purplegold"
+DD_COLLECTION_TYPE = "dd"
 
 
 def get_current_quarters():
@@ -125,8 +126,8 @@ def get_activity_log(**kwargs):
 
 
 def get_collection_list_by_type(collection_type, quarter_id):
+    client = AdSel()
     if collection_type == MAJOR_COLLECTION_TYPE:
-        client = AdSel()
         majors = client.get_majors_by_qtr(quarter_id)
         response = []
         for major in majors:
@@ -140,7 +141,6 @@ def get_collection_list_by_type(collection_type, quarter_id):
 
         return response
     elif collection_type == COHORT_COLLECTION_TYPE:
-        client = AdSel()
         cohorts = client.get_cohorts_by_qtr(quarter_id)
         response = []
         for cohort in cohorts:
@@ -151,6 +151,17 @@ def get_collection_list_by_type(collection_type, quarter_id):
                              'protected': cohort.protected_group,
                              'admit_decision': cohort.admit_decision,
                              'assigned_count': cohort.assigned_count
+                             })
+
+        sorted_response = sorted(response, key=lambda k: k['value'])
+        return sorted_response
+    elif collection_type == DD_COLLECTION_TYPE:
+        decisions = client.get_decisions_by_qtr(quarter_id)
+        response = []
+        for decision in decisions:
+            response.append({'value': decision.decision_id,
+                             'text': decision.display_name,
+                             'assigned_count': decision.assigned_count
                              })
 
         sorted_response = sorted(response, key=lambda k: k['value'])

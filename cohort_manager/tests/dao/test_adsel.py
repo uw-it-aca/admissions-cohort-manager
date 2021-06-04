@@ -8,6 +8,7 @@ from cohort_manager.dao.adsel import get_collection_by_id_type, \
     get_collection_list_by_type, get_application_by_qtr_syskey, \
     get_apps_by_qtr_id_syskey_list, _get_collection, submit_collection, \
     reset_purplegold, reset_collection, get_application_from_bulk_upload
+
 from cohort_manager.models import SyskeyImport, PurpleGoldImport, \
     AssignmentImport, Assignment
 
@@ -120,6 +121,10 @@ class RestDispatchTest(TestCase):
         list = get_collection_list_by_type("cohort", 0)
         self.assertEqual(len(list), 6)
         self.assertEqual(list[0]['value'], 1)
+
+        list = get_collection_list_by_type("dd", 0)
+        self.assertEqual(len(list), 5)
+        self.assertEqual(list[0]['value'], "0_foo_1")
 
         with self.assertRaises(InvalidCollectionException):
             get_collection_list_by_type("foo", 1)
