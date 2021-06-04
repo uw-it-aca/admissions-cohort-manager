@@ -14,6 +14,7 @@ import MajorList from './pages/major_list.vue';
 import Log from './pages/log.vue';
 import BulkHandler from './pages/bulk_handler.vue';
 import PurpleGold from './pages/purplegold.vue';
+import DeptDecision from './pages/dept_decision.vue';
 import store from './store';
 
 // import the bootstrap / bootstrap-vue base css
@@ -47,6 +48,7 @@ var router = new VueRouter({
     { path: '/iframe/bulk_view/:id', component: BulkHandler},
     { path: '/iframe/log/', component: Log },
     { path: '/purplegold/', component: PurpleGold },
+    { path: '/dept_decision/:dd_number', component: DeptDecision },
   ]
 });
 
