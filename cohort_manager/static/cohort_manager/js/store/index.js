@@ -8,6 +8,7 @@ import cohortlist from './api/cohortlist';
 import activities from './api/activities';
 import periodlist from "./api/periodlist";
 import period from './models/period';
+import decisionlist from "./api/decisionlist";
 
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     cohortlist,
     periodlist,
     activities,
-    period
+    period,
+    decisionlist
   },
 });
 const $axios = axios.create();

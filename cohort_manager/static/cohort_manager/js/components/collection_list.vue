@@ -59,6 +59,27 @@
       </b-table>
     </div>
 
+    <div v-else-if="collectionType === 'DD'">
+      <b-table
+        v-if="show_error === false"
+        hover
+        responsive
+        show-empty
+        small
+        class="aat-data-table"
+        :busy="is_loading"
+        :items="decisions"
+        :fields="ddFields"
+        sort-by="value"
+      >
+        <template #table-busy>
+          <div class="text-center text-info">
+            <b-spinner class="align-middle" />
+            <strong>Loading...</strong>
+          </div>
+        </template>
+      </b-table>
+    </div>
     <div v-else>
       Error: There was an issue with your request. Please select a link from the left column to try again.
     </div>
@@ -76,6 +97,8 @@
 </template>
 
 <script>
+  import Vuex from "vuex";
+
   const axios = require("axios");
   import { EventBus } from "../main";
   import ResetModal from "../components/reset_modal";
@@ -135,7 +158,6 @@
             label: '',
             class: "aat-actions-cell aat-data-cell aat-data-nowrap", },
         ],
-        cohorts: [],
         majorFields: [
           {
             key: 'value',
@@ -182,7 +204,28 @@
             sortable: false,
           }
         ],
-        majors: [],
+        ddFields: [
+          {
+            key: 'value',
+            label: 'DD ID',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
+            key: 'text',
+            label: 'Decision',
+            class: "aat-data-cell",
+            thClass: "aat-table-header",
+            sortable: false,
+          },
+          {
+            key: 'assigned_count',
+            class: "aat-data-cell center",
+            thClass: "aat-table-header",
+            sortable: false,
+          }
+        ],
         show_reset_modal: false,
         resetModal: {
           id: 'reset-modal',
@@ -203,9 +246,23 @@
     computed: {
       modal_key: function () {
         return this.resetModal.itemId + this.resetModal.timestamp;
-      }
+      },
+      ...Vuex.mapState({
+        majors: state => state.majorlist.majors,
+        cohorts: state => state.cohortlist.cohorts,
+        decisions: state => state.decisionlist.decisions
+      }),
     },
     watch: {
+      cohorts: function(){
+        this.is_loading= false;
+      },
+      decisions: function(){
+        this.is_loading= false;
+      },
+      majors: function(){
+        this.is_loading= false;
+      },
       checked: function(val){
         if(val === false){
           this.resetModal.ok_disabled = true;
@@ -230,6 +287,15 @@
         this.csrfToken = $cookies.get("csrftoken");
       },
       load_data(){
+        if(this.collectionType.toLowerCase() === "dd"){
+          this.$store.dispatch('decisionlist/get_decisions', this.admissions_period);
+        } else if(this.collectionType.toLowerCase() === "cohort"){
+          this.$store.dispatch('cohortlist/get_cohorts', this.admissions_period);
+        }else if(this.collectionType.toLowerCase() === "major"){
+          this.$store.dispatch('majorlist/get_majors', this.admissions_period);
+        }
+      },
+      _load_data_direct(){
         var vue = this;
         this.is_loading = true;
         this.show_error = false;
