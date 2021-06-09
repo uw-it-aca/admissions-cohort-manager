@@ -4,7 +4,7 @@
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
-    PurpleGoldAssignment, PurpleGoldApplication
+    PurpleGoldAssignment, PurpleGoldApplication, DecisionAssignment
 from restclients_core.exceptions import DataFailureException
 from cohort_manager.models import SyskeyImport
 import pytz
@@ -200,6 +200,11 @@ def _get_collection(assignment_import):
             assignment = MajorAssignment()
             assignment.major_code = assignment_import.major
             assignment_set = assignment_import.get_assignments()
+        elif assignment_import.decision and \
+                len(assignment_import.decision) > 0:
+            assignment = DecisionAssignment()
+            assignment.decision = assignment_import.decision
+            assignment_set = assignment_import.get_assignments()
     else:
         assignment = PurpleGoldAssignment()
         assignment_set = assignment_import.purplegoldlistassignment_set.all()
@@ -243,6 +248,9 @@ def submit_collection(assignment_import):
                 return client.assign_cohorts_manual(assignment)
         elif assignment_import.major and len(assignment_import.major) > 0:
             return client.assign_majors(assignment)
+        elif assignment_import.decision and \
+                len(assignment_import.decision) > 0:
+            return client.assign_decisions(assignment)
     else:
         return client.assign_purple_gold(assignment)
 

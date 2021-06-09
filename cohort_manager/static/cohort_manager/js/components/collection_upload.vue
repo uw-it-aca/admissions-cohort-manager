@@ -300,6 +300,8 @@
           request['cohort_id'] = this.collection_id;
         } else if (this.collectionType == "Major") {
           request['major_id'] = this.collection_id;
+        } else if (this.collectionType == "DD") {
+          request['decision_id'] = this.collection_id;
         }
         this.is_uploading = true;
         axios.post(
@@ -338,6 +340,8 @@
           request.cohort_id = this.collection_id;
         } else if (this.collectionType == "Major") {
           request.major_id = this.collection_id;
+        } else if (this.collectionType == "DD") {
+          request['decision_id'] = this.collection_id;
         }
         axios.put(
           '/api/syskeyupload/' + this.syskey_upload_response.id + "/",
@@ -372,6 +376,9 @@
           this.$emit('show-message', "Assignment to Cohort " + this.collection_id + " submitted");
           this.$router.push({path: '/log'});
         } else if(this.collection_type == "Major"){
+          this.$emit('', "Assignment to " + this.collection_id + " submitted");
+          this.$router.push({path: '/log'});
+        }else if(this.collection_type == "DD"){
           this.$emit('', "Assignment to " + this.collection_id + " submitted");
           this.$router.push({path: '/log'});
         }

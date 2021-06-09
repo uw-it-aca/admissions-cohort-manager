@@ -147,6 +147,7 @@ class SyskeyImport(Import):
     is_override = models.NullBooleanField(default=False)
     cohort = models.IntegerField(blank=True, null=True)
     major = models.CharField(max_length=128, blank=True, null=True)
+    decision = models.CharField(max_length=128, blank=True, null=True)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
 
@@ -160,10 +161,13 @@ class SyskeyImport(Import):
 
         cohort_id = upload_body.get('cohort_id')
         major_id = upload_body.get('major_id')
+        decision_id = upload_body.get('decision_id')
         if cohort_id:
             sys_import.cohort = cohort_id
         if major_id:
             sys_import.major = major_id
+        if decision_id:
+            sys_import.decision = decision_id
 
         # Saving import before creating FK relationships
         sys_import.save()
@@ -180,6 +184,7 @@ class SyskeyImport(Import):
         extra_data = {
             'cohort': self.cohort,
             'major': self.major,
+            'decision': self.decision,
             'is_override': True if self.is_override else False,
             'is_reassign': True if self.is_reassign else False,
             'is_reassign_protected':

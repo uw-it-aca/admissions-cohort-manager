@@ -82,6 +82,7 @@ class SyskeyImportTest(TestCase):
                 'comment': 'This is a comment',
                 'cohort': 52,
                 'major': None,
+                'decision': None,
                 'is_override': False,
                 'upload_filename': None,
                 'created_date': '2021-02-02T00:24:21+00:00',

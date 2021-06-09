@@ -50,6 +50,7 @@ class ModifySyskeyUploadView(RESTDispatch):
         comment = request_params.get('comment', '')
         major_id = request_params.get('major_id')
         cohort_id = request_params.get('cohort_id')
+        decision_id = request_params.get('decision_id')
         user = UserService().get_original_user()
         is_purplegold = request_params.get('purplegold')
 
@@ -63,6 +64,9 @@ class ModifySyskeyUploadView(RESTDispatch):
                     upload.cohort = cohort_id
                 if major_id:
                     upload.major = major_id
+                if decision_id:
+                    upload.decision = decision_id
+
                 upload.is_reassign = is_reassign
                 upload.is_reassign_protected = is_reassign_protected
                 upload.remove_assignments(ids_to_delete)
