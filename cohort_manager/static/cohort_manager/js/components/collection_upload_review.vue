@@ -17,7 +17,9 @@
           <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Clear applications</a>
         </span>
       </span>
-    </p>
+    </p><div v-if="no_cohort_count > 0" class="no-cohort-count-alert">
+      <b-icon-exclamation-triangle /> <span class="no-cohort-count-text">{{ no_cohort_count }} of these applications do not have a cohort assignment.</span>
+    </div>
     <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
       <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
@@ -163,6 +165,15 @@
           }
         }
         return valid_count;
+      },
+      no_cohort_count: function(){
+        var no_cohort_count = 0;
+        $.each(this.uploadResponse.assignments, function(idx, assignment){
+          if(assignment.assigned_cohort === null){
+            no_cohort_count++;
+          }
+        });
+        return no_cohort_count;
       }
     },
     watch: {
@@ -244,7 +255,7 @@
           }
         });
         return dupe_assignments;
-      }
+      },
     },
   };
 </script>

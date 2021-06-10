@@ -571,6 +571,18 @@
     right: 2rem;
     z-index: 99;
   }
+
+  .no-cohort-count-alert {
+    border: 3px solid #d75555;
+    color: #d75555;
+    font-weight: bold;
+    padding: 10px;
+    width: 650px;
+  }
+
+  .no-cohort-count-text {
+    color: #000;
+  }
   // footer styles
   .aat-footer {
     background-color: $uw-purple;
@@ -727,4 +739,5 @@
   .aat-processing-text {
     color: $uw-purple !important;
   }
+
 </style>
