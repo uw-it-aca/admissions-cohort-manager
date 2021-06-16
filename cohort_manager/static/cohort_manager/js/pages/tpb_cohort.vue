@@ -1,6 +1,5 @@
 <template>
   <div>
-    q
     <h1 id="aat_page_header" class="aat-page-header">
       Assign to Transfer/Post-Bac Cohort
     </h1>

@@ -69,22 +69,34 @@
             Assign Applications
           </h3>
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
-            <li class="aat-button-override">
-              <b-dropdown text="Assign Cohort">
-                <b-dropdown-item>
-                  <b-link to="/cohort/" tabindex="1">
-                    Assign Freshman Cohort
-                  </b-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <b-link to="/tpbcohort/" tabindex="1">
-                    Assign TPB Cohort
-                  </b-link>
-                </b-dropdown-item>
-              </b-dropdown>
+            <li>
+              <b-button
+                class="aat-button-override"
+                id="aat-assign-cohort-btn"
+                :class="visible ? null : 'collapsed'"
+                :aria-expanded="visible ? 'true' : 'false'"
+                aria-controls="aat-assign-cohort-collapse"
+                @click="visible = !visible"
+               >
+                Assign Cohort
+              </b-button>
+              <b-collapse id="aat-assign-cohort-collapse" v-model="visible">
+                <ul aria-describedby="aat-assign-cohort-btn">
+                  <li>
+                    <b-link to="/cohort/" tabindex="1">
+                      Assign Freshman Cohort
+                    </b-link>
+                  </li>
+                  <li>        
+                    <b-link to="/tpbcohort/" tabindex="1">
+                      Assign TPB Cohort
+                    </b-link>
+                  </li>
+                </ul>
+              </b-collapse>
             </li>
-            <li class="aat-button-override">
-              <b-dropdown text="Assign Major">
+            <li>
+              <b-dropdown text="Assign Major" class="aat-button-override">
                 <b-dropdown-item>
                   <b-link to="/major/" tabindex="1">
                     Assign Freshman Major
@@ -194,7 +206,8 @@
         navCount: 0,
         cur_period: null,
         alertType: null,
-        env: ''
+        env: '',
+        visible: true
       };
     },
     computed: {
@@ -497,15 +510,15 @@
     padding: 0.5rem 1rem !important;
   }
 
-  .aat-button-override {
+  .aat-button-override { 
     background: none;
     border-color: $uw-light-grey;
     border-radius: 0;
     border-style: none none solid;
     border-width: 1px;
     color: $text-color;
-    margin: 0 -1rem;
     text-align: left;
+    width: 100%;
 
     a:hover {
       background-color: $nav-hover-bkgnd;
@@ -527,8 +540,6 @@
 
   .aat-button-override a {
     color: $text-color;
-    display: block;
-    padding: 1rem 0 1rem 2rem;
     width: 100%;
 
     &::after {
