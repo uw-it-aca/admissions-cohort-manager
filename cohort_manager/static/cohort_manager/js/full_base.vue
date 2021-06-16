@@ -96,18 +96,30 @@
               </b-collapse>
             </li>
             <li>
-              <b-dropdown text="Assign Major" class="aat-button-override">
-                <b-dropdown-item>
-                  <b-link to="/major/" tabindex="1">
-                    Assign Freshman Major
-                  </b-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <b-link to="/tpbmajor/" tabindex="1">
-                    Assign TPB Major
-                  </b-link>
-                </b-dropdown-item>
-              </b-dropdown>
+              <b-button
+                class="aat-button-override"
+                id="aat-assign-cohort-btn"
+                :class="visible ? null : 'collapsed'"
+                :aria-expanded="visible ? 'true' : 'false'"
+                aria-controls="aat-assign-major-collapse"
+                @click="visible = !visible"
+               >
+                Assign Major
+              </b-button>
+              <b-collapse id="aat-assign-major-collapse" v-model="visible">
+                <ul aria-describedby="aat-assign-major-btn">
+                  <li>
+                    <b-link to="/major/" tabindex="1">
+                      Assign Freshman Major
+                    </b-link>
+                  </li>
+                  <li>        
+                    <b-link to="/tpbmajor/" tabindex="1">
+                      Assign TPB Major
+                    </b-link>
+                  </li>
+                </ul>
+              </b-collapse>
             </li>
           </b-navbar-nav>
           <h3 id="aat_navlink_header" class="sr-only">
