@@ -71,24 +71,24 @@
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
             <li>
               <b-button
-                class="aat-button-override"
+                class="aat-button-override aat-collapse-btn"
                 id="aat-assign-cohort-btn"
-                :class="visible ? null : 'collapsed'"
-                :aria-expanded="visible ? 'true' : 'false'"
+                :class="visible1 ? null : 'collapsed'"
+                :aria-expanded="visible1 ? 'true' : 'false'"
                 aria-controls="aat-assign-cohort-collapse"
-                @click="visible = !visible"
+                @click="visible1 = !visible1"
                >
                 Assign Cohort
               </b-button>
-              <b-collapse id="aat-assign-cohort-collapse" v-model="visible">
-                <ul aria-describedby="aat-assign-cohort-btn">
+              <b-collapse id="aat-assign-cohort-collapse" v-model="visible1">
+                <ul aria-describedby="aat-assign-cohort-btn" class="navbar-nav aat-nav-group">
                   <li>
-                    <b-link to="/cohort/" tabindex="1">
+                    <b-link class="nav-link aat-link" to="/cohort/" tabindex="1">
                       Assign Freshman Cohort
                     </b-link>
                   </li>
                   <li>        
-                    <b-link to="/tpbcohort/" tabindex="1">
+                    <b-link class="nav-link aat-link" to="/tpbcohort/" tabindex="1">
                       Assign TPB Cohort
                     </b-link>
                   </li>
@@ -97,8 +97,8 @@
             </li>
             <li>
               <b-button
-                class="aat-button-override"
-                id="aat-assign-cohort-btn"
+                class="aat-button-override aat-collapse-btn"
+                id="aat-assign-major-btn"
                 :class="visible ? null : 'collapsed'"
                 :aria-expanded="visible ? 'true' : 'false'"
                 aria-controls="aat-assign-major-collapse"
@@ -107,14 +107,14 @@
                 Assign Major
               </b-button>
               <b-collapse id="aat-assign-major-collapse" v-model="visible">
-                <ul aria-describedby="aat-assign-major-btn">
+                <ul aria-describedby="aat-assign-major-btn" class="navbar-nav aat-nav-group">
                   <li>
-                    <b-link to="/major/" tabindex="1">
+                    <b-link class="nav-link aat-link" to="/major/" tabindex="1">
                       Assign Freshman Major
                     </b-link>
                   </li>
                   <li>        
-                    <b-link to="/tpbmajor/" tabindex="1">
+                    <b-link class="nav-link aat-link" to="/tpbmajor/" tabindex="1">
                       Assign TPB Major
                     </b-link>
                   </li>
@@ -219,7 +219,8 @@
         cur_period: null,
         alertType: null,
         env: '',
-        visible: true
+        visible: true,
+        visible1: true
       };
     },
     computed: {
@@ -484,11 +485,16 @@
 
 
   // side-nav styles
+
   .aat-nav-container {
     align-items: start !important;
     clear: both;
     flex-direction: column !important;
     padding: 0;
+
+    li {
+      font-size: 90%;
+    }
   }
 
   .aat-main-navbar {
@@ -509,7 +515,7 @@
       width: 100%;
     }
   }
-  @media (min-height: 730px) and (min-width: 992px) {
+  @media (min-height: 900px) and (min-width: 992px) {
     .aat-nav-container {
       background-color: #fff;
       overflow-x: hidden;
@@ -594,7 +600,7 @@
   }
 
   .aat-cohort-manager {
-    min-height: 80vh;
+    min-height: 85vh;
     overflow: hidden;
 
     .aat-content-area {
