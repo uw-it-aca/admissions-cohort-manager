@@ -71,7 +71,7 @@
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
             <li>
               <b-button
-                class="aat-button-override aat-collapse-btn"
+                class="aat-collapse-btn"
                 id="aat-assign-cohort-btn"
                 :class="visible1 ? null : 'collapsed'"
                 :aria-expanded="visible1 ? 'true' : 'false'"
@@ -97,7 +97,7 @@
             </li>
             <li>
               <b-button
-                class="aat-button-override aat-collapse-btn"
+                class="aat-collapse-btn"
                 id="aat-assign-major-btn"
                 :class="visible ? null : 'collapsed'"
                 :aria-expanded="visible ? 'true' : 'false'"
@@ -485,6 +485,16 @@
 
 
   // side-nav styles
+
+  .aat-collapse-btn {
+    background-color: #fff;
+    border: 1px solid $uw-light-grey;
+    font-size: 115%;
+    font-weight: bold;
+    text-align: left;
+    text-transform: capitalize;
+    width: 100%;
+  }
 
   .aat-nav-container {
     align-items: start !important;
