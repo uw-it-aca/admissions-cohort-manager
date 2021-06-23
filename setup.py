@@ -26,7 +26,7 @@ setup(
         'django>=2.2,<2.3',
         'UW-Django-SAML2>=1.4,<2.0',
         'django-webpack-loader<1.0',
-        'UW-RestClients-AdSel>=1.7.11,<2.0',
+        'UW-RestClients-AdSel>=1.7.12,<2.0',
         'django-userservice<4.0,>3.1'
         'pytz==2019.3',
         'django-cookies-samesite'

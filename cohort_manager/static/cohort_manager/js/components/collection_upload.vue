@@ -6,7 +6,7 @@
           <legend class="aat-sub-header">
             Select {{ collectionType }}
           </legend>
-          <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else>major</span></label>
+          <label for="input-with-list">Assign applications to <span v-if="collectionType === 'Cohort'">cohort</span><span v-else-if="collectionType === 'DD'">decision</span><span v-else>major</span></label>
           <div v-if="hasCollections" class="aat-select-inline">
             <b-form-input id="input-with-list"
                           v-model="collection_id"
@@ -28,7 +28,7 @@
           </div>
         </fieldset>
         <div class="aat-collection-note">
-          Please confirm {{ collectionType.toLowerCase() }} information is correct before entering applications.
+          Please confirm {{ collectionName.toLowerCase() }} information is correct before entering applications.
         </div>
         <div role="region" aria-live="polite">
           <collectionDetails
@@ -189,6 +189,14 @@
       };
     },
     computed: {
+      collectionName: function(){
+        console.log(this.collectionType);
+        if(this.collectionType == 'DD'){
+          return "Departmental Decision";
+        } else {
+          return this.collectionType;
+        }
+      },
       uploadComponent: function () {
         if (this.manual_upload) {
           return "CollectionUploadListInput";

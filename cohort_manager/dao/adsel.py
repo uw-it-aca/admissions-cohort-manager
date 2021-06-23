@@ -156,12 +156,11 @@ def get_collection_list_by_type(collection_type, quarter_id):
         sorted_response = sorted(response, key=lambda k: k['value'])
         return sorted_response
     elif collection_type == DD_COLLECTION_TYPE:
-        decisions = client.get_decisions_by_qtr(quarter_id)
+        decisions = client.get_decisions()
         response = []
         for decision in decisions:
             response.append({'value': decision.decision_id,
-                             'text': decision.display_name,
-                             'assigned_count': decision.assigned_count
+                             'text': decision.decision_name,
                              })
 
         sorted_response = sorted(response, key=lambda k: k['value'])
