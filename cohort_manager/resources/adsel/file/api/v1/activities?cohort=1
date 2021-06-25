@@ -8,6 +8,8 @@
       "cohortNbr": 1,
       "majorAbbr": null,
       "majorProgramCode": "",
+      "assignmentCategory": "Cohort",
+      "decisionImportID": 632,
       "totalSubmitted": 20,
       "totalAssigned": 19
     },
@@ -19,6 +21,8 @@
       "cohortNbr": 1,
       "majorAbbr": null,
       "majorProgramCode": "",
+      "assignmentCategory": "Cohort",
+      "decisionImportID": 632,
       "totalSubmitted": 20044,
       "totalAssigned": 1547
     }

@@ -123,8 +123,8 @@ class RestDispatchTest(TestCase):
         self.assertEqual(list[0]['value'], 1)
 
         list = get_collection_list_by_type("dd", 0)
-        self.assertEqual(len(list), 5)
-        self.assertEqual(list[0]['value'], "0_foo_1")
+        self.assertEqual(len(list), 9)
+        self.assertEqual(list[0]['value'], 1)
 
         with self.assertRaises(InvalidCollectionException):
             get_collection_list_by_type("foo", 1)
