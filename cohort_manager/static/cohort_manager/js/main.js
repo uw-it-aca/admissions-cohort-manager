@@ -50,7 +50,7 @@ var router = new VueRouter({
     { path: '/iframe/bulk_view/:id', component: BulkHandler},
     { path: '/iframe/log/', component: Log },
     { path: '/purplegold/', component: PurpleGold },
-    { path: '/dept_decision/:dd_number', component: DeptDecision },
+    { path: '/dept_decision/', component: DeptDecision },
   ]
 });
 

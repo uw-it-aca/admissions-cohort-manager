@@ -1,16 +1,12 @@
 <template>
   <div>
     <h1 id="aat_page_header" class="aat-page-header">
-      Assign Departmental Decision {{ dd_number }}
+      Assign Departmental Decision
     </h1>
     <upload
-      v-if="validDDNumber"
       v-bind="currentProperties"
       v-on="$listeners"
     />
-    <p v-else>
-      Invalid Dept Decision number supplied, may only assign to 1 or 2
-    </p>
   </div>
 </template>
 

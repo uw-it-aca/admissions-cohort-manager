@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from django.db import models
-from uw_adsel.models import Application, PurpleGoldApplication
+from uw_adsel.models import Application, PurpleGoldApplication, \
+    DepartmentalDecisionApplication
 from uw_adsel import AdSel
 from io import StringIO
 import csv
@@ -23,6 +24,7 @@ class SyskeyAssignment(models.Model):
     campus = models.PositiveSmallIntegerField(
         default=1, choices=CAMPUS_CHOICES)
     application_not_found = models.BooleanField(default=False)
+    decision_id = models.PositiveIntegerField(null=True)
 
     @staticmethod
     def create_from_adsel_appliction(application, assignment_import):
@@ -35,6 +37,7 @@ class SyskeyAssignment(models.Model):
         syskey_app.assigned_major = application.assigned_major
         syskey_app.major_program_code = application.major_program_code
         syskey_app.campus = application.campus
+        syskey_app.decision_id = assignment_import.decision_id
         syskey_app.save()
 
     @staticmethod
@@ -79,7 +82,11 @@ class SyskeyAssignment(models.Model):
         }
 
     def get_application(self):
-        app = Application()
+        if self.decision_id is not None:
+            app = DepartmentalDecisionApplication()
+            app.decision_id = self.decision_id
+        else:
+            app = Application()
         app.adsel_id = int(self.admission_selection_id)
         app.system_key = self.system_key
         app.application_number = self.application_number
@@ -147,7 +154,7 @@ class SyskeyImport(Import):
     is_override = models.NullBooleanField(default=False)
     cohort = models.IntegerField(blank=True, null=True)
     major = models.CharField(max_length=128, blank=True, null=True)
-    decision = models.CharField(max_length=128, blank=True, null=True)
+    decision_id = models.IntegerField(blank=True, null=True)
     is_reassign = models.BooleanField(default=False)
     is_reassign_protected = models.BooleanField(default=False)
 
@@ -167,11 +174,10 @@ class SyskeyImport(Import):
         if major_id:
             sys_import.major = major_id
         if decision_id:
-            sys_import.decision = decision_id
+            sys_import.decision_id = decision_id
 
         # Saving import before creating FK relationships
         sys_import.save()
-
         syskey_list = upload_body.get('syskey_list')
         SyskeyAssignment.create_from_syskey_list(sys_import, syskey_list)
 
@@ -184,7 +190,7 @@ class SyskeyImport(Import):
         extra_data = {
             'cohort': self.cohort,
             'major': self.major,
-            'decision': self.decision,
+            'decision': self.decision_id,
             'is_override': True if self.is_override else False,
             'is_reassign': True if self.is_reassign else False,
             'is_reassign_protected':

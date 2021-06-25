@@ -59,6 +59,7 @@ class SyskeyImportTest(TestCase):
         }
 
         import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
+        import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
         self.assertEqual(len(import_object.get_assignments()), 4)
 
         import_object.remove_assignments([73445])

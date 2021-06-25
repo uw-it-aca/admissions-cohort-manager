@@ -4,7 +4,8 @@
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
-    PurpleGoldAssignment, PurpleGoldApplication, DecisionAssignment
+    PurpleGoldAssignment, PurpleGoldApplication, DecisionAssignment, \
+    DepartmentalDecisionApplication
 from restclients_core.exceptions import DataFailureException
 from cohort_manager.models import SyskeyImport
 import pytz

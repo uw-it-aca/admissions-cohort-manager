@@ -80,18 +80,9 @@
               </b-link>
             </li>
             <li class="aat-button-override">
-              <b-dropdown text="Assign Departmental Decision">
-                <b-dropdown-item>
-                  <b-link to="/dept_decision/1" tabindex="1">
-                    Assign Departmental Decision 1
-                  </b-link>
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <b-link to="/dept_decision/2" tabindex="1">
-                    Assign Departmental Decision 2
-                  </b-link>
-                </b-dropdown-item>
-              </b-dropdown>
+              <b-link to="/dept_decision" tabindex="1">
+                Assign Departmental Decision
+              </b-link>
             </li>
           </b-navbar-nav>
           <h3 id="aat_navlink_header" class="sr-only">
