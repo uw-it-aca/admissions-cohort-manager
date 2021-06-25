@@ -169,7 +169,7 @@
       no_cohort_count: function(){
         var no_cohort_count = 0;
         $.each(this.uploadResponse.assignments, function(idx, assignment){
-          if(assignment.assigned_cohort === null){
+          if(assignment.assigned_cohort === null || assignment.assigned_cohort === 0){
             no_cohort_count++;
           }
         });
