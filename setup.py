@@ -29,7 +29,9 @@ setup(
         'UW-RestClients-AdSel==1.7.8',
         'django-userservice<4.0,>3.1'
         'pytz==2019.3',
-        'django-cookies-samesite'
+        'django-cookies-samesite',
+        'psycopg2==2.8.6'
+
     ],
     license='Apache License, Version 2.0',
     description='A tool for managing cohorts',
