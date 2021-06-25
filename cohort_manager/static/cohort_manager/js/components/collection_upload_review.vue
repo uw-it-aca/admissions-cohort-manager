@@ -17,7 +17,7 @@
           <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Clear applications</a>
         </span>
       </span>
-    </p><div v-if="no_cohort_count > 0" class="no-cohort-count-alert">
+    </p><div v-if="no_cohort_count > 0 && collectionType === 'Major'" class="no-cohort-count-alert">
       <b-icon-exclamation-triangle /> <span class="no-cohort-count-text">{{ no_cohort_count }} of these applications do not have a cohort assignment.</span>
     </div>
     <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
