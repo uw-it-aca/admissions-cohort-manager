@@ -59,6 +59,7 @@ class SyskeyImportTest(TestCase):
         }
 
         import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
+        import_object = SyskeyImport.create_from_json(upload_body, 'javerage')
         self.assertEqual(len(import_object.get_assignments()), 4)
 
         import_object.remove_assignments([73445])
@@ -82,6 +83,7 @@ class SyskeyImportTest(TestCase):
                 'comment': 'This is a comment',
                 'cohort': 52,
                 'major': None,
+                'decision': None,
                 'is_override': False,
                 'upload_filename': None,
                 'created_date': '2021-02-02T00:24:21+00:00',

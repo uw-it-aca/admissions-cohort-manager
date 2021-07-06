@@ -4,7 +4,8 @@
 from cohort_manager.dao import InvalidCollectionException
 from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
-    PurpleGoldAssignment, PurpleGoldApplication
+    PurpleGoldAssignment, PurpleGoldApplication, DecisionAssignment, \
+    DepartmentalDecisionApplication
 from restclients_core.exceptions import DataFailureException
 from cohort_manager.models import SyskeyImport
 import pytz
@@ -13,6 +14,7 @@ import pytz
 MAJOR_COLLECTION_TYPE = "major"
 COHORT_COLLECTION_TYPE = "cohort"
 PURPLEGOLD_COLLECTION_TYPE = "purplegold"
+DD_COLLECTION_TYPE = "dd"
 
 
 def get_current_quarters():
@@ -125,8 +127,8 @@ def get_activity_log(**kwargs):
 
 
 def get_collection_list_by_type(collection_type, quarter_id):
+    client = AdSel()
     if collection_type == MAJOR_COLLECTION_TYPE:
-        client = AdSel()
         majors = client.get_majors_by_qtr(quarter_id)
         response = []
         for major in majors:
@@ -140,7 +142,6 @@ def get_collection_list_by_type(collection_type, quarter_id):
 
         return response
     elif collection_type == COHORT_COLLECTION_TYPE:
-        client = AdSel()
         cohorts = client.get_cohorts_by_qtr(quarter_id)
         response = []
         for cohort in cohorts:
@@ -151,6 +152,16 @@ def get_collection_list_by_type(collection_type, quarter_id):
                              'protected': cohort.protected_group,
                              'admit_decision': cohort.admit_decision,
                              'assigned_count': cohort.assigned_count
+                             })
+
+        sorted_response = sorted(response, key=lambda k: k['value'])
+        return sorted_response
+    elif collection_type == DD_COLLECTION_TYPE:
+        decisions = client.get_decisions()
+        response = []
+        for decision in decisions:
+            response.append({'value': decision.decision_id,
+                             'text': decision.decision_name,
                              })
 
         sorted_response = sorted(response, key=lambda k: k['value'])
@@ -188,6 +199,11 @@ def _get_collection(assignment_import):
         elif assignment_import.major and len(assignment_import.major) > 0:
             assignment = MajorAssignment()
             assignment.major_code = assignment_import.major
+            assignment_set = assignment_import.get_assignments()
+        elif assignment_import.decision and \
+                len(assignment_import.decision) > 0:
+            assignment = DecisionAssignment()
+            assignment.decision = assignment_import.decision
             assignment_set = assignment_import.get_assignments()
     else:
         assignment = PurpleGoldAssignment()
@@ -232,6 +248,9 @@ def submit_collection(assignment_import):
                 return client.assign_cohorts_manual(assignment)
         elif assignment_import.major and len(assignment_import.major) > 0:
             return client.assign_majors(assignment)
+        elif assignment_import.decision and \
+                len(assignment_import.decision) > 0:
+            return client.assign_decisions(assignment)
     else:
         return client.assign_purple_gold(assignment)
 

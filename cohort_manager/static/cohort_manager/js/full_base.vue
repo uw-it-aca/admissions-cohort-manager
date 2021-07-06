@@ -79,6 +79,11 @@
                 Assign Major
               </b-link>
             </li>
+            <li class="aat-button-override">
+              <b-link to="/dept_decision" tabindex="1">
+                Assign Departmental Decision
+              </b-link>
+            </li>
           </b-navbar-nav>
           <h3 id="aat_navlink_header" class="sr-only">
             Go to:
@@ -92,6 +97,11 @@
             <li>
               <b-link to="/major_list/" tabindex="1" class="nav-link aat-link" title="View all majors">
                 Majors
+              </b-link>
+            </li>
+            <li>
+              <b-link to="/dd_list/" tabindex="1" class="nav-link aat-link" title="View all departmental decisions">
+                Departmental Decisions
               </b-link>
             </li>
             <li>
