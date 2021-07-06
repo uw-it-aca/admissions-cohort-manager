@@ -71,13 +71,13 @@
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
             <li>
               <b-button
-                class="aat-collapse-btn"
                 id="aat-assign-cohort-btn"
+                class="aat-collapse-btn"
                 :class="visible1 ? null : 'collapsed'"
                 :aria-expanded="visible1 ? 'true' : 'false'"
                 aria-controls="aat-assign-cohort-collapse"
                 @click="visible1 = !visible1"
-               >
+              >
                 Assign Cohort
               </b-button>
               <b-collapse id="aat-assign-cohort-collapse" v-model="visible1">
@@ -97,13 +97,13 @@
             </li>
             <li>
               <b-button
-                class="aat-collapse-btn"
                 id="aat-assign-major-btn"
+                class="aat-collapse-btn"
                 :class="visible ? null : 'collapsed'"
                 :aria-expanded="visible ? 'true' : 'false'"
                 aria-controls="aat-assign-major-collapse"
                 @click="visible = !visible"
-               >
+              >
                 Assign Major
               </b-button>
               <b-collapse id="aat-assign-major-collapse" v-model="visible">
