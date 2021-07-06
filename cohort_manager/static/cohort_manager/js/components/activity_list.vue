@@ -37,10 +37,10 @@
             {{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "MMM DD, YYYY") }}<br>{{ row.item.activity_date | moment("timezone", "America/Los_Angeles", "h:mm A") }}
           </template>
           <template #cell(assigned_msg)="row">
-            {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
+            {{ row.item.assigned_msg }} {{ 'application' | pluralize(row.item.assigned_msg) }} <span v-if="row.item.collection_type == 'Major' || row.item.collection_type == 'Cohort'">to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span></span>
           </template>
           <template #cell(submitted_msg)="row">
-            Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span>
+            Attempted {{ row.item.submitted_msg }} {{ 'application' | pluralize(row.item.submitted_msg) }} <span v-if="row.item.collection_type == 'Major' || row.item.collection_type == 'Cohort'">to <span v-if="row.item.major !== null">{{ row.item.major }}</span><span v-else>Cohort {{ row.item.cohort }}</span></span>
           </template>
           <template #table-busy>
             <div class="text-center text-info">

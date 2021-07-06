@@ -120,8 +120,8 @@ def get_activity_log(**kwargs):
                'user': activity.user,
                'cohort': activity.cohort_number,
                'major': activity.major_abbr,
-               'collection_type': 'Cohort' if activity.major_abbr is None
-               else 'Major'}
+               'collection_type': activity.assignment_category
+               }
         activity_json.append(act)
     return activity_json
 
