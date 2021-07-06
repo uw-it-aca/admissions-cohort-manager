@@ -69,15 +69,57 @@
             Assign Applications
           </h3>
           <b-navbar-nav aria-labelledby="aat_collection_assignment_header" class="aat-nav-group aat-assign-group">
-            <li class="aat-button-override">
-              <b-link to="/cohort/" tabindex="1">
+            <li>
+              <b-button
+                class="aat-collapse-btn"
+                id="aat-assign-cohort-btn"
+                :class="visible1 ? null : 'collapsed'"
+                :aria-expanded="visible1 ? 'true' : 'false'"
+                aria-controls="aat-assign-cohort-collapse"
+                @click="visible1 = !visible1"
+               >
                 Assign Cohort
-              </b-link>
+              </b-button>
+              <b-collapse id="aat-assign-cohort-collapse" v-model="visible1">
+                <ul aria-describedby="aat-assign-cohort-btn" class="navbar-nav aat-nav-group">
+                  <li>
+                    <b-link class="nav-link aat-link" to="/cohort/" tabindex="1">
+                      Assign Freshman Cohort
+                    </b-link>
+                  </li>
+                  <li>        
+                    <b-link class="nav-link aat-link" to="/tpbcohort/" tabindex="1">
+                      Assign TPB Cohort
+                    </b-link>
+                  </li>
+                </ul>
+              </b-collapse>
             </li>
-            <li class="aat-button-override">
-              <b-link to="/major/" tabindex="1">
+            <li>
+              <b-button
+                class="aat-collapse-btn"
+                id="aat-assign-major-btn"
+                :class="visible ? null : 'collapsed'"
+                :aria-expanded="visible ? 'true' : 'false'"
+                aria-controls="aat-assign-major-collapse"
+                @click="visible = !visible"
+               >
                 Assign Major
-              </b-link>
+              </b-button>
+              <b-collapse id="aat-assign-major-collapse" v-model="visible">
+                <ul aria-describedby="aat-assign-major-btn" class="navbar-nav aat-nav-group">
+                  <li>
+                    <b-link class="nav-link aat-link" to="/major/" tabindex="1">
+                      Assign Freshman Major
+                    </b-link>
+                  </li>
+                  <li>        
+                    <b-link class="nav-link aat-link" to="/tpbmajor/" tabindex="1">
+                      Assign TPB Major
+                    </b-link>
+                  </li>
+                </ul>
+              </b-collapse>
             </li>
             <li class="aat-button-override">
               <b-link to="/dept_decision" tabindex="1">
@@ -186,7 +228,9 @@
         navCount: 0,
         cur_period: null,
         alertType: null,
-        env: ''
+        env: '',
+        visible: true,
+        visible1: true
       };
     },
     computed: {
@@ -451,11 +495,26 @@
 
 
   // side-nav styles
+
+  .aat-collapse-btn {
+    background-color: #fff;
+    border: 1px solid $uw-light-grey;
+    font-size: 115%;
+    font-weight: bold;
+    text-align: left;
+    text-transform: capitalize;
+    width: 100%;
+  }
+
   .aat-nav-container {
     align-items: start !important;
     clear: both;
     flex-direction: column !important;
     padding: 0;
+
+    li {
+      font-size: 90%;
+    }
   }
 
   .aat-main-navbar {
@@ -476,7 +535,7 @@
       width: 100%;
     }
   }
-  @media (min-height: 730px) and (min-width: 992px) {
+  @media (min-height: 900px) and (min-width: 992px) {
     .aat-nav-container {
       background-color: #fff;
       overflow-x: hidden;
@@ -489,15 +548,15 @@
     padding: 0.5rem 1rem !important;
   }
 
-  .aat-button-override {
+  .aat-button-override { 
     background: none;
     border-color: $uw-light-grey;
     border-radius: 0;
     border-style: none none solid;
     border-width: 1px;
     color: $text-color;
-    margin: 0 -1rem;
     text-align: left;
+    width: 100%;
 
     a:hover {
       background-color: $nav-hover-bkgnd;
@@ -519,8 +578,6 @@
 
   .aat-button-override a {
     color: $text-color;
-    display: block;
-    padding: 1rem 0 1rem 2rem;
     width: 100%;
 
     &::after {
@@ -563,7 +620,7 @@
   }
 
   .aat-cohort-manager {
-    min-height: 80vh;
+    min-height: 85vh;
     overflow: hidden;
 
     .aat-content-area {

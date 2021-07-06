@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="aat_page_header" class="aat-page-header">
-      Assign to Cohort
+      Assign to Major (Transfer/Post-Bac)
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
@@ -13,7 +13,7 @@
   const axios = require("axios");
 
   export default {
-    name: "Cohort",
+    name: "TPBMajor",
     components: {
       upload: Upload,
     },
@@ -21,9 +21,8 @@
       return {
         has_uploaded: false,
         upload_response: undefined,
-        cohort_options: [
-        ],
-        current_period: null,
+        major_options: [],
+        current_period: undefined,
         loading_collection: true,
         periods: []
       };
@@ -38,38 +37,38 @@
 
       },
       currentProperties: function() {
-        var properties = {collectionType: 'Cohort'};
+        var properties = {collectionType: 'Major'};
         if(this.has_uploaded){
           properties['uploadResponse'] = this.upload_response;
         }
-        properties['collectionOptions'] = this.cohort_options;
-        properties['uploadResponse'] = this.upload_response;
+        properties['collectionOptions'] = this.major_options;
         properties['currentPeriod'] = this.current_period;
         properties['loadingCollection'] = this.loading_collection;
         properties['periods'] = this.periods;
-        properties['isTpb'] = false;
+        properties['isTpb'] = true;
         return properties;
       }
     },
     created (){
       this.current_period = this.$attrs.cur_period;
       this.periods = this.$attrs.periods;
-      this.get_cohorts_for_period();
+      this.get_majors_for_period();
       EventBus.$on('period-change', period => {
         this.current_period = period;
-        this.get_cohorts_for_period();
+        this.get_majors_for_period();
       });
     },
     mounted() {
+      this.get_majors_for_period();
     },
     methods: {
-      get_cohorts_for_period(){
+      get_majors_for_period(){
         this.loading_collection = true;
         axios.get(
-          '/api/collection/cohort/' + this.current_period + "/"
+          '/api/collection/major/' + this.current_period + "/"
         ).then(response => {
           this.loading_collection = false;
-          this.cohort_options = response.data;
+          this.major_options = response.data;
         });
       },
       onFileUpload(response){
@@ -82,3 +81,4 @@
 
 <style lang="scss">
 </style>
+

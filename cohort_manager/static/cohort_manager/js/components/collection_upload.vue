@@ -155,7 +155,11 @@
       periods: {
         type: Array,
         default: function () {return[];}
-      }
+      },
+      isTpb: {
+        type: Boolean,
+        default: false
+      },
     },
     data(){
       return {

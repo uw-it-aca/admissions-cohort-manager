@@ -8,7 +8,9 @@ import moment from 'moment-timezone';
 
 import App from "./App.vue";
 import Cohort from './pages/cohort.vue';
+import TPBCohort from './pages/tpb_cohort.vue';
 import Major from './pages/major.vue';
+import TPBMajor from './pages/tpb_major.vue';
 import CohortList from './pages/cohort_list.vue';
 import MajorList from './pages/major_list.vue';
 import DDList from './pages/dd_list.vue';
@@ -40,8 +42,10 @@ var router = new VueRouter({
   routes: [
     { path: '/', redirect: '/cohort_list/' },
     { path: '/cohort/', component: Cohort },
+    { path: '/tpbcohort/', component: TPBCohort },
     { path: '/cohort/:id', component: Cohort },
     { path: '/major/', component: Major },
+    { path: '/tpbmajor/', component: TPBMajor },
     { path: '/major/:id', component: Major },
     { path: '/cohort_list/', component: CohortList },
     { path: '/major_list/', component: MajorList },

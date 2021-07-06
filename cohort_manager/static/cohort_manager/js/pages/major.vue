@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 id="aat_page_header" class="aat-page-header">
-      Assign to Major
+      Assign to Major (Freshman)
     </h1>
     <upload v-bind="currentProperties" v-on="$listeners" />
   </div>
@@ -45,6 +45,7 @@
         properties['currentPeriod'] = this.current_period;
         properties['loadingCollection'] = this.loading_collection;
         properties['periods'] = this.periods;
+        properties['isTpb'] = false;
         return properties;
       }
     },
