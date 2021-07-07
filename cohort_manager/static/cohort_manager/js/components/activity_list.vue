@@ -239,6 +239,30 @@
                     </b-input-group>
                   </b-form-group>
                 </b-col>
+                <b-col>
+                  <b-form-group
+                    label="Application Type"
+                    label-size="sm"
+                    label-for="app_type_filter"
+                  >
+                    <b-input-group size="sm">
+                      <b-form-select
+                        id="app_type_filter"
+                        v-model="appTypeFilter"
+                        name="appType"
+                        class="aat-filter-select"
+                        :options="appTypeOptions"
+                        @change="getFilteredActivities"
+                      >
+                        <template #first>
+                          <option :value="null">
+                            All Application Types
+                          </option>
+                        </template>
+                      </b-form-select>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
                 <b-col cols="12">
                   <b-form-group
                     label="Search Comment Text"
@@ -331,7 +355,8 @@
         collectionOptions: [
           { value: 'Cohort', text: 'Cohort' },
           { value: 'Major', text: 'Major' },
-          { value: 'Pg', text: 'P&G' }
+          { value: 'Pg', text: 'P&G' },
+          { value: 'DepartmentalDecision', text: 'Departmental Decision' }
         ],
         cohortFilter: null,
         majorFilter: null,
@@ -345,6 +370,12 @@
           { value: 'manual', text: 'Manual' },
           { value: 'tableau', text: 'Tableau' }
         ],
+        appTypeOptions: [
+          { value: 'Transfer', text: 'Transfer' },
+          { value: 'Postbac', text: 'Postbac' },
+          { value: 'Freshman', text: 'Freshman' }
+        ],
+        appTypeFilter: null,
         periodFilter: null,
         totalRows: 1,
         currentPage: 1,
@@ -412,6 +443,7 @@
         this.adselIDFilter = null;
         this.commentFilter = null;
         this.periodFilter = null;
+        this.appTypeFilter = null;
         this.getFilteredActivities();
         // Trick to reset/clear native browser form validation state
         this.show = false;
@@ -447,6 +479,9 @@
         }
         if(this.periodFilter !== null){
           filters["assignment_period"] = this.periodFilter;
+        }
+        if(this.appTypeFilter !== null){
+          filters["app_type"] = this.appTypeFilter;
         }
         this.$store.dispatch('activities/get_activities', filters);
 

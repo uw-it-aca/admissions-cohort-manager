@@ -189,7 +189,9 @@ class ActivityLog(RESTDispatch):
                    "comment": request.GET.get('comment', None),
                    "netid": request.GET.get('netid', None),
                    "assignment_period": request.GET.get('assignment_period',
-                                                        None)}
+                                                        None),
+                   "application_type": request.GET.get('app_type', None)}
+        print("filters", filters)
         activities = get_activity_log(**filters)
         if(len(activities) > 0):
             return self.json_response(content={"activities": activities})
