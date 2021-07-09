@@ -16,7 +16,7 @@ apt-get install -y npm
 npm install -g npm@latest
 hash -r
 
-npm install -g eslint@7.0.0 stylelint@13.3.3 eslint-plugin-vue
+npm install -g eslint@7.0.0 stylelint@13.3.3 eslint-plugin-vue stylelint-config-sass-guidelines
 #npm install
 
 function run_test {
