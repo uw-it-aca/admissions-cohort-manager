@@ -17,7 +17,7 @@ npm install -g npm@latest
 hash -r
 
 npm install -g eslint@7.0.0 stylelint@13.3.3 eslint-plugin-vue
-npm install
+#npm install
 
 function run_test {
     echo "##########################"
