@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
+import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue';
 import VueRouter from 'vue-router';
 import VueAnalytics from 'vue-analytics';
 import VuePluralize from 'vue-pluralize';
@@ -27,6 +27,7 @@ const debugMode = $("body").data("django-debug");
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 Vue.use(VuePluralize);
 Vue.use(VueMoment, {moment});
 

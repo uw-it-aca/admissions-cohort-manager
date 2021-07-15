@@ -25,11 +25,13 @@ setup(
     install_requires=[
         'django>=2.2,<2.3',
         'UW-Django-SAML2>=1.4,<2.0',
-        'django-webpack-loader',
-        'UW-RestClients-AdSel>=1.7.8,<2.0',
+        'django-webpack-loader<1.0',
+        'UW-RestClients-AdSel==1.7.8',
         'django-userservice<4.0,>3.1'
         'pytz==2019.3',
-        'django-cookies-samesite'
+        'django-cookies-samesite',
+        'psycopg2==2.8.6'
+
     ],
     license='Apache License, Version 2.0',
     description='A tool for managing cohorts',

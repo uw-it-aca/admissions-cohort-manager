@@ -17,7 +17,9 @@
           <a href="#" class="aat-reset-link" @click.prevent="reset_upload">Clear applications</a>
         </span>
       </span>
-    </p>
+    </p><div v-if="no_cohort_count > 0 && collectionType === 'Major'" class="no-cohort-count-alert">
+      <b-icon-exclamation-triangle /> <span class="no-cohort-count-text">{{ no_cohort_count }} of these applications do not have a cohort assignment.</span>
+    </div>
     <div v-if="reassign_any" id="app_reassign_accordion" class="aat-collapse">
       <b-card v-if="already_assigned.length < 100" no-body class="mb-1">
         <b-card-header v-if="has_assigned" header-tag="header" class="p-1">
@@ -124,7 +126,6 @@
       return {
         uploaded_filename: '',
         text: "This is some text.",
-        upload_response: {},
         already_assigned: [],
         already_assigned_protected: [],
         duplicates: [],
@@ -164,12 +165,23 @@
           }
         }
         return valid_count;
+      },
+      no_cohort_count: function(){
+        var no_cohort_count = 0;
+        $.each(this.uploadResponse.assignments, function(idx, assignment){
+          if(assignment.assigned_cohort === null || assignment.assigned_cohort === 0){
+            no_cohort_count++;
+          }
+        });
+        return no_cohort_count;
       }
     },
     watch: {
-      upload_response: function(){
+      uploadResponse: function(){
         var vue = this;
-        $.each(this.upload_response.assignments, function(idx, assignment){
+        this.already_assigned = [];
+        this.already_assigned_protected = [];
+        $.each(this.uploadResponse.assignments, function(idx, assignment){
           if(vue.collectionType === "Major"){
             if(assignment.assigned_major !== null){
               $.each(vue.collectionOptions, function (idx, collection) {
@@ -198,7 +210,7 @@
             }
           }
         });
-        this.duplicates = this.get_duplicates(this.upload_response.assignments);
+        this.duplicates = this.get_duplicates(this.uploadResponse.assignments);
       },
       is_reassign: function(value){
         if(typeof value === "string"){
@@ -219,7 +231,6 @@
       this.csrfToken = $cookies.get("csrftoken");
       this.collection_type = this.$props.collectionType;
       this.uploaded_filename = this.$props.uploadResponse.upload_filename;
-      this.upload_response = this.$props.uploadResponse;
     },
     methods: {
       proc: function(list){
@@ -244,7 +255,7 @@
           }
         });
         return dupe_assignments;
-      }
+      },
     },
   };
 </script>

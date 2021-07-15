@@ -59,7 +59,6 @@
           const results = parse(csv_data, {
             columns: true,
             skip_empty_lines: true,
-            delimiter: "\t"
           });
           return results;
         } catch(err){
