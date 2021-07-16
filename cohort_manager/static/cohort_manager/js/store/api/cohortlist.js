@@ -16,7 +16,9 @@ const actions = {
       .then(response => response.data)
       .then(items => {
         commit('set_cohorts', items);
-      });
+      }).catch(function(){
+        commit('set_cohorts', []);
+    });
   }
 };
 
