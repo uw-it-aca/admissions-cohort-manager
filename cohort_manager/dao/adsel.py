@@ -6,7 +6,7 @@ from uw_adsel import AdSel
 from uw_adsel.models import CohortAssignment, MajorAssignment, Application, \
     PurpleGoldAssignment, PurpleGoldApplication
 from restclients_core.exceptions import DataFailureException
-from cohort_manager.models import SyskeyImport
+from cohort_manager.models import SyskeyImport, AssignmentImport
 import pytz
 
 
@@ -177,7 +177,8 @@ def get_apps_by_qtr_id_syskey_list(qtr_id, syskeys):
 def _get_collection(assignment_import):
     assignment_set = []
     assignment = None
-    if isinstance(assignment_import, SyskeyImport):
+    if isinstance(assignment_import, SyskeyImport) or \
+            isinstance(assignment_import, AssignmentImport):
         if assignment_import.cohort:
             assignment = CohortAssignment()
             assignment.override_previous = assignment_import.is_reassign
@@ -224,7 +225,8 @@ def submit_collection(assignment_import):
     (assignment_import, assignment) = _get_collection(assignment_import)
     client = AdSel()
     client.get_quarters()
-    if isinstance(assignment_import, SyskeyImport):
+    if isinstance(assignment_import, SyskeyImport)\
+            or isinstance(assignment_import, AssignmentImport):
         if assignment_import.cohort:
             if assignment_import.upload_filename is not None:
                 return client.assign_cohorts_bulk(assignment)
